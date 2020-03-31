@@ -1,0 +1,183 @@
+/*
+    HEX CODES
+    Main, dark background - #283039
+    Card, darkish background - #394451
+    Light blue trim and text - #6BCDFD
+    Text field medium, blueish grey background - #556579
+    Text field light grey text - #B4B4B4
+    Orange - #FECB6E
+*/
+
+html body
+{
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+}
+
+body
+{
+    background: url(background.jpg);
+    background-size: cover;
+    background-position: 0% 0%;
+    background-repeat: no-repeat;
+    color: #6BCDFD;
+    font-family: monospace;
+}
+
+.mainPage
+{
+    display: grid;
+    grid-template-rows: 2fr 1fr;
+    grid-template-columns: auto 1fr auto;
+    grid-template-areas: ". loginBox ."
+                         ". footer .";
+}
+
+/*Set the size and position of compulink logo*/
+.compuLogo
+{
+    height: 90px;
+    width: 90px;
+    margin-top: -45px;
+}
+
+.loginBox
+{
+    grid-area: loginBox;
+    text-align: center;
+    width: 600px;
+    height: 400px;
+    margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    display: grid;
+    grid-template-rows: 1fr 5fr;
+    grid-template-areas: "titleContent"
+                         "formContent";
+}
+
+.loginBoxTitleContent
+{
+    grid-area: titleContent;
+    background: #283039;
+    font-weight: bold;
+    height: 120px;
+    height: 100%;
+}
+
+.title
+{
+    margin-top: -15px;
+    font-size: 30px;
+}
+
+.loginBoxFormContent
+{
+    grid-area: formContent;
+    background: #394451;
+    margin-bottom: 50px;
+    height: 100%;
+}
+
+.loginBut
+{
+    background: #54a2da;
+    border: solid 1px #6BCDFD;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    font-family: monospace;
+    color: #3c3c3c;
+    width: 120px;
+    height: 25px;
+    margin-top: 20px;
+}
+
+.regBut
+{
+    background: #394451;
+    border: solid 1px #6BCDFD;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    font-family: monospace;
+    color: #6BCDFD;
+    width: 120px;
+    height: 25px;
+    margin-left: 30px;
+}
+
+.userInp
+{
+    background: #556579;
+    border: solid 1px #54a2da;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    color: #B4B4B4;
+    font-family: monospace;
+    height: 25px;
+    width: 275px;
+}
+
+.pwInp
+{
+    background: #556579;
+    border: solid 1px #54a2da;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    color: #B4B4B4;
+    font-family: monospace;
+    height: 25px;
+    width: 275px;
+}
+
+.loginSubBut
+{
+    background: #54a2da;
+    border: solid 1px #6BCDFD;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    font-family: monospace;
+    color: #3c3c3c;
+    width: 275px;
+    height: 25px;
+    margin-top: 10px;
+}
+
+a
+{
+    text-decoration: none;
+    color: #6BCDFD;
+}
+
+.forgotPw
+{
+    text-decoration: underline;
+    font-style: italic;
+}
+
+.footer
+{
+    grid-area: footer;
+    bottom: 0;
+    width: 100%;
+    height: 40px;
+    position: fixed;
+    font-family: monospace;
+    color: #6BCDFD;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    background: #394451;
+}
