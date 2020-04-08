@@ -5,5 +5,5 @@
  */
 function changeType()
 {
-    document.getElementById("pw").type = "password";
+    document.getElementById("passw").type = "password";
 }

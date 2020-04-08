@@ -8,176 +8,273 @@
     Orange - #FECB6E
 */
 
-html body
+/*setting the default margin padding height and 
+width of the entire html/php document*/
+html
 {
     margin: 0;
     padding: 0;
     height: 100%;
     width: 100%;
 }
-
+/*Stylinng and setting the default colour and font of the body*/
 body
 {
-    background: url(background.jpg);
-    background-size: cover;
-    background-position: 0% 0%;
-    background-repeat: no-repeat;
-    color: #6BCDFD;
-    font-family: monospace;
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+    background-image: url("webportal_desktop_background.jpg");
+    color: #F3F3F3;
+    font-family: sans-serif, monospace;
 }
-
+/*Styling of the header*/
+.header
+{
+    top: 0;
+    text-align: center;
+    font-size: 35px;
+    font-weight: 100;
+    text-transform: uppercase;
+    margin-bottom: 80px;
+}
+/*Styling of the main page containing all the other child divs*/
 .mainPage
 {
-    display: grid;
-    grid-template-rows: 2fr 1fr;
-    grid-template-columns: auto 1fr auto;
-    grid-template-areas: ". loginBox ."
-                         ". footer .";
+    min-height: 100vh;
 }
-
-/*Set the size and position of compulink logo*/
-.compuLogo
+/*Footer styling*/
+.footer
 {
-    height: 90px;
-    width: 90px;
-    margin-top: -45px;
-}
-
-.loginBox
-{
-    grid-area: loginBox;
+    bottom: 0;
+    left: 0;
     text-align: center;
-    width: 600px;
-    height: 400px;
-    margin-top: 50px;
-    margin-left: auto;
-    margin-right: auto;
-    display: grid;
-    grid-template-rows: 1fr 3fr;
-    grid-template-areas: "titleContent"
-                         "formContent";
-}
-
-.loginBoxTitleContent
-{
-    grid-area: titleContent;
-    background: #283039;
-    font-weight: bold;
-    height: 120px;
-    height: 100%;
-}
-
-.title
-{
-    margin-top: -15px;
+    position: fixed;
+    width: 100%;
+    text-transform: uppercase;
     font-size: 30px;
+    font-weight: 100;
+    padding-bottom: 15px;
 }
 
-.loginBoxFormContent
+/*Login content box styling*/
+.content
 {
-    grid-area: formContent;
-    background: #394451;
-    margin-bottom: 50px;
-    height: 100%;
+    display: grid;
+    grid-template-rows: 1fr 1fr 2fr 1fr;
+    grid-template-areas: "logo"
+                         "loginOptions"
+                         "loginInp"
+                         "loginSubmit";
+    margin: auto;
+    background: rgba(55, 55, 65, 0.8);
+    height: 300px;
+    width: 565px;
 }
 
-.loginBut
+.logo
 {
-    background: #54a2da;
-    border: solid 1px #6BCDFD;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
+    grid-area: logo;
+    display: flex;
+    justify-content: center;
+}
+
+/*All the styling of the login options div or grid area of the login page. 
+This is both the login and register buttons*/
+.loginOptions
+{
+    grid-area: loginOptions;
+    display: flex;
+    justify-content: center;
+}
+
+.loginOptBtn
+{
+    width: 100px;
+    height: 30px;
+    border: none;
+    background: #03AAFB;
+    color: #F3F3F3;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
-    font-family: monospace;
-    color: #3c3c3c;
-    width: 120px;
-    height: 25px;
-    margin-top: 20px;
-}
-
-.regBut
-{
-    background: #394451;
-    border: solid 1px #6BCDFD;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
-    font-family: monospace;
-    color: #6BCDFD;
-    width: 120px;
-    height: 25px;
-    margin-left: 30px;
+    margin-right: 20px;
+    transition: 0.4s ease-out;
 }
 
-.userInp
+.loginOptBtn:hover
 {
-    background: #556579;
-    border: solid 1px #54a2da;
+    border: none;
+    background: #282837;
+    border: solid 1px #03AAFB;
+}
+
+.loginOptBtn:active
+{
+    background: #03AAFB;
+    border: none;
+}
+
+.registerOptBtn
+{
+    width: 100px;
+    height: 30px;
+    border: none;
+    background: #282837;
+    border: solid 1px #03AAFB;
+    color: #F3F3F3;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
-    color: #B4B4B4;
-    font-family: monospace;
-    height: 25px;
-    width: 275px;
+    margin-left: 20px;
+    transition: 0.4s ease-out;
 }
 
-.pwInp
+.registerOptBtn:hover
 {
-    background: #556579;
-    border: solid 1px #54a2da;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
-    color: #B4B4B4;
-    font-family: monospace;
-    height: 25px;
-    width: 275px;
+    border: none;
+    background: #03AAFB;
 }
 
-.loginSubBut
+.registerOptBtn:active
 {
-    background: #54a2da;
-    border: solid 1px #6BCDFD;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
-    font-family: monospace;
-    color: #3c3c3c;
-    width: 275px;
-    height: 25px;
-    margin-top: 10px;
+    background: #373741;
+}
+/*End of login options styling*/
+
+/*Login input styling. This includes styling for the login input 
+div and all the text input fields as well as forgot password*/
+.loginInp
+{
+    grid-area: loginInp;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-areas: "account username ."
+                         "lock passw fgPw";
+    align-items: center;
 }
 
-a
+#username
 {
-    text-decoration: none;
-    color: #6BCDFD;
+    grid-area: username;
+    align-items: center;
+}
+
+#passw
+{
+    grid-area: passw;
+    align-items: center;
 }
 
 .forgotPw
 {
-    text-decoration: underline;
-    font-style: italic;
-}
-
-.footer
-{
-    grid-area: footer;
-    bottom: 0;
-    width: 100%;
-    height: 40px;
-    position: fixed;
-    font-family: monospace;
-    color: #6BCDFD;
+    grid-area: fgPw;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 18px;
-    background: #394451;
 }
+
+.accountImg
+{
+    grid-area: account;
+    height: 25px;
+    width: 25px;
+    margin-right: 10px;
+    margin-left: 120px;
+}
+
+.lockImg
+{
+    grid-area: lock;
+    height: 25px;
+    width: 25px;
+    margin-right: 10px;
+    margin-left: 120px;
+}
+
+.input
+{
+    width: 250px;
+    height: 30px;
+    margin: auto;
+    background: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 1px solid #808080;
+    color: white;
+    transition: 0.5s;
+}
+
+.input:hover
+{
+    border-bottom-color: #03AAFB;
+}
+
+.input:focus
+{
+    border: 1px solid #03AAFB;
+}
+/*End of login input styling*/
+
+/*Styling for the login submit div as
+well as the login submit button*/
+.loginSubmit
+{
+    grid-area: loginSubmit;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loginSubBtn
+{
+    width: 250px;
+    height: 30px;
+    border: none;
+    background: #03AAFB;
+    color: #F3F3F3;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    transition: 0.4s ease-out;
+}
+
+.loginSubBtn:hover
+{
+    background: #373741;
+    border: solid #03AAFB 1px;
+}
+
+.loginSubBtn:active
+{
+    background: #03AAFB;
+}
+/*End of login submit styling*/
+
+/*Styling and placement of the compulink logo
+makes use of an id to override other styling done 
+to the login box*/
+#compuLogo
+{
+    height: 100px;
+    width: 100px;
+    margin-top: -50px;
+}
+
+.forgotPw a
+{
+    text-decoration: none;
+    color: #F3F3F3;
+    transition: 0.5s;
+}
+
+.forgotPw a:hover
+{
+    color: #03AAFB;
+    text-decoration: underline;
+}
+

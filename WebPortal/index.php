@@ -12,22 +12,35 @@
     </head>
     <body>
         <div class="mainPage">
-            <div class="loginBox">
-                <div class="loginBoxTitleContent">
-                    <img src="images/logo_block_cropped.png" alt="" class="compuLogo"/><br/><br/>
-                    <p class="title">Compulink Technologies</p>
+            <div class="header">
+                Compulink Technologies
+            </div>
+            
+            <div class="content">
+                <div class="logo">
+                    <img src="images/logo_block_cropped.png" alt="" id="compuLogo"/>
                 </div>
-                <div class="loginBoxFormContent">
-                    <input type="submit" value="Login" name="Login" class="loginBut"/> <input type="submit" value="Register" name="Register" class="regBut"/><br/><br/>
-                    <input type="text" name="Username" value="Username" class="userInp" onfocus="this.value=''"/><br/><br/>
-                    <input type="text" name="Password" value="Password" class="pwInp" onfocus="this.value=''; changeType()" id="pw"/><br/><br/>
-                    <input type="submit" value="Login" name="LoginSubmit" class="loginSubBut"/>
-                    <p><a href="#" class="forgotPw">Forgot password?</a></p>
-                    <p><a href="#" class="regMsg">Register an account</a></p>
+                
+                <div class="loginOptions">
+                    <input type="submit" value="LOGIN" name="loginOpt" class="loginOptBtn"/>
+                    <input type="submit" value="REGISTER" name="registerOpt" class="registerOptBtn"/>
+                </div>
+                
+                <div class="loginInp">
+                    <img src="images/account.png" alt="" class="accountImg"/>
+                    <input type="text" name="username" placeholder="USERNAME" class="input" id="username"/>
+                    <img src="images/lock.png" alt="" class="lockImg"/>
+                    <input type="text" name="password" placeholder="PASSWORD" class="input" id="passw" onfocus="changeType()"/>
+                    <font class="forgotPw"><a href="#">Forgot password?</a></font>
+                </div>
+                
+                <div class="loginSubmit">
+                    <input type="submit" value="LOGIN" name="loginSub" class="loginSubBtn"/>
                 </div>
             </div>
+            
             <div class="footer">
-                Linkvantage &copy; 2020
+                Linkvantage
             </div>
         </div>
     </body>
