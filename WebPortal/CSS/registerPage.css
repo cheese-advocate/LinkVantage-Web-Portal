@@ -1,0 +1,143 @@
+.registerCompanyPage
+{
+    height: 100vh;
+}
+
+#registerCompanyPage
+{
+    display: none;
+}
+
+.registerTitleContent
+{
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+    grid-template-areas: "logo"
+                         "registerOptionBtns"
+                         "registerOptions"
+                         "companyName";
+    margin: auto;
+    background: rgba(55, 55, 65, 0.8);
+    height: 250px;
+    width: 565px;
+}
+
+.logo
+{
+    grid-area: logo;
+}
+
+.registerOptionBtns
+{
+    grid-area: registerOptionBtns;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.backToLoginFromReg
+{
+    width: 100px;
+    height: 30px;
+    border: none;
+    background: #282837;
+    border: solid 1px #03AAFB;
+    color: #F3F3F3;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    margin-right: 20px;
+    transition: 0.25s ease-out;
+}
+
+.backToLoginFromReg:hover
+{
+    border: none;
+    background: #03AAFB;
+}
+
+.backToLoginFromReg:active
+{
+    background: #282837;
+}
+
+.registerBtnRegPage
+{
+    width: 100px;
+    height: 30px;
+    border: none;
+    background: #03AAFB;
+    color: #F3F3F3;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    margin-left: 20px;
+    transition: 0.25s ease-out;
+}
+
+.registerBtnRegPage:hover
+{
+    background: #282837;
+    border: solid 1px #03AAFB;
+}
+
+.registerBtnRegPage:active
+{
+     background: #03AAFB;
+}
+
+.registerOptions
+{
+    grid-area: registerOptions;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #808080;
+    margin-top: 10px;
+    margin-left: 100px;
+    margin-right: 100px;
+    margin-bottom: 10px;
+    transition: 0.5s;
+}
+
+.registerOptions:hover
+{
+    border-color: #03AAFB;
+}
+
+.radioFont
+{
+    margin-right: 20px;
+}
+
+#companyRadio
+{
+    margin-right: 15px;
+}
+
+.companyName
+{
+    grid-area: companyName;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: none;
+}
+
+.companyNameInp
+{
+    background: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom-color: #808080;
+    width: 500px;
+    transition: 0.5s;
+}
+
+.companyNameInp:hover
+{
+    border-bottom-color: #03AAFB;
+}

@@ -24,8 +24,8 @@ function forgotPasswordPage()
     var div = document.getElementById("loginPageMain");
     div.style.display = "none";
     
-    var div2 = document.getElementById("forgotPasswordPage");
-    div2.style.display = "block";
+    var destDiv = document.getElementById("forgotPasswordPage");
+    destDiv.style.display = "block";
 }
 
 /**
@@ -37,6 +37,28 @@ function changeToLogin()
     var div = document.getElementById("forgotPasswordPage");
     div.style.display = "none";
     
-    var div2 = document.getElementById("loginPageMain");
-    div2.style.display = "block";
+    var destDiv = document.getElementById("loginPageMain");
+    destDiv.style.display = "block";
+}
+
+/**
+ * Swithces to the company registration page
+ * @return {undefined}
+ */
+function changeToRegisterCompany()
+{
+    var div = document.getElementById("loginPageMain");
+    div.style.display = "none";
+    
+    var destDiv = document.getElementById("registerCompanyPage");
+    destDiv.style.display = "block";
+}
+
+function backToLoginFromReg()
+{
+    var div = document.getElementById("registerCompanyPage");
+    div.style.display = "none";
+    
+    var destDiv = document.getElementById("loginPageMain");
+    destDiv.style.display = "block";
 }

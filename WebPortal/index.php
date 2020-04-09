@@ -9,10 +9,12 @@
         <!-- Link external CSS to the main Index page -->
         <link href="CSS/style.css" rel="stylesheet" type="text/css"/>
         <link href="CSS/forgotPw.css" rel="stylesheet" type="text/css"/>
+        <link href="CSS/registerPage.css" rel="stylesheet" type="text/css"/>
         <!--All javascript-->
         <script src="Script/script.js" type="text/javascript"></script>
     </head>
     <body>
+        <!--LOGIN PAGE-->
         <div class="loginPage" id="loginPageMain">
             <div class="header">
                 Compulink Technologies
@@ -25,7 +27,7 @@
                 
                 <div class="loginOptions">
                     <input type="submit" value="LOGIN" name="loginOpt" class="loginOptBtn"/>
-                    <input type="submit" value="REGISTER" name="registerOpt" class="registerOptBtn"/>
+                    <input type="submit" value="REGISTER" name="registerOpt" class="registerOptBtn" onclick="changeToRegisterCompany()"/>
                 </div>
                 
                 <div class="loginInp">
@@ -47,7 +49,7 @@
         </div>
         
         
-        
+        <!--FORGOT PASSWORD PAGE-->
         <div class="forgotPasswordPage" id="forgotPasswordPage">
             <div class="header">
                 Compulink Technologies
@@ -78,6 +80,42 @@
                     <input type="submit" value="SEND RESET REQUEST" name="resetSub" class="resetSubBtn"/>
                 </div>
             </div>
+            
+            <div class="footer">
+                Linkvantage
+            </div>
+        </div>
+        
+        
+        <!--REGISTER COMPANY PAGE-->
+        <div class="registerCompanyPage" id="registerCompanyPage">
+            <div class="header">
+                Compulink Technologies
+            </div>
+            
+            <div class="registerTitleContent">
+                <div class="logo">
+                    <img src="images/logo_block_cropped.png" alt="" id="compuLogo"/>
+                </div>
+                
+                <div class="registerOptionBtns">
+                    <input type="submit" value="LOGIN" name="loginOpt" class="backToLoginFromReg" onclick="backToLoginFromReg()"/>
+                    <input type="submit" value="REGISTER" name="registerOpt" class="registerBtnRegPage"/>
+                </div>
+                
+                <div class="registerOptions">
+                    <font class="radioFont">I am a:</font>
+                    <label for="companyRadio">Company</label>
+                    <input type="radio" name="registerOption" value="Company" id="companyRadio"/>
+                    
+                    <label for="privClientRadio">Private Client</label>
+                    <input type="radio" name="registerOption" value="Private Client" id="privClientRadio"/>
+                </div>
+                
+                <div class="companyName">
+                    <input type="text" name="companyNameInp" value="" placeholder="COMPANY NAME" class="companyNameInp"/>
+                </div>
+            </div>  
             
             <div class="footer">
                 Linkvantage
