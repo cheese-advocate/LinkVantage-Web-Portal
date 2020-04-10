@@ -121,7 +121,7 @@
                 <font>Contacts</font>
             </div>
             
-            <div class="contactsContent">
+            <div class="contactsContent" id="contacts_content">
                 <div class="contactContentHeader">
                     <img src="images/cross.png" alt="" id="contactCrossImg" class="contactCrossImg"/>
                     Contact <font id="number"> 1</font><hr class="contactContentHeaderLine">
@@ -155,7 +155,11 @@
                 </div>
             </div>
             
-            <div class="registerFooter">
+            <div class="addContact" id="add_contact">
+                <input type="submit" value="ADD CONTACT" name="addContact" class="addContactBtn" id="add_Contact_Btn" onclick="generateNewContactInp(), generateAddContactButton(), increaseCounter()"/>
+            </div>
+            
+            <div class="registerFooter" id="register_footer">
                 Linkvantage
             </div>
         </div>

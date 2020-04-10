@@ -62,3 +62,29 @@ function backToLoginFromReg()
     var destDiv = document.getElementById("loginPageMain");
     destDiv.style.display = "block";
 }
+
+var count = 1;
+
+function increaseCounter()
+{
+    count++;
+}
+
+function generateNewContactInp()
+{
+    var add_contact_btn = document.getElementById("add_contact");
+    var contacts_content = document.getElementById("contacts_content");
+    var clone = contacts_content.cloneNode(true);
+    
+    document.getElementById("number").innerHTML = count;
+    add_contact_btn.parentNode.insertBefore(clone, add_contact_btn.nextSibling);
+}
+
+function generateAddContactButton()
+{
+    var footer = document.getElementById("register_footer");
+    var add_contact_btn = document.getElementById("add_contact");
+    var clone2 = add_contact_btn.cloneNode(true);
+    
+    footer.parentNode.insertBefore(clone2, footer);
+}
