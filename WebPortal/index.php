@@ -35,11 +35,12 @@
                     <input type="text" name="username" placeholder="USERNAME" class="input" id="username"/>
                     <img src="images/lock.png" alt="" class="lockImg"/>
                     <input type="text" name="password" placeholder="PASSWORD" class="input" id="passw" onfocus="changeType()"/>
-                    <font class="forgotPw"><a href="#" onclick="forgotPasswordPage()">Forgot password?</a></font>
+                    <font class="forgotPw" id="forgotPassBigScreen"><a href="#" onclick="forgotPasswordPage()">Forgot password?</a></font>
                 </div>
                 
                 <div class="loginSubmit">
                     <input type="submit" value="LOGIN" name="loginSub" class="loginSubBtn"/>
+                    <font class="forgotPw" id="forgotPassSmallScreen"><a href="#" onclick="forgotPasswordPage()">Forgot password?</a></font>
                 </div>
             </div>
             
@@ -105,10 +106,10 @@
                 
                 <div class="registerOptions">
                     <font class="radioFont">I am a:</font>
-                    <label for="companyRadio">Company</label>
+                    <label for="companyRadio" id="companyOption">Company</label>
                     <input type="radio" name="registerOption" value="Company" id="companyRadio"/>
                     
-                    <label for="privClientRadio">Private Client</label>
+                    <label for="privClientRadio" id="privClient">Private Client</label>
                     <input type="radio" name="registerOption" value="Private Client" id="privClientRadio"/>
                 </div>
                 

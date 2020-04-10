@@ -283,3 +283,55 @@ to the login box*/
     text-decoration: underline;
 }
 
+#forgotPassSmallScreen
+{
+    display: none;
+}
+
+@media only screen and (max-width: 800px)
+{
+    .header
+    {
+        font-size: 25px;
+    }
+    
+    .footer
+    {
+        font-size: 25px;
+    }
+    
+    .content
+    {
+        width: 450px;
+        height: 330px;
+    }
+    
+    .loginSubmit
+    {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+    }
+    
+    #forgotPassSmallScreen
+    {
+        display: block;
+        margin-bottom: 10px;
+        margin-top: 10px;
+    }
+    
+    #forgotPassBigScreen
+    {
+        display: none;
+    }
+    
+    .accountImg, .lockImg
+    {
+        margin-left: 80px;
+    }
+    
+    .loginSubBtn
+    {
+        margin-top: 20px;
+    }
+}

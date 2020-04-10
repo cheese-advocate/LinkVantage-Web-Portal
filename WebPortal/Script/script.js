@@ -64,7 +64,12 @@ function backToLoginFromReg()
 }
 
 var count = 1;
-
+/**
+ * The code below is still not perfect and needs to be perfected.
+ * It is not finctioning as it should
+ * It has to do with the registerPage dynamic layout.
+ * @return {undefined}
+ */
 function increaseCounter()
 {
     count++;

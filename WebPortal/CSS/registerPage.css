@@ -107,6 +107,28 @@
     border-color: #03AAFB;
 }
 
+#companyOption
+{
+    transition: 0.5s;
+}
+
+#privClient
+{
+    transition: 0.5s;
+}
+
+#companyOption:hover
+{
+    color: #03AAFB;
+}
+
+#privClient:hover
+{
+    color: #03AAFB;
+}
+
+
+
 .radioFont
 {
     margin-right: 20px;
@@ -319,6 +341,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    transition: 0.5s;
 }
 
 .registerFooter
@@ -395,4 +418,24 @@
 {
     background: #03AAFB;
     border: none;
+}
+
+.contactsContent input
+{
+    transition: 0.5s;
+}
+
+.contactsContent input:hover
+{
+    border-bottom-color: #03AAFB;
+}
+
+.contactsContent input:focus
+{
+    border: 1px solid #03AAFB;
+}
+
+.confirmContact:hover
+{
+    color: #03AAFB;
 }
