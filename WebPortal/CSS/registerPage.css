@@ -171,14 +171,23 @@
     margin-top: 20px;
     margin-bottom: 20px;
     width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 0px;
 }
 
 .contactsHeader font
 {
     font-size: 24px;
-    display: flex;
-    justify-content: center;
     margin-right: 420px;
+    margin-bottom: 20px;
+    
+}
+
+#add_Contact_Btn2
+{
+    display: none;
 }
 
 .contactsContent
@@ -438,4 +447,180 @@
 .confirmContact:hover
 {
     color: #03AAFB;
+}
+
+.addressHeader
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.addressHeader font
+{
+    font-size: 24px;
+    margin-right: 420px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.addressContent
+{
+    margin: auto;
+    background: rgba(55, 55, 65, 0.8);
+    height: 350px;
+    width: 565px;
+    display: grid;
+    grid-template-rows: 10% 15% 15% 15% 15% 15%;
+    grid-template-areas: "addressHeader"
+                         "streetNum"
+                         "streetName"
+                         "suburbCity"
+                         "postalCode"
+                         "addInfo";
+}
+
+.addressContentHeader
+{
+    color: #03AAFB;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.addressContent .addressInp
+{
+    margin-right: 8px;
+    width: 500px;
+    height: 30px;
+    margin: auto;
+    background: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 1px solid #808080;
+    color: white;
+    transition: 0.5s;
+}
+
+.addressContent img
+{
+    height: 25px;
+    width: 25px;
+    margin-left: 15px;
+    margin-right: 10px;
+}
+
+.streetNum
+{
+    grid-area: streetNum;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.streetName
+{
+    grid-area: streetName;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.suburbCity
+{
+    grid-area: suburbCity;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.postalCode
+{
+    grid-area: postalCode;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.addInfo
+{
+    grid-area: addInfo;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.confirmSite
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.addressContent .addressInp:hover
+{
+    border-bottom-color: #03AAFB;
+}
+
+.confirmSite label
+{
+    transition: 0.5s;
+}
+
+.confirmSite label:hover
+{
+    color: #03AAFB;
+}
+
+.addressContent #contactCrossImg
+{
+    margin-left: 8px;
+    margin-right: 5px;
+}
+
+.addressContent #contactDownArrow
+{
+    margin-left: 8px;
+}
+
+.addSite
+{
+    display: flex;
+    justify-content: center;
+}
+
+.addSiteBtn
+{
+    width: 120px;
+    height: 30px;
+    border: none;
+    background: #03AAFB;
+    color: #F3F3F3;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    margin-top: 15px;
+    margin-bottom: 20px;
+    margin-left: 420px;
+    transition: 0.25s ease-out;
+}
+
+.addSiteBtn:hover
+{
+    border: none;
+    background: #282837;
+    border: solid 1px #03AAFB;
+}
+
+.addSiteBtn:active
+{
+    background: #03AAFB;
+    border: none;
+}
+
+#add_site_btn2
+{
+    display: none;
 }

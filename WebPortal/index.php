@@ -119,7 +119,8 @@
             </div>  
             
             <div class="contactsHeader">
-                <font>Contacts</font>
+                <font id="contactContainerHeader">Contacts</font>
+                <input type="submit" value="ADD CONTACT" name="addContact" class="addContactBtn" id="add_Contact_Btn2" onclick="generateNewContactInp()"/>
             </div>
             
             <div class="contactsContent" id="contacts_content">
@@ -151,13 +152,60 @@
                 </div>
 
                 <div class="confirmContact">
-                    <label for="confirmMainContact">Is the main contact:</label>
-                    <input type="checkbox" name="confirmMainContact" value="ON" checked="checked" id="confirmMainContact"/>
+                        <label for="confirmMainContact">Is the main contact:</label>
+                        <input type="checkbox" name="confirmMainContact" id="confirmMainContact"/>    
                 </div>
             </div>
             
             <div class="addContact" id="add_contact">
-                <input type="submit" value="ADD CONTACT" name="addContact" class="addContactBtn" id="add_Contact_Btn" onclick="generateNewContactInp(), generateAddContactButton(), increaseCounter()"/>
+                <input type="submit" value="ADD CONTACT" name="addContact" class="addContactBtn" id="add_Contact_Btn" onclick="generateNewContactInp(), hideButton()"/>
+            </div>
+            
+            <div class="addressHeader">
+                <font class="addressContainerHeader" id ="addressContainerHeader">Sites</font>
+                <input type="submit" value="ADD SITE" name="addSite" class="addSiteBtn" id="add_site_btn2" onclick="generateNewSiteInp(), hideSiteButton()"/>
+            </div>
+            
+            <div class="addressContent" id="addressContent">
+                <div class="addressContentHeader">
+                    <img src="images/cross.png" alt="" id="contactCrossImg" class="contactCrossImg"/>
+                    Address <font id="number"> 1</font><hr class="contactContentHeaderLine">
+                    <img src="images/down-arrow.png" alt="" id="contactDownArrow" class="contactDownArrow"/>
+                </div>
+                         
+                <div class="streetNum">
+                    <img src="images/location.png" alt="" class="locationImg1"/>
+                    <input type="text" name="streetNum" placeholder="NO" class="addressInp" id="streetNumInp"/>
+                </div>
+
+                <div class="streetName">
+                    <img src="images/location.png" alt="" class="locationImg2"/>
+                    <input type="text" name="streetName" placeholder="STREET" class="addressInp" id="streetNameInp"/>
+                </div>
+
+                <div class="suburbCity">
+                    <img src="images/house.png" alt="" class="homeImg"/>
+                    <input type="text" name="suburbCity" placeholder="SUBURB/CITY" class="addressInp" id="suburbInp"/>
+                </div>
+
+                <div class="postalCode">
+                    <img src="images/envelope.png" alt="" class="postalImg"/>
+                    <input type="text" name="postalCode" placeholder="POSTAL CODE" class="addressInp" id="postalInp"/>
+                </div>
+
+                <div class="addInfo">
+                    <img src="images/information.png" alt="" class="infoImg"/>
+                    <input type="text" name="info" placeholder="ADDITIONAL INFORMATION" class="addressInp" id="addInfo"/>
+                </div>
+                
+                <div class="confirmSite">
+                    <label for="confirmMainSite">Is the main site:</label>
+                    <input type="checkbox" name="confirmMainSite" id="confirmMainSite"/>
+                </div>
+            </div>
+            
+            <div class="addSite" id="add_site">
+                <input type="submit" value="ADD SITE" name="addSite" class="addSiteBtn" id="add_site_btn" onclick="generateNewSiteInp(), hideSiteButton()"/>
             </div>
             
             <div class="registerFooter" id="register_footer">

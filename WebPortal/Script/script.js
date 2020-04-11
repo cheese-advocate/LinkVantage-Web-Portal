@@ -63,33 +63,45 @@ function backToLoginFromReg()
     destDiv.style.display = "block";
 }
 
-var count = 1;
 /**
  * The code below is still not perfect and needs to be perfected.
  * It is not finctioning as it should
  * It has to do with the registerPage dynamic layout.
  * @return {undefined}
  */
-function increaseCounter()
-{
-    count++;
-}
 
 function generateNewContactInp()
 {
     var add_contact_btn = document.getElementById("add_contact");
     var contacts_content = document.getElementById("contacts_content");
     var clone = contacts_content.cloneNode(true);
+    clone.style.marginTop = "20px";
     
-    document.getElementById("number").innerHTML = count;
     add_contact_btn.parentNode.insertBefore(clone, add_contact_btn.nextSibling);
 }
 
-function generateAddContactButton()
+function hideButton()
+{
+    document.getElementById("add_Contact_Btn").style.display = "none";
+    document.getElementById("add_Contact_Btn2").style.display = "block";
+    document.getElementById("add_Contact_Btn2").style.marginLeft = "320px";
+    document.getElementById("contactContainerHeader").style.marginRight = "0";
+}
+
+function generateNewSiteInp()
 {
     var footer = document.getElementById("register_footer");
-    var add_contact_btn = document.getElementById("add_contact");
-    var clone2 = add_contact_btn.cloneNode(true);
+    var site_content = document.getElementById("addressContent");
+    var clone = site_content.cloneNode(true);
+    clone.style.marginTop = "20px";
     
-    footer.parentNode.insertBefore(clone2, footer);
+    footer.parentNode.insertBefore(clone, footer);
+}
+
+function hideSiteButton()
+{
+    document.getElementById("add_site_btn").style.display = "none";
+    document.getElementById("add_site_btn2").style.display = "block";
+    document.getElementById("add_site_btn2").style.marginLeft = "320px";
+    document.getElementById("addressContainerHeader").style.marginRight = "0";
 }
