@@ -14,6 +14,10 @@ function changeType()
     document.getElementById("passw").type = "password";
 }
 
+function changeTypeRegister()
+{
+    document.getElementById("ContactPassw").type = "password";
+}
 /**
  * This function changes the html displayed and hides the main login page 
  * and displays the forgot password page
@@ -47,20 +51,12 @@ function changeToLogin()
  */
 function changeToRegisterCompany()
 {
-    var div = document.getElementById("loginPageMain");
-    div.style.display = "none";
-    
-    var destDiv = document.getElementById("registerCompanyPage");
-    destDiv.style.display = "block";
+    document.location.href = "registerCompany.php";
 }
 
 function backToLoginFromReg()
 {
-    var div = document.getElementById("registerCompanyPage");
-    div.style.display = "none";
-    
-    var destDiv = document.getElementById("loginPageMain");
-    destDiv.style.display = "block";
+    document.location.href = "index.php";
 }
 
 /**
@@ -109,12 +105,10 @@ function hideSiteButton()
 
 function changeToClient()
 {
-    document.getElementById("registerCompanyPage").style.display = "none";
-    document.getElementById("registerPrivClient").style.display = "block";
+    document.location.href = "registerPrivateClient.php";
 }
 
 function changeToCompany()
 {
-    document.getElementById("registerCompanyPage").style.display = "block";
-    document.getElementById("registerPrivClient").style.display = "none";
+    document.location.href = "registerCompany.php";
 }
