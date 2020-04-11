@@ -1,7 +1,8 @@
 /**
- * The necessary logic and if statements will be added to the 
- * javascript at a later stage.
- * @return {undefined}
+ * This is the main JavaScript document containing all the 
+ * main logic for page layouts and transitions
+ * 
+ * The input validation will be done in the input validation JavaScript file 
  */
 
 /**
@@ -54,18 +55,21 @@ function changeToRegisterCompany()
     document.location.href = "registerCompany.php";
 }
 
+/**
+ * Switches back to the index.php login screen
+ * @return {undefined}
+ */
 function backToLoginFromReg()
 {
     document.location.href = "index.php";
 }
 
+
 /**
- * The code below is still not perfect and needs to be perfected.
- * It is not finctioning as it should
- * It has to do with the registerPage dynamic layout.
+ * This method generates a new container with input fields to 
+ * create a new contact
  * @return {undefined}
  */
-
 function generateNewContactInp()
 {
     var add_contact_btn = document.getElementById("add_contact");
@@ -76,6 +80,11 @@ function generateNewContactInp()
     add_contact_btn.parentNode.insertBefore(clone, add_contact_btn.nextSibling);
 }
 
+/**
+ * This method has no return type and manipulates the layout of the html content.
+ * It hides one button and displays another
+ * @return {undefined}
+ */
 function hideButton()
 {
     document.getElementById("add_Contact_Btn").style.display = "none";
@@ -84,6 +93,10 @@ function hideButton()
     document.getElementById("contactContainerHeader").style.marginRight = "0";
 }
 
+/**
+ * This method generates a new container with input fields to add another site
+ * @return {undefined}
+ */
 function generateNewSiteInp()
 {
     var registerAccount = document.getElementById("register_account");
@@ -95,6 +108,11 @@ function generateNewSiteInp()
     registerAccount.parentNode.insertBefore(clone, registerAccount);
 }
 
+/**
+ * This method has no return type and manipulates the layout of the html content.
+ * It hides one button and displays another
+ * @return {undefined}
+ */
 function hideSiteButton()
 {
     document.getElementById("add_site_btn").style.display = "none";
@@ -103,12 +121,46 @@ function hideSiteButton()
     document.getElementById("addressContainerHeader").style.marginRight = "0";
 }
 
+/**
+ * This method switches to the register private client page
+ * @return {undefined}
+ */
 function changeToClient()
 {
+    
     document.location.href = "registerPrivateClient.php";
 }
 
+/**
+ * This method switches to the register company page
+ * @return {undefined}
+ */
 function changeToCompany()
 {
     document.location.href = "registerCompany.php";
 }
+
+function modifyResetPassword()
+{
+    if(document.getElementById("reset_options").value === "ANDROID OTP")
+    {
+        /*var img = document.createElement("img");
+        img.src = "images/lock.png";
+        img.className = "emailImg";
+        
+        var ref = document.getElementById("reset_submit");
+        ref.parentNode.insertBefore(img, ref)*/;
+    }
+    else if(document.getElementById("reset_options").value === "TEXT OTP")
+    {
+        document.getElementById("passwordRecoveryImg").src = "images/phone.png";
+        document.getElementById("passwordRecoveryInp").placeholder = "PHONE NUMBER";     
+    }
+    else
+    {
+        document.getElementById("passwordRecoveryImg").src = "images/envelope.png";
+        document.getElementById("passwordRecoveryInp").placeholder = "EMAIL";;
+    }
+}
+
+

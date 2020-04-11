@@ -4,15 +4,16 @@
     <head>
         <meta charset="UTF-8">
         <title>Compulink Technologies</title>
-        <!-- Displays Compulink logo in title bar of web pages -->
+        <!--Title icon link-->
         <link rel="shortcut icon" href="images/logo_block__1__AHI_icon.ico" />
-        <!-- Link external CSS to the main Index page -->
+        <!--CSS links-->
         <link href="CSS/style.css" rel="stylesheet" type="text/css"/>
         <link href="CSS/forgotPw.css" rel="stylesheet" type="text/css"/>
         <link href="CSS/registerPage.css" rel="stylesheet" type="text/css"/>
         <link href="CSS/registerPrivClient.css" rel="stylesheet" type="text/css"/>
-        <!--All javascript-->
+        <!--JS links-->
         <script src="Script/script.js" type="text/javascript"></script>
+        <script src="Script/inputValidation.js" type="text/javascript"></script>
     </head>
     <body>
         <!--LOGIN PAGE-->
@@ -68,17 +69,22 @@
                 
                 <div class="resetInpContent">
                     <img src="images/refresh.png" alt="" class="resetImg"/>
-                    <select name="resetOptions" class="dropDownSelect">
+                    <select name="resetOptions" class="dropDownSelect" id="reset_options" onchange="modifyResetPassword()">
+                        <option>RESET PASSWORD</option>
                         <option>TEXT OTP</option>
                         <option>ANDROID OTP</option>
-                        <option>RESET PASSWORD</option>
                     </select>
                     
-                    <img src="images/envelope.png" alt="" class="emailImg"/>
-                    <input type="text" name="emailInp" value="" placeholder="EMAIL" class="emailInp"/>
+                    <img src="images/envelope.png" alt="" class="emailImg" id="passwordRecoveryImg"/>
+                    <input type="text" name="emailInp" value="" placeholder="EMAIL" class="emailInp" id="passwordRecoveryInp"/>
                 </div>
                 
-                <div class="resetSubmit">
+                <!--
+                    <img src="images/lock.png" alt="" class="emailImg" id="androidOTPLockImg"/>
+                    <input type="text" name="pin" placeholder="PIN" class="pinInp" id="androidOTPInp"/>
+                -->
+                
+                <div class="resetSubmit" id="reset_submit">
                     <input type="submit" value="SEND RESET REQUEST" name="resetSub" class="resetSubBtn"/>
                 </div>
             </div>

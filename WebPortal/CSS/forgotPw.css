@@ -178,3 +178,29 @@
 {
     background: #03AAFB;
 }
+
+.pinInp
+{
+    grid-area: email;
+    width: 250px;
+    height: 30px;
+    margin: auto;
+    background: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 1px solid #808080;
+    color: white;
+    margin-top: 15px;
+    transition: 0.5s;
+}
+
+.pinInp:hover
+{
+    border-bottom-color: #03AAFB;
+}
+
+.pinInp:focus
+{
+    border: 1px solid #03AAFB;
+}

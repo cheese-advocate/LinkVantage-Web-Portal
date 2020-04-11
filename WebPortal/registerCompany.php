@@ -8,8 +8,12 @@ and open the template in the editor.
     <head>
         <meta charset="UTF-8">
         <title>Register Company</title>
+        <!--Title icon link-->
         <link rel="shortcut icon" href="images/logo_block__1__AHI_icon.ico" />
+        <!--JS links-->
         <script src="Script/script.js" type="text/javascript"></script>
+        <script src="Script/inputValidation.js" type="text/javascript"></script>
+        <!--CSS links-->
         <link href="CSS/style.css" rel="stylesheet" type="text/css"/>
         <link href="CSS/registerPage.css" rel="stylesheet" type="text/css"/>
         <link href="CSS/forgotPw.css" rel="stylesheet" type="text/css"/>
