@@ -624,3 +624,40 @@
 {
     display: none;
 }
+
+.registerAccount
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.regAcBtn
+{
+    position: sticky;
+    width: 250px;
+    height: 30px;
+    border: none;
+    background: #03AAFB;
+    color: #F3F3F3;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    margin-top: 15px;
+    margin-bottom: 20px;
+    transition: 0.25s ease-out;
+}
+
+.regAcBtn:hover
+{
+    border: none;
+    background: #282837;
+    border: solid 1px #03AAFB;
+}
+
+.regAcBtn:active
+{
+    background: #03AAFB;
+    border: none;
+}

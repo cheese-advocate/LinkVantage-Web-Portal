@@ -90,12 +90,13 @@ function hideButton()
 
 function generateNewSiteInp()
 {
-    var footer = document.getElementById("register_footer");
+    var registerAccount = document.getElementById("register_account");
     var site_content = document.getElementById("addressContent");
     var clone = site_content.cloneNode(true);
     clone.style.marginTop = "20px";
+    registerAccount.style.marginTop = "20px";
     
-    footer.parentNode.insertBefore(clone, footer);
+    registerAccount.parentNode.insertBefore(clone, registerAccount);
 }
 
 function hideSiteButton()
@@ -104,4 +105,16 @@ function hideSiteButton()
     document.getElementById("add_site_btn2").style.display = "block";
     document.getElementById("add_site_btn2").style.marginLeft = "320px";
     document.getElementById("addressContainerHeader").style.marginRight = "0";
+}
+
+function changeToClient()
+{
+    document.getElementById("registerCompanyPage").style.display = "none";
+    document.getElementById("registerPrivClient").style.display = "block";
+}
+
+function changeToCompany()
+{
+    document.getElementById("registerCompanyPage").style.display = "block";
+    document.getElementById("registerPrivClient").style.display = "none";
 }
