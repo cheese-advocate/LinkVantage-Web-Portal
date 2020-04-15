@@ -154,12 +154,12 @@ function modifyResetPassword()
     else if(document.getElementById("reset_options").value === "TEXT OTP")
     {
         document.getElementById("passwordRecoveryImg").src = "images/phone.png";
-        document.getElementById("passwordRecoveryInp").placeholder = "PHONE NUMBER";     
+        document.getElementById("emailInp").placeholder = "PHONE NUMBER";
     }
     else
     {
         document.getElementById("passwordRecoveryImg").src = "images/envelope.png";
-        document.getElementById("passwordRecoveryInp").placeholder = "EMAIL";;
+        document.getElementById("emailInp").placeholder = "EMAIL";
     }
 }
 

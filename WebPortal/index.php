@@ -76,7 +76,7 @@
                     </select>
                     
                     <img src="images/envelope.png" alt="" class="emailImg" id="passwordRecoveryImg"/>
-                    <input type="text" name="emailInp" value="" placeholder="EMAIL" class="emailInp" id="passwordRecoveryInp"/>
+                    <input type="text" name="emailInp" value="" placeholder="EMAIL" class="passwordRecoveryInp" id="emailInp"/>
                 </div>
                 
                 <!--
@@ -85,7 +85,7 @@
                 -->
                 
                 <div class="resetSubmit" id="reset_submit">
-                    <input type="submit" value="SEND RESET REQUEST" name="resetSub" class="resetSubBtn"/>
+                    <input type="submit" value="SEND RESET REQUEST" name="resetSub" class="resetSubBtn" onclick="verifyForgotPw()"/>
                 </div>
             </div>
             

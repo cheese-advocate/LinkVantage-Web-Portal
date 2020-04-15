@@ -120,7 +120,7 @@
     background: #373741;
 }
 
-.emailInp
+.passwordRecoveryInp
 {
     grid-area: email;
     width: 250px;
