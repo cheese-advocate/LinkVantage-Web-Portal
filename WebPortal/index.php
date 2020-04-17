@@ -41,7 +41,7 @@
                 </div>
                 
                 <div class="loginSubmit">
-                    <input type="submit" value="LOGIN" name="loginSub" class="loginSubBtn"/>
+                    <input type="submit" value="LOGIN" name="loginSub" class="loginSubBtn" onclick="loginVerification()"/>
                     <font class="forgotPw" id="forgotPassSmallScreen"><a href="#" onclick="forgotPasswordPage()">Forgot password?</a></font>
                 </div>
             </div>

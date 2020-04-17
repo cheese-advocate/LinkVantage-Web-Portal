@@ -13,6 +13,7 @@ and open the template in the editor.
         <!--JS links-->
         <script src="Script/script.js" type="text/javascript"></script>
         <script src="Script/inputValidation.js" type="text/javascript"></script>
+        <script src="Script/generateContent.js" type="text/javascript"></script>
         <!--CSS links-->
         <link href="CSS/style.css" rel="stylesheet" type="text/css"/>
         <link href="CSS/registerPage.css" rel="stylesheet" type="text/css"/>
@@ -51,7 +52,7 @@ and open the template in the editor.
             
             <div class="contactsHeader">
                 <font id="contactContainerHeader">Contacts</font>
-                <input type="submit" value="ADD CONTACT" name="addContact" class="addContactBtn" id="add_Contact_Btn2" onclick="generateNewContactInp()"/>
+                <input type="submit" value="ADD CONTACT" name="addContact" class="addContactBtn" id="add_Contact_Btn2" onclick="addContact()"/>
             </div>
             
             <div class="contactsContent" id="contacts_content">
@@ -89,7 +90,7 @@ and open the template in the editor.
             </div>
             
             <div class="addContact" id="add_contact">
-                <input type="submit" value="ADD CONTACT" name="addContact" class="addContactBtn" id="add_Contact_Btn" onclick="generateNewContactInp(), hideButton()"/>
+                <input type="submit" value="ADD CONTACT" name="addContact" class="addContactBtn" id="add_Contact_Btn" onclick="addContact(), hideButton()"/>
             </div>
             
             <div class="addressHeader">
