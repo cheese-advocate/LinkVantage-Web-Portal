@@ -11,6 +11,7 @@ and open the template in the editor.
         <!--Title icon link-->
         <link rel="shortcut icon" href="images/logo_block__1__AHI_icon.ico" />
         <!--JS links-->
+        <script src="Script/jquery-3.5.0.js" type="text/javascript"></script>
         <script src="Script/script.js" type="text/javascript"></script>
         <script src="Script/inputValidation.js" type="text/javascript"></script>
         <script src="Script/generateContent.js" type="text/javascript"></script>
@@ -57,7 +58,7 @@ and open the template in the editor.
             
             <div class="contactsContent" id="contacts_content">
                 <div class="contactContentHeader">
-                    <img src="images/cross.png" alt="" id="contactCrossImg" class="contactCrossImg"/>
+                    <img src="images/cross.png" alt="" id="contactCrossImg" class="contactCrossImg" onclick="removeContact(this.parentNode.parentNode.id)"/>
                     Contact <font id="number"> 1</font><hr class="contactContentHeaderLine">
                     <img src="images/down-arrow.png" alt="" id="contactDownArrow" class="contactDownArrow"/>
                 </div>
@@ -68,14 +69,14 @@ and open the template in the editor.
                     <img src="images/lock.png" alt="" class="contactLockImg"/>
                     <input type="text" name="password" placeholder="PASSWORD" class="contactInput" id="ContactPassw" onfocus="changeTypeRegister()"/>
                 </div>
-                
+
                 <div class="names">
                     <img src="images/id-card.png" alt="" class="idCard" id="id1"/>
                     <input type="text" name="firstName" placeholder="FIRST NAME" class="contactInput" id="contactFirstName"/>
                     <img src="images/id-card.png" alt="" class="idCard"/>
                     <input type="text" name="lastName" placeholder="LAST NAME" class="contactInput" id="contactLastName"/>
                 </div>
-                
+
                 <div class="otherContactDet">
                     <img src="images/envelope.png" alt="" class="contactEmailImg"/>
                     <input type="text" name="email" placeholder="EMAIL" class="contactInput" id="contactEmail"/>
@@ -84,9 +85,9 @@ and open the template in the editor.
                 </div>
 
                 <div class="confirmContact">
-                        <label for="confirmMainContact">Is the main contact:</label>
-                        <input type="checkbox" name="confirmMainContact" id="confirmMainContact"/>    
-                </div>
+                    <label for="confirmMainContact">Is the main contact:</label>
+                    <input type="checkbox" name="confirmMainContact" id="confirmMainContact"/>    
+                </div>  
             </div>
             
             <div class="addContact" id="add_contact">
@@ -95,12 +96,12 @@ and open the template in the editor.
             
             <div class="addressHeader">
                 <font class="addressContainerHeader" id ="addressContainerHeader">Sites</font>
-                <input type="submit" value="ADD SITE" name="addSite" class="addSiteBtn" id="add_site_btn2" onclick="generateNewSiteInp(), hideSiteButton()"/>
+                <input type="submit" value="ADD SITE" name="addSite" class="addSiteBtn" id="add_site_btn2" onclick="addSite(), hideSiteButton()"/>
             </div>
             
             <div class="addressContent" id="addressContent">
                 <div class="addressContentHeader" id="address_content_header">
-                    <img src="images/cross.png" alt="" id="contactCrossImg" class="contactCrossImg"/>
+                    <img src="images/cross.png" alt="" id="contactCrossImg" class="contactCrossImg" onclick="removeSite(this.parentNode.parentNode.id)"/>
                     Address <font id="number"> 1</font><hr class="contactContentHeaderLine">
                     <img src="images/down-arrow.png" alt="" id="contactDownArrow" class="contactDownArrow"/>
                 </div>
@@ -137,7 +138,7 @@ and open the template in the editor.
             </div>
             
             <div class="addSite" id="add_site">
-                <input type="submit" value="ADD SITE" name="addSite" class="addSiteBtn" id="add_site_btn" onclick="generateNewSiteInp(), hideSiteButton()"/>
+                <input type="submit" value="ADD SITE" name="addSite" class="addSiteBtn" id="add_site_btn" onclick="addSite(), hideSiteButton()"/>
             </div>
             
             <div class="registerAccount" id="register_account">

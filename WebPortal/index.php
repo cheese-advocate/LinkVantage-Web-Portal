@@ -12,6 +12,7 @@
         <link href="CSS/registerPage.css" rel="stylesheet" type="text/css"/>
         <link href="CSS/registerPrivClient.css" rel="stylesheet" type="text/css"/>
         <!--JS links-->
+        <script src="Script/jquery-3.5.0.js" type="text/javascript"></script>
         <script src="Script/script.js" type="text/javascript"></script>
         <script src="Script/inputValidation.js" type="text/javascript"></script>
     </head>

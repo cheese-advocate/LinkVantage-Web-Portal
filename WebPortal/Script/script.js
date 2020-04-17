@@ -64,22 +64,6 @@ function backToLoginFromReg()
     document.location.href = "index.php";
 }
 
-
-/**
- * This method generates a new container with input fields to 
- * create a new contact
- * @return {undefined}
- */
-function generateNewContactInp()
-{
-    var add_contact_btn = document.getElementById("add_contact");
-    var contacts_content = document.getElementById("contacts_content");
-    var clone = contacts_content.cloneNode(true);
-    clone.style.marginTop = "20px";
-    
-    add_contact_btn.parentNode.insertBefore(clone, add_contact_btn.nextSibling);
-}
-
 /**
  * This method has no return type and manipulates the layout of the html content.
  * It hides one button and displays another
@@ -91,21 +75,6 @@ function hideButton()
     document.getElementById("add_Contact_Btn2").style.display = "block";
     document.getElementById("add_Contact_Btn2").style.marginLeft = "320px";
     document.getElementById("contactContainerHeader").style.marginRight = "0";
-}
-
-/**
- * This method generates a new container with input fields to add another site
- * @return {undefined}
- */
-function generateNewSiteInp()
-{
-    var registerAccount = document.getElementById("register_account");
-    var site_content = document.getElementById("addressContent");
-    var clone = site_content.cloneNode(true);
-    clone.style.marginTop = "20px";
-    registerAccount.style.marginTop = "20px";
-    
-    registerAccount.parentNode.insertBefore(clone, registerAccount);
 }
 
 /**
@@ -162,5 +131,4 @@ function modifyResetPassword()
         document.getElementById("emailInp").placeholder = "EMAIL";
     }
 }
-
 
