@@ -10,15 +10,19 @@
  * Counts the number of contacts already added
  * @type {Number}
  */
-var contactCounter = 0;
+var counterContact = 0;
 var number = 1;
+/**
+ * Adds another div with input fields to add a contact
+ * @return {undefined}
+ */
 function addContact()
 {
-    contactCounter++;
+    counterContact++;
     number++;
-    var template = '<div class="contactsContent" id="contacts_content'+contactCounter+'">'+
+    var template = '<div class="contactsContent" id="contacts_content'+counterContact+'">'+
                 '<div class="contactContentHeader">'+
-                    '<img src="images/cross.png" alt="" id="contactCrossImg" class="contactCrossImg"/>'+
+                    '<img src="images/cross.png" alt="" id="contactCrossImg" class="contactCrossImg" onclick="removeContact(this.parentNode.parentNode.id)"/>'+
                     'Contact <font id="number">'+number+'</font><hr class="contactContentHeaderLine">'+
                     '<img src="images/down-arrow.png" alt="" id="contactDownArrow" class="contactDownArrow"/>'+
                 '</div>'+
@@ -50,18 +54,133 @@ function addContact()
                 '</div>'+
             '</div>';
     
-    if(contactCounter === 1)
+    /**
+     * Checks if it is the first contact or site being added
+     * If not the counters are adjusted to ensure it is placed after
+     * the correct contact or site container
+     */
+    if(counterContact === 1)
     {
         var element = document.getElementById("contacts_content");
         element.insertAdjacentHTML("afterend", template);
     }
     else
     {
-        var temp = contactCounter - 1;
+        var temp = counterContact - 1;
         var name = "contacts_content" + temp;
-        console.log(name);
         var element = document.getElementById(name);
         element.insertAdjacentHTML("afterend", template);
     }
     
 }
+
+function removeContact(id)
+{
+    document.getElementById(id).remove();
+    counterContact--;
+    number--;
+}
+
+/**
+ * Counters for the sites
+ * @type {Number}
+ */
+var counterSite = 0;
+var siteNum = 1;
+
+/**
+ * Adds a container with input for another site
+ * @return {undefined}
+ */
+function addSite()
+{
+    counterSite++;
+    siteNum++;
+    
+    var template = '<div class="addressContent" id="addressContent'+counterSite+'">'+
+                '<div class="addressContentHeader" id="address_content_header">'+
+                    '<img src="images/cross.png" alt="" id="contactCrossImg" class="contactCrossImg" onclick="removeSite(this.parentNode.parentNode.id)"/>'+
+                    'Address <font id="number">'+siteNum+'</font><hr class="contactContentHeaderLine">'+
+                    '<img src="images/down-arrow.png" alt="" id="contactDownArrow" class="contactDownArrow"/>'+
+                '</div>'+
+                         
+                '<div class="streetNum">'+
+                    '<img src="images/location.png" alt="" class="locationImg1"/>'+
+                    '<input type="text" name="streetNum" placeholder="NO" class="addressInp" id="streetNumInp"/>'+
+                '</div>'+
+
+                '<div class="streetName">'+
+                    '<img src="images/location.png" alt="" class="locationImg2"/>'+
+                    '<input type="text" name="streetName" placeholder="STREET" class="addressInp" id="streetNameInp"/>'+
+                '</div>'+
+
+                '<div class="suburbCity">'+
+                    '<img src="images/house.png" alt="" class="homeImg"/>'+
+                    '<input type="text" name="suburbCity" placeholder="SUBURB/CITY" class="addressInp" id="suburbInp"/>'+
+                '</div>'+
+
+                '<div class="postalCode">'+
+                    '<img src="images/envelope.png" alt="" class="postalImg"/>'+
+                    '<input type="text" name="postalCode" placeholder="POSTAL CODE" class="addressInp" id="postalInp"/>'+
+                '</div>'+
+
+                '<div class="addInfo">'+
+                    '<img src="images/information.png" alt="" class="infoImg"/>'+
+                    '<input type="text" name="info" placeholder="ADDITIONAL INFORMATION" class="addressInp" id="addInfo"/>'+
+                '</div>'+
+                
+                '<div class="confirmSite" id="confirm_site">'+
+                    '<label for="confirmMainSite">Is the main site:</label>'+
+                    '<input type="checkbox" name="confirmMainSite" id="confirmMainSite"/>'+
+                '</div>'+
+            '</div>';
+    
+    /**
+     * Checks if it is the first contact or site being added
+     * If not the counters are adjusted to ensure it is placed after
+     * the correct contact or site container
+     */
+    if(counterSite === 1)
+    {
+        var element = document.getElementById("addressContent");
+        element.insertAdjacentHTML("afterend", template);
+    }
+    else
+    {
+        var temp = counterSite-1;
+        var name = "addressContent" + temp;
+        var element = document.getElementById(name);
+        element.insertAdjacentHTML("afterend", template);
+    }
+    
+}
+
+/**
+ * Receives the id of the element to remove
+ * That element is then removed and the counters are
+ * adjusted accordingly
+ * @param {type} id
+ * @return {undefined}
+ */
+function removeSite(id)
+{
+    document.getElementById(id).remove();
+    counterSite--;
+    siteNum--;
+}
+
+
+/**
+ * The JQuery code below will allow the contact and site 
+ * containers to collapse when the button to do so is clicked
+ */
+jQuery(document).ready(function(){
+    
+    $(document.body).delegate(".contactContentHeader", "click", function(){
+        $(this).nextAll().slideToggle("slow");
+    });
+    
+    $(document.body).delegate(".addressContentHeader", "click", function(){
+        $(this).nextAll().slideToggle("slow");
+    });
+});

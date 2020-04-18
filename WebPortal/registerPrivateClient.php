@@ -15,8 +15,10 @@ and open the template in the editor.
         <link href="CSS/registerPage.css" rel="stylesheet" type="text/css"/>
         <link href="CSS/registerPrivClient.css" rel="stylesheet" type="text/css"/>
         <!--JS links-->
+        <script src="Script/jquery-3.5.0.js" type="text/javascript"></script>
         <script src="Script/script.js" type="text/javascript"></script>
         <script src="Script/inputValidation.js" type="text/javascript"></script>
+        <script src="Script/generateContent.js" type="text/javascript"></script>
     </head>
     <body>
         <div class="registerCompanyPage" id="registerPrivClient">
@@ -47,7 +49,7 @@ and open the template in the editor.
             
             <div class="contactsHeader">
                 <font id="contactContainerHeader">Contacts</font>
-                <input type="submit" value="ADD CONTACT" name="addContact" class="addContactBtn" id="add_Contact_Btn2" onclick="generateNewContactInp()"/>
+                <input type="submit" value="ADD CONTACT" name="addContact" class="addContactBtn" id="add_Contact_Btn2" onclick="addContact()"/>
             </div>
             
             <div class="contactsContent" id="contacts_content">
@@ -85,7 +87,7 @@ and open the template in the editor.
             </div>
             
             <div class="addContact" id="add_contact">
-                <input type="submit" value="ADD CONTACT" name="addContact" class="addContactBtn" id="add_Contact_Btn" onclick="generateNewContactInp(), hideButton()"/>
+                <input type="submit" value="ADD CONTACT" name="addContact" class="addContactBtn" id="add_Contact_Btn" onclick="addContact(), hideButton()"/>
             </div>
             
             <div class="addressHeader">
@@ -94,7 +96,7 @@ and open the template in the editor.
             </div>
             
             <div class="addressContent" id="addressContent">
-                <div class="addressContentHeader" id="address_content_header">
+                <div class="addressContentHeader1" id="address_content_header">
                     <font>Address</font>
                 </div>
                          
