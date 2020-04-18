@@ -142,7 +142,7 @@ and open the template in the editor.
             </div>
             
             <div class="registerAccount" id="register_account">
-                <input type="submit" value="REGISTER ACCOUNT" name="registerAccount" class="regAcBtn" id="reg_ac_btn" onclick=""/>
+                <input type="submit" value="REGISTER ACCOUNT" name="registerAccount" class="regAcBtn" id="reg_ac_btn" onclick="checkRequiredFields()"/>
             </div>
             
             <div class="registerFooter" id="register_footer">

@@ -711,3 +711,8 @@
     background: #03AAFB;
     border: none;
 }
+
+.error
+{
+    border-bottom-color: red;
+}

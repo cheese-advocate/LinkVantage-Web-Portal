@@ -88,3 +88,31 @@ function loginVerification()
         document.getElementById("passw").style.borderBottomColor = "red";
     }
 }
+
+/**
+ * Uses jQuery to check all the input fields of type text
+ * Excludes buttons, radio and textbox inputs
+ * Checks each input and the empty inputs will
+ * be styled with a red bottom border
+ * @return {undefined}
+ */
+function checkRequiredFields()
+{
+    var valid = true;
+    $("input:not(:submit):not(:hidden)").each(function(){
+        if(!$(this).val())
+        {
+            $(this).css("border-bottom-color", "red");
+            valid = false;
+        }
+        else if($(this).val())
+        {
+            return;
+        }
+    });
+    
+    if(valid === false)
+    {
+        alert("All fields need to be entered");
+    }
+}
