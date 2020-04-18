@@ -1,9 +1,27 @@
+<?php
+    /* Need the database config info to connect, also to test the connection */
+    require_once 'config.php';
+    
+    /* User Input Variable Declaration */
+    $username = "";
+    $password = "";
+    $email = "";
+    $OTP = "";
+    
+    /* Prepare the database interactions */
+    $loginResult = "SELECT checkPassword($username, $password)";
+    $isEmailRegistered = "SELECT checkEmail($email)";
+    $createOTP = "CALL createOTP()";
+    $verifyOTP = "SELECT verifyOTP($OTP)";
+    
+?>
+
 <!DOCTYPE html>
 
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Compulink Technologies</title>
+        <title>CompuLink Technologies</title>
         <!--Title icon link-->
         <link rel="shortcut icon" href="images/logo_block__1__AHI_icon.ico" />
         <!--CSS links-->
@@ -19,7 +37,7 @@
         <!--LOGIN PAGE-->
         <div class="loginPage" id="loginPageMain">
             <div class="header">
-                Compulink Technologies
+                CompuLink Technologies
             </div>
             
             <div class="content">
@@ -47,7 +65,7 @@
             </div>
             
             <div class="footer">
-                Linkvantage
+                LinkVantage
             </div>
         </div>
         
@@ -55,7 +73,7 @@
         <!--FORGOT PASSWORD PAGE-->
         <div class="forgotPasswordPage" id="forgotPasswordPage">
             <div class="header">
-                Compulink Technologies
+                CompuLink Technologies
             </div>
             
             <div class="contentFgPw">
@@ -90,7 +108,7 @@
             </div>
             
             <div class="footer">
-                Linkvantage
+                LinkVantage
             </div>
         </div>
         
