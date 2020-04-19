@@ -4,21 +4,25 @@
     require_once 'config.php';
     
     /* Constant Variable Declaration */
-    define("PW_RESET_EMAIL","PW_RESET_EMAIL");
-    define("PW_RESET_PHONE_OTP","PW_RESET_PHONE_OTP");
-    define("PW_RESET_OTP","PW_RESET_OTP");
+    define("PW_RESET_EMAIL","RESET PASSWORD");
+    define("PW_RESET_PHONE_OTP","TEXT OTP");
+    define("PW_RESET_OTP","ANDROID OTP");
     define("RESET_STATE_SELECT_MODE", "RESET_STATE_SELECT_MODE");
     define("RESET_STATE_RESET_REQUESTED", "RESET_STATE_RESET_REQUESTED");
     define("RESET_STATE_CODE_CREATED", "RESET_STATE_CODE_CREATED");
     define("RESET_STATE_CODE_ENTERED", "RESET_STATE_CODE_ENTERED");
     define("RESET_STATE_ENTER_PASSWORD", "RESET_STATE_ENTER_PASSWORD");
+    define("HANDLE_LOGIN","HANDLE_LOGIN");
+    define("HANDLE_FORGOT_PW","HANDLE_FORGOT_PW");
+    define("HANDLE_NO_INPUT","HANDLE_NO_INPUT");
     
     /* SQL Statements */
     define("SQL_ATTEMPT_LOGIN","SELECT checkPassword(?, ?)");
     define("SQL_IS_EMAIL_REGISTERED", "SELECT checkEmail(?)");
     define("SQL_IS_PHONE_REGISTERED", "SELECT checkPhone(?)");
-    define("SQL_CREATE_OTP", "SELECT createOTP(?)");
-    define("SQL_VERIFY_OTP", "SELECT verifyOTP(?)");
+    define("SQL_STORE_OTP", "CALL storeOTP(?)");
+    define("SQL_VERIFY_OTP", "SELECT verifyOTP(?, ?)");
+    define("SQL_UPDATE_PASSWORD","CALL updatePassword(?, ?)");
     
     /* User Input Variable Declaration */
     $username = "";
@@ -73,52 +77,88 @@
     $resetState = "";
     // </editor-fold>
     $pwResetMode = "";
-    
-    /* Prepare the database interactions */
-    $checkLoginCredentials = "SELECT checkPassword($username, $password)";
-    $isEmailRegistered = "SELECT checkEmail($email)";
-    $isPhoneRegistered = "SELECT checkPhone($phone)";
-    $createOTP = "CALL createOTP()";
-    $verifyOTP = "SELECT verifyOTP($OTP)";
+    $pwResetModeErr = "";
+    $newPassword = "";
+    $confirmNewPassword = "";
     
     /* Check if a form was submitted */
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
-        handleLogin();
-        handleForgotPW();
+        $handleType = checkReceivedPostVariables();
         
-        // <editor-fold defaultstate="collapsed" desc="Handle Forgot PW">
-        
-        /* 
-         * Handle Forgot PW 
-         */
-
-        /* What is the user's chosen password recovery method? */
-        $pwResetMode = htmlspecialchars($_POST["name"]);
-
-        /* If the user has forgotten their password, is their input email/phone part 
-         * of a registered account? 
-         */
-        switch ($pwResetMode) {
-            case PW_RESET_EMAIL:
-
+        switch ($handleType) {
+            
+            case HANDLE_LOGIN:
+                
+                handleLogin();
                 break;
-
-            case PW_RESET_PHONE_OTP:
-
+            
+            case HANDLE_FORGOT_PW:
+                
+                handleForgotPW();
                 break;
-
-            case PW_RESET_OTP:
-
-
-
+            
+            case HANDLE_NO_INPUT:
+                
+                handleNoInput();
+                break;
+            
         }
-
-        /*  */
-        
-        // </editor-fold>
         
     }
+    
+    
+    
+    /**
+     * Attempts to determine whether the user submitted a POST request from 
+     * login or forgot password based on the values received.
+     * 
+     * At this stage this is the only known way to uniquely identify a POST 
+     * request - will need to be corrected should a more reliable method be 
+     * found.
+     * 
+     * @global type $username
+     * @global type $password
+     * @global type $pwResetMode
+     * @global type $email
+     * @global type $phone
+     * @global type $OTP
+     * @global type $newPassword
+     * @global type $confirmNewPassword
+     * @return type Whether the page should handle a login request, a forgot 
+     * password request, or a request with no input.
+     */
+    function checkReceivedPostVariables() {
+        
+        global $username, $password, $pwResetMode, $email, $phone, $OTP, 
+               $newPassword, $confirmNewPassword;
+        
+        $username = trim($_POST["username"]);
+        $password = trim($_POST["password"]);
+        $pwResetMode = trim($_POST["pwResetMode"]);
+        $email = trim($_POST["emailInp"]);
+        $phone = trim($_POST["emailInp"]);
+        $OTP = trim($_POST["otp"]);
+        $newPassword = trim($_POST["newPassword"]);
+        $confirmNewPassword = trim($_POST["confirmNewPassword"]);
+        
+        if (!empty($username) || !empty($password)) {
+            
+            return HANDLE_LOGIN;
+            
+        } elseif (!empty($pwResetMode) || !empty($email) || !empty($OTP)
+               || !empty($newPassword) || !empty($confirmNewPassword)) {
+            
+            return HANDLE_FORGOT_PW;
+            
+        } else {
+            
+            return HANDLE_NO_INPUT;
+            
+        }
+    }
+    
+    
     
         /**
          * 
@@ -128,6 +168,8 @@
     function attemptLogin($username, $pw) {
         
     }
+    
+    
     
     /**
      * Handles the login attempt made by the user.
@@ -139,8 +181,8 @@
         global $username, $password, $loginIsValid, $usernameErr, $passwordErr, 
                $loginResult;
         
-        $username = trim($_POST["username"]);
-        $password = trim($_POST["password"]);
+        // $username = trim($_POST["username"]);
+        // $password = trim($_POST["password"]);
         
         /* First, some server validation */
         $loginIsValid = true;
@@ -160,6 +202,8 @@
         
     }
     
+    
+    
     /**
      * Handles the forgot password request made by the user.
      * 
@@ -167,9 +211,60 @@
      */
     function handleForgotPW() {
         
-        global $email, $emailErr, $phone, $phoneErr, $OTP, $OTPErr, $pwResetMode;
+        global $email, $emailErr, $phone, $phoneErr, $OTP, $OTPErr, $pwResetMode, 
+               $pwResetModeErr;
         
-        /**/
+//        $pwResetMode = htmlspecialchars($_POST["name"]);
+
+        /* If the user has forgotten their password, is their input email/phone part 
+         * of a registered account? 
+         */
+        switch ($pwResetMode) {
+            
+            case PW_RESET_EMAIL:
+
+                
+                break;
+
+            case PW_RESET_PHONE_OTP:
+
+                
+                break;
+
+            case PW_RESET_OTP:
+
+                
+                break;
+            
+            default:
+                
+                $pwResetModeErr = "Invalid Password Reset Mode Selected.";
+
+        }
+
+        /*  */
+        
+    }
+    
+    
+    
+    /**
+     * If no input is received in the POST submission, handle both login and 
+     * forgot password so that the appropriate error message can be shown.
+     * 
+     * This method aims to ensure that output is provided even if a completely 
+     * empty form is submitted, which at this stage renders the request 
+     * indiscernible to the system in terms of whether the request is for login 
+     * or for forgot password.
+     * 
+     * This method also assumes that only the relevant error messages will be 
+     * displayed, even though all will be assigned their values, thus made ready 
+     * to be shown.
+     */
+    function handleNoInput() {
+        
+        handleLogin();
+        handleForgotPW();
         
     }
     
@@ -210,6 +305,7 @@
                     <button class="registerOptBtn" onclick="changeToRegisterCompany()">REGISTER</button>
                 </div>
                 
+<<<<<<< HEAD
                 <div class="loginInp">
                     <img src="images/account.png" alt="" class="accountImg"/>
                     <input type="text" name="username" placeholder="USERNAME" class="input" id="username"/>
@@ -222,6 +318,22 @@
                     <button class="loginSubBtn" onclick="loginVerification()">LOGIN</button>
                     <font class="forgotPw" id="forgotPassSmallScreen"><a href="#" onclick="forgotPasswordPage()">Forgot password?</a></font>
                 </div>
+=======
+                <form method="POST" action="#">
+                    <div class="loginInp">
+                        <img src="images/account.png" alt="" class="accountImg"/>
+                        <input type="text" name="username" placeholder="USERNAME" class="input" id="username" required/>
+                        <img src="images/lock.png" alt="" class="lockImg"/>
+                        <input type="text" name="password" placeholder="PASSWORD" class="input" id="passw" onfocus="changeType()" required/>
+                        <font class="forgotPw" id="forgotPassBigScreen"><a href="#" onclick="forgotPasswordPage()">Forgot password?</a></font>
+                    </div>
+
+                    <div class="loginSubmit">
+                        <input type="submit" value="LOGIN" name="loginSub" class="loginSubBtn" onclick="loginVerification()"/>
+                        <font class="forgotPw" id="forgotPassSmallScreen"><a href="#" onclick="forgotPasswordPage()">Forgot password?</a></font>
+                    </div>
+                </form>
+>>>>>>> 8e63cdb15c647a92e4ad041bedd5e1791c643a3f
             </div>
             
             <div class="footer">
@@ -245,6 +357,7 @@
                     <button class="returnToLoginBtn" onclick="changeToLogin()">RETURN TO LOGIN</button>
                 </div>
                 
+<<<<<<< HEAD
                 <div class="resetInpContent">
                     <img src="images/refresh.png" alt="" class="resetImg"/>
                     <select name="resetOptions" class="dropDownSelect" id="reset_options" onchange="modifyResetPassword()">
@@ -265,6 +378,30 @@
                 <div class="resetSubmit" id="reset_submit">
                     <button class="resetSubBtn" onclick="verifyForgotPw()">SEND RESET REQUEST</button>
                 </div>
+=======
+                <form method="POST" action="#">
+                    <div class="resetInpContent">
+                        <img src="images/refresh.png" alt="" class="resetImg"/>
+                        <select name="resetOptions" class="dropDownSelect" id="reset_options" name="pwResetMode" onchange="modifyResetPassword()">
+                            <option>RESET PASSWORD</option>
+                            <option>TEXT OTP</option>
+                            <option>ANDROID OTP</option>
+                        </select>
+
+                        <img src="images/envelope.png" alt="" class="emailImg" id="passwordRecoveryImg"/>
+                        <input type="text" name="emailInp" value="" placeholder="EMAIL" class="passwordRecoveryInp" id="emailInp" required/>
+                    </div>
+
+                    <!--
+                        <img src="images/lock.png" alt="" class="emailImg" id="androidOTPLockImg"/>
+                        <input type="text" name="pin" placeholder="PIN" class="pinInp" id="androidOTPInp"/>
+                    -->
+
+                    <div class="resetSubmit" id="reset_submit">
+                        <input type="submit" value="SEND RESET REQUEST" name="resetSub" class="resetSubBtn" onclick="verifyForgotPw()"/>
+                    </div>
+                </form>
+>>>>>>> 8e63cdb15c647a92e4ad041bedd5e1791c643a3f
             </div>
             
             <div class="footer">

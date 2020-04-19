@@ -1,3 +1,25 @@
+<?php
+    
+    include_once 'config.php';
+    
+    /* Constant Variable Declaration */
+    
+    
+    /* SQL Statements*/
+    
+    
+    /* Input Variable Declaration */
+    
+    
+    /* Check if a form was submitted */
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        
+        /* Handle the form */
+        
+    }
+    
+?>
+
 <!DOCTYPE html>
 <!--
 To change this license header, choose License Headers in Project Properties.
