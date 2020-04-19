@@ -31,7 +31,7 @@ and open the template in the editor.
         <meta charset="UTF-8">
         <title>Register Company</title>
         <!--Title icon link-->
-        <link rel="shortcut icon" href="images/logo_block__1__AHI_icon.ico" />
+        <link rel="shortcut icon" href="favicon.ico" />
         <!--JS links-->
         <script src="Script/jquery-3.5.0.js" type="text/javascript"></script>
         <script src="Script/script.js" type="text/javascript"></script>
