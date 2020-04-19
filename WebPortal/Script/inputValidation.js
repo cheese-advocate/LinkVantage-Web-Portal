@@ -67,52 +67,74 @@ function loginVerification()
 {
     var username = document.getElementById("username").value;
     var password = document.getElementById("passw").value;
+    var valid = true;
     
     if(username.match(usernameRegex))
     {
-        return;
+        document.getElementById("username").style = "none";
     }
     else
     {
-        alert("The username you entered is invalid or does not exist");
+        valid = false;
         document.getElementById("username").style.borderBottomColor = "red";
     }
     
     if(password.match(pwRegex))
     {
-        return;
+        document.getElementById("passw").style = "none";
     }
     else
     {
-        alert("The password you entered is invalid or does not exist");
+        valid = false;
         document.getElementById("passw").style.borderBottomColor = "red";
+    }
+    
+    if(!valid)
+    {
+        alert("The username or password you entered is invalid");
     }
 }
 
 /**
  * Uses jQuery to check all the input fields of type text
  * Excludes buttons, radio and textbox inputs
- * Checks each input and the empty inputs will
- * be styled with a red bottom border
+ * Checks each input
+ * If empty inputs are found the register button is
+ * disabled
  * @return {undefined}
  */
 function checkRequiredFields()
-{
-    var valid = true;
+{    
+    var empty = false;
     $("input:not(:submit):not(:hidden)").each(function(){
         if(!$(this).val())
         {
+            empty = true;
             $(this).css("border-bottom-color", "red");
-            valid = false;
         }
-        else if($(this).val())
+        else
         {
-            return;
+            $(this).removeAttr("style");
         }
     });
     
-    if(valid === false)
+    if(empty)
     {
-        alert("All fields need to be entered");
+        alert("Some fields are empty and need to be entered");
+        window.onbeforeunload = function() 
+        {
+            return "Are you sure you want to navigate away?";
+        };
     }
+}
+
+/**
+ * Function called on all registration inputs
+ * All inputs will be checked with the corresponding RegEx
+ * The appropriate error messages will be shown according to the given input
+ * @return {undefined}
+ */
+function checkAllInputFields()
+{
+    
 }

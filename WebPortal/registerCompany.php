@@ -33,8 +33,8 @@ and open the template in the editor.
                 </div>
                 
                 <div class="registerOptionBtns">
-                    <input type="submit" value="LOGIN" name="loginOpt" class="backToLoginFromReg" onclick="backToLoginFromReg()"/>
-                    <input type="submit" value="REGISTER" name="registerOpt" class="registerBtnRegPage"/>
+                    <button class="backToLoginFromReg" onclick="backToLoginFromReg()">LOGIN</button>
+                    <button class="registerBtnRegPage">REGISTER</button>
                 </div>
                 
                 <div class="registerOptions">
@@ -53,7 +53,6 @@ and open the template in the editor.
             
             <div class="contactsHeader">
                 <font id="contactContainerHeader">Contacts</font>
-                <input type="submit" value="ADD CONTACT" name="addContact" class="addContactBtn" id="add_Contact_Btn2" onclick="addContact()"/>
             </div>
             
             <div class="contactsContent" id="contacts_content">
@@ -91,12 +90,11 @@ and open the template in the editor.
             </div>
             
             <div class="addContact" id="add_contact">
-                <input type="submit" value="ADD CONTACT" name="addContact" class="addContactBtn" id="add_Contact_Btn" onclick="addContact(), hideButton()"/>
+                <button class="addContactBtn" id="add_Contact_Btn" onclick="addContact()">ADD CONTACT</button>
             </div>
             
             <div class="addressHeader">
                 <font class="addressContainerHeader" id ="addressContainerHeader">Sites</font>
-                <input type="submit" value="ADD SITE" name="addSite" class="addSiteBtn" id="add_site_btn2" onclick="addSite(), hideSiteButton()"/>
             </div>
             
             <div class="addressContent" id="addressContent">
@@ -138,15 +136,15 @@ and open the template in the editor.
             </div>
             
             <div class="addSite" id="add_site">
-                <input type="submit" value="ADD SITE" name="addSite" class="addSiteBtn" id="add_site_btn" onclick="addSite(), hideSiteButton()"/>
+                <button class="addSiteBtn" id="add_site_btn" onclick="addSite()">ADD SITE</button>
             </div>
             
             <div class="registerAccount" id="register_account">
-                <input type="submit" value="REGISTER ACCOUNT" name="registerAccount" class="regAcBtn" id="reg_ac_btn" onclick="checkRequiredFields()"/>
+                <button class="regAcBtn" id="reg_ac_btn" onclick="checkRequiredFields(), backToLoginFromReg()">REGISTER ACCOUNT</button>
             </div>
             
             <div class="registerFooter" id="register_footer">
-                Linkvantage
+                LINKVANTAGE
             </div>
         </div>
     </body>

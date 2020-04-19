@@ -206,8 +206,8 @@
                 </div>
                 
                 <div class="loginOptions">
-                    <input type="submit" value="LOGIN" name="loginOpt" class="loginOptBtn"/>
-                    <input type="submit" value="REGISTER" name="registerOpt" class="registerOptBtn" onclick="changeToRegisterCompany()"/>
+                    <button class="loginOptBtn">LOGIN</button>
+                    <button class="registerOptBtn" onclick="changeToRegisterCompany()">REGISTER</button>
                 </div>
                 
                 <div class="loginInp">
@@ -219,7 +219,7 @@
                 </div>
                 
                 <div class="loginSubmit">
-                    <input type="submit" value="LOGIN" name="loginSub" class="loginSubBtn" onclick="loginVerification()"/>
+                    <button class="loginSubBtn" onclick="loginVerification()">LOGIN</button>
                     <font class="forgotPw" id="forgotPassSmallScreen"><a href="#" onclick="forgotPasswordPage()">Forgot password?</a></font>
                 </div>
             </div>
@@ -242,7 +242,7 @@
                 </div>
                 
                 <div class="backToLogin">
-                    <input type="submit" value="RETURN TO LOGIN" name="returnSub" class="returnToLoginBtn" onclick="changeToLogin()"/>
+                    <button class="returnToLoginBtn" onclick="changeToLogin()">RETURN TO LOGIN</button>
                 </div>
                 
                 <div class="resetInpContent">
@@ -263,7 +263,7 @@
                 -->
                 
                 <div class="resetSubmit" id="reset_submit">
-                    <input type="submit" value="SEND RESET REQUEST" name="resetSub" class="resetSubBtn" onclick="verifyForgotPw()"/>
+                    <button class="resetSubBtn" onclick="verifyForgotPw()">SEND RESET REQUEST</button>
                 </div>
             </div>
             
