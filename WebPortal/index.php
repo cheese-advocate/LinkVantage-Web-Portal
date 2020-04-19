@@ -81,11 +81,6 @@
     $createOTP = "CALL createOTP()";
     $verifyOTP = "SELECT verifyOTP($OTP)";
     
-    if (true) {
-        $username = "nop";
-        echo $username;
-    }
-    
     /* Check if a form was submitted */
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
