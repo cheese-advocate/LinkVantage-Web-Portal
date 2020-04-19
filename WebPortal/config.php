@@ -14,6 +14,10 @@ define('DB_PASSWORD', '');
 define('DB_NAME', 'Chai');
 
 /* Test connectivity to the database */
+/**
+ * Database Connection Manager. Used to connect to, configure, manipulate, and 
+ * disconnect from the database.
+ */
 $link = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME);
 
 /* Test the connection */

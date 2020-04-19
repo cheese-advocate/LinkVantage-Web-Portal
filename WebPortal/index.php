@@ -1,18 +1,182 @@
 <?php
+    
     /* Need the database config info to connect, also to test the connection */
     require_once 'config.php';
     
+    /* Constant Variable Declaration */
+    define("PW_RESET_EMAIL","PW_RESET_EMAIL");
+    define("PW_RESET_PHONE_OTP","PW_RESET_PHONE_OTP");
+    define("PW_RESET_OTP","PW_RESET_OTP");
+    define("RESET_STATE_SELECT_MODE", "RESET_STATE_SELECT_MODE");
+    define("RESET_STATE_RESET_REQUESTED", "RESET_STATE_RESET_REQUESTED");
+    define("RESET_STATE_CODE_CREATED", "RESET_STATE_CODE_CREATED");
+    define("RESET_STATE_CODE_ENTERED", "RESET_STATE_CODE_ENTERED");
+    define("RESET_STATE_ENTER_PASSWORD", "RESET_STATE_ENTER_PASSWORD");
+    
+    /* SQL Statements */
+    define("SQL_ATTEMPT_LOGIN","SELECT checkPassword(?, ?)");
+    define("SQL_IS_EMAIL_REGISTERED", "SELECT checkEmail(?)");
+    define("SQL_IS_PHONE_REGISTERED", "SELECT checkPhone(?)");
+    define("SQL_CREATE_OTP", "SELECT createOTP(?)");
+    define("SQL_VERIFY_OTP", "SELECT verifyOTP(?)");
+    
     /* User Input Variable Declaration */
     $username = "";
+    $usernameErr = "";
     $password = "";
+    $passwordErr = "";
+    $loginResult;
     $email = "";
+    $emailErr = "";
+    $phone = "";
+    $phoneErr = "";
     $OTP = "";
+    $OTPErr = "";
+    // <editor-fold defaultstate="collapsed" desc="$resetState">
+    /**
+     * The state of the password reset process.
+     * 
+     * Can be:
+     * 
+     * SELECT MODE
+     * 
+     * Starting phase of reset password, where the user confirms which reset 
+     * mode to use. Once the user has selected a mode and clicked "send reset 
+     * request", the user progresses to the next phase.
+     * 
+     * RESET REQUESTED
+     * 
+     * The mode is identified and the user's entered email/phone number is 
+     * validated. If the respective contact point is invalid, the user is 
+     * prompted to reenter their contact point for revalidation. If the same is 
+     * valid, an OTP is generated and, if applicable, the reset link is emailed.
+     * 
+     * CODE CREATED
+     * 
+     * This mode prompts and allows the user to enter the OTP they have received.
+     * 
+     * CODE ENTERED
+     * 
+     * This mode verifies correctness and timing of the OTP entered. If the OTP 
+     * is correct, the user is prompted to enter their new password. If the OTP 
+     * is incorrect, the user is prompted to re-enter the OTP. The user can also 
+     * request a new OTP, taking the process back to CODE CREATED.
+     * 
+     * If the user enters an incorrect OTP three times, or if the OTP is too old, t
+     * he system defaults back to RESET REQUESTED, revalidating the contact 
+     * method and requesting a new OTP. The user is prompted by this.
+     * 
+     * VALIDATE PASSWORD
+     * 
+     * WIP. Only applicable if Enter New Password is in this page.
+     */
+    $resetState = "";
+    // </editor-fold>
+    $pwResetMode = "";
     
     /* Prepare the database interactions */
-    $loginResult = "SELECT checkPassword($username, $password)";
+    $checkLoginCredentials = "SELECT checkPassword($username, $password)";
     $isEmailRegistered = "SELECT checkEmail($email)";
+    $isPhoneRegistered = "SELECT checkPhone($phone)";
     $createOTP = "CALL createOTP()";
     $verifyOTP = "SELECT verifyOTP($OTP)";
+    
+    if (true) {
+        $username = "nop";
+        echo $username;
+    }
+    
+    /* Check if a form was submitted */
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        
+        handleLogin();
+        handleForgotPW();
+        
+        // <editor-fold defaultstate="collapsed" desc="Handle Forgot PW">
+        
+        /* 
+         * Handle Forgot PW 
+         */
+
+        /* What is the user's chosen password recovery method? */
+        $pwResetMode = htmlspecialchars($_POST["name"]);
+
+        /* If the user has forgotten their password, is their input email/phone part 
+         * of a registered account? 
+         */
+        switch ($pwResetMode) {
+            case PW_RESET_EMAIL:
+
+                break;
+
+            case PW_RESET_PHONE_OTP:
+
+                break;
+
+            case PW_RESET_OTP:
+
+
+
+        }
+
+        /*  */
+        
+        // </editor-fold>
+        
+    }
+    
+        /**
+         * 
+         * @param type $username
+         * @param type $pw
+         */
+    function attemptLogin($username, $pw) {
+        
+    }
+    
+    /**
+     * Handles the login attempt made by the user.
+     * 
+     * Assumes POST request method used.
+     */
+    function handleLogin() {
+        
+        global $username, $password, $loginIsValid, $usernameErr, $passwordErr, 
+               $loginResult;
+        
+        $username = trim($_POST["username"]);
+        $password = trim($_POST["password"]);
+        
+        /* First, some server validation */
+        $loginIsValid = true;
+        if (empty($username)) {
+            $usernameErr = "Please enter your username.";
+            $loginIsValid = false;
+        }
+        
+        if (empty($password)) {
+            $passwordErr = "Please enter your password.";
+            $loginIsValid = false;
+        }
+        
+        if ($loginIsValid) {
+            $loginResult = attemptLogin($username, $password);
+        }
+        
+    }
+    
+    /**
+     * Handles the forgot password request made by the user.
+     * 
+     * Assumes POST request method used.
+     */
+    function handleForgotPW() {
+        
+        global $email, $emailErr, $phone, $phoneErr, $OTP, $OTPErr, $pwResetMode;
+        
+        /**/
+        
+    }
     
 ?>
 
