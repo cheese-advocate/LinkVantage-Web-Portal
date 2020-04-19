@@ -187,7 +187,7 @@
         <meta charset="UTF-8">
         <title>CompuLink Technologies</title>
         <!--Title icon link-->
-        <link rel="shortcut icon" href="images/logo_block__1__AHI_icon.ico" />
+        <link rel="shortcut icon" href="favicon.ico" />
         <!--CSS links-->
         <link href="CSS/style.css" rel="stylesheet" type="text/css"/>
         <link href="CSS/forgotPw.css" rel="stylesheet" type="text/css"/>
