@@ -305,8 +305,8 @@
                     <button class="registerOptBtn" onclick="changeToRegisterCompany()">REGISTER</button>
                 </div>
                 
-<<<<<<< HEAD
-                <div class="loginInp">
+
+                <!--<div class="loginInp">
                     <img src="images/account.png" alt="" class="accountImg"/>
                     <input type="text" name="username" placeholder="USERNAME" class="input" id="username"/>
                     <img src="images/lock.png" alt="" class="lockImg"/>
@@ -317,8 +317,8 @@
                 <div class="loginSubmit">
                     <button class="loginSubBtn" onclick="loginVerification()">LOGIN</button>
                     <font class="forgotPw" id="forgotPassSmallScreen"><a href="#" onclick="forgotPasswordPage()">Forgot password?</a></font>
-                </div>
-=======
+                </div>-->
+
                 <form method="POST" action="#">
                     <div class="loginInp">
                         <img src="images/account.png" alt="" class="accountImg"/>
@@ -333,7 +333,7 @@
                         <font class="forgotPw" id="forgotPassSmallScreen"><a href="#" onclick="forgotPasswordPage()">Forgot password?</a></font>
                     </div>
                 </form>
->>>>>>> 8e63cdb15c647a92e4ad041bedd5e1791c643a3f
+
             </div>
             
             <div class="footer">
@@ -357,8 +357,8 @@
                     <button class="returnToLoginBtn" onclick="changeToLogin()">RETURN TO LOGIN</button>
                 </div>
                 
-<<<<<<< HEAD
-                <div class="resetInpContent">
+
+                <!--<div class="resetInpContent">
                     <img src="images/refresh.png" alt="" class="resetImg"/>
                     <select name="resetOptions" class="dropDownSelect" id="reset_options" onchange="modifyResetPassword()">
                         <option>RESET PASSWORD</option>
@@ -368,17 +368,16 @@
                     
                     <img src="images/envelope.png" alt="" class="emailImg" id="passwordRecoveryImg"/>
                     <input type="text" name="emailInp" value="" placeholder="EMAIL" class="passwordRecoveryInp" id="emailInp"/>
-                </div>
+                </div>-->
                 
                 <!--
                     <img src="images/lock.png" alt="" class="emailImg" id="androidOTPLockImg"/>
                     <input type="text" name="pin" placeholder="PIN" class="pinInp" id="androidOTPInp"/>
                 -->
                 
-                <div class="resetSubmit" id="reset_submit">
+                <!--<div class="resetSubmit" id="reset_submit">
                     <button class="resetSubBtn" onclick="verifyForgotPw()">SEND RESET REQUEST</button>
-                </div>
-=======
+                </div>-->
                 <form method="POST" action="#">
                     <div class="resetInpContent">
                         <img src="images/refresh.png" alt="" class="resetImg"/>
@@ -401,16 +400,11 @@
                         <input type="submit" value="SEND RESET REQUEST" name="resetSub" class="resetSubBtn" onclick="verifyForgotPw()"/>
                     </div>
                 </form>
->>>>>>> 8e63cdb15c647a92e4ad041bedd5e1791c643a3f
             </div>
             
             <div class="footer">
                 LinkVantage
             </div>
-        </div>
-        
-        
-        
-        
+        </div>    
     </body>
 </html>
