@@ -18,6 +18,11 @@ define("SQL_IS_PHONE_REGISTERED", "SELECT checkPhone(?)");
 define("SQL_STORE_OTP", "CALL storeOTP(?)");
 define("SQL_VERIFY_OTP", "SELECT verifyOTP(?, ?)");
 define("SQL_UPDATE_PASSWORD","CALL updatePassword(?, ?)");
+define("SQL_CHECK_COMPANY_NAME","");
+define("SQL_CHECK_USERNAME","");
+define("SQL_CHECK_EMAIL","");
+define("SQL_CHECK_PHONE","");
+define("SQL_REGISTER_COMPANY","");
 
 /* Database credentials */
 define('DB_SERVER', 'localhost');

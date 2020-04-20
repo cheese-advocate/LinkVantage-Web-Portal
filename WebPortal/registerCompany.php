@@ -6,13 +6,6 @@
     /* Constant Variable Declaration */
     
     
-    /* SQL Statements*/
-    define("SQL_CHECK_COMPANY_NAME","");
-    define("SQL_CHECK_USERNAME","");
-    define("SQL_CHECK_EMAIL","");
-    define("SQL_CHECK_PHONE","");
-    define("SQL_REGISTER_COMPANY","");
-    
     /* Input Variable Declaration */
     $companyName;
     $sites;

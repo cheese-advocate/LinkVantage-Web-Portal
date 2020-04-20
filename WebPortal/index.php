@@ -189,6 +189,9 @@
         
         if ($loginIsValid) {
             $loginResult = attemptLogin($username, $password);
+            
+            /* WIP */
+            
         }
         
     }
