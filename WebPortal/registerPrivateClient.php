@@ -1,3 +1,54 @@
+<?php
+    
+    include_once 'config.php';
+    
+    /* Constant Variable Declaration */
+    
+    
+    /* SQL Statements*/
+    define("SQL_CHECK_USERNAME","");
+    define("SQL_CHECK_EMAIL","");
+    define("SQL_CHECK_PHONE","");
+    define("SQL_REGISTER_PRIVATE_CLIENT","");
+    
+    /* Input Variable Declaration */
+    $adrsNo;
+    $adrsNoErr;
+    $adrsStreet;
+    $adrsStreetErr;
+    $adrsSuburb;
+    $adrsSuburbErr;
+    $adrsPostalCode;
+    $adrsPostalCodeErr;
+    $adrsAdditional;
+    $adrsAdditionalErr;
+    $contacts;
+    $contactsErrs;
+    
+    /* Check if a form was submitted */
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        
+        /* Handle the form */
+        
+        
+        /* Validate all input fields */
+        
+        /* Validate the site */
+        
+        
+        /* No duplicate main contacts */
+        
+        
+        /* No duplicate usernames, emails, phones, in input nor should they exist in the database. */
+        
+        
+        /* If all is valid, register the private client, register the site to the client, and register each contact to the client. */
+        
+        
+    }
+    
+?>
+
 <!DOCTYPE html>
 <!--
 To change this license header, choose License Headers in Project Properties.
