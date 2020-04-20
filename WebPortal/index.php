@@ -1,6 +1,14 @@
 <?php
     
-    /* Need the database config info to connect, also to test the connection */
+    /**
+     * Todo:
+     * 
+     * • Forgot password process (start to finish)
+     */
+    
+    /* Need the database config info to connect, also to test and manage the 
+     * connection 
+     */
     require_once 'config.php';
     
     /* Constant Variable Declaration */
@@ -16,13 +24,7 @@
     define("HANDLE_FORGOT_PW","HANDLE_FORGOT_PW");
     define("HANDLE_NO_INPUT","HANDLE_NO_INPUT");
     
-    /* SQL Statements */
-    define("SQL_ATTEMPT_LOGIN","SELECT checkPassword(?, ?)");
-    define("SQL_IS_EMAIL_REGISTERED", "SELECT checkEmail(?)");
-    define("SQL_IS_PHONE_REGISTERED", "SELECT checkPhone(?)");
-    define("SQL_STORE_OTP", "CALL storeOTP(?)");
-    define("SQL_VERIFY_OTP", "SELECT verifyOTP(?, ?)");
-    define("SQL_UPDATE_PASSWORD","CALL updatePassword(?, ?)");
+    
     
     /* User Input Variable Declaration */
     $username = "";
@@ -160,17 +162,6 @@
     
     
     
-        /**
-         * 
-         * @param type $username
-         * @param type $pw
-         */
-    function attemptLogin($username, $pw) {
-        
-    }
-    
-    
-    
     /**
      * Handles the login attempt made by the user.
      * 
@@ -216,23 +207,33 @@
         
 //        $pwResetMode = htmlspecialchars($_POST["name"]);
 
-        /* If the user has forgotten their password, is their input email/phone part 
-         * of a registered account? 
+        /** 
+         * This is where things get tricky.
+         * 
+         * Since all parts of forgetting a password from the user selecting the 
+         * option in login all the way to entering the validated new password 
+         * into the database.
+         * 
+         * This means we have to track the user's current status throughout the 
+         * process, likely with a session, and render the page accordingly.
          */
         switch ($pwResetMode) {
             
             case PW_RESET_EMAIL:
 
+                /* WIP */
                 
                 break;
 
             case PW_RESET_PHONE_OTP:
 
+                /* WIP */
                 
                 break;
 
             case PW_RESET_OTP:
 
+                /* WIP */
                 
                 break;
             
