@@ -75,6 +75,7 @@ function verifyForgotPw()
     }
 }
 
+
 /**
  * Verifies that valid usernames and passwords are entered
  * The entered username and passwords still need to be matched 
@@ -83,36 +84,64 @@ function verifyForgotPw()
  */
 function loginVerification()
 {
-    var username = document.getElementById("username").value;
-    var password = document.getElementById("passw").value;
     var valid = true;
-    
-    if(username.match(usernameRegex))
-    {
-        document.getElementById("username").style = "none";
-    }
-    else
-    {
-        valid = false;
-        document.getElementById("username").style.borderBottomColor = "red";
-    }
-    
-    if(password.match(pwRegex))
-    {
-        document.getElementById("passw").style = "none";
-    }
-    else
-    {
-        valid = false;
-        document.getElementById("passw").style.borderBottomColor = "red";
-    }
+    var empty = false;
+    $("input:not(:submit):not(:hidden)").each(function(){
+        var id = $(this).attr('id');
+        
+        switch(id)
+        {
+            case "username":
+                if(!$.trim($(this).val()))
+                {
+                    empty = true;
+                    $(this).css("border-bottom-color", "red");
+                }
+                else if(!usernameRegex.test($(this).val()))
+                {
+                    valid = false;
+                    $(this).css("border-bottom-color", "orange");
+                }
+                else
+                {
+                    $(this).removeAttr("style");
+                }
+                break;
+            case "passw":
+                if(!$.trim($(this).val()))
+                {
+                    empty = true;
+                    $(this).css("border-bottom-color", "red");
+                }
+                else if(!pwRegex.test($(this).val()))
+                {
+                    valid = false;
+                    $(this).css("border-bottom-color", "orange");
+                }
+                else
+                {
+                    $(this).removeAttr("style");
+                }
+                break;
+        }
+    });
     
     if(!valid)
     {
-        alert("The username or password you entered is invalid");
+        alert("Invalid username or password entered");
+        return false;
+    }
+    else if(empty)
+    {
+        alert("Username or password is empty");
+        return false;
+    }
+    else
+    {
+        alert("Logged in successfully");
+        return true;
     }
 }
-
 /**
  * Uses jQuery to check all the input fields of type text
  * Excludes buttons, radio and textbox inputs

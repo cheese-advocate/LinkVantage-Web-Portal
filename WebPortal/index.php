@@ -305,7 +305,7 @@
                     <button class="registerOptBtn" onclick="changeToRegisterCompany()">REGISTER</button>
                 </div>
 
-                <form method="POST" onsubmit="" action="#">
+                <form method="POST" onsubmit="return loginVerification()" action="#">
                     <div class="loginInp">
                         <img src="images/account.png" alt="" class="accountImg"/>
                         <input type="text" name="username" placeholder="USERNAME" class="input" id="username" required/>
@@ -315,7 +315,7 @@
                     </div>
 
                     <div class="loginSubmit">
-                        <button type="submit" class="loginSubBtn" onclick="loginVerification()">LOGIN</button>
+                        <button type="submit" class="loginSubBtn" onclick="">LOGIN</button>
                         <font class="forgotPw" id="forgotPassSmallScreen"><a href="#" onclick="forgotPasswordPage()">Forgot password?</a></font>
                     </div>
                 </form>
