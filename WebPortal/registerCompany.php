@@ -6,15 +6,33 @@
     
     
     /* SQL Statements*/
-    
+    define("SQL_CHECK_COMPANY_NAME","");
+    define("SQL_CHECK_USERNAME","");
+    define("SQL_CHECK_EMAIL","");
+    define("SQL_CHECK_PHONE","");
+    define("SQL_REGISTER_COMPANY","");
     
     /* Input Variable Declaration */
-    
+    $companyName;
+    $sites;
+    $contacts;
     
     /* Check if a form was submitted */
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         /* Handle the form */
+        
+        
+        /* Validate all input fields */
+        
+        
+        /* No duplicate main contacts, no duplicate main sites */
+        
+        
+        /* No duplicate usernames, emails, phones, in input nor should they exist in the database. */
+        
+        
+        /* If all is valid, register the company, register each site to the company, and register each contact to the company. */
         
     }
     
