@@ -1,3 +1,19 @@
+/*
+ * REGULAR EXPRESSION EXPLANATIONS
+ * 
+ * email - checks for a valid email and is the most complex one of all
+ * phoneNumber - checks that a number starts with 0 and has only 10 digits
+ * username - checks that the username is at least 8 characters but does not allow any other characters than normal text
+ * password - checks that the password is at least 8 characters with:
+ *              *at least one uppercase
+ *              *at least one lowercase
+ *              *at least one number
+ *              *at least one special character
+ * streetNumber - checks that only numbers are entered can be any length
+ * postal code - checks that only numbers are entered and limits the users to 4 digits
+ * name, surname, company name, street name - all check that only accepted text characters are used
+ */
+
 /**
  * Variable list of all the Regular expressions to be used in validation
  * @type {RegExp}
