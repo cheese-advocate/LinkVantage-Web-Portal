@@ -304,22 +304,8 @@
                     <button class="loginOptBtn">LOGIN</button>
                     <button class="registerOptBtn" onclick="changeToRegisterCompany()">REGISTER</button>
                 </div>
-                
 
-                <!--<div class="loginInp">
-                    <img src="images/account.png" alt="" class="accountImg"/>
-                    <input type="text" name="username" placeholder="USERNAME" class="input" id="username"/>
-                    <img src="images/lock.png" alt="" class="lockImg"/>
-                    <input type="text" name="password" placeholder="PASSWORD" class="input" id="passw" onfocus="changeType()"/>
-                    <font class="forgotPw" id="forgotPassBigScreen"><a href="#" onclick="forgotPasswordPage()">Forgot password?</a></font>
-                </div>
-                
-                <div class="loginSubmit">
-                    <button class="loginSubBtn" onclick="loginVerification()">LOGIN</button>
-                    <font class="forgotPw" id="forgotPassSmallScreen"><a href="#" onclick="forgotPasswordPage()">Forgot password?</a></font>
-                </div>-->
-
-                <form method="POST" action="#">
+                <form method="POST" onsubmit="" action="#">
                     <div class="loginInp">
                         <img src="images/account.png" alt="" class="accountImg"/>
                         <input type="text" name="username" placeholder="USERNAME" class="input" id="username" required/>
@@ -329,7 +315,7 @@
                     </div>
 
                     <div class="loginSubmit">
-                        <input type="submit" value="LOGIN" name="loginSub" class="loginSubBtn" onclick="loginVerification()"/>
+                        <button type="submit" class="loginSubBtn" onclick="loginVerification()">LOGIN</button>
                         <font class="forgotPw" id="forgotPassSmallScreen"><a href="#" onclick="forgotPasswordPage()">Forgot password?</a></font>
                     </div>
                 </form>
@@ -356,29 +342,8 @@
                 <div class="backToLogin">
                     <button class="returnToLoginBtn" onclick="changeToLogin()">RETURN TO LOGIN</button>
                 </div>
-                
 
-                <!--<div class="resetInpContent">
-                    <img src="images/refresh.png" alt="" class="resetImg"/>
-                    <select name="resetOptions" class="dropDownSelect" id="reset_options" onchange="modifyResetPassword()">
-                        <option>RESET PASSWORD</option>
-                        <option>TEXT OTP</option>
-                        <option>ANDROID OTP</option>
-                    </select>
-                    
-                    <img src="images/envelope.png" alt="" class="emailImg" id="passwordRecoveryImg"/>
-                    <input type="text" name="emailInp" value="" placeholder="EMAIL" class="passwordRecoveryInp" id="emailInp"/>
-                </div>-->
-                
-                <!--
-                    <img src="images/lock.png" alt="" class="emailImg" id="androidOTPLockImg"/>
-                    <input type="text" name="pin" placeholder="PIN" class="pinInp" id="androidOTPInp"/>
-                -->
-                
-                <!--<div class="resetSubmit" id="reset_submit">
-                    <button class="resetSubBtn" onclick="verifyForgotPw()">SEND RESET REQUEST</button>
-                </div>-->
-                <form method="POST" action="#">
+                <form method="POST" onsubmit="" action="#">
                     <div class="resetInpContent">
                         <img src="images/refresh.png" alt="" class="resetImg"/>
                         <select name="resetOptions" class="dropDownSelect" id="reset_options" name="pwResetMode" onchange="modifyResetPassword()">
@@ -391,13 +356,8 @@
                         <input type="text" name="emailInp" value="" placeholder="EMAIL" class="passwordRecoveryInp" id="emailInp" required/>
                     </div>
 
-                    <!--
-                        <img src="images/lock.png" alt="" class="emailImg" id="androidOTPLockImg"/>
-                        <input type="text" name="pin" placeholder="PIN" class="pinInp" id="androidOTPInp"/>
-                    -->
-
                     <div class="resetSubmit" id="reset_submit">
-                        <input type="submit" value="SEND RESET REQUEST" name="resetSub" class="resetSubBtn" onclick="verifyForgotPw()"/>
+                        <button type="submit" onclick="verifyForgotPw()" class="resetSubBtn">SEND RESET REQUEST</button>
                     </div>
                 </form>
             </div>

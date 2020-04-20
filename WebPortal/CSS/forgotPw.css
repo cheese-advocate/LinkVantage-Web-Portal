@@ -136,12 +136,12 @@
     transition: 0.5s;
 }
 
-.emailInp:hover
+.passwordRecoveryInp:hover
 {
     border-bottom-color: #03AAFB;
 }
 
-.emailInp:focus
+.passwordRecoveryInp:focus
 {
     border: 1px solid #03AAFB;
 }
@@ -165,6 +165,7 @@
     border-bottom-right-radius: 5px;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
+    margin-top: 10px;
     transition: 0.25s ease-out;
 }
 
