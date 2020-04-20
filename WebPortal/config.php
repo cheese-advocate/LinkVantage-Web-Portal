@@ -12,7 +12,7 @@
  */
 
 /* SQL Statements */
-define("SQL_ATTEMPT_LOGIN","SELECT checkPassword(?, ?)");
+define("SQL_ATTEMPT_LOGIN","SELECT validatePassword(?, ?)");
 define("SQL_IS_EMAIL_REGISTERED", "SELECT checkEmail(?)");
 define("SQL_IS_PHONE_REGISTERED", "SELECT checkPhone(?)");
 define("SQL_STORE_OTP", "CALL storeOTP(?)");
@@ -47,6 +47,16 @@ if($link === false){
 
 function attemptLogin($username, $password) {
     
+    if($stmt = mysqli_prepare($link, SQL_ATTEMPT_LOGIN)){
+        
+        mysqli_bind_param($stmt, "sss", $username, $password);
+        return mysqli_stmt_fetch($stmt);        
+        
+    } else {
+        
+        return "Login failed";
+        
+    }
     
     
 }
