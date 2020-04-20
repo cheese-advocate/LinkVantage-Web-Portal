@@ -23,6 +23,7 @@ define("SQL_CHECK_USERNAME","");
 define("SQL_CHECK_EMAIL","");
 define("SQL_CHECK_PHONE","");
 define("SQL_REGISTER_COMPANY","");
+define("SQL_REGISTER_PRIVATE_CLIENT","");
 
 /* Database credentials */
 define('DB_SERVER', 'localhost');
