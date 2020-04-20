@@ -1,3 +1,19 @@
+/*
+ * REGULAR EXPRESSION EXPLANATIONS
+ * 
+ * email - checks for a valid email and is the most complex one of all
+ * phoneNumber - checks that a number starts with 0 and has only 10 digits
+ * username - checks that the username is at least 8 characters but does not allow any other characters than normal text
+ * password - checks that the password is at least 8 characters with:
+ *              *at least one uppercase
+ *              *at least one lowercase
+ *              *at least one number
+ *              *at least one special character
+ * streetNumber - checks that only numbers are entered can be any length
+ * postal code - checks that only numbers are entered and limits the users to 4 digits
+ * name, surname, company name, street name - all check that only accepted text characters are used
+ */
+
 /**
  * Variable list of all the Regular expressions to be used in validation
  * @type {RegExp}
@@ -6,6 +22,8 @@ var emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@
 var phoneNumRegex = /0((60[3-9]|64[0-5]|66[0-5])\d{6}|(7[1-4689]|6[1-3]|8[1-4])\d{7})/;
 var usernameRegex = /^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/;
 var pwRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
+var streetNumRegex = /^[0-9]*$/;
+var postalRegex = /^[0-9]{4}$/;
 /**
  * Regex below can be used both for first name, last name and company name
  * @type {RegExp}
@@ -107,7 +125,7 @@ function checkRequiredFields()
 {    
     var empty = false;
     $("input:not(:submit):not(:hidden)").each(function(){
-        if(!$(this).val())
+        if(!$.trim($(this).val()))
         {
             empty = true;
             $(this).css("border-bottom-color", "red");
@@ -126,15 +144,173 @@ function checkRequiredFields()
             return "Are you sure you want to navigate away?";
         };
     }
+    else if(!empty)
+    {
+        window.onbeforeunload = null;
+    }
 }
 
 /**
- * Function called on all registration inputs
- * All inputs will be checked with the corresponding RegEx
- * The appropriate error messages will be shown according to the given input
- * @return {undefined}
+ * Validates all the input received in the input forms
+ * Returns a boolean which will prevent the form from submitting
+ * If false no submission will take place
+ * If true input will be submitted
+ * @return {Boolean}
  */
-function checkAllInputFields()
+function formValidation()
 {
+    var valid = true;
+    $("input:not(:submit):not(:hidden)").each(function(){
+        var id = $(this).attr('id');
+        
+        switch(id)
+        {
+            case "company_name_inp":
+                if(!nameSurnameCompanyRegex.test($(this).val()))
+                {
+                    $(this).css("border-bottom-color", "orange");
+                    valid = false;
+                }
+                else
+                {
+                    $(this).removeAttr("style");
+                }
+                break;
+            case "ContactUsername":
+                if(!usernameRegex.test($(this).val()))
+                {
+                    alert("Username should be at least 8 characters");
+                    $(this).css("border-bottom-color", "orange");
+                    valid = false;
+                }
+                else
+                {
+                    $(this).removeAttr("style");
+                }
+                break;
+            case "ContactPassw":
+                if(!pwRegex.test($(this).val()))
+                {
+                    alert("The password should consist of 8 characters with:\nAt least one uppercase\nOne lowercase\nOne special character\nOne number");
+                    $(this).css("border-bottom-color", "orange");
+                    valid = false;
+                }
+                else
+                {
+                    $(this).removeAttr("style");
+                }
+                break;
+            case "contactFirstName":
+                if(!nameSurnameCompanyRegex.test($(this).val()))
+                {
+                    $(this).css("border-bottom-color", "orange");
+                    valid = false;
+                }
+                else
+                {
+                    $(this).removeAttr("style");
+                }
+                break;
+            case "contactLastName":
+                if(!nameSurnameCompanyRegex.test($(this).val()))
+                {
+                    $(this).css("border-bottom-color", "orange");
+                    valid = false;
+                }
+                else
+                {
+                    $(this).removeAttr("style");
+                }
+                break;
+            case "contactEmail":
+                if(!emailRegex.test($(this).val()))
+                {
+                    alert("The email should look like the following:\nexample@example.com");
+                    $(this).css("border-bottom-color", "orange");
+                    valid = false;
+                }
+                else
+                {
+                    $(this).removeAttr("style");
+                }
+                break;
+            case "contactPhoneNum":
+                if(!phoneNumRegex.test($(this).val()))
+                {
+                    $(this).css("border-bottom-color", "orange");
+                    valid = false;
+                }
+                else
+                {
+                    $(this).removeAttr("style");
+                }
+                break;
+            case "streetNumInp":
+                if(!streetNumRegex.test($(this).val()))
+                {
+                    $(this).css("border-bottom-color", "orange");
+                    valid = false;
+                }
+                else
+                {
+                    $(this).removeAttr("style");
+                }
+                break;
+            case "streetNameInp":
+                if(!nameSurnameCompanyRegex.test($(this).val()))
+                {
+                    $(this).css("border-bottom-color", "orange");
+                    valid = false;
+                }
+                else
+                {
+                    $(this).removeAttr("style");
+                }
+                break;
+            case "suburbInp":
+                if(!nameSurnameCompanyRegex.test($(this).val()))
+                {
+                    $(this).css("border-bottom-color", "orange");
+                    valid = false;
+                }
+                else
+                {
+                    $(this).removeAttr("style");
+                }
+                break;
+            case "postalInp":
+                if(!postalRegex.test($(this).val()))
+                {
+                    $(this).css("border-bottom-color", "orange");
+                    valid = false;
+                }
+                else
+                {
+                    $(this).removeAttr("style");
+                }
+                break;
+            case "addInfo":
+                if(!nameSurnameCompanyRegex.test($(this).val()))
+                {
+                    $(this).css("border-bottom-color", "orange");
+                    valid = false;
+                }
+                else
+                {
+                    $(this).removeAttr("style");
+                }
+                break;
+        }
+    });
     
-}
+    if(!valid)
+    {
+        alert("Invalid input received");
+        return false;
+    }
+    else
+    {
+        alert("Submitted successfully");
+        return true;
+    }
+}    

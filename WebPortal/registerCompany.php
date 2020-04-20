@@ -67,7 +67,7 @@ and open the template in the editor.
             <div class="header">
                 Compulink Technologies
             </div>
-            <form method="POST" action="#" onsubmit="">
+            <form method="POST" action="" onsubmit="return formValidation()" id="registerCompanyForm">
                 <div class="registerTitleContent">
                     <div class="logo">
                         <img src="images/logo_block_cropped.png" alt="" id="compuLogo"/>
@@ -88,7 +88,7 @@ and open the template in the editor.
                     </div>
 
                     <div class="companyName" id="company_name">
-                        <input type="text" name="companyNameInp" value="" placeholder="COMPANY NAME" class="companyNameInp" id="company_name_inp"/>
+                        <input type="text" name="companyNameInp" value="" placeholder="COMPANY NAME" class="companyNameInp" id="company_name_inp" required="true"/>
                     </div>
                 </div>  
 
@@ -105,23 +105,23 @@ and open the template in the editor.
 
                     <div class="usernPassInp">
                         <img src="images/account.png" alt="" class="contactAccountImg"/>
-                        <input type="text" name="username" placeholder="USERNAME" class="contactInput" id="ContactUsername"/>
+                        <input type="text" name="username" placeholder="USERNAME" class="contactInput" id="ContactUsername" required="true"/>
                         <img src="images/lock.png" alt="" class="contactLockImg"/>
-                        <input type="text" name="password" placeholder="PASSWORD" class="contactInput" id="ContactPassw" onfocus="changeTypeRegister()"/>
+                        <input type="text" name="password" placeholder="PASSWORD" class="contactInput" id="ContactPassw" onfocus="changeTypeRegister()" required="true"/>
                     </div>
 
                     <div class="names">
                         <img src="images/id-card.png" alt="" class="idCard" id="id1"/>
-                        <input type="text" name="firstName" placeholder="FIRST NAME" class="contactInput" id="contactFirstName"/>
+                        <input type="text" name="firstName" placeholder="FIRST NAME" class="contactInput" id="contactFirstName" required="true"/>
                         <img src="images/id-card.png" alt="" class="idCard"/>
-                        <input type="text" name="lastName" placeholder="LAST NAME" class="contactInput" id="contactLastName"/>
+                        <input type="text" name="lastName" placeholder="LAST NAME" class="contactInput" id="contactLastName" required="true"/>
                     </div>
 
                     <div class="otherContactDet">
                         <img src="images/envelope.png" alt="" class="contactEmailImg"/>
-                        <input type="text" name="email" placeholder="EMAIL" class="contactInput" id="contactEmail"/>
+                        <input type="text" name="email" placeholder="EMAIL" class="contactInput" id="contactEmail" required="true"/>
                         <img src="images/phone.png" alt="" class='phoneContactImg'/>
-                        <input type="text" name="phoneNumber" placeholder="PHONE NUMBER" class="contactInput" id="contactPhoneNum"/>
+                        <input type="text" name="phoneNumber" placeholder="PHONE NUMBER" class="contactInput" id="contactPhoneNum" required="true"/>
                     </div>
 
                     <div class="confirmContact">
@@ -147,22 +147,22 @@ and open the template in the editor.
 
                     <div class="streetNum">
                         <img src="images/location.png" alt="" class="locationImg1"/>
-                        <input type="text" name="streetNum" placeholder="NO" class="addressInp" id="streetNumInp"/>
+                        <input type="text" name="streetNum" placeholder="NO" class="addressInp" id="streetNumInp" required="true"/>
                     </div>
 
                     <div class="streetName">
                         <img src="images/location.png" alt="" class="locationImg2"/>
-                        <input type="text" name="streetName" placeholder="STREET" class="addressInp" id="streetNameInp"/>
+                        <input type="text" name="streetName" placeholder="STREET" class="addressInp" id="streetNameInp" required="true"/>
                     </div>
 
                     <div class="suburbCity">
                         <img src="images/house.png" alt="" class="homeImg"/>
-                        <input type="text" name="suburbCity" placeholder="SUBURB/CITY" class="addressInp" id="suburbInp"/>
+                        <input type="text" name="suburbCity" placeholder="SUBURB/CITY" class="addressInp" id="suburbInp" required="true"/>
                     </div>
 
                     <div class="postalCode">
                         <img src="images/envelope.png" alt="" class="postalImg"/>
-                        <input type="text" name="postalCode" placeholder="POSTAL CODE" class="addressInp" id="postalInp"/>
+                        <input type="text" name="postalCode" placeholder="POSTAL CODE" class="addressInp" id="postalInp" required="true"/>
                     </div>
 
                     <div class="addInfo">
@@ -181,7 +181,7 @@ and open the template in the editor.
                 </div>
 
                 <div class="registerAccount" id="register_account">
-                    <button type=submit class="regAcBtn" id="reg_ac_btn" onclick="checkRequiredFields(), backToLoginFromReg()">REGISTER ACCOUNT</button>
+                    <button type=submit class="regAcBtn" id="reg_ac_btn" onclick="checkRequiredFields()">REGISTER ACCOUNT</button>
                 </div>
             </form>
             <div class="registerFooter" id="register_footer">
