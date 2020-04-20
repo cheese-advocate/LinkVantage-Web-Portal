@@ -247,6 +247,7 @@ well as the login submit button*/
     border-bottom-right-radius: 5px;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
+    margin-top: 10px;
     transition: 0.25s ease-out;
 }
 
