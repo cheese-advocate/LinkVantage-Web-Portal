@@ -6,12 +6,6 @@
     /* Constant Variable Declaration */
     
     
-    /* SQL Statements*/
-    define("SQL_CHECK_USERNAME","");
-    define("SQL_CHECK_EMAIL","");
-    define("SQL_CHECK_PHONE","");
-    define("SQL_REGISTER_PRIVATE_CLIENT","");
-    
     /* Input Variable Declaration */
     $adrsNo;
     $adrsNoErr;
