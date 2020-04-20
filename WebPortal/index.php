@@ -358,6 +358,8 @@
 
                         <img src="images/envelope.png" alt="" class="emailImg" id="passwordRecoveryImg"/>
                         <input type="text" name="emailInp" value="" placeholder="EMAIL" class="passwordRecoveryInp" id="emailInp" required/>
+                        <img src="images/keyword.png" alt="" class="pinImg"/>
+                        <input type="text" name="pin" value="" placeholder="PIN" class="passwordRecoveryInp" id="pinInp" required="true">
                     </div>
 
                     <div class="resetSubmit" id="reset_submit">
