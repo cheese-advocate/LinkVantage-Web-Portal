@@ -47,17 +47,9 @@ if($link === false){
 
 function attemptLogin($username, $password) {
     
-    if($stmt = mysqli_prepare($link, SQL_ATTEMPT_LOGIN)){
-        
-        mysqli_bind_param($stmt, "sss", $username, $password);
-        return mysqli_stmt_fetch($stmt);        
-        
-    } else {
-        
-        return "Login failed";
-        
-    }
-    
+    $stmt = mysqli_prepare($link, SQL_ATTEMPT_LOGIN);
+    mysqli_bind_param($stmt, "sss", $username, $password);
+    return mysqli_stmt_fetch($stmt);    
     
 }
 
