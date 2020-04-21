@@ -12,7 +12,7 @@
  */
 
 /* SQL Statements */
-define("SQL_ATTEMPT_LOGIN","SELECT checkPassword(?, ?)");
+define("SQL_ATTEMPT_LOGIN","SELECT validatePassword(?, ?)");
 define("SQL_IS_EMAIL_REGISTERED", "SELECT checkEmail(?)");
 define("SQL_IS_PHONE_REGISTERED", "SELECT checkPhone(?)");
 define("SQL_STORE_OTP", "CALL storeOTP(?)");
@@ -23,6 +23,7 @@ define("SQL_CHECK_USERNAME","");
 define("SQL_CHECK_EMAIL","");
 define("SQL_CHECK_PHONE","");
 define("SQL_REGISTER_COMPANY","");
+define("SQL_REGISTER_PRIVATE_CLIENT","");
 
 /* Database credentials */
 define('DB_SERVER', 'localhost');
@@ -46,8 +47,25 @@ if($link === false){
 
 function attemptLogin($username, $password) {
     
+    $result = "";
+    try{
+        
+        global $link;
+        $stmt = $link->mysqli_prepare(SQL_ATTEMPT_LOGIN);
+        $stmt->mysqli_bind_param($stmt, "sss", $username, $password);
+        $stmt->execute();
+        $stmt->storeResult();        
+        $stmt->bind_result($result);
+        $stmt->fetch();
+        $stmt->close;
+        
+    } catch (Exception $ex) {
+        
+        error_log("Login failed");
+        $result = "Login failed";
+    }
     
-    
+    return $result;
 }
 
 

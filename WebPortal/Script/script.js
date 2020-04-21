@@ -113,22 +113,27 @@ function modifyResetPassword()
 {
     if(document.getElementById("reset_options").value === "ANDROID OTP")
     {
-        /*var img = document.createElement("img");
-        img.src = "images/lock.png";
-        img.className = "emailImg";
+        document.getElementById("passwordRecoveryImg").src = "images/envelope.png";
+        document.getElementById("emailInp").placeholder = "EMAIL";
         
-        var ref = document.getElementById("reset_submit");
-        ref.parentNode.insertBefore(img, ref)*/;
+        $("#emailInp").after('<img src="images/keyword.png" alt="" class="pinImg"/>'+
+                        '<input type="text" name="pin" value="" placeholder="PIN" class="passwordRecoveryInp" id="pinInp" required="true">');
     }
     else if(document.getElementById("reset_options").value === "TEXT OTP")
     {
         document.getElementById("passwordRecoveryImg").src = "images/phone.png";
         document.getElementById("emailInp").placeholder = "PHONE NUMBER";
+        
+        $("#pinInp").remove();
+        $(".pinImg").remove();
     }
     else
     {
         document.getElementById("passwordRecoveryImg").src = "images/envelope.png";
         document.getElementById("emailInp").placeholder = "EMAIL";
+        
+        $("#pinInp").remove();
+        $(".pinImg").remove();
     }
 }
 
