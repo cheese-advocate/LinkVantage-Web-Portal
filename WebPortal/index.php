@@ -135,21 +135,30 @@
         global $username, $password, $pwResetMode, $email, $phone, $OTP, 
                $newPassword, $confirmNewPassword;
         
-        $username = trim($_POST["username"]);
-        $password = trim($_POST["password"]);
-        $pwResetMode = trim($_POST["pwResetMode"]);
-        $email = trim($_POST["emailInp"]);
-        $phone = trim($_POST["emailInp"]);
-        $OTP = trim($_POST["otp"]);
-        $newPassword = trim($_POST["newPassword"]);
-        $confirmNewPassword = trim($_POST["confirmNewPassword"]);
-        
-        if (!empty($username) || !empty($password)) {
+        if (isset($_POST['username'], $_POST['password'])) {
+            
+            $username = trim($_POST["username"]);
+            $password = trim($_POST["password"]);
             
             return HANDLE_LOGIN;
             
-        } elseif (!empty($pwResetMode) || !empty($email) || !empty($OTP)
-               || !empty($newPassword) || !empty($confirmNewPassword)) {
+        } elseif (isset($_POST['pwResetMode'], $_POST['emailInp'])
+               || isset($_POST['OTP'])
+               || isset($_POST['newPassword'], $_POST['confirmNewPassword'])) {
+            
+            if (isset($_POST['pwResetMode'], $_POST['emailInp'])) {
+                $email = trim($_POST["emailInp"]);
+                $phone = trim($_POST["emailInp"]);
+            }
+            
+            if (isset($_POST['OTP'])) {
+                $OTP = trim($_POST["otp"]);
+            }
+            
+            if (isset($_POST['newPassword'], $_POST['confirmNewPassword'])) {
+                $newPassword = trim($_POST["newPassword"]);
+                $confirmNewPassword = trim($_POST["confirmNewPassword"]);
+            }
             
             return HANDLE_FORGOT_PW;
             
@@ -158,6 +167,31 @@
             return HANDLE_NO_INPUT;
             
         }
+            
+        
+//        $username = trim($_POST["username"]);
+//        $password = trim($_POST["password"]);
+//        $pwResetMode = trim($_POST["pwResetMode"]);
+//        $email = trim($_POST["emailInp"]);
+//        $phone = trim($_POST["emailInp"]);
+//        $OTP = trim($_POST["otp"]);
+//        $newPassword = trim($_POST["newPassword"]);
+//        $confirmNewPassword = trim($_POST["confirmNewPassword"]);
+//        
+//        if (!empty($username) || !empty($password)) {
+//            
+//            return HANDLE_LOGIN;
+//            
+//        } elseif (!empty($pwResetMode) || !empty($email) || !empty($OTP)
+//               || !empty($newPassword) || !empty($confirmNewPassword)) {
+//            
+//            return HANDLE_FORGOT_PW;
+//            
+//        } else {
+//            
+//            return HANDLE_NO_INPUT;
+//            
+//        }
     }
     
     
@@ -253,6 +287,10 @@
     
     
     /**
+     * Currently does nothing.
+     * 
+     * What it used to do:
+     * 
      * If no input is received in the POST submission, handle both login and 
      * forgot password so that the appropriate error message can be shown.
      * 
@@ -267,8 +305,9 @@
      */
     function handleNoInput() {
         
-        handleLogin();
-        handleForgotPW();
+        /* Hope that the JS hasn't been bypassed for now. Beyond feasibility for 
+         * the scope of the project to make this more dynamic. 
+         */
         
     }
     

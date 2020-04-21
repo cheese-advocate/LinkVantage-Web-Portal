@@ -51,7 +51,7 @@ function attemptLogin($username, $password) {
     try{
         
         global $link;
-        $stmt = $link->mysqli_prepare(SQL_ATTEMPT_LOGIN);
+        $stmt = mysqli_prepare($link, SQL_ATTEMPT_LOGIN);
         $stmt->mysqli_bind_param($stmt, "sss", $username, $password);
         $stmt->execute();
         $stmt->storeResult();        
