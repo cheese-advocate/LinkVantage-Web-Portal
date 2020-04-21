@@ -76,6 +76,11 @@ function addContact()
 
 function removeContact(id)
 {
+    if(counterContact === 0)
+    {
+        alert("At least one contact is required");
+        return;
+    }   
     document.getElementById(id).remove();
     counterContact--;
     number--;
@@ -164,6 +169,11 @@ function addSite()
  */
 function removeSite(id)
 {
+    if(counterSite === 0)
+    {
+        alert("At least one site is required");
+        return;
+    }
     document.getElementById(id).remove();
     counterSite--;
     siteNum--;
