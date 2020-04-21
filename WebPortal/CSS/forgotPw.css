@@ -99,13 +99,11 @@
     width: 25px;
     margin-left: 120px;
     margin-top: 20px;
-    display: none;
 }
 
 #pinInp
 {
     grid-area: pin;
-    display: none;
 }
 
 .dropDownSelect

@@ -60,11 +60,22 @@ function attemptLogin($username, $password) {
         /*fetch the result of the query*/
         mysqli_stmt_fetch($stmt);
         
+<<<<<<< HEAD
         /*in the case of no account matching the username password combo was found*/
         if(mysqli_stmt_num_rows($stmt) == 0)
         {
             $result = "Login Failed";
         }
+=======
+        global $link;
+        $stmt = mysqli_prepare($link, SQL_ATTEMPT_LOGIN);
+        $stmt->mysqli_bind_param($stmt, "sss", $username, $password);
+        $stmt->execute();
+        $stmt->storeResult();        
+        $stmt->bind_result($result);
+        $stmt->fetch();
+        $stmt->close;
+>>>>>>> 76fbde52af8c9ac6a15e11e7c0c24dce345af7bd
         
         /*close the statement*/
         mysqli_stmt_close($stmt);        

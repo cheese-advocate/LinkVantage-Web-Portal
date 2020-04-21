@@ -31,6 +31,7 @@ define("ERR_INVALID_PHONE_NUMBER","Please enter 10 digits as your phone number."
 define("ERR_INVALID_USERNAME","Invalid username.");
 
 define("ERR_NO_ERRORS","");
+
 define("ERR_PASSWORD_MISMATCH","Your passwords do not match.");
 
 define("REGEX_COMPANY_NAME", "");
