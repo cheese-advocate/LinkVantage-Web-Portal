@@ -179,11 +179,16 @@ and open the template in the editor.
                         <img src="images/information.png" alt="" class="infoImg"/>
                         <input type="text" name="info" placeholder="ADDITIONAL INFORMATION" class="addressInp" id="addInfo"/>
                     </div>
-
-                    <div class="confirmSite" id="confirm_site">
+                    
+                    <!-- 
+                    A main site selector was not needed in the private client registration form 
+                    For now it is only commented out for if it is required later on
+                    -->
+                    
+                    <!--<div class="confirmSite" id="confirm_site">
                         <label for="confirmMainSite">Is the main site:</label>
                         <input type="checkbox" name="confirmMainSite" id="confirmMainSite"/>
-                    </div>
+                    </div>-->
                 </div>
 
                 <div class="registerAccount" id="register_account">
