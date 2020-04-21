@@ -80,7 +80,7 @@ function removeContact(id)
     {
         alert("At least one contact is required");
         return;
-    }   
+    }
     document.getElementById(id).remove();
     counterContact--;
     number--;
