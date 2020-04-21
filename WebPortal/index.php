@@ -347,7 +347,7 @@
                     <button class="returnToLoginBtn" onclick="changeToLogin()">RETURN TO LOGIN</button>
                 </div>
 
-                <form method="POST" onsubmit="" action="#">
+                <form method="POST" onsubmit="return verifyForgotPw()" action="#">
                     <div class="resetInpContent">
                         <img src="images/refresh.png" alt="" class="resetImg"/>
                         <select name="resetOptions" class="dropDownSelect" id="reset_options" name="pwResetMode" onchange="modifyResetPassword()">
@@ -358,12 +358,13 @@
 
                         <img src="images/envelope.png" alt="" class="emailImg" id="passwordRecoveryImg"/>
                         <input type="text" name="emailInp" value="" placeholder="EMAIL" class="passwordRecoveryInp" id="emailInp" required/>
-                        <img src="images/keyword.png" alt="" class="pinImg"/>
-                        <input type="text" name="pin" value="" placeholder="PIN" class="passwordRecoveryInp" id="pinInp" required="true">
+                        <!-- These two elements are added using jQuery -->
+                        <!--<img src="images/keyword.png" alt="" class="pinImg"/>
+                        <input type="text" name="pin" value="" placeholder="PIN" class="passwordRecoveryInp" id="pinInp" required="true">-->
                     </div>
 
                     <div class="resetSubmit" id="reset_submit">
-                        <button type="submit" onclick="verifyForgotPw()" class="resetSubBtn">SEND RESET REQUEST</button>
+                        <button type="submit" onclick="" class="resetSubBtn">SEND RESET REQUEST</button>
                     </div>
                 </form>
             </div>

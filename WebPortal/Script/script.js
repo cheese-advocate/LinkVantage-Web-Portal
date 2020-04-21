@@ -116,24 +116,24 @@ function modifyResetPassword()
         document.getElementById("passwordRecoveryImg").src = "images/envelope.png";
         document.getElementById("emailInp").placeholder = "EMAIL";
         
-        $(".pinImg").css("display", "block");
-        $("#pinInp").css("display", "block");
+        $("#emailInp").after('<img src="images/keyword.png" alt="" class="pinImg"/>'+
+                        '<input type="text" name="pin" value="" placeholder="PIN" class="passwordRecoveryInp" id="pinInp" required="true">');
     }
     else if(document.getElementById("reset_options").value === "TEXT OTP")
     {
         document.getElementById("passwordRecoveryImg").src = "images/phone.png";
         document.getElementById("emailInp").placeholder = "PHONE NUMBER";
         
-        $(".pinImg").css("display", "none");
-        $("#pinInp").css("display", "none");
+        $("#pinInp").remove();
+        $(".pinImg").remove();
     }
     else
     {
         document.getElementById("passwordRecoveryImg").src = "images/envelope.png";
         document.getElementById("emailInp").placeholder = "EMAIL";
         
-        $(".pinImg").css("display", "none");
-        $("#pinInp").css("display", "none");
+        $("#pinInp").remove();
+        $(".pinImg").remove();
     }
 }
 

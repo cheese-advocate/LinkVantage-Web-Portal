@@ -12,6 +12,7 @@
  * streetNumber - checks that only numbers are entered can be any length
  * postal code - checks that only numbers are entered and limits the users to 4 digits
  * name, surname, company name, street name - all check that only accepted text characters are used
+ * otp - the entered pin should only be 5 digits and only numbers
  */
 
 /**
@@ -24,6 +25,7 @@ var usernameRegex = /^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/
 var pwRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
 var streetNumRegex = /^[0-9]*$/;
 var postalRegex = /^[0-9]{4}$/;
+var otpRegex = /^[0-9]{5}$/;
 /**
  * Regex below can be used both for first name, last name and company name
  * @type {RegExp}
@@ -49,29 +51,79 @@ function warningDataLoss()
 /*Pin verification still needs to be added and done*/
 function verifyForgotPw()
 {
-    if(document.getElementById("emailInp").placeholder === "EMAIL")
+    var valid = true;
+    var empty = false;
+    console.log("test");
+    $("input:not(:submit):not(:hidden)").each(function(){
+        var placeholder = $(this).attr('placeholder');
+        
+        switch(placeholder)
+        {
+            case "EMAIL":
+                if(!$.trim($(this).val()))
+                {
+                    empty = true;
+                    $(this).css("border-bottom-color", "red");
+                }
+                else if(!emailRegex.test($(this).val()))
+                {
+                    valid = false;
+                    $(this).css("border-bottom-color", "orange");
+                }
+                else
+                {
+                    $(this).removeAttr("style");
+                }
+                break;
+            case "PHONE NUMBER":
+                if(!$.trim($(this).val()))
+                {
+                    empty = true;
+                    $(this).css("border-bottom-color", "red");
+                }
+                else if(!phoneNumRegex.test($(this).val()))
+                {
+                    valid = false;
+                    $(this).css("border-bottom-color", "orange");
+                }
+                else
+                {
+                    $(this).removeAttr("style");
+                }
+                break;
+            case "PIN":
+                if(!$.trim($(this).val()))
+                {
+                    empty = true;
+                    $(this).css("border-bottom-color", "red");
+                }
+                else if(!otpRegex.test($(this).val()))
+                {
+                    valid = false;
+                    $(this).css("border-bottom-color", "orange");
+                }
+                else
+                {
+                    $(this).removeAttr("style");
+                }
+                break;
+        }
+    });
+    console.log("test");
+    if(!valid)
     {
-        if(document.getElementById("emailInp").value.match(emailRegex))
-        {
-            return;
-        }
-        else
-        {
-            alert("Invalid email entered");
-            document.getElementById("emailInp").style.borderBottomColor = "red";
-        }
+        alert("Invalid input received");
+        return false;
     }
-    else if(document.getElementById("emailInp").placeholder === "PHONE NUMBER")
+    else if(empty)
     {
-        if(document.getElementById("emailInp").value.match(phoneNumRegex))
-        {
-            return;
-        }
-        else
-        {
-            alert("Invalid phone number entered");
-            document.getElementById("emailInp").style.borderBottomColor = "red";
-        }
+        alert("Some fields are empty and need to be entered");
+        return false;
+    }
+    else
+    {
+        alert("Reset request received");
+        return valid;
     }
 }
 
