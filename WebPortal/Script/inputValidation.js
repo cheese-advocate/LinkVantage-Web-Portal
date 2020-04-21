@@ -97,11 +97,6 @@ function verifyForgotPw()
                     empty = true;
                     $(this).css("border-bottom-color", "red");
                 }
-                else if(!otpRegex.test($(this).val()))
-                {
-                    valid = false;
-                    $(this).css("border-bottom-color", "orange");
-                }
                 else
                 {
                     $(this).removeAttr("style");
