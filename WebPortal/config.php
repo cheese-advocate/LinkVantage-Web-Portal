@@ -28,7 +28,7 @@ define("SQL_REGISTER_PRIVATE_CLIENT","");
 /* Database credentials */
 define('DB_SERVER', 'localhost');
 define('DB_USERNAME', 'root');
-define('DB_PASSWORD', 'P@ssword1'/*'P@ssword1'*/);
+define('DB_PASSWORD', ''/*'P@ssword1'*/);
 define('DB_NAME', 'Chai');
 
 /* Test connectivity to the database */
@@ -59,9 +59,9 @@ function attemptLogin($username, $password) {
         mysqli_stmt_bind_result($stmt, $result);
         /*fetch the result of the query*/
         mysqli_stmt_fetch($stmt);
-        
+                
         /*Return login failed when no matching acccount is found*/
-        if(mysqli_stmt_num_rows($stmt)==0){
+        if($result == ''){
             $result = "Login failed";
         }
             
