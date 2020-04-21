@@ -189,7 +189,7 @@
         
         if ($loginIsValid) {
             $loginResult = attemptLogin($username, $password);
-            echo $loginResult;
+            print "<p>result = ". $loginResult . "</p>";
             /* WIP */
             
         }

@@ -46,26 +46,33 @@ if($link === false){
 
 
 function attemptLogin($username, $password) {
+    /*Access the global variable link*/ 
+    global $link;
     
-    $result = "";
-    try{
+    /*Check that statement worked, prepare statement selecting from validate password function*/
+    if($stmt = mysqli_prepare($link, SQL_ATTEMPT_LOGIN)){
+        /*insert username password variables to select statement*/
+        mysqli_stmt_bind_param($stmt, "ss", $username, $password);
+        /*execute the query*/
+        mysqli_stmt_execute($stmt);
+        /*bind the result of the query to the $result variable*/
+        mysqli_stmt_bind_result($stmt, $result);
+        /*fetch the result of the query*/
+        mysqli_stmt_fetch($stmt);
         
-        global $link;
-        $stmt = $link->mysqli_prepare(SQL_ATTEMPT_LOGIN);
-        $stmt->mysqli_bind_param($stmt, "sss", $username, $password);
-        $stmt->execute();
-        $stmt->storeResult();        
-        $stmt->bind_result($result);
-        $stmt->fetch();
-        $stmt->close;
+        /*in the case of no account matching the username password combo was found*/
+        if(mysqli_stmt_num_rows($stmt) == 0)
+        {
+            $result = "Login Failed";
+        }
         
-    } catch (Exception $ex) {
-        
-        error_log("Login failed");
-        $result = "Login failed";
+        /*close the statement*/
+        mysqli_stmt_close($stmt);        
+        return $result;
+        /*If statement failed*/
+    } else {
+        return "Login Failed";
     }
-    
-    return $result;
 }
 
 
