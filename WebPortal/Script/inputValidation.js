@@ -136,7 +136,6 @@ function verifyForgotPw()
  */
 function loginVerification()
 {
-    var valid = true;
     var empty = false;
     $("input:not(:submit):not(:hidden)").each(function(){
         var id = $(this).attr('id');
@@ -149,11 +148,6 @@ function loginVerification()
                     empty = true;
                     $(this).css("border-bottom-color", "red");
                 }
-                else if(!usernameRegex.test($(this).val()))
-                {
-                    valid = false;
-                    $(this).css("border-bottom-color", "orange");
-                }
                 else
                 {
                     $(this).removeAttr("style");
@@ -165,11 +159,6 @@ function loginVerification()
                     empty = true;
                     $(this).css("border-bottom-color", "red");
                 }
-                else if(!pwRegex.test($(this).val()))
-                {
-                    valid = false;
-                    $(this).css("border-bottom-color", "orange");
-                }
                 else
                 {
                     $(this).removeAttr("style");
@@ -178,12 +167,7 @@ function loginVerification()
         }
     });
     
-    if(!valid)
-    {
-        alert("Invalid username or password entered");
-        return false;
-    }
-    else if(empty)
+    if(empty)
     {
         alert("Username or password is empty");
         return false;
