@@ -22,7 +22,7 @@ function addContact()
     number++;
     var template = '<div class="contactsContent" id="contacts_content'+counterContact+'">'+
                 '<div class="contactContentHeader">'+
-                    '<img src="images/cross.png" alt="" id="contactCrossImg" class="contactCrossImg" onclick="removeContact(this.parentNode.parentNode.id)"/>'+
+                    '<img src="images/cross.png" alt="" id="contactCrossImg" class="contactCrossImg" onclick="removeContact(this.parentNode.parentNode.id, this.nextElementSibling.innerHTML)"/>'+
                     'Contact <font id="number">'+number+'</font><hr class="contactContentHeaderLine">'+
                     '<img src="images/down-arrow.png" alt="" id="contactDownArrow" class="contactDownArrow"/>'+
                 '</div>'+
@@ -74,13 +74,17 @@ function addContact()
     
 }
 
-function removeContact(id)
+function removeContact(id, val)
 {
     if(counterContact === 0)
     {
         alert("At least one contact is required");
         return;
     }
+    /*Used to test id the right arguments were received*/
+    console.log(id);
+    console.log(val);
+
     document.getElementById(id).remove();
     counterContact--;
     number--;

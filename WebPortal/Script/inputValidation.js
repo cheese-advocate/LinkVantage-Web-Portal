@@ -211,6 +211,7 @@ function checkRequiredFields()
 }
 
 /**
+ * Company and private client registration
  * Validates all the input received in the input forms
  * Returns a boolean which will prevent the form from submitting
  * If false no submission will take place
