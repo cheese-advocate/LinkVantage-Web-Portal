@@ -347,7 +347,7 @@
                     <button class="loginOptBtn">LOGIN</button>
                     <button class="registerOptBtn" onclick="changeToRegisterCompany()">REGISTER</button>
                 </div>
-
+                
                 <form method="POST" onsubmit="return loginVerification()" action="#">
                     <div class="loginInp">
                         <img src="images/account.png" alt="" class="accountImg"/>

@@ -14,7 +14,7 @@
  * NOTE: • is achieved with ALT + NUM7.
  */
 
-include_once 'config.php';
+require_once 'config.php';
 
 /* Constant Variable Declaration */
 define("ERR_EMPTY_COMPANY_NAME","Please enter your company name.");
