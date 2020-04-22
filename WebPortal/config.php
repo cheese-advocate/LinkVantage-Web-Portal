@@ -44,7 +44,15 @@ if($link === false){
 }
 
 
-
+/**
+ * Checks if the login details supplied are valid for an account
+ * 
+ * @global type $link the database connection
+ * @param type $username the username entered by the user
+ * @param type $password the password entered  by the user
+ * @return string The account number associated with the username and password 
+ *  or 'Login failed' if there is none
+ */
 function attemptLogin($username, $password) {
     /*Access the global variable link*/ 
     global $link;
@@ -75,10 +83,48 @@ function attemptLogin($username, $password) {
 }
 
 
-
+/**
+ * Checks if the email entered by the user is in the database
+ * 
+ * @global type $link the database connection
+ * @param type $email the email address entered by the user
+ * @return boolean|string true if the email address was found in the database, 
+ * false if it was not found, and "Check failed" if the statement failed to execute
+ */
 function isEmailRegistered($email) {
     
+    /*Access the global variable link*/ 
+    global $link;
     
+    /*Check that statement worked, prepare statement selecting from checkEmail function*/
+    if($stmt = mysqli_prepare($link, SQL_CHECK_EMAIL)){
+        /*insert email variable to select statement*/
+        mysqli_stmt_bind_param($stmt, "s", $email);
+        /*execute the query*/
+        mysqli_stmt_execute($stmt);
+        /*bind the result of the query to the $result variable*/
+        mysqli_stmt_bind_result($stmt, $result);
+        /*fetch the result of the query*/
+        mysqli_stmt_fetch($stmt);
+                
+        /*Return false when no matching email is found and true when it is*/
+        if($result == ''){
+            
+            $result = false;
+            
+        } else{
+            
+            $result = true;
+            
+        }
+            
+        /*close the statement*/
+        mysqli_stmt_close($stmt);        
+        return $result;
+        /*If statement failed*/
+    } else {
+        return "Check Failed";
+    }
     
 }
 
@@ -86,7 +132,38 @@ function isEmailRegistered($email) {
 
 function isPhoneRegistered($phoneNumber) {
     
+    /*Access the global variable link*/ 
+    global $link;
     
+    /*Check that statement worked, prepare statement selecting from checkPhone function*/
+    if($stmt = mysqli_prepare($link, SQL_CHECK_PHONE)){
+        /*insert phoneNumber variable to select statement*/
+        mysqli_stmt_bind_param($stmt, "s", $phoneNumber);
+        /*execute the query*/
+        mysqli_stmt_execute($stmt);
+        /*bind the result of the query to the $result variable*/
+        mysqli_stmt_bind_result($stmt, $result);
+        /*fetch the result of the query*/
+        mysqli_stmt_fetch($stmt);
+                
+        /*Return false when no matching phone is found and true when it is*/
+        if($result == ''){
+            
+            $result = false;
+            
+        } else{
+            
+            $result = true;
+            
+        }
+            
+        /*close the statement*/
+        mysqli_stmt_close($stmt);        
+        return $result;
+        /*If statement failed*/
+    } else {
+        return "Check Failed";
+    }
     
 }
 
