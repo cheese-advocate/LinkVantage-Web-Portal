@@ -84,7 +84,7 @@ function removeContact(id, val)
     /*Used to test id the right arguments were received*/
     console.log(id);
     console.log(val);
-
+    
     document.getElementById(id).remove();
     counterContact--;
     number--;
