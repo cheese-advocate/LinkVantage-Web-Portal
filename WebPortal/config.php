@@ -13,15 +13,13 @@
 
 /* SQL Statements */
 define("SQL_ATTEMPT_LOGIN","SELECT validatePassword(?, ?)");
-define("SQL_IS_EMAIL_REGISTERED", "SELECT checkEmail(?)");
-define("SQL_IS_PHONE_REGISTERED", "SELECT checkPhone(?)");
+define("SQL_CHECK_EMAIL", "SELECT checkEmail(?)");
+define("SQL_CHECK_PHONED", "SELECT checkPhone(?)");
 define("SQL_STORE_OTP", "CALL storeOTP(?)");
 define("SQL_VERIFY_OTP", "SELECT verifyOTP(?, ?)");
 define("SQL_UPDATE_PASSWORD","CALL updatePassword(?, ?)");
 define("SQL_CHECK_COMPANY_NAME","");
 define("SQL_CHECK_USERNAME","");
-define("SQL_CHECK_EMAIL","");
-define("SQL_CHECK_PHONE","");
 define("SQL_REGISTER_COMPANY","");
 define("SQL_REGISTER_PRIVATE_CLIENT","");
 
@@ -30,6 +28,10 @@ define('DB_SERVER', 'localhost');
 define('DB_USERNAME', 'root');
 define('DB_PASSWORD', ''/*'P@ssword1'*/);
 define('DB_NAME', 'Chai');
+
+/* Other useful constants */
+define('PREP_STMT_FAILED', 'Prepared Statement Failed');
+define('NOT_FOUND', '');//When account/email/phone number searched for an empty result set returned
 
 /* Test connectivity to the database */
 /**
@@ -70,7 +72,7 @@ function attemptLogin($username, $password) {
                 
         /*Return login failed when no matching acccount is found*/
         if($result == ''){
-            $result = "Login failed";
+            $result = NOT_FOUND;
         }
             
         /*close the statement*/
@@ -78,25 +80,49 @@ function attemptLogin($username, $password) {
         return $result;
         /*If statement failed*/
     } else {
-        return "Login Failed";
+        return PREP_STMT_FAILED;
     }
 }
 
-
 /**
- * Checks if the email entered by the user is in the database
+ * A method to check if the email entered by the user already exists in the 
+ * database
  * 
- * @global type $link the database connection
- * @param type $email the email address entered by the user
- * @return boolean|string true if the email address was found in the database, 
- * false if it was not found, and "Check failed" if the statement failed to execute
+ * @param type $email email entered by the user
+ * @return boolean|String true if email is found, false if it is not found, and 
+ * PREP_STMT_FAILED if the prepared statement could not execute.
  */
 function isEmailRegistered($email) {
     
+    $find = findEmail($email);
+    
+    if($find === NOT_FOUND){
+        return false;
+    } elseif ($find === PREP_STMT_FAILED){
+        return PREP_STMT_FAILED;
+    } else {
+        return true;
+    }    
+    
+}
+
+/**
+ * A method to search for accounts associated with an email address entered by
+ * the user
+ * 
+ * @global type $link the database connection
+ * @param type $email the email address entered by the user
+ * @return type The result of the statement execution (the account number the 
+ * email is associated with or an empty result set) or a message indicating the 
+ * failure of execution (PREP_STMT_FAILED)
+ */
+function findEmail($email)
+{
     /*Access the global variable link*/ 
     global $link;
     
-    /*Check that statement worked, prepare statement selecting from checkEmail function*/
+    /*Check that statement worked, prepare statement selecting from checkEmail 
+     *function*/
     if($stmt = mysqli_prepare($link, SQL_CHECK_EMAIL)){
         /*insert email variable to select statement*/
         mysqli_stmt_bind_param($stmt, "s", $email);
@@ -105,67 +131,87 @@ function isEmailRegistered($email) {
         /*bind the result of the query to the $result variable*/
         mysqli_stmt_bind_result($stmt, $result);
         /*fetch the result of the query*/
-        mysqli_stmt_fetch($stmt);
-                
-        /*Return false when no matching email is found and true when it is*/
-        if($result == ''){
-            
-            $result = false;
-            
-        } else{
-            
-            $result = true;
-            
-        }
-            
+        mysqli_stmt_fetch($stmt);                                    
         /*close the statement*/
         mysqli_stmt_close($stmt);        
+        
+        /*If sql returns empty result set, indicating not found*/
+        if($result == '')
+        {
+            $result = NOT_FOUND;
+        }
+        
         return $result;
         /*If statement failed*/
     } else {
-        return "Check Failed";
+        return PREP_STMT_FAILED;
     }
+}
+
+/**
+ * A method to check if the phone number entered by the user already exists in the 
+ * database
+ * 
+ * @param type $phoneNumber phone number entered by the user
+ * @return boolean|String true if phone number is found, false if it is not 
+ * found, and PREP_STMT_FAILED if the prepared statement could not execute.
+ */
+function isPhoneNumberRegistered($phoneNumber) {
+    
+    $find = findPhoneNumber($phoneNumber);
+    
+    if($find === NOT_FOUND){
+        return false;
+    } elseif ($find === PREP_STMT_FAILED){
+        return PREP_STMT_FAILED;
+    } else {
+        return true;
+    }    
     
 }
 
-
-
-function isPhoneRegistered($phoneNumber) {
-    
+/**
+ * A method to search for accounts associated with a phone number entered by
+ * the user
+ * 
+ * @global type $link the database connection
+ * @param type $phoneNumber the phone number enteredby the user
+ * @return type The result of the statement execution (the account number the 
+ * phone number is associated with or an empty result set) or a message 
+ * indicating the failure of execution (PREP_STMT_FAILED)
+ */
+function findPhoneNumber($phoneNumber)
+{
     /*Access the global variable link*/ 
     global $link;
     
-    /*Check that statement worked, prepare statement selecting from checkPhone function*/
+    /*Check that statement worked, prepare statement selecting from checkPhone
+     *function*/
     if($stmt = mysqli_prepare($link, SQL_CHECK_PHONE)){
-        /*insert phoneNumber variable to select statement*/
+        /*insert email variable to select statement*/
         mysqli_stmt_bind_param($stmt, "s", $phoneNumber);
         /*execute the query*/
         mysqli_stmt_execute($stmt);
         /*bind the result of the query to the $result variable*/
         mysqli_stmt_bind_result($stmt, $result);
         /*fetch the result of the query*/
-        mysqli_stmt_fetch($stmt);
-                
-        /*Return false when no matching phone is found and true when it is*/
-        if($result == ''){
-            
-            $result = false;
-            
-        } else{
-            
-            $result = true;
-            
-        }
-            
+        mysqli_stmt_fetch($stmt);                                    
         /*close the statement*/
         mysqli_stmt_close($stmt);        
+        
+        /*If sql returns empty result set, indicating not found*/
+        if($result == '')
+        {
+            $result = NOT_FOUND;
+        }
+        
         return $result;
         /*If statement failed*/
     } else {
-        return "Check Failed";
+        return PREP_STMT_FAILED;
     }
-    
 }
+
 
 
 
