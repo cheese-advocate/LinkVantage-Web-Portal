@@ -11,6 +11,8 @@
  * • All SQL statements
  */
 
+require_once 'hasher.php';
+
 /* SQL Statements */
 define("SQL_ATTEMPT_LOGIN","SELECT validatePassword(?, ?)");
 define("SQL_CHECK_EMAIL", "SELECT checkEmail(?)");
@@ -31,7 +33,8 @@ define('DB_NAME', 'Chai');
 
 /* Other useful constants */
 define('PREP_STMT_FAILED', 'Prepared Statement Failed');
-define('NOT_FOUND', '');//When account/email/phone number searched for an empty result set returned
+define('NOT_FOUND', '');//When account/email/phone number searched for an empty 
+//result set returned
 
 /* Test connectivity to the database */
 /**
@@ -59,7 +62,8 @@ function attemptLogin($username, $password) {
     /*Access the global variable link*/ 
     global $link;
     
-    /*Check that statement worked, prepare statement selecting from validate password function*/
+    /*Check that statement worked, prepare statement selecting from validate 
+     * password function*/
     if($stmt = mysqli_prepare($link, SQL_ATTEMPT_LOGIN)){
         /*insert username password variables to select statement*/
         mysqli_stmt_bind_param($stmt, "ss", $username, $password);
@@ -213,11 +217,38 @@ function findPhoneNumber($phoneNumber)
 }
 
 
-
-
-function storeOTP($otp) {
+/**
+ * method to hash and store the otp in the db
+ * 
+ * @global type $link the database connection
+ * @param type $account the account which the otp is to be associated with
+ * @param type $otp the otp in plaintext to be associated with the account
+ * @return type returns PREP_STMT_FAILED if the statement failed to execute
+ */
+function storeOTP($account, $otp) {
  
+    /*Access the global variable link*/ 
+    global $link;
     
+    /*Check that statement worked, prepare statement inserting using storeOTP 
+     * function*/
+    if($stmt = mysqli_prepare($link, SQL_STORE_OTP)){
+        
+        /*hash the OTP for storage in database*/
+        $hashedOTP = hashOTP($otp);
+        
+        /*insert account and otp variables to function*/
+        mysqli_stmt_bind_param($stmt, "ss", $account, $hashedOTP);
+        /*execute the insert*/
+        mysqli_stmt_execute($stmt);
+        
+        /*close the statement*/
+        mysqli_stmt_close($stmt);        
+        
+        /*If statement failed*/
+    } else {
+        return PREP_STMT_FAILED;
+    }
     
 }
 
@@ -234,7 +265,8 @@ function isOTPCorrect($account, $otp) {
     /*Access the global variable link*/ 
     global $link;
     
-    /*Check that statement worked, prepare statement selecting from verify OTP function*/
+    /*Check that statement worked, prepare statement selecting from verify OTP 
+     * function*/
     if($stmt = mysqli_prepare($link, SQL_VERIFY_OTP)){
         /*insert username password variables to select statement*/
         mysqli_stmt_bind_param($stmt, "ss", $account, $otp);
