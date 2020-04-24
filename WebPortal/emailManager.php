@@ -9,3 +9,5 @@ $headers .= "Reply-to: drchai101\r\n";
 $headers .= "Content-type: text/html\r\n";
 
 mail($to, $subject, $message, $headers);
+
+// Tristan says Hi
