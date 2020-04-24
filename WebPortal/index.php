@@ -10,6 +10,8 @@
      * connection 
      */
     require_once 'config.php';
+    require_once 'inputServerValidation.php';
+    require_once 'emailManager.php';
     
     /* Constant Variable Declaration */
     define("PW_RESET_EMAIL","RESET PASSWORD");
