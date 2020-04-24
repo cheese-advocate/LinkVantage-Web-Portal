@@ -222,9 +222,42 @@ function storeOTP($otp) {
 }
 
 
-
-function isOTPCorrect($otp) {
+/**
+ * 
+ * @global type $link
+ * @param type $account
+ * @param type $otp
+ * @return boolean
+ */
+function isOTPCorrect($account, $otp) {
     
+    /*Access the global variable link*/ 
+    global $link;
     
+    /*Check that statement worked, prepare statement selecting from verify OTP function*/
+    if($stmt = mysqli_prepare($link, SQL_VERIFY_OTP)){
+        /*insert username password variables to select statement*/
+        mysqli_stmt_bind_param($stmt, "ss", $account, $otp);
+        /*execute the query*/
+        mysqli_stmt_execute($stmt);
+        /*bind the result of the query to the $result variable*/
+        mysqli_stmt_bind_result($stmt, $result);
+        /*fetch the result of the query*/
+        mysqli_stmt_fetch($stmt);
+                
+        /*Return false for incorrect OTP, true for correct OTP*/
+        if($result == 0){
+            $result = false;
+        } else {
+            $result = true;
+        }
+            
+        /*close the statement*/
+        mysqli_stmt_close($stmt);        
+        return $result;
+        /*If statement failed*/
+    } else {
+        return PREP_STMT_FAILED;
+    }
     
 }
