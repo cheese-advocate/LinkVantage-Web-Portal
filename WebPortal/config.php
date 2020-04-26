@@ -20,10 +20,10 @@ define("SQL_CHECK_EMAIL", "SELECT checkEmail(?)");
 define("SQL_CHECK_PHONED", "SELECT checkPhone(?)");
 define("SQL_STORE_OTP", "CALL storeOTP(?)");
 define("SQL_VERIFY_OTP", "SELECT verifyOTP(?, ?)");
+define("SQL_GET_PASSWORD", "SELECT getPassword(?)");
 define("SQL_GET_OTP", "SELECT getOTP(?)");
 define("SQL_UPDATE_PASSWORD","CALL updatePassword(?, ?)");
 define("SQL_CHECK_COMPANY_NAME","");
-define("SQL_CHECK_USERNAME","");
 define("SQL_REGISTER_COMPANY","");
 define("SQL_REGISTER_PRIVATE_CLIENT","");
 
@@ -37,6 +37,7 @@ define('DB_NAME', 'Chai');
 define('PREP_STMT_FAILED', 'Prepared Statement Failed');
 define('NOT_FOUND', '');//When account/email/phone number searched for an empty 
 //result set returned
+define('LOGIN_FAILED', 'Login has failed');
 
 /* Test connectivity to the database */
 /**
@@ -52,37 +53,105 @@ if($link === false){
 
 
 /**
- * Checks if the login details supplied are valid for an account
+ * Checks if the password entered is valid for an account
  * 
  * @global type $link the database connection
- * @param type $username the username entered by the user
+ * @param type $username the accountID the login is attempted for
  * @param type $password the password entered  by the user
- * @return string The account number associated with the username and password 
- *  or 'Login failed' if there is none
+ * @return string The account number associated with the username and password, 
+ * NOT_FOUND if there is none associated with it, or PREP_STMT_FAILED if the 
+ * statement failed to execute
  */
-function attemptLogin($username, $password) {
+function isPasswordValid($accountID, $password) {
     /*Access the global variable link*/ 
     global $link;
     
-    /*Check that statement worked, prepare statement selecting from validate 
-     * password function*/
-    if($stmt = mysqli_prepare($link, SQL_ATTEMPT_LOGIN)){
-        /*insert username password variables to select statement*/
-        mysqli_stmt_bind_param($stmt, "ss", $username, $password);
+    /*Get the hashed password for the account from the database*/
+    $hashedPassword = findPassword($accountID);
+
+    /*If the password was successfully found*/
+    if($hashedPassword != NOT_FOUND && $hashedPassword != PREP_STMT_FAILED)
+    {
+
+        /*If the password is correct for the hash*/
+        if(isCorrectHash($password, $hashedPassword))
+        {
+            
+            $result = true;
+            
+        /*If the password is incorrect for the hash*/    
+        } else{
+            
+            $result = false;
+            
+        }   
+
+    /*If the hashed password could not successfully be retrieved*/    
+    } else {
+
+        $result = LOGIN_FAILED;
+
+    }
+    
+    return $result;
+    
+}
+
+/**
+ * A method to check if the username entered by the user already exists in the 
+ * database
+ * 
+ * @param type $username username entered by the user
+ * @return boolean|String true if username is found, false if it is not found, and 
+ * PREP_STMT_FAILED if the prepared statement could not execute.
+ */
+function isUsernameRegistered($username) {
+    
+    $find = findUsername($username);
+    
+    if($find === NOT_FOUND){
+        return false;
+    } elseif ($find === PREP_STMT_FAILED){
+        return PREP_STMT_FAILED;
+    } else {
+        return true;
+    }    
+    
+}
+
+/**
+ * method to find the accountID from a given username
+ * 
+ * @global type $link the database connection
+ * @param type $username the username entered by the user
+ * @return type the accountID associated with the username, NOT_FOUND if none 
+ * was found, or PREP_STMT_FAILED if the statement failed to execute.
+ */
+function findUsername($username)
+{
+    /*Access the global variable link*/ 
+    global $link;
+    
+    /*Check that statement worked, prepare statement selecting from getAccountID 
+     * function*/
+    if($stmt = mysqli_prepare($link, SQL_CHECK_USERNAME)){
+        /*insert email variable to select statement*/
+        mysqli_stmt_bind_param($stmt, "s", $username);
         /*execute the query*/
         mysqli_stmt_execute($stmt);
         /*bind the result of the query to the $result variable*/
         mysqli_stmt_bind_result($stmt, $result);
         /*fetch the result of the query*/
-        mysqli_stmt_fetch($stmt);
-                
-        /*Return login failed when no matching acccount is found*/
-        if($result == ''){
-            $result = NOT_FOUND;
-        }
-            
+        mysqli_stmt_fetch($stmt);                                    
         /*close the statement*/
         mysqli_stmt_close($stmt);        
+        
+        /*If sql returns empty result set, indicating not found*/
+        if($result == '')
+        {
+            $result = NOT_FOUND;
+        }
+        
         return $result;
         /*If statement failed*/
     } else {
@@ -90,9 +159,78 @@ function attemptLogin($username, $password) {
     }
 }
 
-function findUsername($username)
+/**
+ * A method to find the hashed password for the given accountID
+ * 
+ * @global type $link the database connection
+ * @param type $accountID the account to find the associated password for
+ * @return type the password, if successfully retrieved, NOT_FOUND, if it could 
+ * not be retrieved, and PREP_STMT_FAILED, if it failed to execute.
+ */
+function findPassword($accountID)
+{
+    /*Access the global variable link*/ 
+    global $link;
+    
+    /*Check that statement worked, prepare statement selecting from getAccountID 
+     * function*/
+    if($stmt = mysqli_prepare($link, SQL_GET_PASSWORD)){
+        /*insert accountID variable to select statement*/
+        mysqli_stmt_bind_param($stmt, "s", $accountID);
+        /*execute the query*/
+        mysqli_stmt_execute($stmt);
+        /*bind the result of the query to the $result variable*/
+        mysqli_stmt_bind_result($stmt, $result);
+        /*fetch the result of the query*/
+        mysqli_stmt_fetch($stmt);                                    
+        /*close the statement*/
+        mysqli_stmt_close($stmt);        
+        
+        /*If sql returns empty result set, indicating not found*/
+        if($result == '')
+        {
+            $result = NOT_FOUND;
+        }
+        
+        return $result;
+        /*If statement failed*/
+    } else {
+        return PREP_STMT_FAILED;
+    }
+}
+
+/**
+ * A method to find the otp associated with a given account 
+ * 
+ * @param type $accountID the given AccountID
+ * @return type the OTP associated with the given account or PREP_STMT_FAILED if 
+ * it could not be found
+ */
+function findOTP($accountID)
 {
     
+    /*Check that statement worked, prepare statement selecting from getOTP 
+     * function*/
+    if($stmt = mysqli_prepare($link, SQL_GET_OTP)){
+        
+        /*insert accountID variable to select statement*/
+        mysqli_stmt_bind_param($stmt, "s", $account);
+        /*execute the query*/
+        mysqli_stmt_execute($stmt);
+        /*bind the result of the query to the $result variable*/
+        mysqli_stmt_bind_result($stmt, $accountOTP);
+        /*fetch the result of the query*/
+        mysqli_stmt_fetch($stmt);        
+            
+        /*close the statement*/
+        mysqli_stmt_close($stmt);
+        
+        return $accountOTP;
+    }
+    else{
+        return PREP_STMT_FAILED;
+    }
+        
 }
 
 /**
@@ -261,31 +399,22 @@ function storeOTP($account, $otp) {
 
 
 /**
- * 
- * @global type $link
- * @param type $account
- * @param type $userOTP
- * @return boolean
+ * A method to verify if the otp entered by a user is valid for the associated 
+ * account
+ * @global type $link the database connection
+ * @param type $account the accountID of the account that the OTP should be 
+ * associated with
+ * @param type $userOTP the otp entered by the user
+ * @return boolean true if they match, false if it does not, and 
+ * PREP_STMT_FAILED if the statement failed to execute.
  */
 function isOTPCorrect($account, $userOTP) {
     
     /*Access the global variable link*/ 
     global $link;
     
-    /*Check that statement worked, prepare statement selecting from verify OTP 
-     * function*/
-    if($stmt = mysqli_prepare($link, SQL_GET_OTP)){
-        /*insert username password variables to select statement*/
-        mysqli_stmt_bind_param($stmt, "s", $account);
-        /*execute the query*/
-        mysqli_stmt_execute($stmt);
-        /*bind the result of the query to the $result variable*/
-        mysqli_stmt_bind_result($stmt, $accountOTP);
-        /*fetch the result of the query*/
-        mysqli_stmt_fetch($stmt);        
-            
-        /*close the statement*/
-        mysqli_stmt_close($stmt);
+    $accountOTP = findOTP($accountID);
+    
         
         /*Return false for incorrect OTP, true for correct OTP*/
         if(isCorrectHash($userOTP, $accountOTP)){
@@ -293,9 +422,4 @@ function isOTPCorrect($account, $userOTP) {
         } else {
             return false;
         }
-        /*If statement failed*/
-    } else {
-        return PREP_STMT_FAILED;
-    }
-    
 }

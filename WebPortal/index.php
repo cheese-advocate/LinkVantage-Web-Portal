@@ -33,6 +33,7 @@
     $usernameErr = "";
     $password = "";
     $passwordErr = "";
+    $loginErr = "";
     $loginResult;
     $email = "";
     $emailErr = "";
@@ -224,9 +225,27 @@
         }
         
         if ($loginIsValid) {
-            $loginResult = attemptLogin($username, $password);
-            print "<p>result = ". $loginResult . "</p>";
-            /* WIP */
+            $accountID = findUsername($username);
+            if($accountID === NOT_FOUND || $accountID === PREP_STMT_FAILED)
+            {
+                $usernameErr = "Username not found.";
+            } else{
+                
+                $loginAttempt = isPasswordValid($accountID, $password);
+                
+                if($loginAttempt == true){
+                    $loginResult = $accountID;
+                }
+                elseif($loginAttempt == false){
+                    $passwordErr = "Invalid password.";
+                    $loginResult = false;
+                } else {
+                    $loginErr = "Login failed";
+                    $loginResult = false;
+                }              
+                print "<p>result = ". $loginResult . "</p>";
+                /* WIP */
+            }           
             
         }
         
