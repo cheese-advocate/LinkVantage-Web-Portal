@@ -15,10 +15,12 @@ require_once 'hasher.php';
 
 /* SQL Statements */
 define("SQL_ATTEMPT_LOGIN","SELECT validatePassword(?, ?)");
+define("SQL_CHECK_USERNAME","SELECT getAccountID(?)");
 define("SQL_CHECK_EMAIL", "SELECT checkEmail(?)");
 define("SQL_CHECK_PHONED", "SELECT checkPhone(?)");
 define("SQL_STORE_OTP", "CALL storeOTP(?)");
 define("SQL_VERIFY_OTP", "SELECT verifyOTP(?, ?)");
+define("SQL_GET_OTP", "SELECT getOTP(?)");
 define("SQL_UPDATE_PASSWORD","CALL updatePassword(?, ?)");
 define("SQL_CHECK_COMPANY_NAME","");
 define("SQL_CHECK_USERNAME","");
@@ -86,6 +88,11 @@ function attemptLogin($username, $password) {
     } else {
         return PREP_STMT_FAILED;
     }
+}
+
+function findUsername($username)
+{
+    
 }
 
 /**
@@ -257,36 +264,35 @@ function storeOTP($account, $otp) {
  * 
  * @global type $link
  * @param type $account
- * @param type $otp
+ * @param type $userOTP
  * @return boolean
  */
-function isOTPCorrect($account, $otp) {
+function isOTPCorrect($account, $userOTP) {
     
     /*Access the global variable link*/ 
     global $link;
     
     /*Check that statement worked, prepare statement selecting from verify OTP 
      * function*/
-    if($stmt = mysqli_prepare($link, SQL_VERIFY_OTP)){
+    if($stmt = mysqli_prepare($link, SQL_GET_OTP)){
         /*insert username password variables to select statement*/
-        mysqli_stmt_bind_param($stmt, "ss", $account, $otp);
+        mysqli_stmt_bind_param($stmt, "s", $account);
         /*execute the query*/
         mysqli_stmt_execute($stmt);
         /*bind the result of the query to the $result variable*/
-        mysqli_stmt_bind_result($stmt, $result);
+        mysqli_stmt_bind_result($stmt, $accountOTP);
         /*fetch the result of the query*/
-        mysqli_stmt_fetch($stmt);
-                
-        /*Return false for incorrect OTP, true for correct OTP*/
-        if($result == 0){
-            $result = false;
-        } else {
-            $result = true;
-        }
+        mysqli_stmt_fetch($stmt);        
             
         /*close the statement*/
-        mysqli_stmt_close($stmt);        
-        return $result;
+        mysqli_stmt_close($stmt);
+        
+        /*Return false for incorrect OTP, true for correct OTP*/
+        if(isCorrectHash($userOTP, $accountOTP)){
+           return true;
+        } else {
+            return false;
+        }
         /*If statement failed*/
     } else {
         return PREP_STMT_FAILED;
