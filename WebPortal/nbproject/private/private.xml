@@ -3,24 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-<<<<<<< HEAD
-            <file>file:/C:/Users/Dell/Documents/Repos/ITSP/web_portal/WebPortal/CSS/style.css</file>
-            <file>file:/C:/Users/Dell/Documents/Repos/ITSP/web_portal/WebPortal/CSS/forgotPw.css</file>
-            <file>file:/C:/Users/Dell/Documents/Repos/ITSP/web_portal/WebPortal/Script/generateContent.js</file>
+            <file>file:/C:/Users/Dell/Documents/Repos/ITSP/web_portal/WebPortal/newPassword.php</file>
             <file>file:/C:/Users/Dell/Documents/Repos/ITSP/web_portal/WebPortal/Script/inputValidation.js</file>
-            <file>file:/C:/Users/Dell/Documents/Repos/ITSP/web_portal/WebPortal/registerCompany.php</file>
             <file>file:/C:/Users/Dell/Documents/Repos/ITSP/web_portal/WebPortal/Script/script.js</file>
             <file>file:/C:/Users/Dell/Documents/Repos/ITSP/web_portal/WebPortal/index.php</file>
-            <file>file:/C:/Users/Dell/Documents/Repos/ITSP/web_portal/WebPortal/registerPrivateClient.php</file>
-            <file>file:/C:/Users/Dell/Documents/Repos/ITSP/web_portal/WebPortal/config.php</file>
-=======
-            <file>file:/C:/Users/reccb/Documents/IT/Repos/ITSP/Web-portal/WebPortal/generator.php</file>
-            <file>file:/C:/Users/reccb/Documents/IT/Repos/ITSP/Web-portal/WebPortal/registerPrivateClient.php</file>
-            <file>file:/C:/Users/reccb/Documents/IT/Repos/ITSP/Web-portal/WebPortal/config.php</file>
-            <file>file:/C:/Users/reccb/Documents/IT/Repos/ITSP/Web-portal/WebPortal/index.php</file>
-            <file>file:/C:/Users/reccb/Documents/IT/Repos/ITSP/Web-portal/WebPortal/inputServerValidation.php</file>
-            <file>file:/C:/Users/reccb/Documents/IT/Repos/ITSP/Web-portal/WebPortal/hasher.php</file>
->>>>>>> 5bd4db1e67d97886e474f24b65de147145863454
+            <file>file:/C:/Users/Dell/Documents/Repos/ITSP/web_portal/WebPortal/CSS/newPasswordPage.css</file>
         </group>
     </open-files>
 </project-private>

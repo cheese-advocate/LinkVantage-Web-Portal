@@ -407,7 +407,7 @@
                     <button class="returnToLoginBtn" onclick="changeToLogin()">RETURN TO LOGIN</button>
                 </div>
 
-                <form method="POST" onsubmit="return verifyForgotPw()" action="#">
+                <form method="POST" onsubmit="return verifyForgotPw()" action="newPassword.php">
                     <div class="resetInpContent">
                         <img src="images/refresh.png" alt="" class="resetImg"/>
                         <select name="resetOptions" class="dropDownSelect" id="reset_options" name="pwResetMode" onchange="modifyResetPassword()">
@@ -424,7 +424,7 @@
                     </div>
 
                     <div class="resetSubmit" id="reset_submit">
-                        <button type="submit" onclick="" class="resetSubBtn">SEND RESET REQUEST</button>
+                        <button type="submit"  class="resetSubBtn">SEND RESET REQUEST</button>
                     </div>
                 </form>
             </div>
@@ -432,6 +432,6 @@
             <div class="footer">
                 LinkVantage
             </div>
-        </div>    
+        </div>
     </body>
 </html>
