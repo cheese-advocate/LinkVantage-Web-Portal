@@ -18,7 +18,7 @@ $mail->Username = "drchai101@gmail.com"; //your email address
 $mail->Password = "thisischai"; //password for email acocunt
 $mail->setFrom("linkvantage@compulink.co.za", "Compulink Technologies");
 
-forgotPassword("bernard01geldenhuys@gmail.com", "Bernard", "www.whatismyip.com");
+forgotPassword("frikkieuys2@gmail.com", "Frikkie", "www.whatismyip.com");
 function forgotPassword($toEmail, $fname, $link)
 {      
     global $mail;
