@@ -7,7 +7,7 @@ require 'Exception.php';
 require 'PHPMailer.php';
 require 'SMTP.php';
 
-$recEmail = "customer@gmail.com";
+$recEmail = "albertynkuyper@gmail.com";
 
 $mail = new PHPMailer;
 $mail->isSMTP(); 
