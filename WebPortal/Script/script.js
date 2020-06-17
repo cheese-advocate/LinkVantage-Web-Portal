@@ -15,6 +15,12 @@ function changeType()
     document.getElementById("passw").type = "password";
 }
 
+function changeNewPasswordType()
+{
+    document.getElementById("newPwInp").type = "password";
+    document.getElementById("confirmPwInp").type = "password";
+}
+
 function changeTypeRegister()
 {
     document.getElementById("ContactPassw").type = "password";

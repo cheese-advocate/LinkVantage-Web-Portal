@@ -33,6 +33,7 @@
     $usernameErr = "";
     $password = "";
     $passwordErr = "";
+    $loginErr = "";
     $loginResult;
     $email = "";
     $emailErr = "";
@@ -224,9 +225,27 @@
         }
         
         if ($loginIsValid) {
-            $loginResult = attemptLogin($username, $password);
-            print "<p>result = ". $loginResult . "</p>";
-            /* WIP */
+            $accountID = findUsername($username);
+            if($accountID === NOT_FOUND || $accountID === PREP_STMT_FAILED)
+            {
+                $usernameErr = "Username not found.";
+            } else{
+                
+                $loginAttempt = isPasswordValid($accountID, $password);
+                
+                if($loginAttempt == true){
+                    $loginResult = $accountID;
+                }
+                elseif($loginAttempt == false){
+                    $passwordErr = "Invalid password.";
+                    $loginResult = false;
+                } else {
+                    $loginErr = "Login failed";
+                    $loginResult = false;
+                }              
+                print "<p>result = ". $loginResult . "</p>";
+                /* WIP */
+            }           
             
         }
         
@@ -388,7 +407,7 @@
                     <button class="returnToLoginBtn" onclick="changeToLogin()">RETURN TO LOGIN</button>
                 </div>
 
-                <form method="POST" onsubmit="return verifyForgotPw()" action="#">
+                <form method="POST" onsubmit="return verifyForgotPw()" action="newPassword.php">
                     <div class="resetInpContent">
                         <img src="images/refresh.png" alt="" class="resetImg"/>
                         <select name="resetOptions" class="dropDownSelect" id="reset_options" name="pwResetMode" onchange="modifyResetPassword()">
@@ -405,7 +424,7 @@
                     </div>
 
                     <div class="resetSubmit" id="reset_submit">
-                        <button type="submit" onclick="" class="resetSubBtn">SEND RESET REQUEST</button>
+                        <button type="submit"  class="resetSubBtn">SEND RESET REQUEST</button>
                     </div>
                 </form>
             </div>
@@ -413,6 +432,6 @@
             <div class="footer">
                 LinkVantage
             </div>
-        </div>    
+        </div>
     </body>
 </html>
