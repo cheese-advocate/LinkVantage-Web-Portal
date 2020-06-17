@@ -374,4 +374,52 @@ function formValidation()
         alert("Submitted successfully");
         return true;
     }
-}    
+}
+
+function verifyNewPassword()
+{
+    var valid = true;
+    var empty = false;
+    $("input:not(:submit):not(:hidden)").each(function(){
+        if(!$.trim($(this).val()))
+        {
+            empty = true;
+            $(this).css("border-bottom-color", "red");
+        }
+        else
+        {
+            $(this).removeAttr("style");
+        }
+        
+        
+        if(!pwRegex.test($(this).val()))
+        {
+            $(this).css("border-bottom-color", "orange");
+            valid = false;
+        }
+        else
+        {
+            $(this).removeAttr("style");
+        }
+        
+    });
+    
+    if($("#newPwInp").val() !== $("#confirmPwInp").val())
+    {
+        alert("The passwords need to match");
+        $("#newPwInp, #confirmPwInp").css("border-bottom-color", "#03AAFB");
+    }
+    
+    if(empty)
+    {
+        alert("Some fields are empty and need to be entered");
+    }
+    else if(!valid)
+    {
+        alert("The password should consist of 8 characters with:\nAt least one uppercase\nOne lowercase\nOne special character\nOne number");
+    }
+    else
+    {
+        return valid;
+    }
+}
