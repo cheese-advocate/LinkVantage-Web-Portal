@@ -368,7 +368,7 @@
                     <button class="registerOptBtn" onclick="changeToRegisterCompany()">REGISTER</button>
                 </div>
                 
-                <form method="POST" onsubmit="return loginVerification()" action="Dashboard.php">
+                <form method="POST" onsubmit="return loginVerification()" action="/Dashboard.php">
                     <div class="loginInp">
                         <img src="images/account.png" alt="" class="accountImg"/>
                         <input type="text" name="username" placeholder="USERNAME" class="input" id="username" required/>
