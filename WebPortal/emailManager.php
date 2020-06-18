@@ -7,11 +7,6 @@ require 'Exception.php';
 require 'PHPMailer.php';
 require 'SMTP.php';
 
-<<<<<<< HEAD
-$recEmail = "albertynkuyper@gmail.com";
-
-=======
->>>>>>> 64f5bce385ebf7a6e6e7aa1974febb307774a413
 $mail = new PHPMailer;
 $mail->isSMTP(); 
 $mail->SMTPDebug = 0; //shows debugging information. 0 shows nothing.
@@ -20,7 +15,7 @@ $mail->Port = "587"; // typically 587
 $mail->SMTPSecure = 'tls'; 
 $mail->SMTPAuth = true;
 $mail->Username = "drchai101@gmail.com"; //your email address
-$mail->Password = "thisischai"; //password for email acocunt
+$mail->Password = "thisischai"; //password for email acount
 $mail->setFrom("linkvantage@compulink.co.za", "Compulink Technologies");
 
 forgotPassword("frikkieuys2@gmail.com", "Frikkie", "www.whatismyip.com");
