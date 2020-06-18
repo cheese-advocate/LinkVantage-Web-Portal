@@ -20,7 +20,7 @@ not be too old.
     </head>
     <body>
         <?php
-        // put your code here
+            $code= $_GET['code'];
         ?>
     </body>
 </html>
