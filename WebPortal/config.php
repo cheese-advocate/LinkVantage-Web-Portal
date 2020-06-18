@@ -520,3 +520,4 @@ function isOTPCorrect($account, $userOTP) {
             return false;
         }
 }
+
