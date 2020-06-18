@@ -1,0 +1,36 @@
+.mainPage
+{
+    height: 100vh;
+}
+
+.account
+{
+    height: 25px;
+    width: 25px;
+    filter: brightness(0%);
+    margin-right: 10px;
+}
+
+.homeLink
+{
+    height: 25px;
+    width: 25px;
+    margin-left: 55px;
+}
+
+.topNav
+{
+    background: #03AAFB;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 35px;
+    color: black;
+}
+
+.userInfo
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

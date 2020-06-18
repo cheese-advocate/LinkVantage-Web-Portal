@@ -362,7 +362,6 @@
         <link href="CSS/style.css" rel="stylesheet" type="text/css"/>
         <link href="CSS/forgotPw.css" rel="stylesheet" type="text/css"/>
         <link href="CSS/registerPage.css" rel="stylesheet" type="text/css"/>
-        <link href="CSS/registerPrivClient.css" rel="stylesheet" type="text/css"/>
         <!--JS links-->
         <script src="Script/jquery-3.5.0.js" type="text/javascript"></script>
         <script src="Script/script.js" type="text/javascript"></script>
@@ -385,7 +384,7 @@
                     <button class="registerOptBtn" onclick="changeToRegisterCompany()">REGISTER</button>
                 </div>
                 
-                <form method="POST" onsubmit="return loginVerification()" action="#">
+                <form method="POST" onsubmit="return loginVerification()" action="Dashboard.php">
                     <div class="loginInp">
                         <img src="images/account.png" alt="" class="accountImg"/>
                         <input type="text" name="username" placeholder="USERNAME" class="input" id="username" required/>

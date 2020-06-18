@@ -18,16 +18,17 @@ $mail->Username = "drchai101@gmail.com"; //your email address
 $mail->Password = "thisischai"; //password for email acount
 $mail->setFrom("linkvantage@compulink.co.za", "Compulink Technologies");
 
-forgotPassword("frikkieuys2@gmail.com", "Frikkie", "www.whatismyip.com");
-function forgotPassword($toEmail, $fname, $link)
+forgotPassword();
+function forgotPassword($toEmail, $fname, $recCode)
 {      
     global $mail;
+    $recLink = 'http://localhost:8000/recoverPassword.php?code='.$recCode;
     $mailer = $mail;
     $mailer->addAddress($toEmail, "Client");
     $mailer->Subject = 'Forgot Password';
     $mailer->msgHTML("<html><h3>Hi, $fname. Your password reset request has been received.</h3>"
             . "Click the following link to reset your password.<br>"
-            . "$link </html>");
+            . "$recLink </html>");
 
     if(!$mail->send()) 
     {
