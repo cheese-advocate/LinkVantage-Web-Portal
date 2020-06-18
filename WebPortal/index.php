@@ -15,7 +15,7 @@
     
     /* Constant Variable Declaration */
     define("PW_RESET_EMAIL","RESET PASSWORD");
-    define("PW_RESET_PHONE_OTP","TEXT OTP");
+    /*define("PW_RESET_PHONE_OTP","TEXT OTP");*/
     define("PW_RESET_OTP","ANDROID OTP");
     define("RESET_STATE_SELECT_MODE", "RESET_STATE_SELECT_MODE");
     define("RESET_STATE_RESET_REQUESTED", "RESET_STATE_RESET_REQUESTED");
@@ -260,7 +260,7 @@
      */
     function handleForgotPW() {
         
-        global $email, $emailErr, $phone, $phoneErr, $OTP, $OTPErr, $pwResetMode, 
+        global $email, $username,  $emailErr, $phone, $phoneErr, $OTP, $OTPErr, $pwResetMode, 
                $pwResetModeErr;
         
 //        $pwResetMode = htmlspecialchars($_POST["name"]);
@@ -280,18 +280,34 @@
             case PW_RESET_EMAIL:
 
                 /* WIP */
+                /*$OTP=generateOTP();
+                
+                $account=getUserIDfromEmail($email);
+                
+                storeOTP($account, $OTP);
+                
+                forgotPassword($email, $username, $link);
+                
+                isOTPCorrect($account, $userOTP);*/
                 
                 break;
 
-            case PW_RESET_PHONE_OTP:
+/*            case PW_RESET_PHONE_OTP:
 
-                /* WIP */
+                 WIP 
                 
-                break;
+                break;*/
 
             case PW_RESET_OTP:
 
                 /* WIP */
+                /*$OTP=generateOTP();
+                
+                $account=getUserIDfromPhone($email);
+                
+                storeOTP($account, $otp);
+                
+                isOTPCorrect($account, $userOTP);*/
                 
                 break;
             

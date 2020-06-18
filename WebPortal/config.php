@@ -23,6 +23,8 @@ define("SQL_VERIFY_OTP", "SELECT verifyOTP(?, ?)");
 define("SQL_GET_PASSWORD", "SELECT getPassword(?)");
 define("SQL_GET_OTP", "SELECT getOTP(?)");
 define("SQL_UPDATE_PASSWORD","CALL updatePassword(?, ?)");
+define("SQL_GET_ACCOUNTID_EMAIL","CALL getAccountID_Email(?)");
+define("SQL_GET_ACCOUNTID_PHONE","CALL getAccountID_Phone(?)");
 define("SQL_CHECK_COMPANY_NAME","");
 define("SQL_REGISTER_COMPANY","");
 define("SQL_REGISTER_PRIVATE_CLIENT","");
@@ -158,6 +160,101 @@ function findUsername($username)
         return PREP_STMT_FAILED;
     }
 }
+
+/**
+ * method to find the accountID from a given email
+ * 
+ * @global type $link the database connection
+ * @param type $username the username entered by the user
+ * @return type the accountID associated with the username, NOT_FOUND if none 
+ * was found, or PREP_STMT_FAILED if the statement failed to execute.
+ */
+function getUserIDfromEmail($email)
+{
+    /*Access the global variable link*/ 
+    global $link;
+    
+    /*Check that statement worked, prepare statement selecting from getAccountID 
+     * function*/
+    if($stmt = mysqli_prepare($link, SQL_GET_ACCOUNTID_EMAIL)){
+        /*insert email variable to select statement*/
+        mysqli_stmt_bind_param($stmt, "s", $email);
+        /*execute the query*/
+        mysqli_stmt_execute($stmt);
+        /*bind the result of the query to the $result variable*/
+        mysqli_stmt_bind_result($stmt, $result);
+        /*fetch the result of the query*/
+        mysqli_stmt_fetch($stmt);                                    
+        /*close the statement*/
+        mysqli_stmt_close($stmt);        
+        
+        /*If sql returns empty result set, indicating not found*/
+        if($result == '')
+        {
+            $result = NOT_FOUND;
+        }
+        
+        return $result;
+        /*If statement failed*/
+    } else {
+        return PREP_STMT_FAILED;
+    }
+}
+
+/**
+ * method to find the accountID from a given phone number
+ * 
+ * @global type $link the database connection
+ * @param type $username the username entered by the user
+ * @return type the accountID associated with the username, NOT_FOUND if none 
+ * was found, or PREP_STMT_FAILED if the statement failed to execute.
+ */
+function getUserIDfromPhone($phone)
+{
+    /*Access the global variable link*/ 
+    global $link;
+    
+    /*Check that statement worked, prepare statement selecting from getAccountID 
+     * function*/
+    if($stmt = mysqli_prepare($link, SQL_GET_ACCOUNTID_PHONE)){
+        /*insert email variable to select statement*/
+        mysqli_stmt_bind_param($stmt, "s", $phone);
+        /*execute the query*/
+        mysqli_stmt_execute($stmt);
+        /*bind the result of the query to the $result variable*/
+        mysqli_stmt_bind_result($stmt, $result);
+        /*fetch the result of the query*/
+        mysqli_stmt_fetch($stmt);                                    
+        /*close the statement*/
+        mysqli_stmt_close($stmt);        
+        
+        /*If sql returns empty result set, indicating not found*/
+        if($result == '')
+        {
+            $result = NOT_FOUND;
+        }
+        
+        return $result;
+        /*If statement failed*/
+    } else {
+        return PREP_STMT_FAILED;
+    }
+}
+
+/**
+ * A method to find the accountID and otp for a given email 
+ * 
+ * @param type $email the given email
+ * @return type the OTP and accountID associated with the given email or PREP_STMT_FAILED if 
+ * it could not be found
+ */
+function getUserID_OTP($email)
+{
+    $ID = getUserIDfromEmail($email);
+    $OTP = findOTP($ID);
+    return array($ID,$OTP);
+}
+
 
 /**
  * A method to find the hashed password for the given accountID
@@ -423,3 +520,4 @@ function isOTPCorrect($account, $userOTP) {
             return false;
         }
 }
+
