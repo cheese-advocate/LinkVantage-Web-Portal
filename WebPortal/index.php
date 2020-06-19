@@ -15,7 +15,7 @@
     
     /* Constant Variable Declaration */
     define("PW_RESET_EMAIL","RESET PASSWORD");
-    define("PW_RESET_PHONE_OTP","TEXT OTP");
+    /*define("PW_RESET_PHONE_OTP","TEXT OTP");*/
     define("PW_RESET_OTP","ANDROID OTP");
     define("RESET_STATE_SELECT_MODE", "RESET_STATE_SELECT_MODE");
     define("RESET_STATE_RESET_REQUESTED", "RESET_STATE_RESET_REQUESTED");
@@ -260,7 +260,7 @@
      */
     function handleForgotPW() {
         
-        global $email, $emailErr, $phone, $phoneErr, $OTP, $OTPErr, $pwResetMode, 
+        global $email, $username,  $emailErr, $phone, $phoneErr, $OTP, $OTPErr, $pwResetMode, 
                $pwResetModeErr;
         
 //        $pwResetMode = htmlspecialchars($_POST["name"]);
@@ -280,18 +280,34 @@
             case PW_RESET_EMAIL:
 
                 /* WIP */
+                /*$OTP=generateOTP();
+                
+                $account=getUserIDfromEmail($email);
+                
+                storeOTP($account, $OTP);
+                
+                forgotPassword($email, $username, $link);
+                
+                isOTPCorrect($account, $userOTP);*/
                 
                 break;
 
-            case PW_RESET_PHONE_OTP:
+/*            case PW_RESET_PHONE_OTP:
 
-                /* WIP */
+                 WIP 
                 
-                break;
+                break;*/
 
             case PW_RESET_OTP:
 
                 /* WIP */
+                /*$OTP=generateOTP();
+                
+                $account=getUserIDfromPhone($email);
+                
+                storeOTP($account, $otp);
+                
+                isOTPCorrect($account, $userOTP);*/
                 
                 break;
             
@@ -346,7 +362,6 @@
         <link href="CSS/style.css" rel="stylesheet" type="text/css"/>
         <link href="CSS/forgotPw.css" rel="stylesheet" type="text/css"/>
         <link href="CSS/registerPage.css" rel="stylesheet" type="text/css"/>
-        <link href="CSS/registerPrivClient.css" rel="stylesheet" type="text/css"/>
         <!--JS links-->
         <script src="Script/jquery-3.5.0.js" type="text/javascript"></script>
         <script src="Script/script.js" type="text/javascript"></script>
@@ -369,7 +384,7 @@
                     <button class="registerOptBtn" onclick="changeToRegisterCompany()">REGISTER</button>
                 </div>
                 
-                <form method="POST" onsubmit="return loginVerification()" action="#">
+                <form method="POST" onsubmit="return loginVerification()" action="/Dashboard.php">
                     <div class="loginInp">
                         <img src="images/account.png" alt="" class="accountImg"/>
                         <input type="text" name="username" placeholder="USERNAME" class="input" id="username" required/>
