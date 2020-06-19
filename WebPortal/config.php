@@ -423,3 +423,13 @@ function isOTPCorrect($account, $userOTP) {
             return false;
         }
 }
+
+function registerCompany()
+{
+    
+}
+
+function registerPrivateClient()
+{
+    
+}

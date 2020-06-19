@@ -4,7 +4,7 @@
     require_once 'inputServerValidation.php';
     
     /* Constant Variable Declaration */
-    
+        
     
     /* Input Variable Declaration */
     $adrsNo;
@@ -24,13 +24,16 @@
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         /* Handle the form */
+        
+        
+        
         /* Validation */
-        $siteErrs = array(validateSite($adrsNo, $adrsStreet, $adrsSuburb, $adrsPostalCode, $adrsAdditional));
+        /*$siteErrs = array(validateSite($adrsNo, $adrsStreet, $adrsSuburb, $adrsPostalCode, $adrsAdditional));
         $adrsNoErr = $siteErrs[0];
         $adrsStreetErr = $siteErrs[1];
         $adrsSuburbErr = $siteErrs[2];
         $adrsPostalCodeErr = $siteErrs[3];
-        $adrsAdditionalErr = $siteErrs[4];
+        $adrsAdditionalErr = $siteErrs[4];*/
         
         /* Split the site errors into individual errors we can format the 
          * displaying of.
@@ -50,6 +53,14 @@
         
         /* If all is valid, register the private client, register the site to the client, and register each contact to the client. */
         
+        
+    }
+    
+    function handleLogin(){
+        
+    }
+    
+    function getContacts(){
         
     }
     
