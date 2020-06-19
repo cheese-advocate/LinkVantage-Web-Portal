@@ -21,6 +21,7 @@ not be too old.
     <body>
         <?php
             $code= $_GET['code'];
+            
         ?>
     </body>
 </html>
