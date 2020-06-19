@@ -3,33 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-<<<<<<< HEAD
-            <file>file:/G:/Documents/Repos/ITSP/web_portals/WebPortal/Exception.php</file>
-            <file>file:/G:/Documents/Repos/ITSP/web_portals/WebPortal/mobilePortal.php</file>
-            <file>file:/G:/Documents/Repos/ITSP/web_portals/WebPortal/registerCompany.php</file>
-            <file>file:/G:/Documents/Repos/ITSP/web_portals/WebPortal/config.php</file>
-            <file>file:/G:/Documents/Repos/ITSP/web_portals/WebPortal/hasher.php</file>
-            <file>file:/G:/Documents/Repos/ITSP/web_portals/WebPortal/index.php</file>
-            <file>file:/G:/Documents/Repos/ITSP/web_portals/WebPortal/emailManager.php</file>
-            <file>file:/G:/Documents/Repos/ITSP/web_portals/WebPortal/inputServerValidation.php</file>
-            <file>file:/G:/Documents/Repos/ITSP/web_portals/WebPortal/SMTP.php</file>
-            <file>file:/G:/Documents/Repos/ITSP/web_portals/WebPortal/PHPMailer.php</file>
-            <file>file:/G:/Documents/Repos/ITSP/web_portals/WebPortal/generator.php</file>
-            <file>file:/G:/Documents/Repos/ITSP/web_portals/WebPortal/recoverPassword.php</file>
-            <file>file:/G:/Documents/Repos/ITSP/web_portals/WebPortal/registerPrivateClient.php</file>
-            <file>file:/G:/Documents/Repos/ITSP/web_portals/WebPortal/newPassword.php</file>
-=======
-<<<<<<< HEAD
             <file>file:/C:/Users/Dell/Documents/Repos/ITSP/web_portal/WebPortal/Dashboard.php</file>
-            <file>file:/C:/Users/Dell/Documents/Repos/ITSP/web_portal/WebPortal/CSS/dashboard.css</file>
             <file>file:/C:/Users/Dell/Documents/Repos/ITSP/web_portal/WebPortal/Script/dashboard.js</file>
-            <file>file:/C:/Users/Dell/Documents/Repos/ITSP/web_portal/WebPortal/index.php</file>
-=======
-            <file>file:/C:/Users/BG/Documents/web_portal/WebPortal/PHPMailer.php</file>
-            <file>file:/C:/Users/BG/Documents/web_portal/WebPortal/recoverPassword.php</file>
-            <file>file:/C:/Users/BG/Documents/web_portal/WebPortal/emailManager.php</file>
->>>>>>> 22acfce45740a5bce189de07495d0a3f5692be96
->>>>>>> 71fddf6c74d2fcc905481b2a1b4a185873a5f836
+            <file>file:/C:/Users/Dell/Documents/Repos/ITSP/web_portal/WebPortal/CSS/dashboard.css</file>
         </group>
     </open-files>
 </project-private>
