@@ -164,12 +164,10 @@ function loginVerification()
     
     if(empty)
     {
-        alert("Username or password is empty");
         return false;
     }
     else
     {
-        alert("Logged in successfully");
         return true;
     }
 }
