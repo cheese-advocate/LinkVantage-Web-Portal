@@ -521,3 +521,15 @@ function isOTPCorrect($account, $userOTP) {
         }
 }
 
+<<<<<<< HEAD
+function registerCompany()
+{
+    
+}
+
+function registerPrivateClient()
+{
+    
+}
+=======
+>>>>>>> a072f463c317001f3d25deacfb6415947ab3dddd
