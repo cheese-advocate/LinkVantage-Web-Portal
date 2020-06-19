@@ -9,9 +9,11 @@
         <!--CSS links-->
         <link href="CSS/style.css" rel="stylesheet" type="text/css"/>
         <link href="CSS/dashboard.css" rel="stylesheet" type="text/css"/>
+        <link href="CSS/jquery.toast.min.css" rel="stylesheet" type="text/css"/>
         <!--JS Links-->
-        <script src="Script/dashboard.js" type="text/javascript"></script>
         <script src="Script/jquery-3.5.0.js" type="text/javascript"></script>
+        <script src="Script/jquery.toast.min.js" type="text/javascript"></script>
+        <script src="Script/dashboard.js" type="text/javascript"></script>
     </head>
     <body>
         <div id="main" class="mainPage">
@@ -39,7 +41,7 @@
             <div id="account" class="accountNav">
                 <div>Manage Account</div>
                 <div>Preferences</div>
-                <div>Log out</div>
+                <div onclick="logOut()">Log out</div>
             </div>
         </div>
     </body>

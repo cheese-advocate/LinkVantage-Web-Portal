@@ -35,3 +35,8 @@ function accountNav()
         accountToggled = false;
     }
 }
+
+function logOut()
+{
+    window.location.href = "index.php";
+}
