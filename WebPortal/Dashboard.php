@@ -16,6 +16,40 @@
         <script src="Script/dashboard.js" type="text/javascript"></script>
     </head>
     <body>
+        <script>
+            $.toast({
+                heading: "WELCOME",
+                text: "Welcome, user",
+                bgColor: "#373741",
+                textColor: "F3F3F3",
+                showHideTransition: "slide",
+                allowToastClose: false,
+                position: "bottom-center",
+                icon: "success",
+                loaderBg: "#03AAFB",
+                hideAfter: 3000
+            });
+            
+            function info()
+            {
+                $.toast({
+                    heading: "Information",
+                    text: "This is your personalised dashboard where you can navigate to and perform specific tasks",
+                    bgColor: "#03AAFB",
+                    textColor: "F3F3F3",
+                    showHideTransition: "slide",
+                    allowToastClose: false,
+                    position: {
+                        bottom: 10,
+                        right: 90
+                    },
+                    icon: "info",
+                    loaderBg: "#373741",
+                    hideAfter: 5000,
+                    stack: false
+                });
+            }
+        </script>
         <div id="main" class="mainPage">
             <div class="topNav">
                 <div id="menu" onclick="changeHam()">
@@ -31,11 +65,11 @@
             </div>
             
             <div id="side" class="sideNav">
-                <div><img src="images/homeLink.png" alt="" id="home"/><span>Home</span></div>
-                <div><img src="images/envelope.png" alt=""/><span>Jobs</span></div>
-                <div><img src="images/envelope.png" alt=""/><span>Invoices</span></div>
+                <div onclick="homeNav()"><img src="images/home_gray.png" alt="" id="home"/><span>Home</span></div>
+                <div><img src="images/suitcase.png" alt=""/><span>Jobs</span></div>
+                <div><img src="images/write.png" alt=""/><span>Invoices</span></div>
                 <div><img src="images/account.png" alt=""/><span>Clients</span></div>
-                <div><img src="images/information.png" alt=""/><span>Info</span></div>
+                <div onclick="info()"><img src="images/information.png" alt=""/><span>Info</span></div>
             </div>
             
             <div id="account" class="accountNav">
