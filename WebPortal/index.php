@@ -34,7 +34,6 @@
     $password = "";
     $passwordErr = "";
     $loginErr = "";
-    $loginResult;
     $email = "";
     $emailErr = "";
     $phone = "";
@@ -206,8 +205,9 @@
      */
     function handleLogin() {
         
-        global $username, $password, $loginIsValid, $usernameErr, $passwordErr, 
-               $loginResult;
+        global $username, $password, $loginIsValid, $usernameErr, $passwordErr;
+        
+        $accountID;
         
         // $username = trim($_POST["username"]);
         // $password = trim($_POST["password"]);
@@ -225,28 +225,62 @@
         }
         
         if ($loginIsValid) {
+            
             $accountID = findUsername($username);
             if($accountID === NOT_FOUND || $accountID === PREP_STMT_FAILED)
             {
                 $usernameErr = "Username not found.";
+                $loginIsValid = false;
             } else{
                 
                 $loginAttempt = isPasswordValid($accountID, $password);
                 
                 if($loginAttempt == true){
-                    $loginResult = $accountID;
+                    $loginAttempt = $accountID;
                 }
                 elseif($loginAttempt == false){
                     $passwordErr = "Invalid password.";
-                    $loginResult = false;
+                    $loginAttempt = false;
                 } else {
                     $loginErr = "Login failed";
-                    $loginResult = false;
-                }              
-                print "<p>result = ". $loginResult . "</p>";
-                /* WIP */
-            }           
-            
+                    $loginAttempt = false;
+                }
+            }                        
+        }
+        
+        if($loginIsValid){
+            session_start();
+            $_SESSION['accountID'] = $accountID;
+            header("Location:Dashboard.php");
+        }else{
+            echo '<script>',
+                    '$.toast({',
+                        'heading: "Login Invalid",',
+                        'text: "Username or password fields are empty",',
+                        'bgColor: "#FF6961",',
+                        'textColor: "F3F3F3",',
+                        'showHideTransition: "slide",',
+                        'allowToastClose: false,',
+                        'position: "bottom-center",',
+                        'icon: "error",',
+                        'loaderBg: "#373741",',
+                        'hideAfter: 3000',
+                    '});',
+                 '</script>';
+            /*echo '<script>
+                    $.toast({
+                        heading: "Login Invalid",
+                        text: "Invalid username and password",
+                        bgColor: "#FF6961",
+                        textColor: "F3F3F3",
+                        showHideTransition: "slide",
+                        allowToastClose: false,
+                        position: "bottom-center",
+                        icon: "error",
+                        loaderBg: "#373741",
+                        hideAfter: 3000
+                    });
+                 </script>';*/
         }
         
     }
@@ -412,7 +446,7 @@
                     }
                 </script>
                 
-                <form method="POST" onsubmit="return loginToast()" action="/Dashboard.php">
+                <form method="POST" onsubmit="return loginToast()" action="#">
                     <div class="loginInp">
                         <img src="images/account.png" alt="" class="accountImg"/>
                         <input type="text" name="username" placeholder="USERNAME" class="input" id="username" required/>
