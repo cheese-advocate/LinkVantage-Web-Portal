@@ -74,8 +74,15 @@ function validateCompanyName($companyName) {
 
 function isCompanyNameValid($companyName) {
     
-    /* WIP - need validity rules */
-    return true;
+    $reggex = "/^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/";  
+    if (preg_match($reggex, $companyName))
+    {
+       return true; 
+    }
+    else
+    {
+        return false;
+    }
     
 }
 
@@ -105,7 +112,15 @@ function validatePasswords($password, $confirmPassword) {
 
 function validatePassword($password) {
     
-    
+    $reggex = "/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/";
+    if(preg_match($reggex, $password))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
     
 }
 
@@ -122,19 +137,37 @@ function validateConfirmedPassword($password, $confirmPassword) {
     }
 }
 
-function validateEmail($emailAddress) {
+function validateEmail($emailAddress)
+{
     
+    $reggex = "/^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$/";
+    
+    if(preg_match($reggex, $emailAddress))
+    {
+        return true;
+    }
+    else
+        {
+        return false;
+    }
 }
 
 function validatePhone($phoneNumber) {
     
-    if (empty($phoneNumber)) {
-        return ;
-    }
+    $reggex = "/0((60[3-9]|64[0-5]|66[0-5])\d{6}|(7[1-4689]|6[1-3]|8[1-4])\d{7})/";
     
+    if (preg_match($reggex, $phoneNumber)) 
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 function validateSites($sites) {
+    
     
 }
 

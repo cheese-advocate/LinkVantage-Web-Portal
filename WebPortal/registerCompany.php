@@ -49,12 +49,47 @@ and open the template in the editor.
         <script src="Script/script.js" type="text/javascript"></script>
         <script src="Script/inputValidation.js" type="text/javascript"></script>
         <script src="Script/generateContent.js" type="text/javascript"></script>
+        <script src="Script/jquery.toast.min.js" type="text/javascript"></script>
         <!--CSS links-->
         <link href="CSS/style.css" rel="stylesheet" type="text/css"/>
         <link href="CSS/registerPage.css" rel="stylesheet" type="text/css"/>
         <link href="CSS/forgotPw.css" rel="stylesheet" type="text/css"/>
+        <link href="CSS/jquery.toast.min.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
+        <script>
+            function emptyInputToast()
+            {
+                $.toast({
+                    heading: "Empty Input",
+                    text: "Some fields are empty and need to be entered",
+                    bgColor: "#FF6961",
+                    textColor: "F3F3F3",
+                    showHideTransition: "slide",
+                    allowToastClose: false,
+                    position: "bottom-center",
+                    icon: "error",
+                    loaderBg: "#373741",
+                    hideAfter: 3000
+                });
+            }
+            
+            function invalidInputToast()
+            {
+                $.toast({
+                    heading: "Invalid Input",
+                    text: "Invalid input received",
+                    bgColor: "#FFB347",
+                    textColor: "F3F3F3",
+                    showHideTransition: "slide",
+                    allowToastClose: false,
+                    position: "bottom-center",
+                    icon: "error",
+                    loaderBg: "#373741",
+                    hideAfter: 3000
+                });
+            }
+        </script>
         <!--REGISTER COMPANY PAGE-->
         <div class="registerCompanyPage" id="registerCompanyPage">
             <div class="header">

@@ -107,17 +107,16 @@ function verifyForgotPw()
     console.log("test");
     if(!valid)
     {
-        alert("Invalid input received");
+        invalidInputToast();
         return false;
     }
     else if(empty)
     {
-        alert("Some fields are empty and need to be entered");
+        emptyInputToast();
         return false;
     }
     else
     {
-        alert("Reset request received");
         return valid;
     }
 }
@@ -196,7 +195,7 @@ function checkRequiredFields()
     
     if(empty)
     {
-        alert("Some fields are empty and need to be entered");
+        emptyInputToast();
         window.onbeforeunload = function() 
         {
             return "Are you sure you want to navigate away?";
@@ -404,17 +403,20 @@ function verifyNewPassword()
     
     if($("#newPwInp").val() !== $("#confirmPwInp").val())
     {
-        alert("The passwords need to match");
+        matchingPWToast();
         $("#newPwInp, #confirmPwInp").css("border-bottom-color", "#03AAFB");
     }
     
     if(empty)
     {
-        alert("Some fields are empty and need to be entered");
+        emptyInputToast();
+        return false;
     }
     else if(!valid)
     {
-        alert("The password should consist of 8 characters with:\nAt least one uppercase\nOne lowercase\nOne special character\nOne number");
+        invalidInputToast();
+        pwInfoToast();
+        return false;
     }
     else
     {

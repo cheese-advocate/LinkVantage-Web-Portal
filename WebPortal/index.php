@@ -470,6 +470,39 @@
         
         
         <!--FORGOT PASSWORD PAGE-->
+        <script>
+            function invalidInputToast()
+            {
+                $.toast({
+                    heading: "Invalid Input",
+                    text: "Invalid input received",
+                    bgColor: "#FFB347",
+                    textColor: "F3F3F3",
+                    showHideTransition: "slide",
+                    allowToastClose: false,
+                    position: "bottom-center",
+                    icon: "error",
+                    loaderBg: "#373741",
+                    hideAfter: 3000
+                });
+            }
+            
+            function emptyInputToast()
+            {
+                $.toast({
+                    heading: "Empty Input",
+                    text: "Some fields are empty and need to be entered",
+                    bgColor: "#FF6961",
+                    textColor: "F3F3F3",
+                    showHideTransition: "slide",
+                    allowToastClose: false,
+                    position: "bottom-center",
+                    icon: "error",
+                    loaderBg: "#373741",
+                    hideAfter: 3000
+                });
+            }
+        </script>
         <div class="forgotPasswordPage" id="forgotPasswordPage">
             <div class="header">
                 CompuLink Technologies
