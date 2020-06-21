@@ -29,28 +29,29 @@ function addContact()
                 
                 '<div class="usernPassInp">'+
                     '<img src="images/account.png" alt="" class="contactAccountImg"/>'+
-                    '<input type="text" name="username" placeholder="USERNAME" class="contactInput" id="ContactUsername" required="true"/>'+
+                    '<input type="text" name="username[]" placeholder="USERNAME" class="contactInput" id="ContactUsername" required="true"/>'+
                     '<img src="images/lock.png" alt="" class="contactLockImg"/>'+
-                    '<input type="text" name="password" placeholder="PASSWORD" class="contactInput" id="ContactPassw" onfocus="changeTypeRegister()" required="true"/>'+
+                    '<input type="text" name="password[]" placeholder="PASSWORD" class="contactInput" id="ContactPassw" onfocus="changeTypeRegister()" required="true"/>'+
                 '</div>'+
                 
                 '<div class="names">'+
                     '<img src="images/id-card.png" alt="" class="idCard" id="id1"/>'+
-                    '<input type="text" name="firstName" placeholder="FIRST NAME" class="contactInput" id="contactFirstName" required="true"/>'+
+                    '<input type="text" name="firstName[]" placeholder="FIRST NAME" class="contactInput" id="contactFirstName" required="true"/>'+
                     '<img src="images/id-card.png" alt="" class="idCard"/>'+
-                    '<input type="text" name="lastName" placeholder="LAST NAME" class="contactInput" id="contactLastName" required="true"/>'+
+                    '<input type="text" name="lastName[]" placeholder="LAST NAME" class="contactInput" id="contactLastName" required="true"/>'+
                 '</div>'+
                 
                 '<div class="otherContactDet">'+
                     '<img src="images/envelope.png" alt="" class="contactEmailImg"/>'+
-                    '<input type="text" name="email" placeholder="EMAIL" class="contactInput" id="contactEmail" required="true"/>'+
+                    '<input type="text" name="email[]" placeholder="EMAIL" class="contactInput" id="contactEmail" required="true"/>'+
                     '<img src="images/phone.png" alt="" class="phoneContactImg"/>'+
-                    '<input type="text" name="phoneNumber" placeholder="PHONE NUMBER" class="contactInput" id="contactPhoneNum" required="true"/>'+
+                    '<input type="text" name="phoneNumber[]" placeholder="PHONE NUMBER" class="contactInput" id="contactPhoneNum" required="true"/>'+
                 '</div>'+
 
                 '<div class="confirmContact">'+
                         '<label for="confirmMainContact">Is the main contact:</label>'+
-                        '<input type="checkbox" name="confirmMainContact" id="confirmMainContact"/>'+
+                        '<input type="hidden" name="confirmMainContact[]" id="confirmMainContact" value="false"/>'+
+                        '<input type="checkbox" name="confirmMainContact[]" id="confirmMainContact" value="true"/>'+
                 '</div>'+
             '</div>';
     

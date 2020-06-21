@@ -2,6 +2,7 @@
     
     require_once 'config.php';
     require_once 'inputServerValidation.php';
+    require_once 'Contact.php';
     
     /* Constant Variable Declaration */
         
@@ -25,7 +26,63 @@
         
         /* Handle the form */
         
+        //print_r($_POST);
         
+        $contact_usernames = $_POST["username"];
+        $contact_passwords = $_POST["password"];
+        $contact_firstNames = $_POST["firstName"];
+        $contact_lastNames = $_POST["lastName"];
+        $contact_emails = $_POST["email"];
+        $contact_phoneNumbers = $_POST["phoneNumber"];
+        $contact_mainContacts = $_POST["confirmMainContact"];
+        
+        /*foreach ($contact_usernames as $username) {
+            echo $username . " - ";
+        }
+        
+        echo "<br>";
+        
+        foreach ($contact_passwords as $password) {
+            echo $password . " - ";
+        }
+        
+        echo "<br>";
+        
+        foreach ($contact_firstNames as $firstName) {
+            echo $firstName . " - ";
+        }
+        
+        echo "<br>";
+        
+        foreach ($contact_lastNames as $lastName) {
+            echo $lastName . " - ";
+        }
+        
+        echo "<br>";
+        
+        foreach ($contact_emails as $email) {
+            echo $email . " - ";
+        }
+        
+        echo "<br>";
+        
+        foreach ($contact_phoneNumbers as $phoneNumber) {
+            echo $phoneNumber . " - ";
+        }
+        
+        echo "<br>";
+        
+        foreach ($contact_mainContacts as $mainContact) {
+            echo $mainContact . " - ";
+        }*/
+        
+        $contacts = getContacts($contact_usernames, $contact_passwords, 
+                $contact_firstNames, $contact_lastNames, $contact_emails,  
+                $contact_phoneNumbers, $contact_mainContacts);
+        
+        foreach ($contacts as $contact) {
+            $contact->toString();
+        }
         
         /* Validation */
         /*$siteErrs = array(validateSite($adrsNo, $adrsStreet, $adrsSuburb, $adrsPostalCode, $adrsAdditional));
@@ -60,8 +117,34 @@
         
     }
     
-    function getContacts(){
+    function getContacts($usernames, $passwords, $firstNames, $lastNames, $emails, $phoneNumers, $mainContacts){
         
+        $contacts = array();
+        $mainContactsCorrected = array();
+        
+        for($i=0, $j=0; $i < count($mainContacts); $i++) {
+            if ($mainContacts[$i] == "true"){
+                $mainContactsCorrected[$j - 1] = true;
+            }else{
+                $mainContactsCorrected[$j] = false;
+                $j++;
+            }            
+        }
+        
+        for($i=0; $i < count($usernames); $i++){
+            $username = $usernames[$i];
+            $password = $passwords[$i];
+            $firstName = $firstNames[$i];
+            $lastName = $lastNames[$i];
+            $email = $emails[$i];
+            $phoneNumber = $phoneNumers[$i];
+            $mainContact = $mainContactsCorrected[$i];
+            $newContact = new Contact($username, $password, $firstName, 
+                    $lastName, $email, $phoneNumber, $mainContact);
+            $contacts[$i] = $newContact;
+        }
+        
+        return $contacts;              
     }
     
 ?>
@@ -186,7 +269,8 @@ and open the template in the editor.
 
                     <div class="confirmContact">
                             <label for="confirmMainContact">Is the main contact:</label>
-                            <input type="checkbox" name="confirmMainContact[]" id="confirmMainContact"/>    
+                            <input type="hidden" name="confirmMainContact[]" id="confirmMainContact" value="false"/>    
+                            <input type="checkbox" name="confirmMainContact[]" id="confirmMainContact" value="true"/>    
                     </div>
                 </div>
 

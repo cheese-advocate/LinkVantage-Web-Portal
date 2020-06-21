@@ -1,5 +1,7 @@
 <?php
     
+    session_start();
+
     /**
      * Todo:
      * 
@@ -84,6 +86,13 @@
     $pwResetModeErr = "";
     $newPassword = "";
     $confirmNewPassword = "";
+    
+    if(isset($_SESSION['loginFailed'])){
+        echo '<script>';
+        echo 'alert("invalid login")';
+        echo '</script>';
+        session_unset();
+    }
     
     /* Check if a form was submitted */
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -248,39 +257,11 @@
             }                        
         }
         
-        if($loginIsValid){
-            session_start();
+        if($loginIsValid){            
             $_SESSION['accountID'] = $accountID;
             header("Location:Dashboard.php");
         }else{
-            echo '<script>',
-                    '$.toast({',
-                        'heading: "Login Invalid",',
-                        'text: "Username or password fields are empty",',
-                        'bgColor: "#FF6961",',
-                        'textColor: "F3F3F3",',
-                        'showHideTransition: "slide",',
-                        'allowToastClose: false,',
-                        'position: "bottom-center",',
-                        'icon: "error",',
-                        'loaderBg: "#373741",',
-                        'hideAfter: 3000',
-                    '});',
-                 '</script>';
-            /*echo '<script>
-                    $.toast({
-                        heading: "Login Invalid",
-                        text: "Invalid username and password",
-                        bgColor: "#FF6961",
-                        textColor: "F3F3F3",
-                        showHideTransition: "slide",
-                        allowToastClose: false,
-                        position: "bottom-center",
-                        icon: "error",
-                        loaderBg: "#373741",
-                        hideAfter: 3000
-                    });
-                 </script>';*/
+            $_SESSION['loginFailed'] = 'failed';
         }
         
     }
@@ -444,7 +425,7 @@
                             return false;
                         }
                     }
-                </script>
+                </script>                               
                 
                 <form method="POST" onsubmit="return loginToast()" action="#">
                     <div class="loginInp">
