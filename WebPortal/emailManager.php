@@ -5,7 +5,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 require 'PHPMailer/src/Exception.php';
 require 'PHPMailer/src/PHPMailer.php';
 require 'PHPMailer/src/SMTP.php';
-//require_once 'config.php';
+require_once 'config.php';
 
 $mail = new PHPMailer;
 $mail->isSMTP(); 
@@ -18,13 +18,12 @@ $mail->Username = "drchai101@gmail.com"; //your email address
 $mail->Password = "thisischai"; //password for email acount
 $mail->setFrom("linkvantage@compulink.co.za", "Compulink Technologies");
 
-forgotPassword("bernard01geldenhuys@gmail.com", "Bernard", "6566$%&^$%^4%$%");
 function forgotPassword($toEmail, $fname, $recCode)
 {      
     global $mail;
-    $accountID = "99998";//getUserIDfromEmail($toEmail);
+    $accountID = getUserIDfromEmail($toEmail);
     
-    $recUrl = "http://localhost:8000/recoverPassword.php?code=$recCode?id=$accountID";
+    $recUrl = "http://localhost:8000/recoverPassword.php?code=$recCode&id=$accountID";
     $mailer = $mail;
     $mailer->addAddress($toEmail, "Client");
     $mailer->Subject = 'Forgot Password';
