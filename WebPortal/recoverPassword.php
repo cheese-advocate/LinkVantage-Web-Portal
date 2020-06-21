@@ -20,8 +20,23 @@ not be too old.
     </head>
     <body>
         <?php
+        
+            //Get OTP and accountID from URL
             $code = $_GET['code'];
             $ID = $_GET['id'];
+            
+            //Retrieve OTP from database
+            $vaildateCode = getOTP($ID);
+            
+            //Check if OTP from database matches OTP from URL
+            if ($validateCode == $code)
+            {
+                echo"Password Reset";
+            }
+            else
+            {
+                echo"Error: OTP Mismatch!";
+            }
             
         ?>
     </body>
