@@ -3,6 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/G:/Documents/Repos/ITSP/web_portals/WebPortal/Exception.php</file>
             <file>file:/G:/Documents/Repos/ITSP/web_portals/WebPortal/mobilePortal.php</file>
             <file>file:/G:/Documents/Repos/ITSP/web_portals/WebPortal/registerCompany.php</file>
@@ -17,6 +18,11 @@
             <file>file:/G:/Documents/Repos/ITSP/web_portals/WebPortal/recoverPassword.php</file>
             <file>file:/G:/Documents/Repos/ITSP/web_portals/WebPortal/registerPrivateClient.php</file>
             <file>file:/G:/Documents/Repos/ITSP/web_portals/WebPortal/newPassword.php</file>
+=======
+            <file>file:/C:/Users/Dell/Documents/Repos/ITSP/web_portal/WebPortal/Script/inputValidation.js</file>
+            <file>file:/C:/Users/Dell/Documents/Repos/ITSP/web_portal/WebPortal/registerCompany.php</file>
+            <file>file:/C:/Users/Dell/Documents/Repos/ITSP/web_portal/WebPortal/registerPrivateClient.php</file>
+>>>>>>> a626562ba4f178014917640c09bc0d9c90e0e6c4
         </group>
     </open-files>
 </project-private>

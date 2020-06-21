@@ -20,7 +20,9 @@ not be too old.
     </head>
     <body>
         <?php
-            $code= $_GET['code'];
+            $code = $_GET['code'];
+            $ID = $_GET['id'];
+            
         ?>
     </body>
 </html>

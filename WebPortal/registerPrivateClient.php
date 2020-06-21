@@ -4,7 +4,7 @@
     require_once 'inputServerValidation.php';
     
     /* Constant Variable Declaration */
-    
+        
     
     /* Input Variable Declaration */
     $adrsNo;
@@ -24,13 +24,16 @@
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         /* Handle the form */
+        
+        
+        
         /* Validation */
-        $siteErrs = array(validateSite($adrsNo, $adrsStreet, $adrsSuburb, $adrsPostalCode, $adrsAdditional));
+        /*$siteErrs = array(validateSite($adrsNo, $adrsStreet, $adrsSuburb, $adrsPostalCode, $adrsAdditional));
         $adrsNoErr = $siteErrs[0];
         $adrsStreetErr = $siteErrs[1];
         $adrsSuburbErr = $siteErrs[2];
         $adrsPostalCodeErr = $siteErrs[3];
-        $adrsAdditionalErr = $siteErrs[4];
+        $adrsAdditionalErr = $siteErrs[4];*/
         
         /* Split the site errors into individual errors we can format the 
          * displaying of.
@@ -53,6 +56,14 @@
         
     }
     
+    function handleLogin(){
+        
+    }
+    
+    function getContacts(){
+        
+    }
+    
 ?>
 
 <!DOCTYPE html>
@@ -71,13 +82,50 @@ and open the template in the editor.
         <link href="CSS/style.css" rel="stylesheet" type="text/css"/>
         <link href="CSS/registerPage.css" rel="stylesheet" type="text/css"/>
         <link href="CSS/registerPrivClient.css" rel="stylesheet" type="text/css"/>
+        <link href="CSS/jquery.toast.min.css" rel="stylesheet" type="text/css"/>
         <!--JS links-->
         <script src="Script/jquery-3.5.0.js" type="text/javascript"></script>
         <script src="Script/script.js" type="text/javascript"></script>
         <script src="Script/inputValidation.js" type="text/javascript"></script>
         <script src="Script/generateContent.js" type="text/javascript"></script>
+        <script src="Script/jquery.toast.min.js" type="text/javascript"></script>
     </head>
     <body>
+        <script>
+            function emptyInputToast()
+            {
+                $.toast({
+                    heading: "Empty Input",
+                    text: "Some fields are empty and need to be entered",
+                    bgColor: "#FF6961",
+                    textColor: "F3F3F3",
+                    showHideTransition: "slide",
+                    allowToastClose: false,
+                    position: "bottom-center",
+                    icon: "error",
+                    loaderBg: "#373741",
+                    hideAfter: 3000
+                });
+            }
+            
+            function invalidInputToast()
+            {
+                $.toast({
+                    heading: "Invalid Input",
+                    text: "Invalid input received",
+                    bgColor: "#FFB347",
+                    textColor: "F3F3F3",
+                    showHideTransition: "slide",
+                    allowToastClose: false,
+                    position: "bottom-center",
+                    icon: "error",
+                    loaderBg: "#373741",
+                    hideAfter: 3000
+                });
+            }
+            
+            
+        </script>
         <div class="registerCompanyPage" id="registerPrivClient">
             <div class="header">
                 Compulink Technologies

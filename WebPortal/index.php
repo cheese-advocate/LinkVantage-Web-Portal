@@ -360,12 +360,14 @@
         <link rel="shortcut icon" href="favicon.ico" />
         <!--CSS links-->
         <link href="CSS/style.css" rel="stylesheet" type="text/css"/>
+        <link href="CSS/jquery.toast.min.css" rel="stylesheet" type="text/css"/>
         <link href="CSS/forgotPw.css" rel="stylesheet" type="text/css"/>
         <link href="CSS/registerPage.css" rel="stylesheet" type="text/css"/>
         <!--JS links-->
         <script src="Script/jquery-3.5.0.js" type="text/javascript"></script>
+        <script src="Script/jquery.toast.min.js" type="text/javascript"></script>
         <script src="Script/script.js" type="text/javascript"></script>
-        <script src="Script/inputValidation.js" type="text/javascript"></script>
+        <script src="Script/inputValidation.js" type="text/javascript"></script>   
     </head>
     <body>
         <!--LOGIN PAGE-->
@@ -384,7 +386,33 @@
                     <button class="registerOptBtn" onclick="changeToRegisterCompany()">REGISTER</button>
                 </div>
                 
-                <form method="POST" onsubmit="return loginVerification()" action="Dashboard.php">
+                <script>
+                    function loginToast()
+                    {
+                        if(loginVerification())
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            $.toast({
+                                heading: "Login Invalid",
+                                text: "Username or password fields are empty",
+                                bgColor: "#FF6961",
+                                textColor: "F3F3F3",
+                                showHideTransition: "slide",
+                                allowToastClose: false,
+                                position: "bottom-center",
+                                icon: "error",
+                                loaderBg: "#373741",
+                                hideAfter: 3000
+                            });
+                            return false;
+                        }
+                    }
+                </script>
+                
+                <form method="POST" onsubmit="return loginToast()" action="/Dashboard.php">
                     <div class="loginInp">
                         <img src="images/account.png" alt="" class="accountImg"/>
                         <input type="text" name="username" placeholder="USERNAME" class="input" id="username" required/>
@@ -408,6 +436,39 @@
         
         
         <!--FORGOT PASSWORD PAGE-->
+        <script>
+            function invalidInputToast()
+            {
+                $.toast({
+                    heading: "Invalid Input",
+                    text: "Invalid input received",
+                    bgColor: "#FFB347",
+                    textColor: "F3F3F3",
+                    showHideTransition: "slide",
+                    allowToastClose: false,
+                    position: "bottom-center",
+                    icon: "error",
+                    loaderBg: "#373741",
+                    hideAfter: 3000
+                });
+            }
+            
+            function emptyInputToast()
+            {
+                $.toast({
+                    heading: "Empty Input",
+                    text: "Some fields are empty and need to be entered",
+                    bgColor: "#FF6961",
+                    textColor: "F3F3F3",
+                    showHideTransition: "slide",
+                    allowToastClose: false,
+                    position: "bottom-center",
+                    icon: "error",
+                    loaderBg: "#373741",
+                    hideAfter: 3000
+                });
+            }
+        </script>
         <div class="forgotPasswordPage" id="forgotPasswordPage">
             <div class="header">
                 CompuLink Technologies

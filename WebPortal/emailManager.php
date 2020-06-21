@@ -1,11 +1,11 @@
 <?php
 
 use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
 
-require 'Exception.php';
-require 'PHPMailer.php';
-require 'SMTP.php';
+require 'PHPMailer/src/Exception.php';
+require 'PHPMailer/src/PHPMailer.php';
+require 'PHPMailer/src/SMTP.php';
+//require_once 'config.php';
 
 $mail = new PHPMailer;
 $mail->isSMTP(); 
@@ -18,17 +18,19 @@ $mail->Username = "drchai101@gmail.com"; //your email address
 $mail->Password = "thisischai"; //password for email acount
 $mail->setFrom("linkvantage@compulink.co.za", "Compulink Technologies");
 
-forgotPassword();
+forgotPassword("bernard01geldenhuys@gmail.com", "Bernard", "6566$%&^$%^4%$%");
 function forgotPassword($toEmail, $fname, $recCode)
 {      
     global $mail;
-    $recLink = 'http://localhost:8000/recoverPassword.php?code='.$recCode;
+    $accountID = "99998";//getUserIDfromEmail($toEmail);
+    
+    $recUrl = "http://localhost:8000/recoverPassword.php?code=$recCode?id=$accountID";
     $mailer = $mail;
     $mailer->addAddress($toEmail, "Client");
     $mailer->Subject = 'Forgot Password';
-    $mailer->msgHTML("<html><h3>Hi, $fname. Your password reset request has been received.</h3>"
-            . "Click the following link to reset your password.<br>"
-            . "$recLink </html>");
+    $mailer->msgHTML("<html><h3>Hi, $fname. Your password reset request has been received. </h3>"
+            . "Click the following <a href='$recUrl'>link</a> to reset your password.<br>"
+            . "</html>");
 
     if(!$mail->send()) 
     {

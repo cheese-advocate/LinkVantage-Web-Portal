@@ -25,6 +25,7 @@ define("SQL_GET_OTP", "SELECT getOTP(?)");
 define("SQL_UPDATE_PASSWORD","CALL updatePassword(?, ?)");
 define("SQL_GET_ACCOUNTID_EMAIL","CALL getAccountID_Email(?)");
 define("SQL_GET_ACCOUNTID_PHONE","CALL getAccountID_Phone(?)");
+define("SQL_GET_USERNAME_ACCOUNTID","CALL getUsername(?)");
 define("SQL_CHECK_COMPANY_NAME","");
 define("SQL_REGISTER_COMPANY","");
 define("SQL_REGISTER_PRIVATE_CLIENT","");
@@ -395,6 +396,47 @@ function findEmail($email)
 }
 
 /**
+ * A method to return the username associated with a given account ID
+ * 
+ * @global type $link the database connection
+ * @param type $accountID the account ID of the user
+ * @return type The result of the statement execution (the username the 
+ * account ID is associated with or an empty result set) or a message indicating the 
+ * failure of execution (PREP_STMT_FAILED)
+ */
+function getUsernameFromID($accountID)
+{
+    /*Access global variable link*/
+    global $link;
+    
+    /*Check that statement worked, prepare statement selecting from getUsername 
+     *function*/
+    if($stmt = mysqli_prepare($link, SQL_GET_USERNAME_ACCOUNTID)){
+        /*insert accountID variable to select statement*/
+        mysqli_stmt_bind_param($stmt, "s", $accountID);
+        /*execute the query*/
+        mysqli_stmt_execute($stmt);
+        /*bind the result of the query to the $result variable*/
+        mysqli_stmt_bind_result($stmt, $result);
+        /*fetch the result of the query*/
+        mysqli_stmt_fetch($stmt);                                    
+        /*close the statement*/
+        mysqli_stmt_close($stmt);        
+        
+        /*If sql returns empty result set, indicating not found*/
+        if($result == '')
+        {
+            $result = NOT_FOUND;
+        }
+        
+        return $result;
+        /*If statement failed*/
+    } else {
+        return PREP_STMT_FAILED;
+    }
+}
+
+/**
  * A method to check if the phone number entered by the user already exists in the 
  * database
  * 
@@ -519,5 +561,16 @@ function isOTPCorrect($account, $userOTP) {
         } else {
             return false;
         }
+}
+
+
+function registerCompany()
+{
+    
+}
+
+function registerPrivateClient()
+{
+    
 }
 
