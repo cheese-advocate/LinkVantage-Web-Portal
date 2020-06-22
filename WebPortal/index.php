@@ -245,14 +245,14 @@
                 $loginAttempt = isPasswordValid($accountID, $password);
                 
                 if($loginAttempt == true){
-                    $loginAttempt = $accountID;
+                    $loginIsValid = $accountID;
                 }
                 elseif($loginAttempt == false){
                     $passwordErr = "Invalid password.";
-                    $loginAttempt = false;
+                    $$loginIsValid = false;
                 } else {
                     $loginErr = "Login failed";
-                    $loginAttempt = false;
+                    $loginIsValid = false;
                 }
             }                        
         }
