@@ -59,7 +59,7 @@
                 </div>
                 
                 <div class="userInfo">
-                    <span class="userName"></span>
+                    <span class="userName">USERNAME</span><!--TO BE REPLACED WITH USERNAME FROM PHP SIDE-->
                     <img src="images/account.png" alt="" class="account" onclick="accountNav()"/>
                 </div>
             </div>
@@ -70,12 +70,22 @@
                 <div><img src="images/write.png" alt=""/><span>Invoices</span></div>
                 <div><img src="images/account.png" alt=""/><span>Clients</span></div>
                 <div onclick="info()"><img src="images/information.png" alt=""/><span>Info</span></div>
+                <div><img src="images/gear.png" alt=""/><span>Settings</span></div>
             </div>
             
             <div id="account" class="accountNav">
                 <div>Manage Account</div>
                 <div>Preferences</div>
                 <div onclick="logOut()">Log out</div>
+            </div>
+            
+            <div class="dashContent">
+                <div id="content1"></div>
+                <div id="content2"></div>
+                <div id="content3"></div>
+                <div id="content4"></div>
+                <div id="content5"></div>
+                <div id="content6"></div>
             </div>
         </div>
     </body>
