@@ -85,14 +85,7 @@
     $pwResetMode = "";
     $pwResetModeErr = "";
     $newPassword = "";
-    $confirmNewPassword = "";
-    
-    if(isset($_SESSION['loginFailed'])){
-        echo '<script>';
-        echo 'alert("invalid login")';
-        echo '</script>';
-        session_unset();
-    }
+    $confirmNewPassword = "";        
     
     /* Check if a form was submitted */
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -462,6 +455,29 @@
                         }
                     }
                 </script>                               
+                
+                <?php
+                    $loginFailed = false;
+                    if(isset($_SESSION['loginFailed'])){?>
+                        <script>
+                            $.toast({
+                                heading: "Login Invalid",
+                                text: "No account with that username and password",
+                                bgColor: "#FF6961",
+                                textColor: "F3F3F3",
+                                showHideTransition: "slide",
+                                allowToastClose: false,
+                                position: "bottom-center",
+                                icon: "error",
+                                loaderBg: "#373741",
+                                hideAfter: 3000
+                            });
+                        </script>
+                        
+                        <?php
+                        session_unset();
+                    }
+                ?>
                 
                 <form method="POST" onsubmit="return loginToast()" action="#">
                     <div class="loginInp">
