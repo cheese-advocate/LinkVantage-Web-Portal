@@ -79,7 +79,7 @@ function removeContact(id, val)
 {
     if(counterContact === 0)
     {
-        alert("At least one contact is required");
+        oneContactToastWarning();
         return;
     }
     /*Used to test id the right arguments were received*/
@@ -176,7 +176,7 @@ function removeSite(id)
 {
     if(counterSite === 0)
     {
-        alert("At least one site is required");
+        oneSiteToastWarning();
         return;
     }
     document.getElementById(id).remove();
