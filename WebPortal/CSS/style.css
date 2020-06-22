@@ -359,6 +359,12 @@ CUSTOM SCROLLBAR
     background: #03AAFB;
     border-radius: 25px;
 }
+
+::-webkit-scrollbar-thumb:hover
+{
+    background: #0082D3;
+    border-radius: 25px;
+}
 /*
 ********************
 CUSTOM SCROLLBAR END
