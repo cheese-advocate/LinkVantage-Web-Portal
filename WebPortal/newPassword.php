@@ -110,14 +110,14 @@ and open the template in the editor.
                 <form method="POST" onsubmit="return verifyNewPassword()" action="index.php">
                     <div class="resetPwInput">
                         <img src="images/lock.png" alt="" class="resetImg" id="lock1"/>
-                        <input type="text" naem="newPassword" placeholder="PASSWORD" class="input" id="newPwInp" onfocus="changeNewPasswordType()">
+                        <input type="text" name="newPassword" placeholder="PASSWORD" class="input" id="newPwInp" onfocus="changeNewPasswordType()">
 
                         <img src="images/lock.png" alt="" class="resetImg" id="lock2"/>
-                        <input type="text" naem="confirmPassword" placeholder="PASSWORD" class="input" id="confirmPwInp" onfocus="changeNewPasswordType()">
+                        <input type="text" name="confirmPassword" placeholder="PASSWORD" class="input" id="confirmPwInp" onfocus="changeNewPasswordType()">
                     </div>
 
                     <div class="resetSubmit" id="reset_submit">
-                        <button type="submit" onclick="" class="subNewPwBtn">SUBMIT PASSWORD</button>
+                        <button type="submit" onclick="" class="subNewPwBtn" name="subNewPwBtn" value="subNewPwBtn">SUBMIT PASSWORD</button>
                     </div>
                 </form>
             </div>

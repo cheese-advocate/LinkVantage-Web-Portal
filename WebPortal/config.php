@@ -33,7 +33,7 @@ define("SQL_REGISTER_PRIVATE_CLIENT","");
 /* Database credentials */
 define('DB_SERVER', 'localhost');
 define('DB_USERNAME', 'root');
-define('DB_PASSWORD', 'P@ssword1'/*'P@ssword1'*/);
+define('DB_PASSWORD', 'blantyre'/*'P@ssword1'*/);
 define('DB_NAME', 'Chai');
 
 /* Other useful constants */
@@ -536,6 +536,40 @@ function storeOTP($account, $otp) {
     
 }
 
+/**
+ * method to hash and update user password in database
+ * 
+ * @global type $link the database connection
+ * @param type $account the account which the password is to be associated with
+ * @param type $password the password in plaintext to be associated with the account
+ * @return type returns PREP_STMT_FAILED if the statement failed to execute
+ */
+function updatePassword($account, $password) {
+ 
+    /*Access the global variable link*/ 
+    global $link;
+    
+    /*Check that statement worked, prepare statement inserting using storeOTP 
+     * function*/
+    if($stmt = mysqli_prepare($link, SQL_UPDATE_PASSWORD)){
+        
+        /*hash the OTP for storage in database*/
+        $hashedPassword = hashPassword($password);
+        
+        /*insert account and otp variables to function*/
+        mysqli_stmt_bind_param($stmt, "ss", $account, $hashedPassword);
+        /*execute the insert*/
+        mysqli_stmt_execute($stmt);
+        
+        /*close the statement*/
+        mysqli_stmt_close($stmt);        
+        
+        /*If statement failed*/
+    } else {
+        return PREP_STMT_FAILED;
+    }
+    
+}
 
 /**
  * A method to verify if the otp entered by a user is valid for the associated 

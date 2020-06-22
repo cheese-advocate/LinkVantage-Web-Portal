@@ -275,11 +275,9 @@
      */
     function handleForgotPW() {
         
-        global $email, $username,  $emailErr, $phone, $phoneErr, $OTP, $OTPErr, $pwResetMode, 
-               $pwResetModeErr;
+        global $email, $username,$account,  $emailErr, $phone, $phoneErr, $OTP, $OTPErr, $pwResetMode, 
+               $pwResetModeErr, $confirmNewPassword;
         
-//        $pwResetMode = htmlspecialchars($_POST["name"]);
-
         /** 
          * This is where things get tricky.
          * 
@@ -290,21 +288,47 @@
          * This means we have to track the user's current status throughout the 
          * process, likely with a session, and render the page accordingly.
          */
+        
+        $pwResetMode = htmlspecialchars($_POST["resetOptions"]);
+        
+        session_start();
+        
         switch ($pwResetMode) {
             
-            case PW_RESET_EMAIL:
-
-                /* WIP */
-                /*$OTP=generateOTP();
+            case 'RESET PASSWORD':
                 
-                $account=getUserIDfromEmail($email);
+                $_SESSION["userStatus"] = "resetPassword";
                 
-                storeOTP($account, $OTP);
+                if(array_key_exists('resetSubBtn', $_POST)) { 
+                resetSubBtn(); 
+                }
                 
-                forgotPassword($email, $username, $link);
+                function resetSubBtn() {
+                    
+                    if (getUserIDfromEmail($email)==NOT_FOUND){
+                        $email=null;
+                        $emailErr= "Email not found";
+                    } else {
+                        $_SESSION["userStatus"] = "getUserID";
+                        $account=getUserIDfromEmail($email);
+                        $username=getUsernameFromID($account);
+                        $OTP=generateOTP();
+                        $_SESSION["userStatus"] = "storeOTP";
+                        storeOTP($account, $OTP);
+                    }
+                    $_SESSION["userStatus"] = "sendEmail";
+                    forgotPassword($email, $username, $OTP);
+                }
                 
-                isOTPCorrect($account, $userOTP);*/
+                if(array_key_exists('subNewPwBtn', $_POST)) { 
+                subNewPwBtn($account); 
+                $_SESSION["userStatus"] = "updatePassword";
+                }
                 
+                function subNewPwBtn($account) {
+                    $password=$_POST['emailInput'];
+                    updatePassword($account,$confirmNewPassword);
+                }
                 break;
 
 /*            case PW_RESET_PHONE_OTP:
@@ -313,7 +337,9 @@
                 
                 break;*/
 
-            case PW_RESET_OTP:
+            case 'ANDROID OTP':
+                
+                $_SESSION["userStatus"] = "androidOTP";
 
                 /* WIP */
                 /*$OTP=generateOTP();
@@ -323,6 +349,16 @@
                 storeOTP($account, $otp);
                 
                 isOTPCorrect($account, $userOTP);*/
+                
+                if(array_key_exists('subNewPwBtn', $_POST)) { 
+                subNewPwBtn($account); 
+                $_SESSION["userStatus"] = "updatePassword";
+                }
+                
+                function subNewPwBtn($account) {
+                    $password=$_POST['emailInput'];
+                    updatePassword($account,$newPassword);
+                }
                 
                 break;
             
