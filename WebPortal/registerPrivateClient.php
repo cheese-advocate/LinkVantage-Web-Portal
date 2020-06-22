@@ -2,6 +2,7 @@
     
     require_once 'config.php';
     require_once 'inputServerValidation.php';
+    require_once 'Contact.php';
     
     /* Constant Variable Declaration */
         
@@ -25,7 +26,63 @@
         
         /* Handle the form */
         
+        //print_r($_POST);
         
+        $contact_usernames = $_POST["username"];
+        $contact_passwords = $_POST["password"];
+        $contact_firstNames = $_POST["firstName"];
+        $contact_lastNames = $_POST["lastName"];
+        $contact_emails = $_POST["email"];
+        $contact_phoneNumbers = $_POST["phoneNumber"];
+        $contact_mainContacts = $_POST["confirmMainContact"];
+        
+        /*foreach ($contact_usernames as $username) {
+            echo $username . " - ";
+        }
+        
+        echo "<br>";
+        
+        foreach ($contact_passwords as $password) {
+            echo $password . " - ";
+        }
+        
+        echo "<br>";
+        
+        foreach ($contact_firstNames as $firstName) {
+            echo $firstName . " - ";
+        }
+        
+        echo "<br>";
+        
+        foreach ($contact_lastNames as $lastName) {
+            echo $lastName . " - ";
+        }
+        
+        echo "<br>";
+        
+        foreach ($contact_emails as $email) {
+            echo $email . " - ";
+        }
+        
+        echo "<br>";
+        
+        foreach ($contact_phoneNumbers as $phoneNumber) {
+            echo $phoneNumber . " - ";
+        }
+        
+        echo "<br>";
+        
+        foreach ($contact_mainContacts as $mainContact) {
+            echo $mainContact . " - ";
+        }*/
+        
+        $contacts = getContacts($contact_usernames, $contact_passwords, 
+                $contact_firstNames, $contact_lastNames, $contact_emails,  
+                $contact_phoneNumbers, $contact_mainContacts);
+        
+        foreach ($contacts as $contact) {
+            $contact->toString();
+        }
         
         /* Validation */
         /*$siteErrs = array(validateSite($adrsNo, $adrsStreet, $adrsSuburb, $adrsPostalCode, $adrsAdditional));
@@ -60,8 +117,34 @@
         
     }
     
-    function getContacts(){
+    function getContacts($usernames, $passwords, $firstNames, $lastNames, $emails, $phoneNumers, $mainContacts){
         
+        $contacts = array();
+        $mainContactsCorrected = array();
+        
+        for($i=0, $j=0; $i < count($mainContacts); $i++) {
+            if ($mainContacts[$i] == "true"){
+                $mainContactsCorrected[$j - 1] = true;
+            }else{
+                $mainContactsCorrected[$j] = false;
+                $j++;
+            }            
+        }
+        
+        for($i=0; $i < count($usernames); $i++){
+            $username = $usernames[$i];
+            $password = $passwords[$i];
+            $firstName = $firstNames[$i];
+            $lastName = $lastNames[$i];
+            $email = $emails[$i];
+            $phoneNumber = $phoneNumers[$i];
+            $mainContact = $mainContactsCorrected[$i];
+            $newContact = new Contact($username, $password, $firstName, 
+                    $lastName, $email, $phoneNumber, $mainContact);
+            $contacts[$i] = $newContact;
+        }
+        
+        return $contacts;              
     }
     
 ?>
@@ -124,7 +207,85 @@ and open the template in the editor.
                 });
             }
             
+            function successfulSumbitToast()
+            {
+                $.toast({
+                    heading: "Successfull Submission",
+                    text: "Account registered",
+                    bgColor: "#7EC850",
+                    textColor: "F3F3F3",
+                    showHideTransition: "slide",
+                    allowToastClose: false,
+                    position: "bottom-center",
+                    icon: "success",
+                    loaderBg: "#373741",
+                    hideAfter: 3000
+                });
+            }
             
+            function emailToast()
+            {
+                $.toast({
+                    heading: "Invalid Email",
+                    text: "Email should look like the following: example@example.com",
+                    bgColor: "#FFB347",
+                    textColor: "F3F3F3",
+                    showHideTransition: "slide",
+                    allowToastClose: false,
+                    position: "bottom-center",
+                    icon: "error",
+                    loaderBg: "#373741",
+                    hideAfter: 10000
+                });
+            }
+            
+            function pwInfoToast()
+            {
+                $.toast({
+                    heading: "Invalid Password",
+                    text: "The password should consist of 8 characters with:\nAt least one uppercase\nOne lowercase\nOne special character\nOne number",
+                    bgColor: "#FFB347",
+                    textColor: "F3F3F3",
+                    showHideTransition: "slide",
+                    allowToastClose: false,
+                    position: "bottom-center",
+                    icon: "error",
+                    loaderBg: "#373741",
+                    hideAfter: 10000
+                });                
+            }
+            
+            function usernameInfoToast()
+            {
+               $.toast({
+                    heading: "Invalid Username",
+                    text: "Username should consist of at least 8 characters",
+                    bgColor: "#FFB347",
+                    textColor: "F3F3F3",
+                    showHideTransition: "slide",
+                    allowToastClose: false,
+                    position: "bottom-center",
+                    icon: "error",
+                    loaderBg: "#373741",
+                    hideAfter: 10000
+                }); 
+            }
+            
+            function oneContactToastWarning()
+            {
+                $.toast({
+                    heading: "Warning",
+                    text: "At least one contact is required",
+                    bgColor: "#FFB347",
+                    textColor: "F3F3F3",
+                    showHideTransition: "slide",
+                    allowToastClose: false,
+                    position: "bottom-center",
+                    icon: "error",
+                    loaderBg: "#373741",
+                    hideAfter: 4000
+                });
+            }
         </script>
         <div class="registerCompanyPage" id="registerPrivClient">
             <div class="header">
@@ -165,28 +326,29 @@ and open the template in the editor.
 
                     <div class="usernPassInp">
                         <img src="images/account.png" alt="" class="contactAccountImg"/>
-                        <input type="text" name="username" placeholder="USERNAME" class="contactInput" id="ContactUsername" required="true"/>
+                        <input type="text" name="username[]" placeholder="USERNAME" class="contactInput" id="ContactUsername" required="true"/>
                         <img src="images/lock.png" alt="" class="contactLockImg"/>
-                        <input type="text" name="password" placeholder="PASSWORD" class="contactInput" id="ContactPassw" onfocus="changeTypeRegister()" required="true"/>
+                        <input type="text" name="password[]" placeholder="PASSWORD" class="contactInput" id="ContactPassw" onfocus="changeTypeRegister()" required="true"/>
                     </div>
 
                     <div class="names">
                         <img src="images/id-card.png" alt="" class="idCard" id="id1"/>
-                        <input type="text" name="firstName" placeholder="FIRST NAME" class="contactInput" id="contactFirstName" required="true"/>
+                        <input type="text" name="firstName[]" placeholder="FIRST NAME" class="contactInput" id="contactFirstName" required="true"/>
                         <img src="images/id-card.png" alt="" class="idCard"/>
-                        <input type="text" name="lastName" placeholder="LAST NAME" class="contactInput" id="contactLastName" required="true"/>
+                        <input type="text" name="lastName[]" placeholder="LAST NAME" class="contactInput" id="contactLastName" required="true"/>
                     </div>
 
                     <div class="otherContactDet">
                         <img src="images/envelope.png" alt="" class="contactEmailImg"/>
-                        <input type="text" name="email" placeholder="EMAIL" class="contactInput" id="contactEmail" required="true"/>
+                        <input type="text" name="email[]" placeholder="EMAIL" class="contactInput" id="contactEmail" required="true"/>
                         <img src="images/phone.png" alt="" class='phoneContactImg'/>
-                        <input type="text" name="phoneNumber" placeholder="PHONE NUMBER" class="contactInput" id="contactPhoneNum" required="true"/>
+                        <input type="text" name="phoneNumber[]" placeholder="PHONE NUMBER" class="contactInput" id="contactPhoneNum" required="true"/>
                     </div>
 
                     <div class="confirmContact">
                             <label for="confirmMainContact">Is the main contact:</label>
-                            <input type="checkbox" name="confirmMainContact" id="confirmMainContact"/>    
+                            <input type="hidden" name="confirmMainContact[]" id="confirmMainContact" value="false"/>    
+                            <input type="checkbox" name="confirmMainContact[]" id="confirmMainContact" value="true"/>    
                     </div>
                 </div>
 

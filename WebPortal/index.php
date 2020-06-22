@@ -1,5 +1,7 @@
 <?php
     
+    session_start();
+
     /**
      * Todo:
      * 
@@ -34,7 +36,6 @@
     $password = "";
     $passwordErr = "";
     $loginErr = "";
-    $loginResult;
     $email = "";
     $emailErr = "";
     $phone = "";
@@ -85,6 +86,13 @@
     $pwResetModeErr = "";
     $newPassword = "";
     $confirmNewPassword = "";
+    
+    if(isset($_SESSION['loginFailed'])){
+        echo '<script>';
+        echo 'alert("invalid login")';
+        echo '</script>';
+        session_unset();
+    }
     
     /* Check if a form was submitted */
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -206,8 +214,9 @@
      */
     function handleLogin() {
         
-        global $username, $password, $loginIsValid, $usernameErr, $passwordErr, 
-               $loginResult;
+        global $username, $password, $loginIsValid, $usernameErr, $passwordErr;
+        
+        $accountID;
         
         // $username = trim($_POST["username"]);
         // $password = trim($_POST["password"]);
@@ -225,28 +234,34 @@
         }
         
         if ($loginIsValid) {
+            
             $accountID = findUsername($username);
             if($accountID === NOT_FOUND || $accountID === PREP_STMT_FAILED)
             {
                 $usernameErr = "Username not found.";
+                $loginIsValid = false;
             } else{
                 
                 $loginAttempt = isPasswordValid($accountID, $password);
                 
                 if($loginAttempt == true){
-                    $loginResult = $accountID;
+                    $loginAttempt = $accountID;
                 }
                 elseif($loginAttempt == false){
                     $passwordErr = "Invalid password.";
-                    $loginResult = false;
+                    $loginAttempt = false;
                 } else {
                     $loginErr = "Login failed";
-                    $loginResult = false;
-                }              
-                print "<p>result = ". $loginResult . "</p>";
-                /* WIP */
-            }           
-            
+                    $loginAttempt = false;
+                }
+            }                        
+        }
+        
+        if($loginIsValid){            
+            $_SESSION['accountID'] = $accountID;
+            header("Location:Dashboard.php");
+        }else{
+            $_SESSION['loginFailed'] = 'failed';
         }
         
     }
@@ -448,9 +463,9 @@
                             return false;
                         }
                     }
-                </script>
+                </script>                               
                 
-                <form method="POST" onsubmit="return loginToast()" action="/Dashboard.php">
+                <form method="POST" onsubmit="return loginToast()" action="#">
                     <div class="loginInp">
                         <img src="images/account.png" alt="" class="accountImg"/>
                         <input type="text" name="username" placeholder="USERNAME" class="input" id="username" required/>

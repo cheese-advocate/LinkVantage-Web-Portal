@@ -89,6 +89,102 @@ and open the template in the editor.
                     hideAfter: 3000
                 });
             }
+            
+            function successfulSumbitToast()
+            {
+                $.toast({
+                    heading: "Successfull Submission",
+                    text: "Account registered",
+                    bgColor: "#7EC850",
+                    textColor: "F3F3F3",
+                    showHideTransition: "slide",
+                    allowToastClose: false,
+                    position: "bottom-center",
+                    icon: "success",
+                    loaderBg: "#373741",
+                    hideAfter: 3000
+                });
+            }
+            
+            function emailToast()
+            {
+                $.toast({
+                    heading: "Invalid Email",
+                    text: "Email should look like the following: example@example.com",
+                    bgColor: "#FFB347",
+                    textColor: "F3F3F3",
+                    showHideTransition: "slide",
+                    allowToastClose: false,
+                    position: "bottom-center",
+                    icon: "error",
+                    loaderBg: "#373741",
+                    hideAfter: 10000
+                });
+            }
+            
+            function pwInfoToast()
+            {
+                $.toast({
+                    heading: "Invalid Password",
+                    text: "The password should consist of 8 characters with:\nAt least one uppercase\nOne lowercase\nOne special character\nOne number",
+                    bgColor: "#FFB347",
+                    textColor: "F3F3F3",
+                    showHideTransition: "slide",
+                    allowToastClose: false,
+                    position: "bottom-center",
+                    icon: "error",
+                    loaderBg: "#373741",
+                    hideAfter: 10000
+                });                
+            }
+            
+            function usernameInfoToast()
+            {
+               $.toast({
+                    heading: "Invalid Username",
+                    text: "Username should consist of at least 8 characters",
+                    bgColor: "#FFB347",
+                    textColor: "F3F3F3",
+                    showHideTransition: "slide",
+                    allowToastClose: false,
+                    position: "bottom-center",
+                    icon: "error",
+                    loaderBg: "#373741",
+                    hideAfter: 10000
+                }); 
+            }
+            
+            function oneContactToastWarning()
+            {
+                $.toast({
+                    heading: "Warning",
+                    text: "At least one contact is required",
+                    bgColor: "#FFB347",
+                    textColor: "F3F3F3",
+                    showHideTransition: "slide",
+                    allowToastClose: false,
+                    position: "bottom-center",
+                    icon: "error",
+                    loaderBg: "#373741",
+                    hideAfter: 4000
+                });
+            }
+            
+            function oneSiteToastWarning()
+            {
+                $.toast({
+                    heading: "Warning",
+                    text: "At least one site is required",
+                    bgColor: "#FFB347",
+                    textColor: "F3F3F3",
+                    showHideTransition: "slide",
+                    allowToastClose: false,
+                    position: "bottom-center",
+                    icon: "error",
+                    loaderBg: "#373741",
+                    hideAfter: 4000
+                });
+            }
         </script>
         <!--REGISTER COMPANY PAGE-->
         <div class="registerCompanyPage" id="registerCompanyPage">
