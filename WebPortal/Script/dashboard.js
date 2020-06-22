@@ -41,7 +41,28 @@ function logOut()
     window.location.href = "index.php";
 }
 
-function homeNav()
+function navigate(location)
 {
-    window.location.href = "Dashboard.php";
+    switch(location)
+    {
+        case "home":
+           window.location.href = "Dashboard.php";
+           break;
+           
+        case "jobs":
+           break;
+        
+        case "invoices":
+            break;
+            
+        case "clients":
+            break;
+            
+        case "info":
+            break;
+            
+        case "settings":
+            break;      
+    }
+    
 }
