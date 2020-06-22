@@ -297,7 +297,7 @@
             
             case 'RESET PASSWORD':
                 
-                /*$_SESSION["userStatus"] = "resetPassword";
+                $_SESSION["userStatus"] = "resetPassword";
                 
                 if(array_key_exists('resetSubBtn', $_POST)) { 
                 resetSubBtn(); 
@@ -328,9 +328,7 @@
                 function subNewPwBtn($account) {
                     $password=$_POST['emailInput'];
                     updatePassword($account,$confirmNewPassword);
-                }*/
-                $OTP=generateOTP();
-                forgotPassword($email, $username, $OTP);
+                }
                 break;
 
 /*            case PW_RESET_PHONE_OTP:
@@ -359,7 +357,7 @@
                 
                 function subNewPwBtn($account) {
                     $password=$_POST['emailInput'];
-                    updatePassword($account,$confirmNewPassword);
+                    updatePassword($account,$newPassword);
                 }
                 
                 break;
