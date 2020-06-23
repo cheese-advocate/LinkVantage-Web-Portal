@@ -261,22 +261,24 @@
             echo "<script>console.log(".json_encode($msg).")</script>";
     }
     
+
+    
+    /*if(isset($_POST['forgotPw'])){
+                handleForgotPW(); 
+                debugToConsole("Test");
+                
+    }*/
+    
     /**
      * Handles the forgot password request made by the user.
      * 
      * Assumes POST request method used.
      */
-    if(isset($_POST['forgotPw'])){
-                handleForgotPW(); 
-                debugToConsole("Test");
-                
-    }
-    
     
     function handleForgotPW() {
         
         global $email, $username,$account,  $emailErr, $phone, $phoneErr, $OTP, $OTPErr, $pwResetMode, 
-               $pwResetModeErr, $confirmNewPassword;
+               $pwResetModeErr, $confirmNewPassword, $reset_options;
         
         /** 
          * This is where things get tricky.
@@ -289,11 +291,11 @@
          * process, likely with a session, and render the page accordingly.
          */
         
-        $pwResetMode = htmlspecialchars($_POST["reset_options"]);
+        $pwResetMode = $_REQUEST["reset_options"];
         
         switch ($pwResetMode) {
             
-            case "RESET PASSWORD":
+            case "PW_RESET_EMAIL":
                 
                 
                 $_SESSION["userStatus"] = "resetPassword";
@@ -330,7 +332,7 @@
                 }
                 break;
 
-            case "ANDROID OTP":
+            case "PW_RESET_OTP":
                 
                 debugToConsole("Test");
                 $_SESSION["userStatus"] = "androidOTP.html";
@@ -538,7 +540,7 @@
             }
         </script>
         <div class="forgotPasswordPage" id="forgotPasswordPage">
-            <?php echo handleForgotPW(); ?> <!-- Pieter did this reason:isset doesnt work on href-->
+            <?php echo handleForgotPW(); ?> <!-- Pieter did this. reason:isset doesnt work on a href-->
             <div class="header">
                 CompuLink Technologies
             </div>
@@ -557,8 +559,8 @@
                     <div class="resetInpContent">
                         <img src="images/refresh.png" alt="" class="resetImg"/>
                         <select name="reset_options" class="dropDownSelect" id="reset_options" onchange="modifyResetPassword()">
-                            <option value="RESET PASSWORD">RESET PASSWORD</option>
-                            <option value="ANDROID OTP">ANDROID OTP</option>
+                            <option name="RESET PASSWORD">RESET PASSWORD</option>
+                            <option name="ANDROID OTP">ANDROID OTP</option>
                         </select>
                         <img src="images/envelope.png" alt="" class="emailImg" id="passwordRecoveryImg"/>
                         <input type="text" name="emailInp" value="" placeholder="EMAIL" class="passwordRecoveryInp" id="emailInp" required/>
