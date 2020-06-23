@@ -17,7 +17,6 @@ $mail->SMTPAuth = true;
 $mail->Username = "drchai101@gmail.com"; //your email address
 $mail->Password = "thisischai"; //password for email acount
 $mail->setFrom("linkvantage@compulink.co.za", "Compulink Technologies");
-
 function forgotPassword($toEmail, $fname, $recCode)
 {      
     global $mail;
