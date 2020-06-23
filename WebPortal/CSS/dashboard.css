@@ -122,7 +122,6 @@ SIDE NAV CONTENT EDIT
 */
 .sideNav div
 {
-    border-bottom: 1px solid #03AAFB;
     width: 80%;
     color: #808080;
     padding: 10px;
@@ -133,7 +132,7 @@ SIDE NAV CONTENT EDIT
     display: flex;
     justify-content: flex-start;
     margin-right: 10px;
-    transition: 0.5s;
+    transition: 0.5s ease;
 }
 
 .sideNav div span
@@ -153,6 +152,7 @@ SIDE NAV CONTENT EDIT
 {
     color: #03AAFB;
     margin-right: 0px;
+    border-left: 3px solid #03AAFB;
 }
 /*
 *****************
@@ -188,12 +188,11 @@ USER ACCOUNT NAV START
 {
     cursor: pointer;
     color: #808080;
-    border-bottom: 1px solid #03AAFB;
     width: 90%;
     margin: 5px;
     padding: 5px;
     font-size: 15px;
-    transition: 0.5s;
+    transition: 0.5s ease;
 }
 
 .accountNav div:hover
@@ -201,6 +200,7 @@ USER ACCOUNT NAV START
     color: #03AAFB;
     margin-right: 0px;
     padding-right: 0px;
+    border-left: 3px solid #03AAFB;
 }
 /*
 ****************
@@ -215,14 +215,15 @@ DASHBOARD CONTENT STYLING
 */
 .dashContent
 {
+    margin-bottom: 25px;
     justify-content: center;
     align-items: center;
     margin-top: 40px;
     display: grid;
     grid-template-rows: repeat(auto-fit, 250px);
     grid-template-columns: repeat(auto-fit, 600px);
-    grid-row-gap: 50px;
-    grid-column-gap: 50px;
+    grid-row-gap: 25px;
+    grid-column-gap: 25px;
 }
 
 .dashContent div
@@ -230,5 +231,5 @@ DASHBOARD CONTENT STYLING
     height: 250px;
     width: 600px;
     background: #373741;
-    opacity: 0.8
+    opacity: 0.8;
 }

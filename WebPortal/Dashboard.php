@@ -1,3 +1,11 @@
+<?php
+    require_once 'config.php';
+
+    session_start();
+    $displayUsername = getUsernameFromID($_SESSION['accountID']);
+    
+?>
+
 <!DOCTYPE html>
 
 <html>
@@ -59,13 +67,13 @@
                 </div>
                 
                 <div class="userInfo">
-                    <span class="userName">USERNAME</span><!--TO BE REPLACED WITH USERNAME FROM PHP SIDE-->
+                    <span class="userName"><?php echo $displayUsername?></span><!--TO BE REPLACED WITH USERNAME FROM PHP SIDE-->
                     <img src="images/account.png" alt="" class="account" onclick="accountNav()"/>
                 </div>
             </div>
             
             <div id="side" class="sideNav">
-                <div onclick="homeNav()"><img src="images/home_gray.png" alt="" id="home"/><span>Home</span></div>
+                <div onclick="navigate('home')"><img src="images/home_gray.png" alt="" id="home"/><span>Home</span></div>
                 <div><img src="images/suitcase.png" alt=""/><span>Jobs</span></div>
                 <div><img src="images/write.png" alt=""/><span>Invoices</span></div>
                 <div><img src="images/account.png" alt=""/><span>Clients</span></div>

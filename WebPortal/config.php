@@ -23,9 +23,9 @@ define("SQL_VERIFY_OTP", "SELECT verifyOTP(?, ?)");
 define("SQL_GET_PASSWORD", "SELECT getPassword(?)");
 define("SQL_GET_OTP", "SELECT getOTP(?)");
 define("SQL_UPDATE_PASSWORD","CALL updatePassword(?, ?)");
-define("SQL_GET_ACCOUNTID_EMAIL","CALL getAccountID_Email(?)");
-define("SQL_GET_ACCOUNTID_PHONE","CALL getAccountID_Phone(?)");
-define("SQL_GET_USERNAME_ACCOUNTID","CALL getUsername(?)");
+define("SQL_GET_ACCOUNTID_EMAIL","SELECT getAccountID_Email(?)");
+define("SQL_GET_ACCOUNTID_PHONE","SELECT getAccountID_Phone(?)");
+define("SQL_GET_USERNAME_ACCOUNTID","SELECT getUsername(?)");
 define("SQL_CHECK_COMPANY_NAME","");
 define("SQL_REGISTER_COMPANY","");
 define("SQL_REGISTER_PRIVATE_CLIENT","");
@@ -33,7 +33,6 @@ define("SQL_REGISTER_PRIVATE_CLIENT","");
 /* Database credentials */
 define('DB_SERVER', 'localhost');
 define('DB_USERNAME', 'root');
-define('DB_PASSWORD', 'blantyre'/*'P@ssword1'*/);
 define('DB_NAME', 'Chai');
 
 /* Other useful constants */
