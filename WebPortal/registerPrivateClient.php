@@ -1,151 +1,74 @@
 <?php
     
-    require_once 'config.php';
-    require_once 'inputServerValidation.php';
-    require_once 'Contact.php';
-    
-    /* Constant Variable Declaration */
-        
-    
-    /* Input Variable Declaration */
-    $adrsNo;
-    $adrsNoErr;
-    $adrsStreet;
-    $adrsStreetErr;
-    $adrsSuburb;
-    $adrsSuburbErr;
-    $adrsPostalCode;
-    $adrsPostalCodeErr;
-    $adrsAdditional;
-    $adrsAdditionalErr;
-    $contacts;
-    $contactsErrs;
-    
-    /* Check if a form was submitted */
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        
-        /* Handle the form */
-        
-        //print_r($_POST);
-        
-        $contact_usernames = $_POST["username"];
-        $contact_passwords = $_POST["password"];
-        $contact_firstNames = $_POST["firstName"];
-        $contact_lastNames = $_POST["lastName"];
-        $contact_emails = $_POST["email"];
-        $contact_phoneNumbers = $_POST["phoneNumber"];
-        $contact_mainContacts = $_POST["confirmMainContact"];
-        
-        /*foreach ($contact_usernames as $username) {
-            echo $username . " - ";
-        }
-        
-        echo "<br>";
-        
-        foreach ($contact_passwords as $password) {
-            echo $password . " - ";
-        }
-        
-        echo "<br>";
-        
-        foreach ($contact_firstNames as $firstName) {
-            echo $firstName . " - ";
-        }
-        
-        echo "<br>";
-        
-        foreach ($contact_lastNames as $lastName) {
-            echo $lastName . " - ";
-        }
-        
-        echo "<br>";
-        
-        foreach ($contact_emails as $email) {
-            echo $email . " - ";
-        }
-        
-        echo "<br>";
-        
-        foreach ($contact_phoneNumbers as $phoneNumber) {
-            echo $phoneNumber . " - ";
-        }
-        
-        echo "<br>";
-        
-        foreach ($contact_mainContacts as $mainContact) {
-            echo $mainContact . " - ";
-        }*/
-        
-        $contacts = getContacts($contact_usernames, $contact_passwords, 
-                $contact_firstNames, $contact_lastNames, $contact_emails,  
-                $contact_phoneNumbers, $contact_mainContacts);
-        
-        foreach ($contacts as $contact) {
-            $contact->toString();
-        }
-        
-        /* Validation */
-        /*$siteErrs = array(validateSite($adrsNo, $adrsStreet, $adrsSuburb, $adrsPostalCode, $adrsAdditional));
-        $adrsNoErr = $siteErrs[0];
-        $adrsStreetErr = $siteErrs[1];
-        $adrsSuburbErr = $siteErrs[2];
-        $adrsPostalCodeErr = $siteErrs[3];
-        $adrsAdditionalErr = $siteErrs[4];*/
-        
-        /* Split the site errors into individual errors we can format the 
-         * displaying of.
-         */
-        
-        
-        /* Validate all input fields */
-        
-        /* Validate the site */
-        
-        
-        /* No duplicate main contacts */
-        
-        
-        /* No duplicate usernames, emails, phones, in input nor should they exist in the database. */
-        
-        
-        /* If all is valid, register the private client, register the site to the client, and register each contact to the client. */
-        
-        
+require_once 'config.php';
+require_once 'inputServerValidation.php';
+require_once 'Contact';
+require_once 'getLists.php';
+
+/* Constant Variable Declaration */
+
+
+/* Input Variable Declaration */
+$adrsNo;
+$adrsNoErr;
+$adrsStreet;
+$adrsStreetErr;
+$adrsSuburb;
+$adrsSuburbErr;
+$adrsPostalCode;
+$adrsPostalCodeErr;
+$adrsAdditional;
+$adrsAdditionalErr;
+$contacts;
+$contactsErrs;
+
+/* Check if a form was submitted */
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    /* Handle the form */
+
+    $contacts = getContacts($_POST["username"], $_POST["password"], 
+            $_POST["firstName"], $_POST["lastName"], $_POST["email"],  
+            $_POST["phoneNumber"], $_POST["confirmMainContact"]);
+
+    foreach ($contacts as $contact) {
+        $contact->toString();
     }
+
+    /* Validation */
+    /*$siteErrs = array(validateSite($adrsNo, $adrsStreet, $adrsSuburb, $adrsPostalCode, $adrsAdditional));
+    $adrsNoErr = $siteErrs[0];
+    $adrsStreetErr = $siteErrs[1];
+    $adrsSuburbErr = $siteErrs[2];
+    $adrsPostalCodeErr = $siteErrs[3];
+    $adrsAdditionalErr = $siteErrs[4];*/
+
+    /* Split the site errors into individual errors we can format the 
+     * displaying of.
+     */
+
+
+    /* Validate all input fields */
+
+    /* Validate the site */
+
+
+    /* No duplicate main contacts */
+
+
+    /* No duplicate usernames, emails, phones, in input nor should they exist in the database. */
+
+
+    /* If all is valid, register the private client, register the site to the client, and register each contact to the client. */
+
+
+}
+
+function handleLogin(){
+
+}
     
-    function handleLogin(){
-        
-    }
     
-    function getContacts($usernames, $passwords, $firstNames, $lastNames, $emails, $phoneNumers, $mainContacts){
-        
-        $contacts = array();
-        $mainContactsCorrected = array();
-        
-        for($i=0, $j=0; $i < count($mainContacts); $i++) {
-            if ($mainContacts[$i] == "true"){
-                $mainContactsCorrected[$j - 1] = true;
-            }else{
-                $mainContactsCorrected[$j] = false;
-                $j++;
-            }            
-        }
-        
-        for($i=0; $i < count($usernames); $i++){
-            $username = $usernames[$i];
-            $password = $passwords[$i];
-            $firstName = $firstNames[$i];
-            $lastName = $lastNames[$i];
-            $email = $emails[$i];
-            $phoneNumber = $phoneNumers[$i];
-            $mainContact = $mainContactsCorrected[$i];
-            $newContact = new Contact($username, $password, $firstName, 
-                    $lastName, $email, $phoneNumber, $mainContact);
-            $contacts[$i] = $newContact;
-        }
-        
-        return $contacts;              
-    }
     
 ?>
 
