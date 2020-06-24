@@ -146,23 +146,13 @@
             
             return HANDLE_LOGIN;
             
-        } elseif (isset($_POST['pwResetMode'], $_POST['emailInp'])
-               || isset($_POST['OTP'])
-               || isset($_POST['newPassword'], $_POST['confirmNewPassword'])) {
+        } elseif (isset($_POST['pwResetMode'])){
             
             if (isset($_POST['pwResetMode'], $_POST['emailInp'])) {
                 $email = trim($_POST["emailInp"]);
-                $phone = trim($_POST["emailInp"]);
             }
             
-            if (isset($_POST['OTP'])) {
-                $OTP = trim($_POST["otp"]);
-            }
-            
-            if (isset($_POST['newPassword'], $_POST['confirmNewPassword'])) {
-                $newPassword = trim($_POST["newPassword"]);
-                $confirmNewPassword = trim($_POST["confirmNewPassword"]);
-            }
+            return HANDLE_FORGOT_PW;
               
         } else {
             
