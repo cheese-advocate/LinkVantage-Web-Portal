@@ -14,6 +14,8 @@
     require_once 'config.php';
     require_once 'inputServerValidation.php';
     require_once 'emailManager.php';
+    require_once 'generator.php';
+    require_once 'hasher.php';
     
     /* Constant Variable Declaration */
     define("PW_RESET_EMAIL","RESET PASSWORD");
@@ -146,12 +148,14 @@
             
             return HANDLE_LOGIN;
             
-        } elseif (isset($_POST['pwResetMode'])){
+        } elseif (isset($_POST['reset_options'])){
             
-            if (isset($_POST['pwResetMode'], $_POST['emailInp'])) {
-                $email = trim($_POST["emailInp"]);
-            }
-            
+            /*if (isset($_POST['reset_options'], $_POST['emailInp'])) {
+                
+            }*/
+            $pwResetMode=$_POST['reset_options'];
+            $email = trim($_POST["emailInp"]);
+
             return HANDLE_FORGOT_PW;
               
         } else {
@@ -253,13 +257,12 @@
     
 
     
-    
-    
     function handleForgotPW() {
         
-        global $email, $username,$account,  $emailErr, $phone, $phoneErr, $OTP, $OTPErr, $pwResetMode, 
+        global $email, $username,$account,  $emailErr, $phone, $phoneErr, $OTP, $inOTP, $OTPErr, $pwResetMode, 
                $pwResetModeErr, $confirmNewPassword, $reset_options, $androidValidated;
-
+        
+        
         /** 
          * This is where things get tricky.
          * 
@@ -270,37 +273,21 @@
          * This means we have to track the user's current status throughout the 
          * process, likely with a session, and render the page accordingly.
          */
-        $pwResetMode = $_POST["reset_options"];
         $androidValidated=false;
         
         switch ($pwResetMode) {
             
-            case "PW_RESET_EMAIL":
+            case "RESET PASSWORD":
                 
                 debugToConsole("Test");
                 $_SESSION["userStatus"] = "resetPassword";
                 
                 if(array_key_exists('resetSubBtn', $_POST)) { 
-                resetSubBtn(); 
+                resetSubBtn($email); 
                 }
                 
-                function resetSubBtn() {
-                    echo test;
-                    if (getUserIDfromEmail($email)==NOT_FOUND){
-                        $emailErr= "Email not found";
-                    } else {
-                        header('Location: otpPage.php');
-                        $_SESSION["userStatus"] = "getUserID";
-                        $account=getUserIDfromEmail($email);
-                        $username=getUsernameFromID($account);
-                        $OTP=generateOTP();
-                        $_SESSION["userStatus"] = "storeOTP";
-                        storeOTP($account, $OTP);
-                        
-                        exit();
-                    }
-                    $_SESSION["userStatus"] = "sendEmail";
-                    forgotPassword("albertynkuyper@gmail.com", "Pit", "5467");
+                if(array_key_exists('subOTPBtn', $_POST)) { 
+                validateOTP($inOTP);
                 }
                 
                 if(array_key_exists('subNewPwBtn', $_POST)) { 
@@ -308,13 +295,10 @@
                 $_SESSION["userStatus"] = "updatePassword";
                 }
                 
-                function subNewPwBtn($account) {
-                    $password=$_POST['emailInput'];
-                    updatePassword($account,$confirmNewPassword);
-                }
+                
                 break;
 
-            case "PW_RESET_OTP":
+            case "ANDROID OTP":
                 
                 debugToConsole("Test");
                 $_SESSION["userStatus"] = "androidOTP.html";
@@ -324,10 +308,10 @@
                 
                 $account=getUserIDfromEmail($email);
                 
-                storeOTP($account, $otp);
+                storeOTP($account, $OTP);
                 
-                while ($androidValidated=false){
-                    
+                if ($androidValidated=true){
+                    header('Location: newPassword.php');
                 }
                 
                 break;
@@ -342,7 +326,44 @@
         
     }
     
+    function resetSubBtn($email) {
+        
+        global $emailErr;
+        
+        if (getUserIDfromEmail($email)==NOT_FOUND){
+            $emailErr= "Email not found";
+        } else {
+            $_SESSION["userStatus"] = "getUserID";
+            $account=getUserIDfromEmail($email);
+            $username=getUsernameFromID($account);
+            $OTP=generateOTP();
+            $_SESSION["userStatus"] = "storeOTP";
+            storeOTP($account, $OTP);
+            forgotPassword($email,$username,$OTP);
+            header('Location: otpPage.php');
+            exit();
+        }
+        $_SESSION["userStatus"] = "sendEmail";
+        
+    }
     
+    function validateOTP($inOTP){
+        
+        global $OTP;
+        
+        $inputOTP=hashOTP($inOTP);
+        $storedOTP=hashOTP($OTP);
+        if ($inputOTP==$storedOTP){
+            header('Location: newPassword.php');
+        } 
+    }
+    
+    function subNewPwBtn($account) {
+        
+        global $newPassword;
+                    updatePassword($account,$newPassword);
+    }
+
     /**
      * Currently does nothing.
      * 

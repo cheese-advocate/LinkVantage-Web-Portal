@@ -115,7 +115,7 @@ and open the template in the editor.
                     </div>
 
                     <div class="resetSubmit" id="reset_submit">
-                        <button type="submit" onclick="" class="subNewPwBtn" name="subNewPwBtn" value="subNewPwBtn">SUBMIT OTP</button>
+                        <button type="submit" onclick="" class="subNewPwBtn" name="subOTPBtn" >SUBMIT OTP</button>
                     </div>
                 </form>
             </div>
