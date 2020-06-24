@@ -33,7 +33,6 @@ define("SQL_REGISTER_PRIVATE_CLIENT","");
 /* Database credentials */
 define('DB_SERVER', 'localhost');
 define('DB_USERNAME', 'root');
-define('DB_PASSWORD', 'P@ssword1'/*'P@ssword1'*/);
 define('DB_NAME', 'Chai');
 
 /* Other useful constants */

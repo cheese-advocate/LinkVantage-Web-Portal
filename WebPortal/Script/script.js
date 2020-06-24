@@ -37,6 +37,7 @@ function forgotPasswordPage()
     
     var destDiv = document.getElementById("forgotPasswordPage");
     destDiv.style.display = "block";
+    
 }
 
 /**

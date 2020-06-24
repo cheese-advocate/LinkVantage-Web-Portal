@@ -163,9 +163,7 @@
                 $newPassword = trim($_POST["newPassword"]);
                 $confirmNewPassword = trim($_POST["confirmNewPassword"]);
             }
-            
-            return HANDLE_FORGOT_PW;
-            
+              
         } else {
             
             return HANDLE_NO_INPUT;
@@ -259,17 +257,23 @@
         
     }
     
+    function debugToConsole($msg) { 
+            echo "<script>console.log(".json_encode($msg).")</script>";
+    }
+    
+
+    
+    /*if(isset($_POST['forgotPw'])){
+                handleForgotPW(); 
+                debugToConsole("Test");
+                
+    }*/
     
     
-    /**
-     * Handles the forgot password request made by the user.
-     * 
-     * Assumes POST request method used.
-     */
     function handleForgotPW() {
         
         global $email, $username,$account,  $emailErr, $phone, $phoneErr, $OTP, $OTPErr, $pwResetMode, 
-               $pwResetModeErr, $confirmNewPassword;
+               $pwResetModeErr, $confirmNewPassword, $reset_options, $androidValidated;
         
         /** 
          * This is where things get tricky.
@@ -281,15 +285,14 @@
          * This means we have to track the user's current status throughout the 
          * process, likely with a session, and render the page accordingly.
          */
-        
-        $pwResetMode = htmlspecialchars($_POST["resetOptions"]);
-        
-        session_start();
+        $pwResetMode = $_POST["reset_options"];
+        $androidValidated=false;
         
         switch ($pwResetMode) {
             
-            case 'RESET PASSWORD':
+            case "PW_RESET_EMAIL":
                 
+                debugToConsole("Test");
                 $_SESSION["userStatus"] = "resetPassword";
                 
                 if(array_key_exists('resetSubBtn', $_POST)) { 
@@ -308,6 +311,8 @@
                         $OTP=generateOTP();
                         $_SESSION["userStatus"] = "storeOTP";
                         storeOTP($account, $OTP);
+                        header('Location: Location: http://localhost/otpPage');
+                        exit();
                     }
                     $_SESSION["userStatus"] = "sendEmail";
                     forgotPassword($email, $username, $OTP);
@@ -324,33 +329,20 @@
                 }
                 break;
 
-/*            case PW_RESET_PHONE_OTP:
-
-                 WIP 
+            case "PW_RESET_OTP":
                 
-                break;*/
-
-            case 'ANDROID OTP':
-                
-                $_SESSION["userStatus"] = "androidOTP";
+                debugToConsole("Test");
+                $_SESSION["userStatus"] = "androidOTP.html";
 
                 /* WIP */
-                /*$OTP=generateOTP();
+                $OTP=generateOTP();
                 
-                $account=getUserIDfromPhone($email);
+                $account=getUserIDfromEmail($email);
                 
                 storeOTP($account, $otp);
                 
-                isOTPCorrect($account, $userOTP);*/
-                
-                if(array_key_exists('subNewPwBtn', $_POST)) { 
-                subNewPwBtn($account); 
-                $_SESSION["userStatus"] = "updatePassword";
-                }
-                
-                function subNewPwBtn($account) {
-                    $password=$_POST['emailInput'];
-                    updatePassword($account,$newPassword);
+                while ($androidValidated=false){
+                    
                 }
                 
                 break;
@@ -364,7 +356,6 @@
         /*  */
         
     }
-    
     
     
     /**
@@ -479,18 +470,18 @@
                     }
                 ?>
                 
-                <form method="POST" onsubmit="return loginToast()" action="#">
+                        <form method="POST" onsubmit="return loginToast()" action="#">
                     <div class="loginInp">
                         <img src="images/account.png" alt="" class="accountImg"/>
                         <input type="text" name="username" placeholder="USERNAME" class="input" id="username" required/>
                         <img src="images/lock.png" alt="" class="lockImg"/>
                         <input type="text" name="password" placeholder="PASSWORD" class="input" id="passw" onfocus="changeType()" required/>
-                        <font class="forgotPw" id="forgotPassBigScreen"><a href="#" onclick="forgotPasswordPage()">Forgot password?</a></font>
+                        <font class="forgotPw" id="forgotPassBigScreen" ><a href="#" name="forgotPw" onclick="forgotPasswordPage()">Forgot password?</a></font>
                     </div>
 
                     <div class="loginSubmit">
                         <button type="submit" class="loginSubBtn" onclick="">LOGIN</button>
-                        <font class="forgotPw" id="forgotPassSmallScreen"><a href="#" onclick="forgotPasswordPage()">Forgot password?</a></font>
+                        <font class="forgotPw" id="forgotPassSmallScreen" ><a href="#" name="forgotPw" onclick="forgotPasswordPage()">Forgot password?</a></font>
                     </div>
                 </form>
 
@@ -537,6 +528,7 @@
             }
         </script>
         <div class="forgotPasswordPage" id="forgotPasswordPage">
+            <?php echo handleForgotPW(); ?>
             <div class="header">
                 CompuLink Technologies
             </div>
@@ -550,15 +542,14 @@
                     <button class="returnToLoginBtn" onclick="changeToLogin()">RETURN TO LOGIN</button>
                 </div>
 
-                <form method="POST" onsubmit="return verifyForgotPw()" action="newPassword.php">
-                    <div class="resetInpContent">
+                <form  method="POST" action="otpPage.php">
+                        
+                    <div class="resetInpContent" name="test">
                         <img src="images/refresh.png" alt="" class="resetImg"/>
-                        <select name="resetOptions" class="dropDownSelect" id="reset_options" name="pwResetMode" onchange="modifyResetPassword()">
-                            <option>RESET PASSWORD</option>
-                            <option>TEXT OTP</option>
-                            <option>ANDROID OTP</option>
+                        <select name="reset_options" class="dropDownSelect" id="reset_options" onchange="modifyResetPassword()">
+                            <option name="RESET PASSWORD">RESET PASSWORD</option>
+                            <option name="ANDROID OTP">ANDROID OTP</option>
                         </select>
-
                         <img src="images/envelope.png" alt="" class="emailImg" id="passwordRecoveryImg"/>
                         <input type="text" name="emailInp" value="" placeholder="EMAIL" class="passwordRecoveryInp" id="emailInp" required/>
                         <!-- These two elements are added using jQuery -->

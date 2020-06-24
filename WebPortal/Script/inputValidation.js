@@ -423,3 +423,8 @@ function verifyNewPassword()
         return valid;
     }
 }
+
+function verifyOTP()
+{
+    
+}
