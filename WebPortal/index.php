@@ -263,18 +263,13 @@
     
 
     
-    /*if(isset($_POST['forgotPw'])){
-                handleForgotPW(); 
-                debugToConsole("Test");
-                
-    }*/
     
     
     function handleForgotPW() {
         
         global $email, $username,$account,  $emailErr, $phone, $phoneErr, $OTP, $OTPErr, $pwResetMode, 
                $pwResetModeErr, $confirmNewPassword, $reset_options, $androidValidated;
-        
+
         /** 
          * This is where things get tricky.
          * 
@@ -300,22 +295,22 @@
                 }
                 
                 function resetSubBtn() {
-                    
+                    echo test;
                     if (getUserIDfromEmail($email)==NOT_FOUND){
-                        $email=null;
                         $emailErr= "Email not found";
                     } else {
+                        header('Location: otpPage.php');
                         $_SESSION["userStatus"] = "getUserID";
                         $account=getUserIDfromEmail($email);
                         $username=getUsernameFromID($account);
                         $OTP=generateOTP();
                         $_SESSION["userStatus"] = "storeOTP";
                         storeOTP($account, $OTP);
-                        header('Location: Location: http://localhost/otpPage');
+                        
                         exit();
                     }
                     $_SESSION["userStatus"] = "sendEmail";
-                    forgotPassword($email, $username, $OTP);
+                    forgotPassword("albertynkuyper@gmail.com", "Pit", "5467");
                 }
                 
                 if(array_key_exists('subNewPwBtn', $_POST)) { 
@@ -528,7 +523,6 @@
             }
         </script>
         <div class="forgotPasswordPage" id="forgotPasswordPage">
-            <?php echo handleForgotPW(); ?>
             <div class="header">
                 CompuLink Technologies
             </div>
@@ -542,7 +536,7 @@
                     <button class="returnToLoginBtn" onclick="changeToLogin()">RETURN TO LOGIN</button>
                 </div>
 
-                <form  method="POST" action="otpPage.php">
+                <form  method="POST" action="#">
                         
                     <div class="resetInpContent" name="test">
                         <img src="images/refresh.png" alt="" class="resetImg"/>
@@ -558,7 +552,7 @@
                     </div>
 
                     <div class="resetSubmit" id="reset_submit">
-                        <button type="submit"  class="resetSubBtn">SEND RESET REQUEST</button>
+                        <button type="submit" name="resetSubBtn" class="resetSubBtn">SEND RESET REQUEST</button>
                     </div>
                 </form>
             </div>
