@@ -1,6 +1,7 @@
 <?php
 
 require_once 'Contact.php';
+require_once 'Site.php';
 
 /*
  * This file contains functions for taking arrays of fields associated with 
@@ -35,4 +36,19 @@ function getContacts($usernames, $passwords, $firstNames, $lastNames, $emails, $
     }
 
     return $contacts;              
+}
+
+function getSites($streetNums, $streetNames, $suburbCitys, $postalCodes, $addInfos){
+    $sites = array();
+    
+    for($i=0; $i < count($streetNums); $i++){
+        $streetNum = $streetNums[$i];
+        $streetName = $streetNums[$i];
+        $suburbCity = $suburbCitys[$i];
+        $postalCode = $postalCodes[$i];
+        $addInfo = $addInfos[$i];
+        $newSite = new Site($streetNum, $streetName, $suburbCity, $postalCode, 
+                $addInfo);
+        $sites[$i] = $newSite;
+    }    
 }
