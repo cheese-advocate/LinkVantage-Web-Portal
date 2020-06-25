@@ -59,7 +59,9 @@ class Contact {
 
     function toString()
     {
-        echo $this->username . $this->password;
+        echo $this->username . $this->password . $this->firstName . 
+                $this->lastName . $this->email . $this->phoneNumber . 
+                $this->mainContact;
     }
     
 }
