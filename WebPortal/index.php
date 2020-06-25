@@ -453,6 +453,9 @@
                     }
                 </script>                               
                 
+                <!--Checks if the loginFailed variable is set, indicating that 
+                the last login attempt was invalid and that a toast message 
+                needs to be displayed-->
                 <?php
                     $loginFailed = false;
                     if(isset($_SESSION['loginFailed'])){?>
@@ -472,7 +475,10 @@
                         </script>
                         
                         <?php
-                        session_unset();
+                        /*Clears the login failed variable so that it does not 
+                         * trigger a failed message without another failed 
+                         * attempt*/
+                        unset($_SESSION['loginFailed']);
                     }
                 ?>
                 
