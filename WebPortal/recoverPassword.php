@@ -21,12 +21,14 @@ not be too old.
     <body>
         <?php
         
+            require_once 'config.php';
             //Get OTP and accountID from URL
             $code = $_GET['code'];
             $ID = $_GET['id'];
             
+           
             //Retrieve OTP from database
-            $vaildateCode = getOTP($ID);
+            $vaildateCode = findOTP($ID);
             
             //Check if OTP from database matches OTP from URL
             if ($validateCode == $code)
