@@ -7,7 +7,7 @@ and open the template in the editor.
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>New Password</title>
+        <title>Enter Recovery code</title>
         <!--Title icon link-->
         <link rel="shortcut icon" href="favicon.ico" />
         <!--CSS links-->
@@ -97,27 +97,25 @@ and open the template in the editor.
             }
         </script>
         
-        <div class="newPasswordPage" id="newPwPg">
+        <div class="OTPPage" id="otpPg">
             <div class="header">
                 CompuLink Technologies
             </div>
             
-            <div class="contentFgPw">
+            <div class="contentOTP">
                 <div class="logo">
                     <img src="images/logo_block_cropped.png" alt="" id="compuLogo"/>
                 </div>
 
-                <form method="POST" onsubmit="return verifyNewPassword()" action="index.php">
+                <form method="POST" onsubmit="return verifyOTP()" action="newPassword.php">
                     <div class="resetPwInput">
                         <img src="images/lock.png" alt="" class="resetImg" id="lock1"/>
-                        <input type="text" name="newPassword" placeholder="PASSWORD" class="input" id="newPwInp" onfocus="changeNewPasswordType()">
+                        <input type="text" name="inOTP" placeholder="OTP" class="input" id="OTPInp">
 
-                        <img src="images/lock.png" alt="" class="resetImg" id="lock2"/>
-                        <input type="text" name="confirmPassword" placeholder="PASSWORD" class="input" id="confirmPwInp" onfocus="changeNewPasswordType()">
                     </div>
 
                     <div class="resetSubmit" id="reset_submit">
-                        <button type="submit" onclick="" class="subNewPwBtn" name="subNewPwBtn" value="subNewPwBtn">SUBMIT PASSWORD</button>
+                        <button type="submit" onclick="" class="subNewPwBtn" name="subOTPBtn" >SUBMIT OTP</button>
                     </div>
                 </form>
             </div>

@@ -15,6 +15,8 @@
  */
 
 require_once 'config.php';
+require_once 'Contact.php';
+require_once 'Site.php';
 
 /* Constant Variable Declaration */
 define("ERR_EMPTY_COMPANY_NAME","Please enter your company name.");
@@ -171,14 +173,43 @@ function validateSites($sites) {
     
 }
 
-function validateSite($no, $street, $suburb_City, $postalCode, $additionalInfo) {
+function validateSite($site) {
     
 }
 
+/**
+ * Takes in an array of contacts and validates them, returning an array of 
+ * errors indicating in which ways the details failed the validation
+ * 
+ * @param type $contacts the array of contacts
+ * @return array the array of errors
+ */
 function validateContacts($contacts) {
+    $errors = array();
     
+    /*
+     * Add one error messages to the array for each of the following failures:
+     * 
+     * -already existing username
+     * -already existing email
+     * -already existing phone
+     * -duplicate username
+     * -duplicate email
+     * -duplicate phone
+     * -invalid input/ empty fields(Make this more specific if you want, but it 
+     * might cause too many toast messages to display if there are too many 
+     * invalid fields)
+     * 
+     * The error message for each will be taken from the array and displayed in 
+     * a toast message. Add any more errors that you want or change the list in 
+     * whatever way you want, these just make the most sense to me and should be 
+     * a good starting point at least
+     */
+    
+    
+    return $errors;
 }
 
-function validateContact($username, $password, $firstName, $lastName, $emails, $phoneNumbers) {
+function validateContact($contact) {
     
 }

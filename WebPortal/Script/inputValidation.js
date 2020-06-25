@@ -237,7 +237,7 @@ function formValidation()
             case "ContactUsername":
                 if(!usernameRegex.test($(this).val()))
                 {
-                    alert("Username should be at least 8 characters");
+                    usernameInfoToast();
                     $(this).css("border-bottom-color", "orange");
                     valid = false;
                 }
@@ -249,7 +249,7 @@ function formValidation()
             case "ContactPassw":
                 if(!pwRegex.test($(this).val()))
                 {
-                    alert("The password should consist of 8 characters with:\nAt least one uppercase\nOne lowercase\nOne special character\nOne number");
+                    pwInfoToast();
                     $(this).css("border-bottom-color", "orange");
                     valid = false;
                 }
@@ -283,7 +283,7 @@ function formValidation()
             case "contactEmail":
                 if(!emailRegex.test($(this).val()))
                 {
-                    alert("The email should look like the following:\nexample@example.com");
+                    emailToast();
                     $(this).css("border-bottom-color", "orange");
                     valid = false;
                 }
@@ -350,8 +350,7 @@ function formValidation()
             case "addInfo":
                 if(!nameSurnameCompanyRegex.test($(this).val()))
                 {
-                    $(this).css("border-bottom-color", "orange");
-                    valid = false;
+                    $(this).val('none');
                 }
                 else
                 {
@@ -363,12 +362,12 @@ function formValidation()
     
     if(!valid)
     {
-        alert("Invalid input received");
+        invalidInputToast();
         return false;
     }
     else
     {
-        alert("Submitted successfully");
+        successfulSumbitToast();
         return true;
     }
 }
@@ -422,4 +421,9 @@ function verifyNewPassword()
     {
         return valid;
     }
+}
+
+function verifyOTP()
+{
+    
 }

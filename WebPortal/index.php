@@ -1,5 +1,7 @@
 <?php
     
+    session_start();
+
     /**
      * Todo:
      * 
@@ -12,6 +14,8 @@
     require_once 'config.php';
     require_once 'inputServerValidation.php';
     require_once 'emailManager.php';
+    require_once 'generator.php';
+    require_once 'hasher.php';
     
     /* Constant Variable Declaration */
     define("PW_RESET_EMAIL","RESET PASSWORD");
@@ -34,7 +38,6 @@
     $password = "";
     $passwordErr = "";
     $loginErr = "";
-    $loginResult;
     $email = "";
     $emailErr = "";
     $phone = "";
@@ -84,7 +87,7 @@
     $pwResetMode = "";
     $pwResetModeErr = "";
     $newPassword = "";
-    $confirmNewPassword = "";
+    $confirmNewPassword = "";        
     
     /* Check if a form was submitted */
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -145,26 +148,16 @@
             
             return HANDLE_LOGIN;
             
-        } elseif (isset($_POST['pwResetMode'], $_POST['emailInp'])
-               || isset($_POST['OTP'])
-               || isset($_POST['newPassword'], $_POST['confirmNewPassword'])) {
+        } elseif (isset($_POST['reset_options'])){
             
-            if (isset($_POST['pwResetMode'], $_POST['emailInp'])) {
-                $email = trim($_POST["emailInp"]);
-                $phone = trim($_POST["emailInp"]);
-            }
-            
-            if (isset($_POST['OTP'])) {
-                $OTP = trim($_POST["otp"]);
-            }
-            
-            if (isset($_POST['newPassword'], $_POST['confirmNewPassword'])) {
-                $newPassword = trim($_POST["newPassword"]);
-                $confirmNewPassword = trim($_POST["confirmNewPassword"]);
-            }
-            
+            /*if (isset($_POST['reset_options'], $_POST['emailInp'])) {
+                
+            }*/
+            $pwResetMode=$_POST['reset_options'];
+            $email = trim($_POST["emailInp"]);
+
             return HANDLE_FORGOT_PW;
-            
+              
         } else {
             
             return HANDLE_NO_INPUT;
@@ -206,8 +199,9 @@
      */
     function handleLogin() {
         
-        global $username, $password, $loginIsValid, $usernameErr, $passwordErr, 
-               $loginResult;
+        global $username, $password, $loginIsValid, $usernameErr, $passwordErr;
+        
+        $accountID;
         
         // $username = trim($_POST["username"]);
         // $password = trim($_POST["password"]);
@@ -225,46 +219,50 @@
         }
         
         if ($loginIsValid) {
+            
             $accountID = findUsername($username);
             if($accountID === NOT_FOUND || $accountID === PREP_STMT_FAILED)
             {
                 $usernameErr = "Username not found.";
+                $loginIsValid = false;
             } else{
                 
                 $loginAttempt = isPasswordValid($accountID, $password);
                 
                 if($loginAttempt == true){
-                    $loginResult = $accountID;
+                    $loginIsValid = $accountID;
                 }
                 elseif($loginAttempt == false){
                     $passwordErr = "Invalid password.";
-                    $loginResult = false;
+                    $$loginIsValid = false;
                 } else {
                     $loginErr = "Login failed";
-                    $loginResult = false;
-                }              
-                print "<p>result = ". $loginResult . "</p>";
-                /* WIP */
-            }           
-            
+                    $loginIsValid = false;
+                }
+            }                        
+        }
+        
+        if($loginIsValid){            
+            $_SESSION['accountID'] = $accountID;
+            header("Location:Dashboard.php");
+        }else{
+            $_SESSION['loginFailed'] = 'failed';
         }
         
     }
     
+    function debugToConsole($msg) { 
+            echo "<script>console.log(".json_encode($msg).")</script>";
+    }
     
+
     
-    /**
-     * Handles the forgot password request made by the user.
-     * 
-     * Assumes POST request method used.
-     */
     function handleForgotPW() {
         
-        global $email, $username,  $emailErr, $phone, $phoneErr, $OTP, $OTPErr, $pwResetMode, 
-               $pwResetModeErr;
+        global $email, $username,$account,  $emailErr, $phone, $phoneErr, $OTP, $inOTP, $OTPErr, $pwResetMode, 
+               $pwResetModeErr, $confirmNewPassword, $reset_options, $androidValidated;
         
-//        $pwResetMode = htmlspecialchars($_POST["name"]);
-
+        
         /** 
          * This is where things get tricky.
          * 
@@ -275,39 +273,46 @@
          * This means we have to track the user's current status throughout the 
          * process, likely with a session, and render the page accordingly.
          */
+        $androidValidated=false;
+        
         switch ($pwResetMode) {
             
-            case PW_RESET_EMAIL:
+            case "RESET PASSWORD":
+                
+                debugToConsole("Test");
+                $_SESSION["userStatus"] = "resetPassword";
+                
+                if(array_key_exists('resetSubBtn', $_POST)) { 
+                resetSubBtn($email); 
+                }
+                
+                if(array_key_exists('subOTPBtn', $_POST)) { 
+                validateOTP($inOTP);
+                }
+                
+                if(array_key_exists('subNewPwBtn', $_POST)) { 
+                subNewPwBtn($account); 
+                $_SESSION["userStatus"] = "updatePassword";
+                }
+                
+                
+                break;
+
+            case "ANDROID OTP":
+                
+                debugToConsole("Test");
+                $_SESSION["userStatus"] = "androidOTP.html";
 
                 /* WIP */
-                /*$OTP=generateOTP();
+                $OTP=generateOTP();
                 
                 $account=getUserIDfromEmail($email);
                 
                 storeOTP($account, $OTP);
                 
-                forgotPassword($email, $username, $link);
-                
-                isOTPCorrect($account, $userOTP);*/
-                
-                break;
-
-/*            case PW_RESET_PHONE_OTP:
-
-                 WIP 
-                
-                break;*/
-
-            case PW_RESET_OTP:
-
-                /* WIP */
-                /*$OTP=generateOTP();
-                
-                $account=getUserIDfromPhone($email);
-                
-                storeOTP($account, $otp);
-                
-                isOTPCorrect($account, $userOTP);*/
+                if ($androidValidated=true){
+                    header('Location: newPassword.php');
+                }
                 
                 break;
             
@@ -321,8 +326,44 @@
         
     }
     
+    function resetSubBtn($email) {
+        
+        global $emailErr;
+        
+        if (getUserIDfromEmail($email)==NOT_FOUND){
+            $emailErr= "Email not found";
+        } else {
+            $_SESSION["userStatus"] = "getUserID";
+            $account=getUserIDfromEmail($email);
+            $username=getUsernameFromID($account);
+            $OTP=generateOTP();
+            $_SESSION["userStatus"] = "storeOTP";
+            storeOTP($account, $OTP);
+            forgotPassword($email,$username,$OTP);
+            header('Location: otpPage.php');
+            exit();
+        }
+        $_SESSION["userStatus"] = "sendEmail";
+        
+    }
     
+    function validateOTP($inOTP){
+        
+        global $OTP;
+        
+        $inputOTP=hashOTP($inOTP);
+        $storedOTP=hashOTP($OTP);
+        if ($inputOTP==$storedOTP){
+            header('Location: newPassword.php');
+        } 
+    }
     
+    function subNewPwBtn($account) {
+        
+        global $newPassword;
+                    updatePassword($account,$newPassword);
+    }
+
     /**
      * Currently does nothing.
      * 
@@ -410,20 +451,49 @@
                             return false;
                         }
                     }
-                </script>
+                </script>                               
                 
-                <form method="POST" onsubmit="return loginToast()" action="/Dashboard.php">
+                <!--Checks if the loginFailed variable is set, indicating that 
+                the last login attempt was invalid and that a toast message 
+                needs to be displayed-->
+                <?php
+                    $loginFailed = false;
+                    if(isset($_SESSION['loginFailed'])){?>
+                        <script>
+                            $.toast({
+                                heading: "Login Invalid",
+                                text: "No account with that username and password",
+                                bgColor: "#FF6961",
+                                textColor: "F3F3F3",
+                                showHideTransition: "slide",
+                                allowToastClose: false,
+                                position: "bottom-center",
+                                icon: "error",
+                                loaderBg: "#373741",
+                                hideAfter: 3000
+                            });
+                        </script>
+                        
+                        <?php
+                        /*Clears the login failed variable so that it does not 
+                         * trigger a failed message without another failed 
+                         * attempt*/
+                        unset($_SESSION['loginFailed']);
+                    }
+                ?>
+                
+                        <form method="POST" onsubmit="return loginToast()" action="#">
                     <div class="loginInp">
                         <img src="images/account.png" alt="" class="accountImg"/>
                         <input type="text" name="username" placeholder="USERNAME" class="input" id="username" required/>
                         <img src="images/lock.png" alt="" class="lockImg"/>
                         <input type="text" name="password" placeholder="PASSWORD" class="input" id="passw" onfocus="changeType()" required/>
-                        <font class="forgotPw" id="forgotPassBigScreen"><a href="#" onclick="forgotPasswordPage()">Forgot password?</a></font>
+                        <font class="forgotPw" id="forgotPassBigScreen" ><a href="#" name="forgotPw" onclick="forgotPasswordPage()">Forgot password?</a></font>
                     </div>
 
                     <div class="loginSubmit">
                         <button type="submit" class="loginSubBtn" onclick="">LOGIN</button>
-                        <font class="forgotPw" id="forgotPassSmallScreen"><a href="#" onclick="forgotPasswordPage()">Forgot password?</a></font>
+                        <font class="forgotPw" id="forgotPassSmallScreen" ><a href="#" name="forgotPw" onclick="forgotPasswordPage()">Forgot password?</a></font>
                     </div>
                 </form>
 
@@ -483,15 +553,14 @@
                     <button class="returnToLoginBtn" onclick="changeToLogin()">RETURN TO LOGIN</button>
                 </div>
 
-                <form method="POST" onsubmit="return verifyForgotPw()" action="newPassword.php">
-                    <div class="resetInpContent">
+                <form  method="POST" action="#">
+                        
+                    <div class="resetInpContent" name="test">
                         <img src="images/refresh.png" alt="" class="resetImg"/>
-                        <select name="resetOptions" class="dropDownSelect" id="reset_options" name="pwResetMode" onchange="modifyResetPassword()">
-                            <option>RESET PASSWORD</option>
-                            <option>TEXT OTP</option>
-                            <option>ANDROID OTP</option>
+                        <select name="reset_options" class="dropDownSelect" id="reset_options" onchange="modifyResetPassword()">
+                            <option name="RESET PASSWORD">RESET PASSWORD</option>
+                            <option name="ANDROID OTP">ANDROID OTP</option>
                         </select>
-
                         <img src="images/envelope.png" alt="" class="emailImg" id="passwordRecoveryImg"/>
                         <input type="text" name="emailInp" value="" placeholder="EMAIL" class="passwordRecoveryInp" id="emailInp" required/>
                         <!-- These two elements are added using jQuery -->
@@ -500,7 +569,7 @@
                     </div>
 
                     <div class="resetSubmit" id="reset_submit">
-                        <button type="submit"  class="resetSubBtn">SEND RESET REQUEST</button>
+                        <button type="submit" name="resetSubBtn" class="resetSubBtn">SEND RESET REQUEST</button>
                     </div>
                 </form>
             </div>

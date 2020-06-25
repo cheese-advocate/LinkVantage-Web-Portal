@@ -1,68 +1,79 @@
 <?php
     
-    require_once 'config.php';
-    require_once 'inputServerValidation.php';
+require_once 'config.php';
+require_once 'inputServerValidation.php';
+require_once 'Contact.php';
+require_once 'Site.php';
+require_once 'getLists.php';
+
+session_start();
+
+/* Check if a form was submitted */
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    /*Get the arrays of contact details and combine into array of contacts*/
+    $contacts = getContacts($_POST["username"], $_POST["password"], 
+            $_POST["firstName"], $_POST["lastName"], $_POST["email"],  
+            $_POST["phoneNumber"], $_POST["confirmMainContact"]);
+
+    /*Get the site details and combine into a site*/
+    $site = new Site($_POST["streetNum"], $_POST["streetName"], 
+            $_POST["suburbCity"], $_POST["postalCode"], $_POST["info"]);
+
+    /* Validation */
+        
+    /*Initialise the variable to track whether the registration details are 
+     * passing validation*/
+    $registrationValid = true;
+
+    /* Validate the contacts */
     
-    /* Constant Variable Declaration */
-        
+    /*Validation should return array of errors*/
+    $contactsValidation = validateContacts($contacts);
     
-    /* Input Variable Declaration */
-    $adrsNo;
-    $adrsNoErr;
-    $adrsStreet;
-    $adrsStreetErr;
-    $adrsSuburb;
-    $adrsSuburbErr;
-    $adrsPostalCode;
-    $adrsPostalCodeErr;
-    $adrsAdditional;
-    $adrsAdditionalErr;
-    $contacts;
-    $contactsErrs;
-    
-    /* Check if a form was submitted */
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        
-        /* Handle the form */
-        
-        
-        
-        /* Validation */
-        /*$siteErrs = array(validateSite($adrsNo, $adrsStreet, $adrsSuburb, $adrsPostalCode, $adrsAdditional));
-        $adrsNoErr = $siteErrs[0];
-        $adrsStreetErr = $siteErrs[1];
-        $adrsSuburbErr = $siteErrs[2];
-        $adrsPostalCodeErr = $siteErrs[3];
-        $adrsAdditionalErr = $siteErrs[4];*/
-        
-        /* Split the site errors into individual errors we can format the 
-         * displaying of.
-         */
-        
-        
-        /* Validate all input fields */
-        
-        /* Validate the site */
-        
-        
-        /* No duplicate main contacts */
-        
-        
-        /* No duplicate usernames, emails, phones, in input nor should they exist in the database. */
-        
-        
-        /* If all is valid, register the private client, register the site to the client, and register each contact to the client. */
-        
-        
+    /*Validation passed if array of errors was empty*/
+    if(!empty($contactsValidation)){
+        $registrationValid = false;
     }
     
-    function handleLogin(){
-        
+    /* Validate the site */
+    
+    /*Validation should return array of errors*/
+    $siteValidation = validateSite($site);
+    
+    /*Validation passed if array of errors was empty*/
+    if(!empty($siteValidation)){
+        $registrationValid = false;
     }
     
-    function getContacts(){
-        
+    /*Register the client if they passed registration, and then direct them back 
+     * to the login page*/
+    if($registrationValid){
+        registerPrivateClient($contacts, $site);
+        header("Location: index.php");
+    } else { /*handle the error messages if they failed validation*/
+        $errors = array_merge($contactsValidation, $siteValidation);
+        handleErrors($contactsValidation, $siteValidation);
     }
+}
+
+/**
+ * Receives the array of error messages and adds them to a session variable 
+ * which is an array of error messages to be displayed as toast messages
+ * 
+ * @param type $errors The array of error messages
+ */
+function handleErrors($errors){
+    $toastMessages = array();
+    
+    for($i=0; $i < count($errors); $i++) {
+        $toastMessages[$i] = $errors[$i];
+    }
+    
+    $_SESSION['toastMessages'] = $toastMessages;
+}
+    
+    
     
 ?>
 
@@ -124,8 +135,112 @@ and open the template in the editor.
                 });
             }
             
+            function successfulSumbitToast()
+            {
+                $.toast({
+                    heading: "Successfull Submission",
+                    text: "Account registered",
+                    bgColor: "#7EC850",
+                    textColor: "F3F3F3",
+                    showHideTransition: "slide",
+                    allowToastClose: false,
+                    position: "bottom-center",
+                    icon: "success",
+                    loaderBg: "#373741",
+                    hideAfter: 3000
+                });
+            }
             
+            function emailToast()
+            {
+                $.toast({
+                    heading: "Invalid Email",
+                    text: "Email should look like the following: example@example.com",
+                    bgColor: "#FFB347",
+                    textColor: "F3F3F3",
+                    showHideTransition: "slide",
+                    allowToastClose: false,
+                    position: "bottom-center",
+                    icon: "error",
+                    loaderBg: "#373741",
+                    hideAfter: 10000
+                });
+            }
+            
+            function pwInfoToast()
+            {
+                $.toast({
+                    heading: "Invalid Password",
+                    text: "The password should consist of 8 characters with:\nAt least one uppercase\nOne lowercase\nOne special character\nOne number",
+                    bgColor: "#FFB347",
+                    textColor: "F3F3F3",
+                    showHideTransition: "slide",
+                    allowToastClose: false,
+                    position: "bottom-center",
+                    icon: "error",
+                    loaderBg: "#373741",
+                    hideAfter: 10000
+                });                
+            }
+            
+            function usernameInfoToast()
+            {
+               $.toast({
+                    heading: "Invalid Username",
+                    text: "Username should consist of at least 8 characters",
+                    bgColor: "#FFB347",
+                    textColor: "F3F3F3",
+                    showHideTransition: "slide",
+                    allowToastClose: false,
+                    position: "bottom-center",
+                    icon: "error",
+                    loaderBg: "#373741",
+                    hideAfter: 10000
+                }); 
+            }
+            
+            function oneContactToastWarning()
+            {
+                $.toast({
+                    heading: "Warning",
+                    text: "At least one contact is required",
+                    bgColor: "#FFB347",
+                    textColor: "F3F3F3",
+                    showHideTransition: "slide",
+                    allowToastClose: false,
+                    position: "bottom-center",
+                    icon: "error",
+                    loaderBg: "#373741",
+                    hideAfter: 4000
+                });
+            }
         </script>
+        
+        <!--Checks if there are toast messages that need to be displayed from a 
+        failed registration-->
+        <?php
+            if(isset($_SESSION['toastMessages'])){
+                $toastMessages = $_SESSION['toastMessages'];
+                for($i=0; $i < count($toastMessages); $i++){?>
+                    <script>
+                        $.toast({
+                            heading: "Registration failed",
+                            text: <?php$toastMessages[$i]?>,
+                            bgColor: "#FF6961",
+                            textColor: "F3F3F3",
+                            showHideTransition: "slide",
+                            allowToastClose: false,
+                            position: "bottom-center",
+                            icon: "error",
+                            loaderBg: "#373741",
+                            hideAfter: 3000
+                        });
+                    </script><?php
+                }
+                    
+            }
+        ?>
+        
         <div class="registerCompanyPage" id="registerPrivClient">
             <div class="header">
                 Compulink Technologies
@@ -165,28 +280,29 @@ and open the template in the editor.
 
                     <div class="usernPassInp">
                         <img src="images/account.png" alt="" class="contactAccountImg"/>
-                        <input type="text" name="username" placeholder="USERNAME" class="contactInput" id="ContactUsername" required="true"/>
+                        <input type="text" name="username[]" placeholder="USERNAME" class="contactInput" id="ContactUsername" required="true"/>
                         <img src="images/lock.png" alt="" class="contactLockImg"/>
-                        <input type="text" name="password" placeholder="PASSWORD" class="contactInput" id="ContactPassw" onfocus="changeTypeRegister()" required="true"/>
+                        <input type="text" name="password[]" placeholder="PASSWORD" class="contactInput" id="ContactPassw" onfocus="changeTypeRegister()" required="true"/>
                     </div>
 
                     <div class="names">
                         <img src="images/id-card.png" alt="" class="idCard" id="id1"/>
-                        <input type="text" name="firstName" placeholder="FIRST NAME" class="contactInput" id="contactFirstName" required="true"/>
+                        <input type="text" name="firstName[]" placeholder="FIRST NAME" class="contactInput" id="contactFirstName" required="true"/>
                         <img src="images/id-card.png" alt="" class="idCard"/>
-                        <input type="text" name="lastName" placeholder="LAST NAME" class="contactInput" id="contactLastName" required="true"/>
+                        <input type="text" name="lastName[]" placeholder="LAST NAME" class="contactInput" id="contactLastName" required="true"/>
                     </div>
 
                     <div class="otherContactDet">
                         <img src="images/envelope.png" alt="" class="contactEmailImg"/>
-                        <input type="text" name="email" placeholder="EMAIL" class="contactInput" id="contactEmail" required="true"/>
+                        <input type="text" name="email[]" placeholder="EMAIL" class="contactInput" id="contactEmail" required="true"/>
                         <img src="images/phone.png" alt="" class='phoneContactImg'/>
-                        <input type="text" name="phoneNumber" placeholder="PHONE NUMBER" class="contactInput" id="contactPhoneNum" required="true"/>
+                        <input type="text" name="phoneNumber[]" placeholder="PHONE NUMBER" class="contactInput" id="contactPhoneNum" required="true"/>
                     </div>
 
                     <div class="confirmContact">
                             <label for="confirmMainContact">Is the main contact:</label>
-                            <input type="checkbox" name="confirmMainContact" id="confirmMainContact"/>    
+                            <input type="hidden" name="confirmMainContact[]" id="confirmMainContact" value="false"/>    
+                            <input type="checkbox" name="confirmMainContact[]" id="confirmMainContact" value="true"/>    
                     </div>
                 </div>
 

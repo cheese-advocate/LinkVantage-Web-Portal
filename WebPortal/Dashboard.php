@@ -1,3 +1,11 @@
+<?php
+    require_once 'config.php';
+
+    session_start();
+    $displayUsername = getUsernameFromID($_SESSION['accountID']);
+    
+?>
+
 <!DOCTYPE html>
 
 <html>
@@ -59,23 +67,33 @@
                 </div>
                 
                 <div class="userInfo">
-                    <span class="userName"></span>
+                    <span class="userName"><?php echo $displayUsername?></span><!--TO BE REPLACED WITH USERNAME FROM PHP SIDE-->
                     <img src="images/account.png" alt="" class="account" onclick="accountNav()"/>
                 </div>
             </div>
             
             <div id="side" class="sideNav">
-                <div onclick="homeNav()"><img src="images/home_gray.png" alt="" id="home"/><span>Home</span></div>
+                <div onclick="navigate('home')"><img src="images/home_gray.png" alt="" id="home"/><span>Home</span></div>
                 <div><img src="images/suitcase.png" alt=""/><span>Jobs</span></div>
                 <div><img src="images/write.png" alt=""/><span>Invoices</span></div>
                 <div><img src="images/account.png" alt=""/><span>Clients</span></div>
                 <div onclick="info()"><img src="images/information.png" alt=""/><span>Info</span></div>
+                <div><img src="images/gear.png" alt=""/><span>Settings</span></div>
             </div>
             
             <div id="account" class="accountNav">
                 <div>Manage Account</div>
                 <div>Preferences</div>
                 <div onclick="logOut()">Log out</div>
+            </div>
+            
+            <div class="dashContent">
+                <div id="content1"></div>
+                <div id="content2"></div>
+                <div id="content3"></div>
+                <div id="content4"></div>
+                <div id="content5"></div>
+                <div id="content6"></div>
             </div>
         </div>
     </body>

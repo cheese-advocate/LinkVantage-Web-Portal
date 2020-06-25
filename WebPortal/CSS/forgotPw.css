@@ -22,6 +22,20 @@
     width: 565px;
 }
 
+.contentOTP
+{
+    display: grid;
+    grid-template-rows: 20% 1fr 2fr 1fr;
+    grid-template-areas: "logo"
+                         "backToLogin"
+                         "resetInpContent"
+                         "resetSubmit";
+    margin: auto;
+    background: rgba(55, 55, 65, 0.8);
+    height: 250px;
+    width: 565px;
+}
+
 .logo
 {
     grid-area: logo;
