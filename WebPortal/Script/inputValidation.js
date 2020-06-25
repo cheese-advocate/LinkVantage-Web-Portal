@@ -350,8 +350,7 @@ function formValidation()
             case "addInfo":
                 if(!nameSurnameCompanyRegex.test($(this).val()))
                 {
-                    $(this).css("border-bottom-color", "orange");
-                    valid = false;
+                    $(this).val('none');
                 }
                 else
                 {
