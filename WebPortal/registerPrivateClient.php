@@ -2,70 +2,75 @@
     
 require_once 'config.php';
 require_once 'inputServerValidation.php';
-require_once 'Contact';
+require_once 'Contact.php';
+require_once 'Site.php';
 require_once 'getLists.php';
 
-/* Constant Variable Declaration */
-
-
-/* Input Variable Declaration */
-$adrsNo;
-$adrsNoErr;
-$adrsStreet;
-$adrsStreetErr;
-$adrsSuburb;
-$adrsSuburbErr;
-$adrsPostalCode;
-$adrsPostalCodeErr;
-$adrsAdditional;
-$adrsAdditionalErr;
-$contacts;
-$contactsErrs;
+session_start();
 
 /* Check if a form was submitted */
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    /* Handle the form */
-
+    /*Get the arrays of contact details and combine into array of contacts*/
     $contacts = getContacts($_POST["username"], $_POST["password"], 
             $_POST["firstName"], $_POST["lastName"], $_POST["email"],  
             $_POST["phoneNumber"], $_POST["confirmMainContact"]);
 
-    foreach ($contacts as $contact) {
-        $contact->toString();
-    }
+    /*Get the site details and combine into a site*/
+    $site = new Site($_POST["streetNum"], $_POST["streetName"], 
+            $_POST["suburbCity"], $_POST["postalCode"], $_POST["info"]);
 
     /* Validation */
-    /*$siteErrs = array(validateSite($adrsNo, $adrsStreet, $adrsSuburb, $adrsPostalCode, $adrsAdditional));
-    $adrsNoErr = $siteErrs[0];
-    $adrsStreetErr = $siteErrs[1];
-    $adrsSuburbErr = $siteErrs[2];
-    $adrsPostalCodeErr = $siteErrs[3];
-    $adrsAdditionalErr = $siteErrs[4];*/
+        
+    /*Initialise the variable to track whether the registration details are 
+     * passing validation*/
+    $registrationValid = true;
 
-    /* Split the site errors into individual errors we can format the 
-     * displaying of.
-     */
-
-
-    /* Validate all input fields */
-
+    /* Validate the contacts */
+    
+    /*Validation should return array of errors*/
+    $contactsValidation = validateContacts($contacts);
+    
+    /*Validation passed if array of errors was empty*/
+    if(!empty($contactsValidation)){
+        $registrationValid = false;
+    }
+    
     /* Validate the site */
-
-
-    /* No duplicate main contacts */
-
-
-    /* No duplicate usernames, emails, phones, in input nor should they exist in the database. */
-
-
-    /* If all is valid, register the private client, register the site to the client, and register each contact to the client. */
-
-
+    
+    /*Validation should return array of errors*/
+    $siteValidation = validateSite($site);
+    
+    /*Validation passed if array of errors was empty*/
+    if(!empty($siteValidation)){
+        $registrationValid = false;
+    }
+    
+    /*Register the client if they passed registration, and then direct them back 
+     * to the login page*/
+    if($registrationValid){
+        registerPrivateClient($contacts, $site);
+        header("Location: index.php");
+    } else { /*handle the error messages if they failed validation*/
+        $errors = array_merge($contactsValidation, $siteValidation);
+        handleErrors($contactsValidation, $siteValidation);
+    }
 }
 
-function handleLogin(){
-
+/**
+ * Receives the array of error messages and adds them to a session variable 
+ * which is an array of error messages to be displayed as toast messages
+ * 
+ * @param type $errors The array of error messages
+ */
+function handleErrors($errors){
+    $toastMessages = array();
+    
+    for($i=0; $i < count($errors); $i++) {
+        $toastMessages[$i] = $errors[$i];
+    }
+    
+    $_SESSION['toastMessages'] = $toastMessages;
 }
     
     
@@ -210,6 +215,32 @@ and open the template in the editor.
                 });
             }
         </script>
+        
+        <!--Checks if there are toast messages that need to be displayed from a 
+        failed registration-->
+        <?php
+            if(isset($_SESSION['toastMessages'])){
+                $toastMessages = $_SESSION['toastMessages'];
+                for($i=0; $i < count($toastMessages); $i++){?>
+                    <script>
+                        $.toast({
+                            heading: "Registration failed",
+                            text: <?php$toastMessages[$i]?>,
+                            bgColor: "#FF6961",
+                            textColor: "F3F3F3",
+                            showHideTransition: "slide",
+                            allowToastClose: false,
+                            position: "bottom-center",
+                            icon: "error",
+                            loaderBg: "#373741",
+                            hideAfter: 3000
+                        });
+                    </script><?php
+                }
+                    
+            }
+        ?>
+        
         <div class="registerCompanyPage" id="registerPrivClient">
             <div class="header">
                 Compulink Technologies
