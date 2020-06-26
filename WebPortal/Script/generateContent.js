@@ -116,32 +116,33 @@ function addSite()
                          
                 '<div class="streetNum">'+
                     '<img src="images/location.png" alt="" class="locationImg1"/>'+
-                    '<input type="text" name="streetNum" placeholder="NO" class="addressInp" id="streetNumInp" required="true"/>'+
+                    '<input type="text" name="streetNum[]" placeholder="NO" class="addressInp" id="streetNumInp" required="true"/>'+
                 '</div>'+
 
                 '<div class="streetName">'+
                     '<img src="images/location.png" alt="" class="locationImg2"/>'+
-                    '<input type="text" name="streetName" placeholder="STREET" class="addressInp" id="streetNameInp" required="true"/>'+
+                    '<input type="text" name="streetName[]" placeholder="STREET" class="addressInp" id="streetNameInp" required="true"/>'+
                 '</div>'+
 
                 '<div class="suburbCity">'+
                     '<img src="images/house.png" alt="" class="homeImg"/>'+
-                    '<input type="text" name="suburbCity" placeholder="SUBURB/CITY" class="addressInp" id="suburbInp" required="true"/>'+
+                    '<input type="text" name="suburbCity[]" placeholder="SUBURB/CITY" class="addressInp" id="suburbInp" required="true"/>'+
                 '</div>'+
 
                 '<div class="postalCode">'+
                     '<img src="images/envelope.png" alt="" class="postalImg"/>'+
-                    '<input type="text" name="postalCode" placeholder="POSTAL CODE" class="addressInp" id="postalInp" required="true"/>'+
+                    '<input type="text" name="postalCode[]" placeholder="POSTAL CODE" class="addressInp" id="postalInp" required="true"/>'+
                 '</div>'+
 
                 '<div class="addInfo">'+
                     '<img src="images/information.png" alt="" class="infoImg"/>'+
-                    '<input type="text" name="info" placeholder="ADDITIONAL INFORMATION" class="addressInp" id="addInfo"/>'+
+                    '<input type="text" name="info[]" placeholder="ADDITIONAL INFORMATION" class="addressInp" id="addInfo"/>'+
                 '</div>'+
                 
                 '<div class="confirmSite" id="confirm_site">'+
                     '<label for="confirmMainSite">Is the main site:</label>'+
-                    '<input type="checkbox" name="confirmMainSite" id="confirmMainSite"/>'+
+                    '<input type="hidden" name="confirmMainSite[]" id="confirmMainSite" value="false"/>'+
+                    '<input type="checkbox" name="confirmMainSite[]" id="confirmMainSite" value="true"/>'+
                 '</div>'+
             '</div>';
     

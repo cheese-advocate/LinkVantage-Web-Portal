@@ -1,34 +1,77 @@
 <?php
     
-    include_once 'config.php';
-    include_once 'inputServerValidation.php';
+require_once 'config.php';
+require_once 'inputServerValidation.php';
+require_once 'Contact.php';
+require_once 'Site.php';
+require_once 'getLists.php';
+
+session_start();
+
+/* Check if a form was submitted */
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    /*Get the arrays of contact details and combine into array of contacts*/
+    $contacts = getContacts($_POST["username"], $_POST["password"], 
+            $_POST["firstName"], $_POST["lastName"], $_POST["email"],  
+            $_POST["phoneNumber"], $_POST["confirmMainContact"]);
+
+    /*Get the arrays of site details and combine into array of sites*/
+    $sites = getSites($_POST["streetNum"], $_POST["streetName"], 
+            $_POST["suburbCity"], $_POST["postalCode"], $_POST["info"]);
+
+    /* Validation */
+        
+    /*Initialise the variable to track whether the registration details are 
+     * passing validation*/
+    $registrationValid = true;
+
+    /* Validate the contacts */
     
-    /* Constant Variable Declaration */
+    /*Validation should return array of errors*/
+    $contactsValidation = validateContacts($contacts);
     
-    
-    /* Input Variable Declaration */
-    $companyName;
-    $sites;
-    $contacts;
-    
-    /* Check if a form was submitted */
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        
-        /* Handle the form */
-        
-        
-        /* Validate all input fields */
-        
-        
-        /* No duplicate main contacts, no duplicate main sites */
-        
-        
-        /* No duplicate usernames, emails, phones, in input nor should they exist in the database. */
-        
-        
-        /* If all is valid, register the company, register each site to the company, and register each contact to the company. */
-        
+    /*Validation passed if array of errors was empty*/
+    if(!empty($contactsValidation)){
+        $registrationValid = false;
     }
+    
+    /* Validate the site */
+    
+    /*Validation should return array of errors*/
+    $sitesValidation = validateSites($sites);
+    
+    /*Validation passed if array of errors was empty*/
+    if(!empty($sitesValidation)){
+        $registrationValid = false;
+    }
+    
+    /*Register the client if they passed registration, and then direct them back 
+     * to the login page*/
+    if($registrationValid){
+        registerPrivateClient($contacts, $site);
+        header("Location: index.php");
+    } else { /*handle the error messages if they failed validation*/
+        $errors = array_merge($contactsValidation, $sitesValidation);
+        handleErrors($contactsValidation, $sitesValidation);
+    }
+}
+
+/**
+ * Receives the array of error messages and adds them to a session variable 
+ * which is an array of error messages to be displayed as toast messages
+ * 
+ * @param type $errors The array of error messages
+ */
+function handleErrors($errors){
+    $toastMessages = array();
+    
+    for($i=0; $i < count($errors); $i++) {
+        $toastMessages[$i] = $errors[$i];
+    }
+    
+    $_SESSION['toastMessages'] = $toastMessages;
+}
     
 ?>
 
@@ -186,6 +229,32 @@ and open the template in the editor.
                 });
             }
         </script>
+        
+         <!--Checks if there are toast messages that need to be displayed from a 
+        failed registration-->
+        <?php
+            if(isset($_SESSION['toastMessages'])){
+                $toastMessages = $_SESSION['toastMessages'];
+                for($i=0; $i < count($toastMessages); $i++){?>
+                    <script>
+                        $.toast({
+                            heading: "Registration failed",
+                            text: <?php$toastMessages[$i]?>,
+                            bgColor: "#FF6961",
+                            textColor: "F3F3F3",
+                            showHideTransition: "slide",
+                            allowToastClose: false,
+                            position: "bottom-center",
+                            icon: "error",
+                            loaderBg: "#373741",
+                            hideAfter: 3000
+                        });
+                    </script><?php
+                }
+                    
+            }
+        ?>
+        
         <!--REGISTER COMPANY PAGE-->
         <div class="registerCompanyPage" id="registerCompanyPage">
             <div class="header">
@@ -271,32 +340,33 @@ and open the template in the editor.
 
                     <div class="streetNum">
                         <img src="images/location.png" alt="" class="locationImg1"/>
-                        <input type="text" name="streetNum" placeholder="NO" class="addressInp" id="streetNumInp" required="true"/>
+                        <input type="text" name="streetNum[]" placeholder="NO" class="addressInp" id="streetNumInp" required="true"/>
                     </div>
 
                     <div class="streetName">
                         <img src="images/location.png" alt="" class="locationImg2"/>
-                        <input type="text" name="streetName" placeholder="STREET" class="addressInp" id="streetNameInp" required="true"/>
+                        <input type="text" name="streetName[]" placeholder="STREET" class="addressInp" id="streetNameInp" required="true"/>
                     </div>
 
                     <div class="suburbCity">
                         <img src="images/house.png" alt="" class="homeImg"/>
-                        <input type="text" name="suburbCity" placeholder="SUBURB/CITY" class="addressInp" id="suburbInp" required="true"/>
+                        <input type="text" name="suburbCity[]" placeholder="SUBURB/CITY" class="addressInp" id="suburbInp" required="true"/>
                     </div>
 
                     <div class="postalCode">
                         <img src="images/envelope.png" alt="" class="postalImg"/>
-                        <input type="text" name="postalCode" placeholder="POSTAL CODE" class="addressInp" id="postalInp" required="true"/>
+                        <input type="text" name="postalCode[]" placeholder="POSTAL CODE" class="addressInp" id="postalInp" required="true"/>
                     </div>
 
                     <div class="addInfo">
                         <img src="images/information.png" alt="" class="infoImg"/>
-                        <input type="text" name="info" placeholder="ADDITIONAL INFORMATION" class="addressInp" id="addInfo"/>
+                        <input type="text" name="info[]" placeholder="ADDITIONAL INFORMATION" class="addressInp" id="addInfo"/>
                     </div>
 
                     <div class="confirmSite" id="confirm_site">
                         <label for="confirmMainSite">Is the main site:</label>
-                        <input type="checkbox" name="confirmMainSite" id="confirmMainSite"/>
+                        <input type="hidden" name="confirmMainSite[]" id="confirmMainSite" value="false"/>
+                        <input type="checkbox" name="confirmMainSite[]" id="confirmMainSite" value="true"/>
                     </div>
                 </div>
 

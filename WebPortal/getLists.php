@@ -38,8 +38,17 @@ function getContacts($usernames, $passwords, $firstNames, $lastNames, $emails, $
     return $contacts;              
 }
 
-function getSites($streetNums, $streetNames, $suburbCitys, $postalCodes, $addInfos){
+function getSites($streetNums, $streetNames, $suburbCitys, $postalCodes, $addInfos, $mainSites){
     $sites = array();
+    
+    for($i=0, $j=0; $i < count($mainSites); $i++) {
+        if ($mainSites[$i] == "true"){
+            $mainSitesCorrected[$j - 1] = true;
+        }else{
+            $mainSitesCorrected[$j] = false;
+            $j++;
+        }            
+    }
     
     for($i=0; $i < count($streetNums); $i++){
         $streetNum = $streetNums[$i];
@@ -47,8 +56,9 @@ function getSites($streetNums, $streetNames, $suburbCitys, $postalCodes, $addInf
         $suburbCity = $suburbCitys[$i];
         $postalCode = $postalCodes[$i];
         $addInfo = $addInfos[$i];
+        $mainSite = $mainSites[$i];
         $newSite = new Site($streetNum, $streetName, $suburbCity, $postalCode, 
-                $addInfo);
+                $addInfo, $mainSite);
         $sites[$i] = $newSite;
     }    
 }
