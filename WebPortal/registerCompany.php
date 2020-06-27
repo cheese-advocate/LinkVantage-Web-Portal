@@ -11,6 +11,9 @@ session_start();
 /* Check if a form was submitted */
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
+    /*Get the company name*/
+    $companyName = $_POST["companyNameInp"];
+    
     /*Get the arrays of contact details and combine into array of contacts*/
     $contacts = getContacts($_POST["username"], $_POST["password"], 
             $_POST["firstName"], $_POST["lastName"], $_POST["email"],  
@@ -25,6 +28,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     /*Initialise the variable to track whether the registration details are 
      * passing validation*/
     $registrationValid = true;
+    
+    /*Validate the company name*/
+    
+    /*Validation should return an empty string if valid, or an error if invalid*/
+    $companyValidation = validateCompanyName($companyName);
+    
+    /*Validaiton passes if string is empty*/
+    if(!empty($companyValidation)){
+        $registrationValid = false;
+    }
 
     /* Validate the contacts */
     
@@ -49,11 +62,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     /*Register the client if they passed registration, and then direct them back 
      * to the login page*/
     if($registrationValid){
-        registerPrivateClient($contacts, $site);
+        registerCompany($companyName, $contacts, $site);
         header("Location: index.php");
     } else { /*handle the error messages if they failed validation*/
-        $errors = array_merge($contactsValidation, $sitesValidation);
-        handleErrors($contactsValidation, $sitesValidation);
+        $errors = array_merge($companyValidation, $contactsValidation, $sitesValidation);
+        handleErrors($errors);
     }
 }
 

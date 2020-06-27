@@ -597,13 +597,11 @@ function isOTPCorrect($account, $userOTP) {
 }
 
 
-function registerCompany()
-{
+function registerCompany($companyName, $contacts, $sites){
     
 }
 
-function registerPrivateClient()
-{
+function registerPrivateClient($contacts, $site){
     
 }
 
