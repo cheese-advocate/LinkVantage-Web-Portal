@@ -12,6 +12,8 @@
  */
 
 require_once 'hasher.php';
+require_once 'Site.php';
+require_once 'Contact.php';
 
 /* SQL Statements */
 define("SQL_ATTEMPT_LOGIN","SELECT validatePassword(?, ?)");
@@ -26,14 +28,18 @@ define("SQL_UPDATE_PASSWORD","CALL updatePassword(?, ?)");
 define("SQL_GET_ACCOUNTID_EMAIL","SELECT getAccountID_Email(?)");
 define("SQL_GET_ACCOUNTID_PHONE","SELECT getAccountID_Phone(?)");
 define("SQL_GET_USERNAME_ACCOUNTID","SELECT getUsername(?)");
+define("SQL_ADD_CONTACT","SELECT addContact(?, ?, ?, ?, ?, ?)");
+define("SQL_ADD_SITE","SELECT addSite(?, ?, ?, ?, ?)");
+define("SQL_GET_CLIENT_ID","SEELCT getClientID(?,?)");
 define("SQL_CHECK_COMPANY_NAME","");
-define("SQL_REGISTER_COMPANY","");
-define("SQL_REGISTER_PRIVATE_CLIENT","");
+define("SQL_REGISTER_COMPANY","CALL companyRegister(?, ?, ?, ?, ?, ?, ?)");
+define("SQL_REGISTER_PRIVATE_CLIENT","CALL clientRegister(?, ?, ?, ?, ?, ?)");
 
 /* Database credentials */
 define('DB_SERVER', 'localhost');
 define('DB_USERNAME', 'root');
 define('DB_NAME', 'Chai');
+define('DB_PASSWORD', 'P@ssword1');
 
 /* Other useful constants */
 define('PREP_STMT_FAILED', 'Prepared Statement Failed');
@@ -596,8 +602,75 @@ function isOTPCorrect($account, $userOTP) {
         }
 }
 
-
+/**
+ * A function to register a company
+ * 
+ * @param type $companyName the name of the company
+ * @param type $contacts the contacts associated with the company
+ * @param type $sites the sites associated with the company
+ */
 function registerCompany($companyName, $contacts, $sites){
+    
+    /*Finding the main contact associated with the client*/
+    $mainContact = $contacts[0]->getMainContact();
+    $k=0;
+    while(!$mainContact){
+        $k++;
+        $mainContact = $contacts[$k]->getMainContact;
+    }
+    
+    /*Extracting and preparing the contact variables*/
+    $username = $contacts[$i]->getUsername();
+    $password = $contacts[$i]->getPassword();
+    $firstName = $contacts[$i]->getFirstName();
+    $lastName = $contacts[$i]->getLastName();
+    $email = $contacts[$i]->getEmail();
+    $phoneNumber = $contacts[$i]->getPhoneNumber();
+    
+    /*hashing the password before storage*/
+    $hashedPassword = hashPassword($password);
+    
+    /*Access the global variable link*/ 
+    global $link;
+    
+    /*Check that statement worked, prepare statement inserting using 
+     * companyRegister function*/
+    if($stmt = mysqli_prepare($link, SQL_REGISTER_COMPANY)){
+        
+        /*insert variables to function*/
+        mysqli_stmt_bind_param($stmt, "sssssss", $username, $hashedPassword, 
+                $firstName, $lastName, $email, $phoneNumber, $companyName);
+        /*execute the insert*/
+        mysqli_stmt_execute($stmt);
+        
+        /*close the statement*/
+        mysqli_stmt_close($stmt);        
+        
+        /*If statement failed*/
+    } else {
+        return PREP_STMT_FAILED;
+    }
+    
+    /*Finding the clientID of the newly created client*/
+    $clientID = getClientID($email, $phoneNumber);
+    
+    /*Creating an array of contacts that are not the main one*/
+    $nonMainContacts = array();
+    
+    /*copies over all the contacts that are not main, skipping the ones that are*/
+    for($i, $j = 0; $i < count($contacts); $i++, $j++){
+        if($i!=$k){
+            $nonMainContacts[$j] = $contacts[$i]; 
+        } else{
+            $j--;
+        }
+    }
+    
+    /*Adding the non main contacts*/
+    addContacts($nonMainContacts, $clientID);
+    
+    /*Adding the sites*/
+    addSites($sites, $clientID);
     
 }
 
@@ -605,3 +678,64 @@ function registerPrivateClient($contacts, $site){
     
 }
 
+/**
+ * A function for getting the clientID using the email and phoneNumber of the 
+ * main contact
+ * 
+ * @global type $link The database connection
+ * @param type $email The email address of the main contact for the client
+ * @param type $phoneNumber The phone number of the main contact for the client
+ * @return type The result of the statement execution (the clientID the 
+ * email and phone number is associated with or an empty result set) or a message 
+ * indicating the failure of execution (PREP_STMT_FAILED)
+ */
+function getClientID($email, $phoneNumber){
+    /*Access global variable link*/
+    global $link;
+    
+    /*Check that statement worked, prepare statement selecting from getUsername 
+     *function*/
+    if($stmt = mysqli_prepare($link, SQL_GET_CLIENT_ID)){
+        /*insert email and phoneNumber variables to select statement*/
+        mysqli_stmt_bind_param($stmt, "ss", $email, $phoneNumber);
+        /*execute the query*/
+        mysqli_stmt_execute($stmt);
+        /*bind the result of the query to the $result variable*/
+        mysqli_stmt_bind_result($stmt, $result);
+        /*fetch the result of the query*/
+        mysqli_stmt_fetch($stmt);                                    
+        /*close the statement*/
+        mysqli_stmt_close($stmt);        
+        
+        /*If sql returns empty result set, indicating not found*/
+        if($result == '')
+        {
+            $result = NOT_FOUND;
+        }
+        
+        return $result;
+        /*If statement failed*/
+    } else {
+        return PREP_STMT_FAILED;
+    }
+}
+
+/**
+ * A function to create contacts and associate them with a client
+ * 
+ * @param type $contacts An array of contacts to add to the database
+ * @param type $clientID The client which the contacts are associated with
+ */
+function addContacts($contacts, $clientID){
+    
+}
+
+/**
+ * A function to create sites and associate them with a client
+ * 
+ * @param type $sites An array of sites to add to the database
+ * @param type $clientID The client which the sites are associated with
+ */
+function addSites($sites, $clientID){
+    
+}
