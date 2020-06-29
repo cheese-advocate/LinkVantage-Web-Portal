@@ -20,15 +20,12 @@ $mail->setFrom("linkvantage@compulink.co.za", "Compulink Technologies");
 function forgotPassword($toEmail, $fname, $recCode)
 {      
     global $mail;
-    $accountID = getUserIDfromEmail($toEmail);
-    
-    $recUrl = "http://localhost:8000/recoverPassword.php?code=$recCode&id=$accountID";
+    $accountID = getUserIDfromEmail($toEmail);   
     $mailer = $mail;
     $mailer->addAddress($toEmail, "Client");
     $mailer->Subject = 'Forgot Password';
     $mailer->msgHTML("<html><h3>Hi, $fname. Your password reset request has been received. </h3>"
-            . "Click the following <a href='$recUrl'>link</a> to reset your password.<br>"
-            . "</html>");
+            . "Here is your recovery code: " .$recCode. "</html>");
 
     if(!$mail->send()) 
     {

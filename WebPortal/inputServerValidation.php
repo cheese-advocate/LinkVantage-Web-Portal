@@ -191,32 +191,28 @@ function validatePhone($phoneNumber) {
     }
 }
 
+
 function validateSites(array $sites) {
     
     $errors = array();
     $counter = 0;
     foreach($sites as $value)
-    {      
-        $value = trim($value);
-        if(empty($value))
-        {       
-            $errors[++$counter] = "Empty Value at " . $sites;
-        }
-    }  
-    if (empty($errors))
     {
-        echo"All fields contain values";
-        return true;
+        validateSite($value);
     }
-    else
-    {
-        echo"Some fields are empty!";
-        return $errors;
-    }
+          
+        
+       
 }
 
 function validateSite($site) {
     
+    $streetNum = getStreetNum();
+    $streetName = getStreetName();
+    $suburbCity = getSuburbCity();
+    $postalCode = getPostalCode();
+    $addInfo = getAddInfo();
+    $mainSite = getMainSite();
 }
 
 /**
