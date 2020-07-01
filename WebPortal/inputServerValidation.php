@@ -200,19 +200,51 @@ function validateSites(array $sites) {
     {
         validateSite($value);
     }
-          
-        
-       
+               
 }
 
 function validateSite($site) {
     
-    $streetNum = getStreetNum();
-    $streetName = getStreetName();
-    $suburbCity = getSuburbCity();
-    $postalCode = getPostalCode();
-    $addInfo = getAddInfo();
-    $mainSite = getMainSite();
+    $errors = array();
+    $counter = 0;
+    
+    $streetNum = $site->getStreetNum();
+    $streetName = $site->getStreetName();
+    $suburbCity = $site->getSubUrbCity();
+    $postalCode = $site->getPostalCode();
+    //$addInfo = $site->getAddInfo();
+    $mainSite = $site->getMainSite();
+    
+    if (!isStreetNumValid($streetNum))
+    {
+        $errors[++$counter] = "Invalid input: Street Number";
+    }
+    if (!validateCompanyName($streetName))
+    {
+        $errors[++$counter] = "Invalid input: Company Name";
+    }
+    if (!validateCompanyName($suburbCity))
+    {
+        $errors[++$counter] = "Invalid input: Suburb City";
+    }
+    if (!isPostalValid($postalCode))
+    {
+        $errors[++$counter] = "Invalid input: Postal Code";
+    }
+     if (!validateCompanyName($mainSite))
+    {
+        $errors[++$counter] = "Invalid input: Main Site";
+    }
+    
+    if ($counter == 0)
+    {
+        return "No errors";
+    }
+    else
+    {
+        return $errors; 
+    }
+      
 }
 
 /**
