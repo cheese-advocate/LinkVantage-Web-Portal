@@ -42,7 +42,7 @@ define("SQL_REGISTER_PRIVATE_CLIENT","SELECT clientRegister(?, ?, ?, ?, ?, ?)");
 define('DB_SERVER', 'localhost');
 define('DB_USERNAME', 'root');
 define('DB_NAME', 'Chai');
-define('DB_PASSWORD', 'blantyre');
+define('DB_PASSWORD', 'P@ssword1');
 
 /* Other useful constants */
 define('PREP_STMT_FAILED', 'Prepared Statement Failed');
