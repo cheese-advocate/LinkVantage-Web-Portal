@@ -54,6 +54,19 @@ function changeToLogin()
 }
 
 /**
+ * changes from the forgot passord page to the otp page
+ * @return {undefined}
+ */
+function changeToOTP()
+{
+    var div = document.getElementById("forgotPasswordPage");
+    div.style.display = "none";
+    
+    var destDiv = document.getElementById("OTPPage");
+    destDiv.style.display = "block";
+}
+
+/**
  * Swithces to the company registration page
  * @return {undefined}
  */

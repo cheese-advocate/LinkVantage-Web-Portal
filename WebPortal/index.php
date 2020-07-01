@@ -244,50 +244,24 @@
         
     }
     
-    function debugToConsole($msg) { 
-            echo "<script>console.log(".json_encode($msg).")</script>";
-    }
-    
 
     
     function handleForgotPW() {
         
-        global $email, $username,$account,  $emailErr, $phone, $phoneErr, $OTP, $inOTP, $OTPErr, $pwResetMode, 
+        global $email, $username, $account,  $emailErr, $phone, $phoneErr, $OTP, $inOTP, $OTPErr, $pwResetMode, 
                $pwResetModeErr, $confirmNewPassword, $reset_options, $androidValidated;
         
-        
-        /** 
-         * This is where things get tricky.
-         * 
-         * Since all parts of forgetting a password from the user selecting the 
-         * option in login all the way to entering the validated new password 
-         * into the database.
-         * 
-         * This means we have to track the user's current status throughout the 
-         * process, likely with a session, and render the page accordingly.
-         */
         $androidValidated=false;
         
         switch ($pwResetMode) {
             
             case "RESET PASSWORD":
                 
-                debugToConsole("Test");
                 $_SESSION["userStatus"] = "resetPassword";
                 
                 if(array_key_exists('resetSubBtn', $_POST)) { 
                 resetSubBtn($email); 
                 }
-                
-                if(array_key_exists('subOTPBtn', $_POST)) { 
-                validateOTP($inOTP);
-                }
-                
-                if(array_key_exists('subNewPwBtn', $_POST)) { 
-                subNewPwBtn($account); 
-                $_SESSION["userStatus"] = "updatePassword";
-                }
-                
                 
                 break;
 
@@ -296,7 +270,6 @@
                 debugToConsole("Test");
                 $_SESSION["userStatus"] = "androidOTP.html";
 
-                /* WIP */
                 $OTP=generateOTP();
                 
                 $account=getUserIDfromEmail($email);
@@ -312,50 +285,44 @@
             default:
                 
                 $pwResetModeErr = "Invalid Password Reset Mode Selected.";
-
         }
-
-        /*  */
-        
+    }
+    
+    if(isset($_POST['subNewPwBtn'])){ 
+                subNewPwBtn($account); 
+                $_SESSION["userStatus"] = "updatePassword";
     }
     
     function resetSubBtn($email) {
         
-        global $emailErr;
+        global $emailErr, $account;
         
         if (getUserIDfromEmail($email)==NOT_FOUND){
             $emailErr= "Email not found";
+            echo '<script language="javascript">';
+            echo 'alert("Invalid otp")';
+            echo '</script>';
         } else {
             $_SESSION["userStatus"] = "getUserID";
             $account=getUserIDfromEmail($email);
+            $_SESSION["account"]=$account;
             $username=getUsernameFromID($account);
             $OTP=generateOTP();
             $_SESSION["userStatus"] = "storeOTP";
             storeOTP($account, $OTP);
             forgotPassword($email,$username,$OTP);
-            header('Location: otpPage.php');
-            exit();
+            header('Location:otpPage.php');
         }
         $_SESSION["userStatus"] = "sendEmail";
         
     }
     
-    function validateOTP($inOTP){
-        
-        global $OTP;
-        
-        $inputOTP=hashOTP($inOTP);
-        $storedOTP=hashOTP($OTP);
-        if ($inputOTP==$storedOTP){
-            header('Location: newPassword.php');
-        } 
-    }
     
     function subNewPwBtn($account) {
-        
         global $newPassword;
-                    updatePassword($account,$newPassword);
+        updatePassword($account,$newPassword);
     }
+    
 
     /**
      * Currently does nothing.
@@ -546,7 +513,7 @@
                     <button class="returnToLoginBtn" onclick="changeToLogin()">RETURN TO LOGIN</button>
                 </div>
 
-                <form  method="POST" action="#">
+                <form  method="POST">
                         
                     <div class="resetInpContent" name="test">
                         <img src="images/refresh.png" alt="" class="resetImg"/>
@@ -571,5 +538,8 @@
                 LinkVantage
             </div>
         </div>
+        
+
+        
     </body>
 </html>
