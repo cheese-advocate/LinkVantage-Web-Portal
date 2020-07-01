@@ -29,14 +29,16 @@
     define("HANDLE_LOGIN","HANDLE_LOGIN");
     define("HANDLE_FORGOT_PW","HANDLE_FORGOT_PW");
     define("HANDLE_NO_INPUT","HANDLE_NO_INPUT");
-    
+    define("USERNAME_NOT_ENTERED", "Please enter your username.");
+    define("PASSWORD_NOT_ENTERED", "Please enter your password.");
+    define("USERNAME_NOT_FOUND", "Username not found.");
+    define("PASSWORD_NOT_VALID", "Password not valid for this user.");
+    define("LOGIN_ERROR", "Login attempt failed.");
     
     
     /* User Input Variable Declaration */
-    $username = "";
-    $usernameErr = "";
-    $password = "";
-    $passwordErr = "";
+    $username = "";    
+    $password = "";    
     $loginErr = "";
     $email = "";
     $emailErr = "";
@@ -141,13 +143,14 @@
         global $username, $password, $pwResetMode, $email, $phone, $OTP, 
                $newPassword, $confirmNewPassword;
         
+        /*If the password and username is set, it is a login attempt*/
         if (isset($_POST['username'], $_POST['password'])) {
             
             $username = trim($_POST["username"]);
             $password = trim($_POST["password"]);
             
             return HANDLE_LOGIN;
-            
+        /*if reset mode is set, it is a password reset attempt*/
         } elseif (isset($_POST['reset_options'])){
             
             /*if (isset($_POST['reset_options'], $_POST['emailInp'])) {
@@ -163,34 +166,7 @@
             return HANDLE_NO_INPUT;
             
         }
-            
-        
-//        $username = trim($_POST["username"]);
-//        $password = trim($_POST["password"]);
-//        $pwResetMode = trim($_POST["pwResetMode"]);
-//        $email = trim($_POST["emailInp"]);
-//        $phone = trim($_POST["emailInp"]);
-//        $OTP = trim($_POST["otp"]);
-//        $newPassword = trim($_POST["newPassword"]);
-//        $confirmNewPassword = trim($_POST["confirmNewPassword"]);
-//        
-//        if (!empty($username) || !empty($password)) {
-//            
-//            return HANDLE_LOGIN;
-//            
-//        } elseif (!empty($pwResetMode) || !empty($email) || !empty($OTP)
-//               || !empty($newPassword) || !empty($confirmNewPassword)) {
-//            
-//            return HANDLE_FORGOT_PW;
-//            
-//        } else {
-//            
-//            return HANDLE_NO_INPUT;
-//            
-//        }
-    }
-    
-    
+    }        
     
     /**
      * Handles the login attempt made by the user.
@@ -199,54 +175,71 @@
      */
     function handleLogin() {
         
-        global $username, $password, $loginIsValid, $usernameErr, $passwordErr;
+        global $username, $password, $loginIsValid, $loginErr;
         
-        $accountID;
-        
-        // $username = trim($_POST["username"]);
-        // $password = trim($_POST["password"]);
+        $accountID;        
         
         /* First, some server validation */
+        
+        /*Initialise variable to true*/
         $loginIsValid = true;
+        
+        /*Set false if username is empty*/
         if (empty($username)) {
-            $usernameErr = "Please enter your username.";
+            $loginErr = USERNAME_NOT_ENTERED;
             $loginIsValid = false;
         }
         
+        /*Set false if password is empty*/
         if (empty($password)) {
-            $passwordErr = "Please enter your password.";
+            $passwordErr = PASSWORD_NOT_ENTERED;
             $loginIsValid = false;
         }
         
+        /*If validation has not yet failed, validate the login details*/
         if ($loginIsValid) {
             
+            /*Attempt to find the username in the database. Returns the 
+             * associated account ID if found*/
             $accountID = findUsername($username);
+            
+            /*If the account was not found or a database error was encountered, 
+             * set login to invalid*/
             if($accountID === NOT_FOUND || $accountID === PREP_STMT_FAILED)
             {
-                $usernameErr = "Username not found.";
+                $loginErr = USERNAME_NOT_FOUND;
                 $loginIsValid = false;
-            } else{
+            } else{ //if an account ID associated with the username was found
                 
+                /*Check if the password is valid for that account*/
                 $loginAttempt = isPasswordValid($accountID, $password);
                 
+                /*If the password is valid, then loginIsValid remains true*/
                 if($loginAttempt == true){
-                    $loginIsValid = $accountID;
+                    $loginIsValid = true;
                 }
-                elseif($loginAttempt == false){
-                    $passwordErr = "Invalid password.";
-                    $$loginIsValid = false;
-                } else {
-                    $loginErr = "Login failed";
+                elseif($loginAttempt == false){//If the password was invalid
+                    $loginErr = PASSWORD_NOT_VALID;
+                    $loginIsValid = false;
+                } else {//If some other error occured during login
+                    $loginErr = LOGIN_ERROR;
                     $loginIsValid = false;
                 }
             }                        
         }
         
+        /*If login is still valid after all the validation, then the account ID 
+         * identifying the account logged into is stored in a session variable 
+         * to track it on other pages. The user is then directed to the 
+         * dashboard*/
         if($loginIsValid){            
             $_SESSION['accountID'] = $accountID;
             header("Location:Dashboard.php");
-        }else{
-            $_SESSION['loginFailed'] = 'failed';
+        }/*If login failed, the failure is stored in a session variable used to 
+         * indicate that a login failure toast message must be displayed upon 
+         * the page being reloaded*/
+        else{
+            $_SESSION['loginFailed'] = $loginErr;
         }
         
     }

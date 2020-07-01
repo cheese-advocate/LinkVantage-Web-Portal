@@ -18,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     /*Get the site details and combine into a site*/
     $site = new Site($_POST["streetNum"], $_POST["streetName"], 
-            $_POST["suburbCity"], $_POST["postalCode"], $_POST["info"]);
+            $_POST["suburbCity"], $_POST["postalCode"], $_POST["info"], true);
 
     /* Validation */
         

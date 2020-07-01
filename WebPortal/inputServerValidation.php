@@ -36,15 +36,12 @@ define("ERR_NO_ERRORS","");
 
 define("ERR_PASSWORD_MISMATCH","Your passwords do not match.");
 
-define("REGEX_COMPANY_NAME", "");
-define("REGEX_EMAIL", "");
-define("REGEX_FIRST_NAME", "");
-define("REGEX_LAST_NAME", "");
-define("REGEX_PASSWORD", "");
-define("REGEX_PHONE", "");
-define("REGEX_USERNAME", "");
-define("REGEX_STREET_NUM", "");
-define("REGEX_POSTAL_CODE", "");
+define("REGEX_COMPANY_NAME", "/^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/");
+define("REGEX_EMAIL", "/^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$/");
+define("REGEX_PASSWORD", "/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/");
+define("REGEX_PHONE", "/0((60[3-9]|64[0-5]|66[0-5])\d{6}|(7[1-4689]|6[1-3]|8[1-4])\d{7})/");
+define("REGEX_STREET_NUM", "/^[0-9]*$/");
+define("REGEX_POSTAL_CODE", "/^[0-9]{4}$/");
 
 
 
@@ -76,8 +73,8 @@ function validateCompanyName($companyName) {
 
 function isCompanyNameValid($companyName) {
     
-    $reggex = "/^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/";  
-    if (preg_match($reggex, $companyName))
+      
+    if (preg_match(REGEX_COMPANY_NAME, $companyName))
     {
        return true; 
     }
@@ -88,7 +85,35 @@ function isCompanyNameValid($companyName) {
     
 }
 
-function validateUserName($username) {
+function isPostalValid($postalCode) {
+    
+      
+    if (preg_match(REGEX_POSTAL_CODE, $postalCode))
+    {
+       return true; 
+    }
+    else
+    {
+        return false;
+    }
+    
+}
+
+function isStreetNumValid($streetNum) {
+    
+      
+    if (preg_match(REGEX_STREET_NUM, $streetNum))
+    {
+       return true; 
+    }
+    else
+    {
+        return false;
+    }
+    
+}
+
+function isPostalCodeValid($username) {
     
     if (empty($username)) {
         
@@ -114,8 +139,8 @@ function validatePasswords($password, $confirmPassword) {
 
 function validatePassword($password) {
     
-    $reggex = "/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/";
-    if(preg_match($reggex, $password))
+    
+    if(preg_match(REGEX_PASSWORD, $password))
     {
         return true;
     }
@@ -142,9 +167,8 @@ function validateConfirmedPassword($password, $confirmPassword) {
 function validateEmail($emailAddress)
 {
     
-    $reggex = "/^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$/";
     
-    if(preg_match($reggex, $emailAddress))
+    if(preg_match(REGEX_EMAIL, $emailAddress))
     {
         return true;
     }
@@ -155,10 +179,9 @@ function validateEmail($emailAddress)
 }
 
 function validatePhone($phoneNumber) {
+     
     
-    $reggex = "/0((60[3-9]|64[0-5]|66[0-5])\d{6}|(7[1-4689]|6[1-3]|8[1-4])\d{7})/";
-    
-    if (preg_match($reggex, $phoneNumber)) 
+    if (preg_match(REGEX_PHONE, $phoneNumber)) 
     {
         return true;
     }
@@ -168,13 +191,60 @@ function validatePhone($phoneNumber) {
     }
 }
 
-function validateSites($sites) {
+
+function validateSites(array $sites) {
     
-    
+    $errors = array();
+    $counter = 0;
+    foreach($sites as $value)
+    {
+        validateSite($value);
+    }
+               
 }
 
 function validateSite($site) {
     
+    $errors = array();
+    $counter = 0;
+    
+    $streetNum = $site->getStreetNum();
+    $streetName = $site->getStreetName();
+    $suburbCity = $site->getSubUrbCity();
+    $postalCode = $site->getPostalCode();
+    //$addInfo = $site->getAddInfo();
+    $mainSite = $site->getMainSite();
+    
+    if (!isStreetNumValid($streetNum))
+    {
+        $errors[++$counter] = "Invalid input: Street Number";
+    }
+    if (!validateCompanyName($streetName))
+    {
+        $errors[++$counter] = "Invalid input: Company Name";
+    }
+    if (!validateCompanyName($suburbCity))
+    {
+        $errors[++$counter] = "Invalid input: Suburb City";
+    }
+    if (!isPostalValid($postalCode))
+    {
+        $errors[++$counter] = "Invalid input: Postal Code";
+    }
+     if (!validateCompanyName($mainSite))
+    {
+        $errors[++$counter] = "Invalid input: Main Site";
+    }
+    
+    if ($counter == 0)
+    {
+        return "No errors";
+    }
+    else
+    {
+        return $errors; 
+    }
+      
 }
 
 /**
@@ -184,9 +254,13 @@ function validateSite($site) {
  * @param type $contacts the array of contacts
  * @return array the array of errors
  */
-function validateContacts($contacts) {
-    $errors = array();
+function validateContacts(array $contacts) {
     
+    $errors = array(); 
+    foreach ($contacts as $value)
+    {     
+        
+    }
     /*
      * Add one error messages to the array for each of the following failures:
      * 
