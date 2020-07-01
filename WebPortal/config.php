@@ -28,15 +28,11 @@ define("SQL_UPDATE_PASSWORD","CALL updatePassword(?, ?)");
 define("SQL_GET_ACCOUNTID_EMAIL","SELECT getAccountID_Email(?)");
 define("SQL_GET_ACCOUNTID_PHONE","SELECT getAccountID_Phone(?)");
 define("SQL_GET_USERNAME_ACCOUNTID","SELECT getUsername(?)");
-<<<<<<< HEAD
+
 define("SQL_ADD_CONTACT","SELECT addContact(?, ?, ?, ?, ?, ?)");
 define("SQL_ADD_SITE","SELECT addSite(?, ?, ?, ?, ?)");
 define("SQL_GET_CLIENT_ID","SELECT getClientID(?,?)");
-=======
-define("SQL_ADD_CONTACT","SELECT addContact(?, ?, ?, ?, ?, ?, ?, ?)");
-define("SQL_ADD_SITE","SELECT addSite(?, ?, ?, ?, ?, ?)");
-define("SQL_GET_CLIENT_ID","SEELCT getClientID(?,?)");
->>>>>>> b6fda029344c74c6d2b358f95115d235dd7dfbfb
+
 define("SQL_CHECK_COMPANY_NAME","");
 define("SQL_REGISTER_COMPANY","SELECT companyRegister(?, ?, ?, ?, ?, ?, ?)");
 define("SQL_REGISTER_PRIVATE_CLIENT","SELECT clientRegister(?, ?, ?, ?, ?, ?)");
@@ -45,7 +41,7 @@ define("SQL_REGISTER_PRIVATE_CLIENT","SELECT clientRegister(?, ?, ?, ?, ?, ?)");
 define('DB_SERVER', 'localhost');
 define('DB_USERNAME', 'root');
 define('DB_NAME', 'Chai');
-define('DB_PASSWORD', 'blantyre');
+define('DB_PASSWORD', 'P@ssword1');
 
 /* Other useful constants */
 define('PREP_STMT_FAILED', 'Prepared Statement Failed');
@@ -831,7 +827,7 @@ function addContacts($contacts, $clientID){
 
             /*insert account and otp variables to function*/
             mysqli_stmt_bind_param($stmt, "ssssssss", $username, $hashedPassword, 
-                    $firstName, $lastName, $email, $phoneNum, $clientID, null);
+                    $firstName, $lastName, $email, $phoneNum, $clientID);
             
             /*execute the insert*/
             mysqli_stmt_execute($stmt);
