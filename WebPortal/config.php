@@ -20,7 +20,7 @@ define("SQL_ATTEMPT_LOGIN","SELECT validatePassword(?, ?)");
 define("SQL_CHECK_USERNAME","SELECT getAccountID(?)");
 define("SQL_CHECK_EMAIL", "SELECT checkEmail(?)");
 define("SQL_CHECK_PHONED", "SELECT checkPhone(?)");
-define("SQL_STORE_OTP", "CALL storeOTP(?)");
+define("SQL_STORE_OTP", "CALL storeOTP(?,?)");
 define("SQL_VERIFY_OTP", "SELECT verifyOTP(?, ?)");
 define("SQL_GET_PASSWORD", "SELECT getPassword(?)");
 define("SQL_GET_OTP", "SELECT getOTP(?)");
@@ -30,7 +30,7 @@ define("SQL_GET_ACCOUNTID_PHONE","SELECT getAccountID_Phone(?)");
 define("SQL_GET_USERNAME_ACCOUNTID","SELECT getUsername(?)");
 define("SQL_ADD_CONTACT","SELECT addContact(?, ?, ?, ?, ?, ?)");
 define("SQL_ADD_SITE","SELECT addSite(?, ?, ?, ?, ?)");
-define("SQL_GET_CLIENT_ID","SEELCT getClientID(?,?)");
+define("SQL_GET_CLIENT_ID","SELECT getClientID(?,?)");
 define("SQL_CHECK_COMPANY_NAME","");
 define("SQL_REGISTER_COMPANY","CALL companyRegister(?, ?, ?, ?, ?, ?, ?)");
 define("SQL_REGISTER_PRIVATE_CLIENT","CALL clientRegister(?, ?, ?, ?, ?, ?)");
@@ -39,7 +39,7 @@ define("SQL_REGISTER_PRIVATE_CLIENT","CALL clientRegister(?, ?, ?, ?, ?, ?)");
 define('DB_SERVER', 'localhost');
 define('DB_USERNAME', 'root');
 define('DB_NAME', 'Chai');
-define('DB_PASSWORD', 'P@ssword1');
+define('DB_PASSWORD', 'blantyre');
 
 /* Other useful constants */
 define('PREP_STMT_FAILED', 'Prepared Statement Failed');
@@ -199,7 +199,6 @@ function getUserIDfromEmail($email)
         {
             $result = NOT_FOUND;
         }
-        
         return $result;
         /*If statement failed*/
     } else {
@@ -311,24 +310,24 @@ function findPassword($accountID)
  */
 function findOTP($accountID)
 {
-    
+    global $link;
     /*Check that statement worked, prepare statement selecting from getOTP 
      * function*/
     if($stmt = mysqli_prepare($link, SQL_GET_OTP)){
         
         /*insert accountID variable to select statement*/
-        mysqli_stmt_bind_param($stmt, "s", $account);
+        mysqli_stmt_bind_param($stmt, "s", $accountID);
         /*execute the query*/
         mysqli_stmt_execute($stmt);
         /*bind the result of the query to the $result variable*/
-        mysqli_stmt_bind_result($stmt, $accountOTP);
+        mysqli_stmt_bind_result($stmt, $result);
         /*fetch the result of the query*/
         mysqli_stmt_fetch($stmt);        
             
         /*close the statement*/
         mysqli_stmt_close($stmt);
         
-        return $accountOTP;
+        return $result;
     }
     else{
         return PREP_STMT_FAILED;
