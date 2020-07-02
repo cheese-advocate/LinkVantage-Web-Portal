@@ -20,7 +20,7 @@ define("SQL_ATTEMPT_LOGIN","SELECT validatePassword(?, ?)");
 define("SQL_CHECK_USERNAME","SELECT getAccountID(?)");
 define("SQL_CHECK_EMAIL", "SELECT checkEmail(?)");
 define("SQL_CHECK_PHONED", "SELECT checkPhone(?)");
-define("SQL_STORE_OTP", "CALL storeOTP(?)");
+define("SQL_STORE_OTP", "CALL storeOTP(?,?)");
 define("SQL_VERIFY_OTP", "SELECT verifyOTP(?, ?)");
 define("SQL_GET_PASSWORD", "SELECT getPassword(?)");
 define("SQL_GET_OTP", "SELECT getOTP(?)");
@@ -30,10 +30,13 @@ define("SQL_GET_ACCOUNTID_PHONE","SELECT getAccountID_Phone(?)");
 define("SQL_GET_USERNAME_ACCOUNTID","SELECT getUsername(?)");
 define("SQL_ADD_CONTACT","SELECT addContact(?, ?, ?, ?, ?, ?)");
 define("SQL_ADD_SITE","SELECT addSite(?, ?, ?, ?, ?)");
+define("SQL_GET_CLIENT_ID","SELECT getClientID(?,?)");
+define("SQL_ADD_CONTACT","SELECT addContact(?, ?, ?, ?, ?, ?, ?, ?)");
+define("SQL_ADD_SITE","SELECT addSite(?, ?, ?, ?, ?, ?)");
 define("SQL_GET_CLIENT_ID","SEELCT getClientID(?,?)");
 define("SQL_CHECK_COMPANY_NAME","");
-define("SQL_REGISTER_COMPANY","CALL companyRegister(?, ?, ?, ?, ?, ?, ?)");
-define("SQL_REGISTER_PRIVATE_CLIENT","CALL clientRegister(?, ?, ?, ?, ?, ?)");
+define("SQL_REGISTER_COMPANY","SELECT companyRegister(?, ?, ?, ?, ?, ?, ?)");
+define("SQL_REGISTER_PRIVATE_CLIENT","SELECT clientRegister(?, ?, ?, ?, ?, ?)");
 
 /* Database credentials */
 define('DB_SERVER', 'localhost');
@@ -199,7 +202,6 @@ function getUserIDfromEmail($email)
         {
             $result = NOT_FOUND;
         }
-        
         return $result;
         /*If statement failed*/
     } else {
@@ -311,24 +313,24 @@ function findPassword($accountID)
  */
 function findOTP($accountID)
 {
-    
+    global $link;
     /*Check that statement worked, prepare statement selecting from getOTP 
      * function*/
     if($stmt = mysqli_prepare($link, SQL_GET_OTP)){
         
         /*insert accountID variable to select statement*/
-        mysqli_stmt_bind_param($stmt, "s", $account);
+        mysqli_stmt_bind_param($stmt, "s", $accountID);
         /*execute the query*/
         mysqli_stmt_execute($stmt);
         /*bind the result of the query to the $result variable*/
-        mysqli_stmt_bind_result($stmt, $accountOTP);
+        mysqli_stmt_bind_result($stmt, $result);
         /*fetch the result of the query*/
         mysqli_stmt_fetch($stmt);        
             
         /*close the statement*/
         mysqli_stmt_close($stmt);
         
-        return $accountOTP;
+        return $result;
     }
     else{
         return PREP_STMT_FAILED;
@@ -633,6 +635,12 @@ function registerCompany($companyName, $contacts, $sites){
     /*Access the global variable link*/ 
     global $link;
     
+    /*Variable to track any database errors that occur*/
+    $databaseErr;
+    
+    /*Variable to track the client ID for the newly registered company*/
+    $clientID;
+    
     /*Check that statement worked, prepare statement inserting using 
      * companyRegister function*/
     if($stmt = mysqli_prepare($link, SQL_REGISTER_COMPANY)){
@@ -642,40 +650,111 @@ function registerCompany($companyName, $contacts, $sites){
                 $firstName, $lastName, $email, $phoneNumber, $companyName);
         /*execute the insert*/
         mysqli_stmt_execute($stmt);
-        
+        /*bind the result of the query to the $client variable to get the newly 
+         * created clientID*/
+        mysqli_stmt_bind_result($stmt, $clientID);
+        /*fetch the result of the query*/
+        mysqli_stmt_fetch($stmt);
         /*close the statement*/
         mysqli_stmt_close($stmt);        
         
         /*If statement failed*/
     } else {
-        return PREP_STMT_FAILED;
+        $databaseErr = PREP_STMT_FAILED;
     }
-    
-    /*Finding the clientID of the newly created client*/
-    $clientID = getClientID($email, $phoneNumber);
-    
-    /*Creating an array of contacts that are not the main one*/
-    $nonMainContacts = array();
-    
-    /*copies over all the contacts that are not main, skipping the ones that are*/
-    for($i, $j = 0; $i < count($contacts); $i++, $j++){
-        if($i!=$k){
-            $nonMainContacts[$j] = $contacts[$i]; 
-        } else{
-            $j--;
+     
+    if(!isset($databaseErr)){
+        /*Creating an array of contacts that are not the main one*/
+        $nonMainContacts = array();
+
+        /*copies over all the contacts that are not main, skipping the ones that are*/
+        for($i, $j = 0; $i < count($contacts); $i++, $j++){
+            if($i!=$k){
+                $nonMainContacts[$j] = $contacts[$i]; 
+            } else{
+                $j--;
+            }
         }
-    }
-    
-    /*Adding the non main contacts*/
-    addContacts($nonMainContacts, $clientID);
-    
-    /*Adding the sites*/
-    addSites($sites, $clientID);
+
+        /*Adding the non main contacts*/
+        addContacts($nonMainContacts, $clientID);
+
+        /*Adding the sites*/
+        addSites($sites, $clientID);
+    }        
     
 }
 
 function registerPrivateClient($contacts, $site){
+    /*Finding the main contact associated with the client*/
+    $mainContact = $contacts[0]->getMainContact();
+    $k=0;
+    while(!$mainContact){
+        $k++;
+        $mainContact = $contacts[$k]->getMainContact;
+    }
     
+    /*Extracting and preparing the contact variables*/
+    $username = $contacts[$i]->getUsername();
+    $password = $contacts[$i]->getPassword();
+    $firstName = $contacts[$i]->getFirstName();
+    $lastName = $contacts[$i]->getLastName();
+    $email = $contacts[$i]->getEmail();
+    $phoneNumber = $contacts[$i]->getPhoneNumber();
+    
+    /*hashing the password before storage*/
+    $hashedPassword = hashPassword($password);
+    
+    /*Access the global variable link*/ 
+    global $link;
+    
+    /*Variable to track any database errors that occur*/
+    $databaseErr;
+    
+    /*Variable to track the client ID for the newly registered company*/
+    $clientID;
+    
+    /*Check that statement worked, prepare statement inserting using 
+     * companyRegister function*/
+    if($stmt = mysqli_prepare($link, SQL_REGISTER_PRIVATE_CLIENT)){
+        
+        /*insert variables to function*/
+        mysqli_stmt_bind_param($stmt, "sssssss", $username, $hashedPassword, 
+                $firstName, $lastName, $email, $phoneNumber);
+        /*execute the insert*/
+        mysqli_stmt_execute($stmt);
+        /*bind the result of the query to the $client variable to get the newly 
+         * created clientID*/
+        mysqli_stmt_bind_result($stmt, $clientID);
+        /*fetch the result of the query*/
+        mysqli_stmt_fetch($stmt);
+        /*close the statement*/
+        mysqli_stmt_close($stmt);        
+        
+        /*If statement failed*/
+    } else {
+        $databaseErr = PREP_STMT_FAILED;
+    }
+     
+    if(!isset($databaseErr)){
+        /*Creating an array of contacts that are not the main one*/
+        $nonMainContacts = array();
+
+        /*copies over all the contacts that are not main, skipping the ones that are*/
+        for($i, $j = 0; $i < count($contacts); $i++, $j++){
+            if($i!=$k){
+                $nonMainContacts[$j] = $contacts[$i]; 
+            } else{
+                $j--;
+            }
+        }
+
+        /*Adding the non main contacts*/
+        addContacts($nonMainContacts, $clientID);
+
+        /*Adding the sites*/
+        addSites($site);
+    }
 }
 
 /**
@@ -705,7 +784,7 @@ function getClientID($email, $phoneNumber){
         /*fetch the result of the query*/
         mysqli_stmt_fetch($stmt);                                    
         /*close the statement*/
-        mysqli_stmt_close($stmt);        
+        mysqli_stmt_close($stmt);         
         
         /*If sql returns empty result set, indicating not found*/
         if($result == '')
@@ -727,7 +806,46 @@ function getClientID($email, $phoneNumber){
  * @param type $clientID The client which the contacts are associated with
  */
 function addContacts($contacts, $clientID){
+    /*Access the global variable link*/ 
+    global $link;    
     
+    $result = array();
+    
+    for($i=0; $i < count($contacts); $i++){
+        $username = $contacts[$i]->getUsername();
+        $password = $contacts[$i]->getPassword();
+        $firstName = $contacts[$i]->getFirstName();
+        $lastName = $contacts[$i]->getLastName();
+        $email = $contacts[$i]->getEmail();
+        $phoneNum = $contacts[$i]->getPhoneNumber();
+        
+        /*hashing the password before storage*/
+        $hashedPassword = hashPassword($password);
+        
+        /*Check that statement worked, prepare statement inserting using addSite
+        * function*/
+        if($stmt = mysqli_prepare($link, SQL_ADD_CONTACT)){        
+
+            /*insert account and otp variables to function*/
+            mysqli_stmt_bind_param($stmt, "ssssssss", $username, $hashedPassword, 
+                    $firstName, $lastName, $email, $phoneNum, $clientID);
+            
+            /*execute the insert*/
+            mysqli_stmt_execute($stmt);
+            /*bind the result of the query to the $result variable*/
+            mysqli_stmt_bind_result($stmt, $result[$i]);
+            /*fetch the result of the query*/
+            mysqli_stmt_fetch($stmt);                                    
+            /*close the statement*/
+            mysqli_stmt_close($stmt);                         
+
+            /*If statement failed*/
+        } else {
+            $result[$i] = PREP_STMT_FAILED;
+        }
+        
+        return $result;
+    }
 }
 
 /**
@@ -737,5 +855,45 @@ function addContacts($contacts, $clientID){
  * @param type $clientID The client which the sites are associated with
  */
 function addSites($sites, $clientID){
+    /*Access the global variable link*/ 
+    global $link;
+    
+    
+    $result = array();
+    
+    for($i=0; $i < count($sites); $i++){
+        $streetNum = $sites[$i]->getStreetNum;
+        $streetName = $sites[$i]->getStreetName;
+        $suburbCity = $sites[$i]->getSuburbCity;
+        $postalCode = $sites[$i]->getPostalCode;
+        $addInfo = $sites[$i]->getAddInfo;
+        $mainSite = $sites[$i]->getMainSite;
+        
+        /*Check that statement worked, prepare statement inserting using addSite
+        * function*/
+        if($stmt = mysqli_prepare($link, SQL_ADD_SITE)){        
+
+            /*insert account and otp variables to function*/
+            mysqli_stmt_bind_param($stmt, "ssssss", $streetNum, $streetName, 
+                    $suburbCity, $postalCode, $addInfo, $clientID);
+            
+            /*execute the insert*/
+            mysqli_stmt_execute($stmt);
+            /*bind the result of the query to the $result variable*/
+            mysqli_stmt_bind_result($stmt, $result[$i]);
+            /*fetch the result of the query*/
+            mysqli_stmt_fetch($stmt);                                    
+            /*close the statement*/
+            mysqli_stmt_close($stmt);                         
+
+            /*If statement failed*/
+        } else {
+            $result[$i] = PREP_STMT_FAILED;
+        }
+        
+        return $result;
+        
+    }
+    
     
 }

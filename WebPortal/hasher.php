@@ -18,13 +18,13 @@ define('PASSWORD_HASH_COST', 12);
  * @param type $cost the cost for bcrypt to use
  * @return type the array of options, with cost set to the specified amount
  */
-function options($cost)
+/*function options($cost)
 {
     $options = [
         'cost' => $cost,
     ];
     return options;
-}
+}*/
 
 /**
  * A method to take an OTP and return a hash of it 
@@ -34,9 +34,10 @@ function options($cost)
  */
 function hashOTP($otp)
 {
-    $hashedOTP = password_hash($otp, PASSWORD_BCRYPT, options(OTP_HASH_COST));
+    $hashedOTP = password_hash($otp, PASSWORD_BCRYPT, array(OTP_HASH_COST));
     return $hashedOTP;
 }
+
 
 /**
  * A method to take a password and return a hash of it 
@@ -46,7 +47,7 @@ function hashOTP($otp)
  */
 function hashPassword($password)
 {
-    $hashedPassword = password_hash($password, PASSWORD_BCRYPT, options(PASSWORD_HASH_COST));
+    $hashedPassword = password_hash($password, PASSWORD_BCRYPT, array(PASSWORD_HASH_COST));
     return $hashedPassword;
 }
 
