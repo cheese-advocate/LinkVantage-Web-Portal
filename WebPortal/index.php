@@ -201,7 +201,7 @@
             
             /*Attempt to find the username in the database. Returns the 
              * associated account ID if found*/
-            $accountID = findUsername($username);
+            $accountID = getUsername($username);
             
             /*If the account was not found or a database error was encountered, 
              * set login to invalid*/
@@ -248,8 +248,8 @@
     
     function handleForgotPW() {
         
-        global $email, $username, $account,  $emailErr, $phone, $phoneErr, $OTP, $inOTP, $OTPErr, $pwResetMode, 
-               $pwResetModeErr, $confirmNewPassword, $reset_options, $androidValidated;
+        global $email, $account, $OTP, $pwResetMode, 
+               $pwResetModeErr, $androidValidated;
         
         $androidValidated=false;
         
@@ -269,39 +269,26 @@
                 
                 debugToConsole("Test");
                 $_SESSION["userStatus"] = "androidOTP.html";
-
                 $OTP=generateOTP();
-                
                 $account=getUserIDfromEmail($email);
-                
                 storeOTP($account, $OTP);
-                
-                if ($androidValidated=true){
+                if ($androidValidated==true){
                     header('Location: newPassword.php');
                 }
                 
                 break;
             
             default:
-                
                 $pwResetModeErr = "Invalid Password Reset Mode Selected.";
         }
     }
-    
-    if(isset($_POST['subNewPwBtn'])){ 
-                subNewPwBtn($account); 
-                $_SESSION["userStatus"] = "updatePassword";
-    }
-    
+      
     function resetSubBtn($email) {
         
-        global $emailErr, $account;
+        global  $account;
         
-        if (getUserIDfromEmail($email)==NOT_FOUND){
-            $emailErr= "Email not found";
-            echo '<script language="javascript">';
-            echo 'alert("Invalid otp")';
-            echo '</script>';
+        if (findEmail($email)==false){
+            echo "<script type='text/javascript'>alert('Email not registered');</script>";
         } else {
             $_SESSION["userStatus"] = "getUserID";
             $account=getUserIDfromEmail($email);
@@ -315,12 +302,6 @@
         }
         $_SESSION["userStatus"] = "sendEmail";
         
-    }
-    
-    
-    function subNewPwBtn($account) {
-        global $newPassword;
-        updatePassword($account,$newPassword);
     }
     
 
@@ -513,7 +494,7 @@
                     <button class="returnToLoginBtn" onclick="changeToLogin()">RETURN TO LOGIN</button>
                 </div>
 
-                <form  method="POST">
+                <form  method="POST" action="#">
                         
                     <div class="resetInpContent" name="test">
                         <img src="images/refresh.png" alt="" class="resetImg"/>
@@ -529,7 +510,7 @@
                     </div>
 
                     <div class="resetSubmit" id="reset_submit">
-                        <button type="submit" name="resetSubBtn" class="resetSubBtn">SEND RESET REQUEST</button>
+                        <button type="submit" name="resetSubBtn" onclick="verifyForgotPw()" class="resetSubBtn">SEND RESET REQUEST</button>
                     </div>
                 </form>
             </div>

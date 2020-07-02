@@ -17,9 +17,9 @@ require_once 'Contact.php';
 
 /* SQL Statements */
 define("SQL_ATTEMPT_LOGIN","SELECT validatePassword(?, ?)");
-define("SQL_CHECK_USERNAME","SELECT getAccountID(?)");
 define("SQL_CHECK_EMAIL", "SELECT checkEmail(?)");
-define("SQL_CHECK_PHONED", "SELECT checkPhone(?)");
+define("SQL_CHECK_PHONE", "SELECT checkPhone(?)");
+define("SQL_CHECK_USERNAME", "SELECT checkUsername(?)");
 define("SQL_STORE_OTP", "CALL storeOTP(?,?)");
 define("SQL_VERIFY_OTP", "SELECT verifyOTP(?, ?)");
 define("SQL_GET_PASSWORD", "SELECT getPassword(?)");
@@ -27,6 +27,7 @@ define("SQL_GET_OTP", "SELECT getOTP(?)");
 define("SQL_UPDATE_PASSWORD","CALL updatePassword(?, ?)");
 define("SQL_GET_ACCOUNTID_EMAIL","SELECT getAccountID_Email(?)");
 define("SQL_GET_ACCOUNTID_PHONE","SELECT getAccountID_Phone(?)");
+define("SQL_GET_ACCOUNTID_USERNAME","SELECT getAccountID(?)");
 define("SQL_GET_USERNAME_ACCOUNTID","SELECT getUsername(?)");
 
 define("SQL_ADD_CONTACT","SELECT addContact(?, ?, ?, ?, ?, ?)");
@@ -41,7 +42,7 @@ define("SQL_REGISTER_PRIVATE_CLIENT","SELECT clientRegister(?, ?, ?, ?, ?, ?)");
 define('DB_SERVER', 'localhost');
 define('DB_USERNAME', 'root');
 define('DB_NAME', 'Chai');
-define('DB_PASSWORD', 'P@ssword1');
+define('DB_PASSWORD', 'blantyre');
 
 /* Other useful constants */
 define('PREP_STMT_FAILED', 'Prepared Statement Failed');
@@ -133,6 +134,46 @@ function isUsernameRegistered($username) {
  * method to find the accountID from a given username
  * 
  * @global type $link the database connection
+ * @param type $userID
+ * @return type the username associated with the $userID, NOT_FOUND if none 
+ * was found, or PREP_STMT_FAILED if the statement failed to execute.
+ */
+function getUsername($userID)
+{
+    /*Access the global variable link*/ 
+    global $link;
+    
+    /*Check that statement worked, prepare statement selecting from getAccountID 
+     * function*/
+    if($stmt = mysqli_prepare($link, SQL_GET_USERNAME_ACCOUNTID)){
+        /*insert email variable to select statement*/
+        mysqli_stmt_bind_param($stmt, "s", $userID);
+        /*execute the query*/
+        mysqli_stmt_execute($stmt);
+        /*bind the result of the query to the $result variable*/
+        mysqli_stmt_bind_result($stmt, $result);
+        /*fetch the result of the query*/
+        mysqli_stmt_fetch($stmt);                                    
+        /*close the statement*/
+        mysqli_stmt_close($stmt);        
+        
+        /*If sql returns empty result set, indicating not found*/
+        if($result == '')
+        {
+            $result = NOT_FOUND;
+        }
+        
+        return $result;
+        /*If statement failed*/
+    } else {
+        return PREP_STMT_FAILED;
+    }
+}
+
+/**
+ * method to find the accountID from a given username
+ * 
+ * @global type $link the database connection
  * @param type $username the username entered by the user
  * @return type the accountID associated with the username, NOT_FOUND if none 
  * was found, or PREP_STMT_FAILED if the statement failed to execute.
@@ -147,6 +188,90 @@ function findUsername($username)
     if($stmt = mysqli_prepare($link, SQL_CHECK_USERNAME)){
         /*insert email variable to select statement*/
         mysqli_stmt_bind_param($stmt, "s", $username);
+        /*execute the query*/
+        mysqli_stmt_execute($stmt);
+        /*bind the result of the query to the $result variable*/
+        mysqli_stmt_bind_result($stmt, $result);
+        /*fetch the result of the query*/
+        mysqli_stmt_fetch($stmt);                                    
+        /*close the statement*/
+        mysqli_stmt_close($stmt);        
+        
+        /*If sql returns empty result set, indicating not found*/
+        if($result == '')
+        {
+            $result = NOT_FOUND;
+        }
+        
+        return $result;
+        /*If statement failed*/
+    } else {
+        return PREP_STMT_FAILED;
+    }
+}
+
+/**
+ * A method to search for accounts associated with a phone number entered by
+ * the user
+ * 
+ * @global type $link the database connection
+ * @param type $email the phone number enteredby the user
+ * @return type The result of the statement execution (the account number the 
+ * phone number is associated with or an empty result set) or a message 
+ * indicating the failure of execution (PREP_STMT_FAILED)
+ */
+function findEmail($email)
+{
+    /*Access the global variable link*/ 
+    global $link;
+    
+    /*Check that statement worked, prepare statement selecting from checkPhone
+     *function*/
+    if($stmt = mysqli_prepare($link, SQL_CHECK_EMAIL)){
+        /*insert email variable to select statement*/
+        mysqli_stmt_bind_param($stmt, "s", $email);
+        /*execute the query*/
+        mysqli_stmt_execute($stmt);
+        /*bind the result of the query to the $result variable*/
+        mysqli_stmt_bind_result($stmt, $result);
+        /*fetch the result of the query*/
+        mysqli_stmt_fetch($stmt);                                    
+        /*close the statement*/
+        mysqli_stmt_close($stmt);        
+        
+        /*If sql returns empty result set, indicating not found*/
+        if($result == '')
+        {
+            $result = NOT_FOUND;
+        }
+        
+        return $result;
+        /*If statement failed*/
+    } else {
+        return PREP_STMT_FAILED;
+    }
+}
+
+/**
+ * A method to search for accounts associated with a phone number entered by
+ * the user
+ * 
+ * @global type $link the database connection
+ * @param type $phoneNumber the phone number enteredby the user
+ * @return type The result of the statement execution (the account number the 
+ * phone number is associated with or an empty result set) or a message 
+ * indicating the failure of execution (PREP_STMT_FAILED)
+ */
+function findPhoneNumber($phoneNumber)
+{
+    /*Access the global variable link*/ 
+    global $link;
+    
+    /*Check that statement worked, prepare statement selecting from checkPhone
+     *function*/
+    if($stmt = mysqli_prepare($link, SQL_CHECK_PHONE)){
+        /*insert email variable to select statement*/
+        mysqli_stmt_bind_param($stmt, "s", $phoneNumber);
         /*execute the query*/
         mysqli_stmt_execute($stmt);
         /*bind the result of the query to the $result variable*/
@@ -359,47 +484,6 @@ function isEmailRegistered($email) {
     
 }
 
-/**
- * A method to search for accounts associated with an email address entered by
- * the user
- * 
- * @global type $link the database connection
- * @param type $email the email address entered by the user
- * @return type The result of the statement execution (the account number the 
- * email is associated with or an empty result set) or a message indicating the 
- * failure of execution (PREP_STMT_FAILED)
- */
-function findEmail($email)
-{
-    /*Access the global variable link*/ 
-    global $link;
-    
-    /*Check that statement worked, prepare statement selecting from checkEmail 
-     *function*/
-    if($stmt = mysqli_prepare($link, SQL_CHECK_EMAIL)){
-        /*insert email variable to select statement*/
-        mysqli_stmt_bind_param($stmt, "s", $email);
-        /*execute the query*/
-        mysqli_stmt_execute($stmt);
-        /*bind the result of the query to the $result variable*/
-        mysqli_stmt_bind_result($stmt, $result);
-        /*fetch the result of the query*/
-        mysqli_stmt_fetch($stmt);                                    
-        /*close the statement*/
-        mysqli_stmt_close($stmt);        
-        
-        /*If sql returns empty result set, indicating not found*/
-        if($result == '')
-        {
-            $result = NOT_FOUND;
-        }
-        
-        return $result;
-        /*If statement failed*/
-    } else {
-        return PREP_STMT_FAILED;
-    }
-}
 
 /**
  * A method to return the username associated with a given account ID
@@ -464,47 +548,7 @@ function isPhoneNumberRegistered($phoneNumber) {
     
 }
 
-/**
- * A method to search for accounts associated with a phone number entered by
- * the user
- * 
- * @global type $link the database connection
- * @param type $phoneNumber the phone number enteredby the user
- * @return type The result of the statement execution (the account number the 
- * phone number is associated with or an empty result set) or a message 
- * indicating the failure of execution (PREP_STMT_FAILED)
- */
-function findPhoneNumber($phoneNumber)
-{
-    /*Access the global variable link*/ 
-    global $link;
-    
-    /*Check that statement worked, prepare statement selecting from checkPhone
-     *function*/
-    if($stmt = mysqli_prepare($link, SQL_CHECK_PHONE)){
-        /*insert email variable to select statement*/
-        mysqli_stmt_bind_param($stmt, "s", $phoneNumber);
-        /*execute the query*/
-        mysqli_stmt_execute($stmt);
-        /*bind the result of the query to the $result variable*/
-        mysqli_stmt_bind_result($stmt, $result);
-        /*fetch the result of the query*/
-        mysqli_stmt_fetch($stmt);                                    
-        /*close the statement*/
-        mysqli_stmt_close($stmt);        
-        
-        /*If sql returns empty result set, indicating not found*/
-        if($result == '')
-        {
-            $result = NOT_FOUND;
-        }
-        
-        return $result;
-        /*If statement failed*/
-    } else {
-        return PREP_STMT_FAILED;
-    }
-}
+
 
 
 /**
