@@ -114,9 +114,9 @@ function isPasswordValid($accountID, $password) {
  * @return boolean|String true if username is found, false if it is not found, and 
  * PREP_STMT_FAILED if the prepared statement could not execute.
  */
-function isUsernameRegistered($username) {
+/*function isUsernameRegistered($username) {
     
-    $find = findUsername($username);
+    $find = getAccountID($username);
     
     if($find === NOT_FOUND){
         return false;
@@ -126,7 +126,7 @@ function isUsernameRegistered($username) {
         return true;
     }    
     
-}
+}*/
 
 /**
  * method to find the accountID from a given username
@@ -141,7 +141,7 @@ function getUsername($userID)
     /*Access the global variable link*/ 
     global $link;
     
-    /*Check that statement worked, prepare statement selecting from getAccountID 
+    /*Check that statement worked, prepare statement selecting from getUsername
      * function*/
     if($stmt = mysqli_prepare($link, SQL_GET_USERNAME_ACCOUNTID)){
         /*insert email variable to select statement*/
@@ -181,7 +181,7 @@ function findUsername($username)
     /*Access the global variable link*/ 
     global $link;
     
-    /*Check that statement worked, prepare statement selecting from getAccountID 
+    /*Check that statement worked, prepare statement selecting from checkUsername 
      * function*/
     if($stmt = mysqli_prepare($link, SQL_CHECK_USERNAME)){
         /*insert email variable to select statement*/
@@ -223,7 +223,7 @@ function findEmail($email)
     /*Access the global variable link*/ 
     global $link;
     
-    /*Check that statement worked, prepare statement selecting from checkPhone
+    /*Check that statement worked, prepare statement selecting from checkEmail
      *function*/
     if($stmt = mysqli_prepare($link, SQL_CHECK_EMAIL)){
         /*insert email variable to select statement*/
@@ -468,7 +468,7 @@ function findOTP($accountID)
  * @return boolean|String true if email is found, false if it is not found, and 
  * PREP_STMT_FAILED if the prepared statement could not execute.
  */
-function isEmailRegistered($email) {
+/*function isEmailRegistered($email) {
     
     $find = findEmail($email);
     
@@ -480,7 +480,7 @@ function isEmailRegistered($email) {
         return true;
     }    
     
-}
+}*/
 
 
 /**
@@ -532,7 +532,7 @@ function getUsernameFromID($accountID)
  * @return boolean|String true if phone number is found, false if it is not 
  * found, and PREP_STMT_FAILED if the prepared statement could not execute.
  */
-function isPhoneNumberRegistered($phoneNumber) {
+/*function isPhoneNumberRegistered($phoneNumber) {
     
     $find = findPhoneNumber($phoneNumber);
     
@@ -544,7 +544,7 @@ function isPhoneNumberRegistered($phoneNumber) {
         return true;
     }    
     
-}
+}*/
 
 
 
