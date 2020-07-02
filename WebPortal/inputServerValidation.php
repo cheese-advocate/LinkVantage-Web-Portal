@@ -198,8 +198,10 @@ function validateSites(array $sites) {
     $counter = 0;
     foreach($sites as $value)
     {
-        validateSite($value);
+        $errors[$sites] = validateSite($value);
+        
     }
+    return $errors;
                
 }
 
@@ -260,6 +262,7 @@ function validateContacts(array $contacts) {
     foreach ($contacts as $value)
     {     
         
+        $errors[$contacts] = validateContact($value);
     }
     /*
      * Add one error messages to the array for each of the following failures:
@@ -284,6 +287,13 @@ function validateContacts(array $contacts) {
     return $errors;
 }
 
-function validateContact($contact) {
+function validateContact($contact) 
+{
+    $errors = array();
+    $counter=0;
     
+    $username = $contact->getUsername();
+    $email = $contact->getEmail();
+    $phoneNumber = $contact->getPhoneNumber();
+       
 }
