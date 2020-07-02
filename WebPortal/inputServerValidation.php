@@ -217,23 +217,23 @@ function validateSite($site) {
     
     if (!isStreetNumValid($streetNum))
     {
-        $errors[++$counter] = "Invalid input: Street Number";
+        $errors[$counter++] = "Invalid input: Street Number";
     }
     if (!validateCompanyName($streetName))
     {
-        $errors[++$counter] = "Invalid input: Company Name";
+        $errors[$counter++] = "Invalid input: Company Name";
     }
     if (!validateCompanyName($suburbCity))
     {
-        $errors[++$counter] = "Invalid input: Suburb City";
+        $errors[$counter++] = "Invalid input: Suburb City";
     }
     if (!isPostalValid($postalCode))
     {
-        $errors[++$counter] = "Invalid input: Postal Code";
+        $errors[$counter++] = "Invalid input: Postal Code";
     }
-     if (!validateCompanyName($mainSite))
+    if (!validateCompanyName($mainSite))
     {
-        $errors[++$counter] = "Invalid input: Main Site";
+        $errors[$counter++] = "Invalid input: Main Site";
     }
     
     if ($counter == 0)
