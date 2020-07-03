@@ -2,7 +2,7 @@
     require_once 'config.php';
 
     session_start();
-    $displayUsername = getUsernameFromID($_SESSION['accountID']);
+    $displayUsername = getUsername($_SESSION['accountID']);
     
 ?>
 

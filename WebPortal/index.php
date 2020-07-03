@@ -118,7 +118,6 @@
     }
     
     
-    
     /**
      * Attempts to determine whether the user submitted a POST request from 
      * login or forgot password based on the values received.
@@ -176,8 +175,7 @@
     function handleLogin() {
         
         global $username, $password, $loginIsValid, $loginErr;
-        
-        $accountID;        
+              
         
         /* First, some server validation */
         
@@ -201,7 +199,7 @@
             
             /*Attempt to find the username in the database. Returns the 
              * associated account ID if found*/
-            $accountID = getUsername($username);
+            $accountID = getIDFromUsername($username);
             
             /*If the account was not found or a database error was encountered, 
              * set login to invalid*/

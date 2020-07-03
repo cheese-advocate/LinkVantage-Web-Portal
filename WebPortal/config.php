@@ -504,14 +504,14 @@ function findOTP($accountID)
  * account ID is associated with or an empty result set) or a message indicating the 
  * failure of execution (PREP_STMT_FAILED)
  */
-function getUsernameFromID($accountID)
+function getIDFromUsername($accountID)
 {
     /*Access global variable link*/
     global $link;
     
     /*Check that statement worked, prepare statement selecting from getUsername 
      *function*/
-    if($stmt = mysqli_prepare($link, SQL_GET_USERNAME_ACCOUNTID)){
+    if($stmt = mysqli_prepare($link, SQL_GET_ACCOUNTID_USERNAME)){
         /*insert accountID variable to select statement*/
         mysqli_stmt_bind_param($stmt, "s", $accountID);
         /*execute the query*/
