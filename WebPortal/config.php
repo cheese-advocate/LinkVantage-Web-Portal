@@ -47,6 +47,18 @@ define('PREP_STMT_FAILED', 'Prepared Statement Failed');
 define('NOT_FOUND', '');//When account/email/phone number searched for an empty 
 //result set returned
 define('LOGIN_FAILED', 'Login has failed');
+define('CLIENT_REGISTRATION_FAILED', 'An error occured when registering the '
+        . 'client');//private or company client registration failed
+define('CONTACT_ADD_FAILURE','One or more secondary contacts failed to be '
+        . 'registered. Please check which Contacts were successfully added on '
+        . 'your profile and attempt to add the others again.');
+define('SITE_ADD_FAILURE','One or more sites failed to be registered. Please '
+        . 'check which Sites were successfully added on your profile and '
+        . 'attempt to add the others again.');
+define('SITE_CONTACT_ADD_FAILURE','One or more sites and contacts failed to be '
+        . 'registered. Please check which Sites and Contacts were successfully '
+        . 'added on your profile and attempt to add the others again.');
+
 
 /* Test connectivity to the database */
 /**
@@ -685,25 +697,28 @@ function registerCompany($companyName, $contacts, $sites){
     /*Check that statement worked, prepare statement inserting using 
      * companyRegister function*/
     if($stmt = mysqli_prepare($link, SQL_REGISTER_COMPANY)){
-        
-        /*insert variables to function*/
-        mysqli_stmt_bind_param($stmt, "sssssss", $username, $hashedPassword, 
-                $firstName, $lastName, $email, $phoneNumber, $companyName);
-        /*execute the insert*/
-        mysqli_stmt_execute($stmt);
-        /*bind the result of the query to the $client variable to get the newly 
-         * created clientID*/
-        mysqli_stmt_bind_result($stmt, $clientID);
-        /*fetch the result of the query*/
-        mysqli_stmt_fetch($stmt);
-        /*close the statement*/
-        mysqli_stmt_close($stmt);        
-        
+        try{
+            /*insert variables to function*/
+            mysqli_stmt_bind_param($stmt, "sssssss", $username, $hashedPassword, 
+                    $firstName, $lastName, $email, $phoneNumber, $companyName);
+            /*execute the insert*/
+            mysqli_stmt_execute($stmt);
+            /*bind the result of the query to the $client variable to get the newly 
+             * created clientID*/
+            mysqli_stmt_bind_result($stmt, $clientID);
+            /*fetch the result of the query*/
+            mysqli_stmt_fetch($stmt);
+            /*close the statement*/
+            mysqli_stmt_close($stmt); 
+        } catch (Exception $ex) {
+            $databaseErr = $ex->getMessage();
+        }                       
         /*If statement failed*/
     } else {
         $databaseErr = PREP_STMT_FAILED;
     }
-     
+    
+    /*if client was successfully registered*/
     if(!isset($databaseErr)){
         /*Creating an array of contacts that are not the main one*/
         $nonMainContacts = array();
@@ -718,10 +733,28 @@ function registerCompany($companyName, $contacts, $sites){
         }
 
         /*Adding the non main contacts*/
-        addContacts($nonMainContacts, $clientID);
-
-        /*Adding the sites*/
-        addSites($sites, $clientID);
+        if(!addContacts($nonMainContacts, $clientID)){
+            $databaseErr = CONTACT_ADD_FAILURE;
+        }
+        
+        if(!isset($databaseErr)){//if no error with contacts
+            if(!addSites($sites, $clientID)){//just an error adding site
+                $databaseErr = SITE_ADD_FAILURE;
+            }
+        } else{//if contact error was encountered
+            if(!addSites($sites, $clientID)){//if contact and site error
+                $databaseErr = SITE_CONTACT_ADD_FAILURE;
+            }
+        }
+        
+        if(isset($databaseErr)){
+            return $databaseErr;
+        } else{
+            return true;
+        }
+        
+    } else {
+        return CLIENT_REGISTRATION_FAILED;
     }        
     
 }
@@ -759,18 +792,22 @@ function registerPrivateClient($contacts, $site){
      * companyRegister function*/
     if($stmt = mysqli_prepare($link, SQL_REGISTER_PRIVATE_CLIENT)){
         
-        /*insert variables to function*/
-        mysqli_stmt_bind_param($stmt, "sssssss", $username, $hashedPassword, 
-                $firstName, $lastName, $email, $phoneNumber);
-        /*execute the insert*/
-        mysqli_stmt_execute($stmt);
-        /*bind the result of the query to the $client variable to get the newly 
-         * created clientID*/
-        mysqli_stmt_bind_result($stmt, $clientID);
-        /*fetch the result of the query*/
-        mysqli_stmt_fetch($stmt);
-        /*close the statement*/
-        mysqli_stmt_close($stmt);        
+        try{
+            /*insert variables to function*/
+            mysqli_stmt_bind_param($stmt, "sssssss", $username, $hashedPassword, 
+                    $firstName, $lastName, $email, $phoneNumber);
+            /*execute the insert*/
+            mysqli_stmt_execute($stmt);
+            /*bind the result of the query to the $client variable to get the newly 
+             * created clientID*/
+            mysqli_stmt_bind_result($stmt, $clientID);
+            /*fetch the result of the query*/
+            mysqli_stmt_fetch($stmt);
+            /*close the statement*/
+            mysqli_stmt_close($stmt);
+        } catch (Exception $ex) {
+            $databaseErr = $ex->getMessage();
+        }                
         
         /*If statement failed*/
     } else {
@@ -791,10 +828,27 @@ function registerPrivateClient($contacts, $site){
         }
 
         /*Adding the non main contacts*/
-        addContacts($nonMainContacts, $clientID);
-
-        /*Adding the sites*/
-        addSites($site);
+        if(!addContacts($nonMainContacts, $clientID)){
+            $databaseErr = CONTACT_ADD_FAILURE;
+        }
+        
+        if(!isset($databaseErr)){//if no error with contacts
+            if(!addSites($sites, $clientID)){//just an error adding site
+                $databaseErr = SITE_ADD_FAILURE;
+            }
+        } else{//if contact error was encountered
+            if(!addSites($sites, $clientID)){//if contact and site error
+                $databaseErr = SITE_CONTACT_ADD_FAILURE;
+            }
+        }
+        
+        if(isset($databaseErr)){
+            return $databaseErr;
+        } else{
+            return true;
+        }
+    } else{
+        return CLIENT_REGISTRATION_FAILED;
     }
 }
 
@@ -850,7 +904,10 @@ function addContacts($contacts, $clientID){
     /*Access the global variable link*/ 
     global $link;    
     
-    $result = array();
+    /*Variable to track any database errors that occur*/
+    $databaseErr;
+    
+    $result = true;
     
     for($i=0; $i < count($contacts); $i++){
         $username = $contacts[$i]->getUsername();
@@ -867,22 +924,30 @@ function addContacts($contacts, $clientID){
         * function*/
         if($stmt = mysqli_prepare($link, SQL_ADD_CONTACT)){        
 
-            /*insert account and otp variables to function*/
-            mysqli_stmt_bind_param($stmt, "ssssssss", $username, $hashedPassword, 
-                    $firstName, $lastName, $email, $phoneNum, $clientID);
-            
-            /*execute the insert*/
-            mysqli_stmt_execute($stmt);
-            /*bind the result of the query to the $result variable*/
-            mysqli_stmt_bind_result($stmt, $result[$i]);
-            /*fetch the result of the query*/
-            mysqli_stmt_fetch($stmt);                                    
-            /*close the statement*/
-            mysqli_stmt_close($stmt);                         
+            try{
+                /*insert account and otp variables to function*/
+                mysqli_stmt_bind_param($stmt, "ssssssss", $username, $hashedPassword, 
+                        $firstName, $lastName, $email, $phoneNum, $clientID);
 
+                /*execute the insert*/
+                mysqli_stmt_execute($stmt);
+                /*bind the result of the query to the $result variable*/
+                mysqli_stmt_bind_result($stmt, $result[$i]);
+                /*fetch the result of the query*/
+                mysqli_stmt_fetch($stmt);                                    
+                /*close the statement*/
+                mysqli_stmt_close($stmt);                                         
+            } catch (Exception $ex) {
+                $databaseErr = $ex->getMessage();
+            }
+                
             /*If statement failed*/
         } else {
-            $result[$i] = PREP_STMT_FAILED;
+            $databaseErr = PREP_STMT_FAILED;
+        }
+        
+        if(isset($databaseErr)){
+            $result = false;
         }
         
         return $result;
@@ -899,8 +964,10 @@ function addSites($sites, $clientID){
     /*Access the global variable link*/ 
     global $link;
     
+    /*Variable to track any database errors that occur*/
+    $databaseErr;
     
-    $result = array();
+    $result = true;
     
     for($i=0; $i < count($sites); $i++){
         $streetNum = $sites[$i]->getStreetNum;
@@ -913,23 +980,32 @@ function addSites($sites, $clientID){
         /*Check that statement worked, prepare statement inserting using addSite
         * function*/
         if($stmt = mysqli_prepare($link, SQL_ADD_SITE)){        
-
-            /*insert account and otp variables to function*/
-            mysqli_stmt_bind_param($stmt, "ssssss", $streetNum, $streetName, 
-                    $suburbCity, $postalCode, $addInfo, $clientID);
             
-            /*execute the insert*/
-            mysqli_stmt_execute($stmt);
-            /*bind the result of the query to the $result variable*/
-            mysqli_stmt_bind_result($stmt, $result[$i]);
-            /*fetch the result of the query*/
-            mysqli_stmt_fetch($stmt);                                    
-            /*close the statement*/
-            mysqli_stmt_close($stmt);                         
+            try{
+                /*insert account and otp variables to function*/
+                mysqli_stmt_bind_param($stmt, "ssssss", $streetNum, $streetName, 
+                        $suburbCity, $postalCode, $addInfo, $clientID);
+
+                /*execute the insert*/
+                mysqli_stmt_execute($stmt);
+                /*bind the result of the query to the $result variable*/
+                mysqli_stmt_bind_result($stmt, $result[$i]);
+                /*fetch the result of the query*/
+                mysqli_stmt_fetch($stmt);                                    
+                /*close the statement*/
+                mysqli_stmt_close($stmt);                         
+                
+            } catch (Exception $ex) {
+                $databaseErr = $ex->getMessage();
+            }            
 
             /*If statement failed*/
         } else {
-            $result[$i] = PREP_STMT_FAILED;
+            $databaseErr = PREP_STMT_FAILED;
+        }
+        
+        if(isset($databaseErr)){
+            $result = false;
         }
         
         return $result;
