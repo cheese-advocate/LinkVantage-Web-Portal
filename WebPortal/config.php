@@ -656,11 +656,15 @@ function isOTPCorrect($account, $userOTP) {
 }
 
 /**
- * A function to register a company
+ * A function used to register a new company
  * 
- * @param type $companyName the name of the company
- * @param type $contacts the contacts associated with the company
- * @param type $sites the sites associated with the company
+ * @global type $link The database connection
+ * 
+ * @param type $companyName The company name
+ * @param type $contacts An array of contacts to add
+ * @param type $sites An array of sites to add
+ * @return boolean True if successfully executed, or an error indicating what 
+ * happened
  */
 function registerCompany($companyName, $contacts, $sites){
     
@@ -757,6 +761,15 @@ function registerCompany($companyName, $contacts, $sites){
     
 }
 
+/**
+ * A function used to register a new client
+ * 
+ * @global type $link The database connection
+ * @param type $contacts An array of contacts to associate with the client
+ * @param type $site The site to associate with the private client
+ * @return boolean True if successfully executed, or an error indicating what 
+ * happened
+ */
 function registerPrivateClient($contacts, $site){
     /*Finding the main contact associated with the client*/
     $mainContact = $contacts[0]->getMainContact();
@@ -895,8 +908,10 @@ function getClientID($email, $phoneNumber){
 /**
  * A function to create contacts and associate them with a client
  * 
+ * @global type $link The database connection
  * @param type $contacts An array of contacts to add to the database
  * @param type $clientID The client which the contacts are associated with
+ * @return boolean True if executed successfully, false if failed
  */
 function addContacts($contacts, $clientID){
     /*Access the global variable link*/ 
@@ -955,8 +970,10 @@ function addContacts($contacts, $clientID){
 /**
  * A function to create sites and associate them with a client
  * 
+ * @global type $link The database connection
  * @param type $sites An array of sites to add to the database
  * @param type $clientID The client which the sites are associated with
+ * @return boolean True if executed successfully, false if failed
  */
 function addSites($sites, $clientID){
     /*Access the global variable link*/ 
