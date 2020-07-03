@@ -141,7 +141,7 @@ function isPasswordValid($accountID, $password) {
 }*/
 
 /**
- * method to find the accountID from a given username
+ * method to find the username from a given accountID
  * 
  * @global type $link the database connection
  * @param type $userID
@@ -181,7 +181,7 @@ function getUsername($userID)
 }
 
 /**
- * method to find the accountID from a given username
+ * method to find if given username exists
  * 
  * @global type $link the database connection
  * @param type $username the username entered by the user
@@ -221,8 +221,7 @@ function findUsername($username)
 }
 
 /**
- * A method to search for accounts associated with a phone number entered by
- * the user
+ * method to find if given email exists
  * 
  * @global type $link the database connection
  * @param type $email the phone number enteredby the user
@@ -263,8 +262,7 @@ function findEmail($email)
 }
 
 /**
- * A method to search for accounts associated with a phone number entered by
- * the user
+ * method to find if given phone number exists
  * 
  * @global type $link the database connection
  * @param type $phoneNumber the phone number enteredby the user

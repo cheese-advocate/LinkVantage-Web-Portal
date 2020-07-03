@@ -291,7 +291,7 @@
             $_SESSION["userStatus"] = "getUserID";
             $account=getUserIDfromEmail($email);
             $_SESSION["account"]=$account;
-            $username=getUsernameFromID($account);
+            $username=getUsername($account);
             $OTP=generateOTP();
             $_SESSION["userStatus"] = "storeOTP";
             storeOTP($account, $OTP);
