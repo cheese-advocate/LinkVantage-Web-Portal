@@ -10,3 +10,13 @@
  * This PHP file exists to store all interactions with mobile clients connecting to the web server.
  */
 
+require_once 'config.php';
+require_once 'inputServerValidation.php';
+
+
+
+?>
+
+<!DOCTYPE html>
+
+<!-- Insert HTML content here if needed -->
