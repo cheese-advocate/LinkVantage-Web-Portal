@@ -21,7 +21,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     /*Get the arrays of site details and combine into array of sites*/
     $sites = getSites($_POST["streetNum"], $_POST["streetName"], 
-            $_POST["suburbCity"], $_POST["postalCode"], $_POST["info"]);
+            $_POST["suburbCity"], $_POST["postalCode"], $_POST["info"], 
+            $_POST["confirmMainSite"]);
 
     /* Validation */
         
