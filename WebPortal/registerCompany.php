@@ -63,8 +63,44 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     /*Register the client if they passed registration, and then direct them back 
      * to the login page*/
     if($registrationValid){
-        registerCompany($companyName, $contacts, $site);
-        header("Location: index.php");
+        $databaseResult = registerCompany($companyName, $contacts, $site);
+        
+        /*Client failed to register*/
+        if($databaseResult[0]===CLIENT_REGISTRATION_FAILED){
+            handleErrors(CLIENT_REGISTRATION_FAILED);
+        } else {
+            /*some contacts/sites failed to register*/
+            if(!isEmpty($databaseResult[1])){
+                
+                /*Error to display once directed to the login page*/
+                
+                /*The session variable to check on loading index page*/
+                $_SESSION['preLoginWarning'] = $databaseResult[1] . " This will"
+                        . " require you to login to your main account.";
+                
+                /*Error to display once logged in to the main contact account. 
+                 * Contains the error message and the client it is intended for*/
+                
+                $postLoginWarning = array();                
+                /*The clientID*/
+                $postLoginWarning[0] = $databaseResult[0];
+                /*The error message*/
+                $postLoginWarning[1] = $databaseResult[1] . ' Click '
+                        . '<a href="#">here</a> to view and manage your contacts'
+                        . ' and sites.';
+                
+                /*The session variable to check after login*/
+                $_SESSION['postLoginWarning'] = $postLoginWarning;
+            }
+            
+            /*Message to display once directed to the login page, indicating 
+             * successful registration*/
+            $_SESSION['registrationSuccessful'] = REGISTRATION_SUCCESS;
+            
+            /*Direct user to login page after registration*/
+            header("Location: index.php");
+        }
+        
     } else { /*handle the error messages if they failed validation*/
         $errors = array_merge($companyValidation, $contactsValidation, $sitesValidation);
         handleErrors($errors);
