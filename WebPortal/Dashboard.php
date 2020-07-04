@@ -58,6 +58,53 @@
                 });
             }
         </script>
+        
+        <!--Checks if the postLoginWarning variable is set, indicating 
+        that a non critical database error occurred during an otherwise 
+        successful registration. Will only display if this is the main contact 
+        for the client it is associated with-->
+        <?php
+            $displayToast = false;
+            /*Check if the postLoginWarning session variable is set*/
+            if(isset($_SESSION['postLoginWarning'])){
+                /*Check if the clientID session variable is set*/
+                if(isset($_SESSION['clientID'])){
+                    /*Check if the clientID the warning is intended for is the 
+                     * same as the one associated with the logged in contact*/
+                    if($_SESSION['clientID']==$_SESSION['postLoginWarning'][0]){
+                        /*Check if the logged in contact is a main contact*/
+                        if(isMainContact($_SESSION['accountID'])){
+                            /*The toast message should be displayed if all 
+                             * the above conditions are met*/
+                            $displayToast = true;
+                        }                            
+                    }
+                }
+            }
+            
+            /*Display the toast message if it has been determined that it should 
+             * be displayed*/
+            if($displayToast){?>
+                <script>
+                    $.toast({
+                        heading: "Registration error occurred",
+                        text: <?php$_SESSION['postLoginWarning'][1]?>,
+                        bgColor: "#FFB347",
+                        textColor: "F3F3F3",
+                        showHideTransition: "slide",
+                        allowToastClose: false,
+                        position: "bottom-center",
+                        icon: "warning",
+                        loaderBg: "#414137",
+                        hideAfter: 3000
+                    });
+                </script> <?php                    
+                /*Clears the poatLoginWarning variable so that it does not 
+                 * trigger a warning message without another 
+                 * registration attempt*/
+                unset($_SESSION['postLoginWarning']);                            
+            }?>
+        
         <div id="main" class="mainPage">
             <div class="topNav">
                 <div id="menu" onclick="changeHam()">
