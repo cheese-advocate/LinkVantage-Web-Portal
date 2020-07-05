@@ -230,8 +230,19 @@
          * identifying the account logged into is stored in a session variable 
          * to track it on other pages. The user is then directed to the 
          * dashboard*/
-        if($loginIsValid){            
+        if($loginIsValid){
+            /*Set the session variable to track which account is logged in 
+             * accross different pages*/
             $_SESSION['accountID'] = $accountID;
+            /*Set the session variables to track the Contact or Technician 
+             * entities associated with the user*/
+            setTechnicianContactID($accountID);
+            /*If a contact is logged in, set the session variable to track the 
+             * client associated with the contact*/
+            if(isset($_SESSION['contactID'])){
+                setClientID($_SESSION['contactID']);
+            }
+            /*Direct to the dashboard after login*/
             header("Location:Dashboard.php");
         }/*If login failed, the failure is stored in a session variable used to 
          * indicate that a login failure toast message must be displayed upon 
@@ -396,7 +407,6 @@
                 the last login attempt was invalid and that a toast message 
                 needs to be displayed-->
                 <?php
-                    $loginFailed = false;
                     if(isset($_SESSION['loginFailed'])){?>
                         <script>
                             $.toast({
@@ -420,6 +430,55 @@
                         unset($_SESSION['loginFailed']);
                     }
                 ?>
+                
+                <!--Checks if the registrationSuccessful variable is set, indicating that 
+                the successfully registered a new client-->
+                <?php
+                    if(isset($_SESSION['registrationSuccessful'])){?>
+                        <script>
+                            $.toast({
+                                heading: "Registration successful!",
+                                text: <?php$_SESSION['registrationSuccessful']?>,
+                                bgColor: "#77DD77",
+                                textColor: "F3F3F3",
+                                showHideTransition: "slide",
+                                allowToastClose: false,
+                                position: "bottom-center",
+                                icon: "success",
+                                loaderBg: "#374137",
+                                hideAfter: 3000
+                            });
+                        </script> <?php
+                        /*Clears the registrationSuccessful variable so that it does not 
+                         * trigger a success message without another successful 
+                         * registration attempt*/
+                        unset($_SESSION['registrationSuccessful']);
+                    }?>                                        
+                
+                <!--Checks if the preLoginWarning variable is set, indicating 
+                that a non critical database error occurred during an otherwise 
+                successful registration-->
+                <?php
+                    if(isset($_SESSION['preLoginWarning'])){?>
+                        <script>
+                            $.toast({
+                                heading: "Registration error occurred",
+                                text: <?php$_SESSION['preLoginWarning']?>,
+                                bgColor: "#FFB347",
+                                textColor: "F3F3F3",
+                                showHideTransition: "slide",
+                                allowToastClose: false,
+                                position: "bottom-center",
+                                icon: "warning",
+                                loaderBg: "#414137",
+                                hideAfter: 3000
+                            });
+                        </script> <?php
+                        /*Clears the preLoginWarning variable so that it does not 
+                         * trigger a warning message without another 
+                         * registration attempt*/
+                        unset($_SESSION['preLoginWarning']);
+                    }?>                                        
                 
                         <form method="POST" onsubmit="return loginToast()" action="#">
                     <div class="loginInp">

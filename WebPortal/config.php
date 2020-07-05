@@ -35,6 +35,10 @@ define("SQL_GET_CLIENT_ID","SELECT getClientID(?,?)");
 define("SQL_CHECK_COMPANY_NAME","");
 define("SQL_REGISTER_COMPANY","SELECT companyRegister(?, ?, ?, ?, ?, ?, ?)");
 define("SQL_REGISTER_PRIVATE_CLIENT","SELECT clientRegister(?, ?, ?, ?, ?, ?)");
+define("SQL_IS_MAIN_CONTACT","SELECT isMainContact(?)");
+define("SQL_GET_CONTACT_ID","SELECT getContactID(?)");
+define("SQL_GET_TECHNICIAN_ID","SELECT getTecIDFromAccountID(?)");
+define("SQL_GET_CLIENT_ID_FROM_CONTACT","SELECT getClientIDFromContactID(?)");
 
 /* Database credentials */
 define('DB_SERVER', 'localhost');
@@ -43,6 +47,7 @@ define('DB_NAME', 'Chai');
 define('DB_PASSWORD', 'P@ssword1');
 
 /* Other useful constants */
+define('GENERIC_DB_ERROR', 'A database error has occurred');//Generic database error
 define('PREP_STMT_FAILED', 'Prepared Statement Failed');
 define('NOT_FOUND', '');//When account/email/phone number searched for an empty 
 //result set returned
@@ -58,6 +63,7 @@ define('SITE_ADD_FAILURE','One or more sites failed to be registered. Please '
 define('SITE_CONTACT_ADD_FAILURE','One or more sites and contacts failed to be '
         . 'registered. Please check which Sites and Contacts were successfully '
         . 'added on your profile and attempt to add the others again.');
+define('REGISTRATION_SUCCESS', 'Client successfully registered');
 
 
 /* Test connectivity to the database */
@@ -656,11 +662,17 @@ function isOTPCorrect($account, $userOTP) {
 }
 
 /**
- * A function to register a company
+ * A function used to register a new company
  * 
- * @param type $companyName the name of the company
- * @param type $contacts the contacts associated with the company
- * @param type $sites the sites associated with the company
+ * @global type $link The database connection
+ * 
+ * @param type $companyName The company name
+ * @param type $contacts An array of contacts to add
+ * @param type $sites An array of sites to add
+ * @return array If client was registered the first slot contains the clientID, 
+ * with the second slot containing non-critical errors that occurred. If the 
+ * client could not be registered, the first slot will contain  the 
+ * CLIENT_REGISTRATION_FAILED error message
  */
 function registerCompany($companyName, $contacts, $sites){
     
@@ -685,6 +697,8 @@ function registerCompany($companyName, $contacts, $sites){
     
     /*Access the global variable link*/ 
     global $link;
+    
+    $result = array();
     
     /*Variable to track any database errors that occur*/
     $databaseErr;
@@ -718,6 +732,9 @@ function registerCompany($companyName, $contacts, $sites){
     
     /*if client was successfully registered*/
     if(!isset($databaseErr)){
+        
+        $result[0] = $clientID;
+        
         /*Creating an array of contacts that are not the main one*/
         $nonMainContacts = array();
 
@@ -746,17 +763,28 @@ function registerCompany($companyName, $contacts, $sites){
         }
         
         if(isset($databaseErr)){
-            return $databaseErr;
-        } else{
-            return true;
+            $result[1] = $databaseErr;
         }
         
     } else {
-        return CLIENT_REGISTRATION_FAILED;
-    }        
+        $result[0] = CLIENT_REGISTRATION_FAILED;
+    }
+    
+    return $result;
     
 }
 
+/**
+ * A function used to register a new client
+ * 
+ * @global type $link The database connection
+ * @param type $contacts An array of contacts to associate with the client
+ * @param type $site The site to associate with the private client
+ * @return array If client was registered the first slot contains the clientID, 
+ * with the second slot containing non-critical errors that occurred. If the 
+ * client could not be registered, the first slot will contain  the 
+ * CLIENT_REGISTRATION_FAILED error message
+ */
 function registerPrivateClient($contacts, $site){
     /*Finding the main contact associated with the client*/
     $mainContact = $contacts[0]->getMainContact();
@@ -779,6 +807,8 @@ function registerPrivateClient($contacts, $site){
     
     /*Access the global variable link*/ 
     global $link;
+    
+    $result = array();
     
     /*Variable to track any database errors that occur*/
     $databaseErr;
@@ -813,6 +843,9 @@ function registerPrivateClient($contacts, $site){
     }
      
     if(!isset($databaseErr)){
+        
+        $result[0] = $clientID;
+        
         /*Creating an array of contacts that are not the main one*/
         $nonMainContacts = array();
 
@@ -840,14 +873,16 @@ function registerPrivateClient($contacts, $site){
             }
         }
         
+        /*If contacts and/or sites failed to be added*/
         if(isset($databaseErr)){
-            return $databaseErr;
-        } else{
-            return true;
+            $result[1] = $databaseErr;
         }
+        
     } else{
-        return CLIENT_REGISTRATION_FAILED;
+        $result[0] = CLIENT_REGISTRATION_FAILED;
     }
+    
+    return $result;
 }
 
 /**
@@ -895,8 +930,10 @@ function getClientID($email, $phoneNumber){
 /**
  * A function to create contacts and associate them with a client
  * 
+ * @global type $link The database connection
  * @param type $contacts An array of contacts to add to the database
  * @param type $clientID The client which the contacts are associated with
+ * @return boolean True if executed successfully, false if failed
  */
 function addContacts($contacts, $clientID){
     /*Access the global variable link*/ 
@@ -955,8 +992,10 @@ function addContacts($contacts, $clientID){
 /**
  * A function to create sites and associate them with a client
  * 
+ * @global type $link The database connection
  * @param type $sites An array of sites to add to the database
  * @param type $clientID The client which the sites are associated with
+ * @return boolean True if executed successfully, false if failed
  */
 function addSites($sites, $clientID){
     /*Access the global variable link*/ 
@@ -1010,5 +1049,259 @@ function addSites($sites, $clientID){
         
     }
     
+    /**
+     * A function to check if the contact associated with the given accountID 
+     * is a main account
+     * 
+     * @global type $link The database connection
+     * @param type $accountID The accountID to check for being a main contact
+     * @return type If sql executed successfully, then a boolean indicating 
+     * whether or not it is a main account(true if it is, false if it is not).
+     * It will return GENERIC_DB_ERROR if a database error occurred
+     */
+    function isMainContact($accountID){
+        /*Access the global variable link*/ 
+        global $link;
+        
+        /*variable to store result of sql execution*/
+        $result;
+        
+        /*variable to store information about database errors*/
+        $databaseErr;
+
+        /*Check that statement worked, prepare statement selecting from the
+         * isMainContact function*/
+        if($stmt = mysqli_prepare($link, SQL_IS_MAIN_CONTACT)){
+            try{
+                /*insert accountID variable to select statement*/
+                mysqli_stmt_bind_param($stmt, "s", $accountID);
+                /*execute the query*/
+                mysqli_stmt_execute($stmt);
+                /*bind the result of the query to the $result variable*/
+                mysqli_stmt_bind_result($stmt, $result);
+                /*fetch the result of the query*/
+                mysqli_stmt_fetch($stmt);                                    
+                /*close the statement*/
+                mysqli_stmt_close($stmt);           
+            } catch (Exception $ex) {
+                /*Record the error for debuggin purposes*/
+                $databaseErr = $ex->getMessage();
+            }
+            
+            /*If statement failed*/
+        } else {
+            $databaseErr = PREP_STMT_FAILED;
+        }
+        
+        /*If an error occurred during the sql execution*/
+        if(isset($databaseErr)){
+            return GENERIC_DB_ERROR;
+        } else{ //if sql executed without error
+            return $result;            
+        }
+    }
+    
+    /**
+     * A function to set the contactID session variable or technicianID session
+     * with the contactID or tecID associated with given accountID
+     * 
+     * @param type $accountID The accountID to check
+     */
+    function setTechnicianContactID($accountID){
+        
+        $databaseErr;
+                
+        $tecIDCheck;
+        $contactIDCheck = getContactIDFromAccount($accountID);
+        
+        if($contactIDCheck === NOT_FOUND){
+            $tecIDCheck = getTechnicianIDFromAccount($accountID);            
+        } else if($contactIDCheck === GENERIC_DB_ERROR){
+            $databaseErr = GENERIC_DB_ERROR;
+            $tecIDCheck = getTechnicianIDFromAccount($accountID);
+        } else{
+            $_SESSION['contactID'] = $contactIDCheck;
+        }
+        
+        if(isset($tecIDCheck)){
+            if($tecIDCheck === NOT_FOUND){
+            
+            } else if($tecIDCheck === GENERIC_DB_ERROR){
+                $databaseErr = GENERIC_DB_ERROR;
+            } else{
+                $_SESSION['technicianID'] = $tecIDCheck;
+            }
+        }
+    }
+    
+    /**
+     * A function to set the clientID session variable to the clientID 
+     * associated with the given contactID
+     *
+     * @global type $link The database connection
+     * @param type $contactID The contactID to check
+     */
+    function setClientID($contactID){
+        /*Access the global variable link*/ 
+        global $link;
+        
+        /*variable to store result of sql execution*/
+        $result;
+        
+        /*variable to store information about database errors*/
+        $databaseErr;
+
+        /*Check that statement worked, prepare statement selecting from the
+         * getClientIDFromContactID function*/
+        if($stmt = mysqli_prepare($link, SQL_GET_CLIENT_ID_FROM_CONTACT)){
+            try{
+                /*insert accountID variable to select statement*/
+                mysqli_stmt_bind_param($stmt, "s", $accountID);
+                /*execute the query*/
+                mysqli_stmt_execute($stmt);
+                /*bind the result of the query to the $result variable*/
+                mysqli_stmt_bind_result($stmt, $result);
+                /*fetch the result of the query*/
+                mysqli_stmt_fetch($stmt);                                    
+                /*close the statement*/
+                mysqli_stmt_close($stmt);
+                
+                /*If sql returns empty result set, indicating not found*/
+                if($result == '')
+                {
+                    $result = NOT_FOUND;
+                }
+                
+            } catch (Exception $ex) {
+                /*Record the error for debuggin purposes*/
+                $databaseErr = $ex->getMessage();
+            }
+
+            /*If statement failed*/
+        } else {
+            $databaseErr = PREP_STMT_FAILED;
+        }
+        
+        /*If an error did not occur during the sql execution*/
+        if(!isset($databaseErr)){
+            if($result !== NOT_FOUND){
+                $_SESSION['clientID'] = $result;
+            }
+        }
+    }
+    
+    /**
+     * A function to return a contactID associated with the given accountID
+     * 
+     * @global type $link The database connection
+     * @param type $accountID The accountID to check
+     * @return type The contactID if one is found, NOT_FOUND if one is not found
+     *  or GENERIC_DATABASE_ERROR if an error occurs
+     */
+    function getContactIDFromAccount($accountID){
+        /*Access the global variable link*/ 
+        global $link;
+        
+        /*variable to store result of sql execution*/
+        $result;
+        
+        /*variable to store information about database errors*/
+        $databaseErr;
+
+        /*Check that statement worked, prepare statement selecting from the
+         * getContactID function*/
+        if($stmt = mysqli_prepare($link, SQL_GET_CONTACT_ID)){
+            try{
+                /*insert accountID variable to select statement*/
+                mysqli_stmt_bind_param($stmt, "s", $accountID);
+                /*execute the query*/
+                mysqli_stmt_execute($stmt);
+                /*bind the result of the query to the $result variable*/
+                mysqli_stmt_bind_result($stmt, $result);
+                /*fetch the result of the query*/
+                mysqli_stmt_fetch($stmt);                                    
+                /*close the statement*/
+                mysqli_stmt_close($stmt);
+                
+                /*If sql returns empty result set, indicating not found*/
+                if($result == '')
+                {
+                    $result = NOT_FOUND;
+                }
+                
+            } catch (Exception $ex) {
+                /*Record the error for debuggin purposes*/
+                $databaseErr = $ex->getMessage();
+            }
+
+            /*If statement failed*/
+        } else {
+            $databaseErr = PREP_STMT_FAILED;
+        }
+        
+        /*If an error occurred during the sql execution*/
+        if(isset($databaseErr)){
+            return GENERIC_DB_ERROR;
+        } else{ //if sql executed without error
+            return $result;            
+        }
+    }
+    
+    /**
+     * A function to return a tecID associated with the given accountID
+     * 
+     * @global type $link The database connection
+     * @param type $accountID The accountID to check
+     * @return type The tecID if one is found, NOT_FOUND if one is not found or
+     * GENERIC_DATABASE_ERROR if an error occurs
+     */
+    function getTechnicianIDFromAccount($accountID){
+        /*Access the global variable link*/ 
+        global $link;
+        
+        /*variable to store result of sql execution*/
+        $result;
+        
+        /*variable to store information about database errors*/
+        $databaseErr;
+
+        /*Check that statement worked, prepare statement selecting from the
+         * getTecIDFromAccountID function*/
+        if($stmt = mysqli_prepare($link, SQL_GET_TECHNICIAN_ID)){
+            try{
+                /*insert accountID variable to select statement*/
+                mysqli_stmt_bind_param($stmt, "s", $accountID);
+                /*execute the query*/
+                mysqli_stmt_execute($stmt);
+                /*bind the result of the query to the $result variable*/
+                mysqli_stmt_bind_result($stmt, $result);
+                /*fetch the result of the query*/
+                mysqli_stmt_fetch($stmt);                                    
+                /*close the statement*/
+                mysqli_stmt_close($stmt);
+                
+                /*If sql returns empty result set, indicating not found*/
+                if($result == '')
+                {
+                    $result = NOT_FOUND;
+                }
+                
+            } catch (Exception $ex) {
+                /*Record the error for debuggin purposes*/
+                $databaseErr = $ex->getMessage();
+            }
+            
+            /*If statement failed*/
+        } else {
+            $databaseErr = PREP_STMT_FAILED;
+        }
+        
+        /*If an error occurred during the sql execution*/
+        if(isset($databaseErr)){
+            return GENERIC_DB_ERROR;
+        } else{ //if sql executed without error
+            return $result;            
+        }
+    }
     
 }
