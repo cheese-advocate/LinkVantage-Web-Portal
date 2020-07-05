@@ -295,5 +295,18 @@ function validateContact($contact)
     $username = $contact->getUsername();
     $email = $contact->getEmail();
     $phoneNumber = $contact->getPhoneNumber();
-       
+    
+    if(findUsername($username))
+    {
+        $errors[$counter++] = "Error: Username already exists";
+    }
+    if(findEmail($email))
+    {
+        $errors[$counter++] = "Error: Email already exists";
+    }
+    if(findPhoneNumber($phoneNumber))
+    {
+        $errors[$counter++] = "Error: Phone number already exists";
+    }
+        
 }
