@@ -3,46 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-<<<<<<< HEAD
             <file>file:/C:/Users/Dell/Documents/Repos/ITSP/web_portal/WebPortal/index.php</file>
             <file>file:/C:/Users/Dell/Documents/Repos/ITSP/web_portal/WebPortal/config.php</file>
-=======
-<<<<<<< HEAD
-            <file>file:/G:/Documents/Repos/ITSP/web_portals/WebPortal/Script/jquery-3.5.0.js</file>
-            <file>file:/G:/Documents/Repos/ITSP/web_portals/WebPortal/registerCompany.php</file>
-            <file>file:/G:/Documents/Repos/ITSP/web_portals/WebPortal/hasher.php</file>
-            <file>file:/G:/Documents/Repos/ITSP/web_portals/WebPortal/Dashboard.php</file>
-            <file>file:/G:/Documents/Repos/ITSP/web_portals/WebPortal/config.php</file>
-            <file>file:/G:/Documents/Repos/ITSP/web_portals/WebPortal/index.php</file>
-            <file>file:/G:/Documents/Repos/ITSP/web_portals/WebPortal/CSS/forgotPw.css</file>
-            <file>file:/G:/Documents/Repos/ITSP/web_portals/WebPortal/Script/inputValidation.js</file>
-            <file>file:/G:/Documents/Repos/ITSP/web_portals/WebPortal/otpPage.php</file>
-            <file>file:/G:/Documents/Repos/ITSP/web_portals/WebPortal/Script/generateContent.js</file>
-            <file>file:/G:/Documents/Repos/ITSP/web_portals/WebPortal/CSS/newPasswordPage.css</file>
-            <file>file:/G:/Documents/Repos/ITSP/web_portals/WebPortal/Contact.php</file>
-            <file>file:/G:/Documents/Repos/ITSP/web_portals/WebPortal/CSS/style.css</file>
-            <file>file:/G:/Documents/Repos/ITSP/web_portals/WebPortal/Script/jquery.toast.min.js</file>
-            <file>file:/G:/Documents/Repos/ITSP/web_portals/WebPortal/getLists.php</file>
-            <file>file:/G:/Documents/Repos/ITSP/web_portals/WebPortal/newPassword.php</file>
-            <file>file:/G:/Documents/Repos/ITSP/web_portals/WebPortal/Script/dashboard.js</file>
-            <file>file:/G:/Documents/Repos/ITSP/web_portals/WebPortal/mobilePortal.php</file>
-            <file>file:/G:/Documents/Repos/ITSP/web_portals/WebPortal/emailManager.php</file>
-            <file>file:/G:/Documents/Repos/ITSP/web_portals/WebPortal/inputServerValidation.php</file>
-            <file>file:/G:/Documents/Repos/ITSP/web_portals/WebPortal/Site.php</file>
-            <file>file:/G:/Documents/Repos/ITSP/web_portals/WebPortal/generator.php</file>
-            <file>file:/G:/Documents/Repos/ITSP/web_portals/WebPortal/CSS/jquery.toast.min.css</file>
-            <file>file:/G:/Documents/Repos/ITSP/web_portals/WebPortal/recoverPassword.php</file>
-            <file>file:/G:/Documents/Repos/ITSP/web_portals/WebPortal/CSS/dashboard.css</file>
-            <file>file:/G:/Documents/Repos/ITSP/web_portals/WebPortal/CSS/registerPage.css</file>
-            <file>file:/G:/Documents/Repos/ITSP/web_portals/WebPortal/registerPrivateClient.php</file>
-            <file>file:/G:/Documents/Repos/ITSP/web_portals/WebPortal/Script/script.js</file>
-=======
-            <file>file:/C:/Users/BG/Documents/web_portal/WebPortal/getLists.php</file>
-            <file>file:/C:/Users/BG/Documents/web_portal/WebPortal/Contact.php</file>
-            <file>file:/C:/Users/BG/Documents/web_portal/WebPortal/inputServerValidation.php</file>
-            <file>file:/C:/Users/BG/Documents/web_portal/WebPortal/registerCompany.php</file>
->>>>>>> d6959e12142b40bc94723a46c43c86b4a2cb98ae
->>>>>>> 22cfd272643a4671ef880824c3493c2fbf1e1b02
         </group>
     </open-files>
 </project-private>
