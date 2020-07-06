@@ -191,7 +191,8 @@ function validatePhone($phoneNumber) {
     }
 }
 
-
+//This function accepts an array of sites with each site being an object
+//The function then calls its partner function to vaildate each site object individually
 function validateSites(array $sites) {
     
     $errors = array();
@@ -205,6 +206,7 @@ function validateSites(array $sites) {
                
 }
 
+//This function validates each site object individually
 function validateSite($site) {
     
     $errors = array();
@@ -295,5 +297,19 @@ function validateContact($contact)
     $username = $contact->getUsername();
     $email = $contact->getEmail();
     $phoneNumber = $contact->getPhoneNumber();
-       
+    
+    //Checking for already existing info in the database
+    if(findUsername($username))
+    {
+        $errors[$counter++] = "Error: Username already exists";
+    }
+    if(findEmail($email))
+    {
+        $errors[$counter++] = "Error: Email already exists";
+    }
+    if(findPhoneNumber($phoneNumber))
+    {
+        $errors[$counter++] = "Error: Phone number already exists";
+    }
+        
 }

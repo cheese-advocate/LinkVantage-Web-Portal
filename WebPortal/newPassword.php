@@ -8,7 +8,7 @@ and open the template in the editor.
    session_start();
     require_once 'config.php';
     
-    
+    //Potential for comments
     if(array_key_exists('subNewPwBtn', $_POST)) { 
                 $pw1 = $_POST["newPassword"];
                 $pw2 = $_POST["confirmPassword"];
