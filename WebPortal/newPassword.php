@@ -4,6 +4,26 @@ To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
+<?php
+   session_start();
+    require_once 'config.php';
+    
+    //Potential for comments
+    if(array_key_exists('subNewPwBtn', $_POST)) { 
+                $pw1 = $_POST["newPassword"];
+                $pw2 = $_POST["confirmPassword"];
+                if ($pw1==$pw2){
+                addPw($pw1);
+                }
+    }
+    
+    function addPw($pw1){
+        $account = $_SESSION['account'];
+        updatePassword($account, $pw1);
+        header("Location: index.php");
+    }
+    
+?>
 <html>
     <head>
         <meta charset="UTF-8">
@@ -107,7 +127,7 @@ and open the template in the editor.
                     <img src="images/logo_block_cropped.png" alt="" id="compuLogo"/>
                 </div>
 
-                <form method="POST" onsubmit="return verifyNewPassword()" action="index.php">
+                <form method="POST">
                     <div class="resetPwInput">
                         <img src="images/lock.png" alt="" class="resetImg" id="lock1"/>
                         <input type="text" name="newPassword" placeholder="PASSWORD" class="input" id="newPwInp" onfocus="changeNewPasswordType()">
@@ -117,7 +137,7 @@ and open the template in the editor.
                     </div>
 
                     <div class="resetSubmit" id="reset_submit">
-                        <button type="submit" onclick="" class="subNewPwBtn" name="subNewPwBtn" value="subNewPwBtn">SUBMIT PASSWORD</button>
+                        <button type="submit" onclick="verifyNewPassword()" class="subNewPwBtn" name="subNewPwBtn" value="subNewPwBtn">SUBMIT PASSWORD</button>
                     </div>
                 </form>
             </div>

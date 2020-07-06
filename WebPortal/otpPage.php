@@ -8,7 +8,7 @@ and open the template in the editor.
    session_start();
     require_once 'config.php';
     
-    
+    //Potential for comments
     if(array_key_exists('subOTPBtn', $_POST)) { 
                 $inOTP = $_POST["inOTP"];
                 validateOTP($inOTP);
@@ -16,14 +16,11 @@ and open the template in the editor.
     
     function validateOTP($inOTP){
         $account = $_SESSION['account'];
-        $inputOTP=hashOTP($inOTP);
         $storedOTP=findOTP($account);
-        if ($inputOTP==$storedOTP){
+        if (isCorrectHash($inOTP,$storedOTP)==true){
             header('Location: newPassword.php');
         } else {
-            echo '<script language="javascript">';
-            echo 'alert("Invalid otp")';
-            echo '</script>';
+            echo "<script type='text/javascript'>alert('Invalid OTP');</script>";
         }
     }
     

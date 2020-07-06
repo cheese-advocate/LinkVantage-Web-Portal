@@ -118,7 +118,6 @@
     }
     
     
-    
     /**
      * Attempts to determine whether the user submitted a POST request from 
      * login or forgot password based on the values received.
@@ -176,8 +175,7 @@
     function handleLogin() {
         
         global $username, $password, $loginIsValid, $loginErr;
-        
-        $accountID;        
+              
         
         /* First, some server validation */
         
@@ -201,7 +199,7 @@
             
             /*Attempt to find the username in the database. Returns the 
              * associated account ID if found*/
-            $accountID = findUsername($username);
+            $accountID = getIDFromUsername($username);
             
             /*If the account was not found or a database error was encountered, 
              * set login to invalid*/
@@ -232,8 +230,19 @@
          * identifying the account logged into is stored in a session variable 
          * to track it on other pages. The user is then directed to the 
          * dashboard*/
-        if($loginIsValid){            
+        if($loginIsValid){
+            /*Set the session variable to track which account is logged in 
+             * accross different pages*/
             $_SESSION['accountID'] = $accountID;
+            /*Set the session variables to track the Contact or Technician 
+             * entities associated with the user*/
+            setTechnicianContactID($accountID);
+            /*If a contact is logged in, set the session variable to track the 
+             * client associated with the contact*/
+            if(isset($_SESSION['contactID'])){
+                setClientID($_SESSION['contactID']);
+            }
+            /*Direct to the dashboard after login*/
             header("Location:Dashboard.php");
         }/*If login failed, the failure is stored in a session variable used to 
          * indicate that a login failure toast message must be displayed upon 
@@ -248,8 +257,8 @@
     
     function handleForgotPW() {
         
-        global $email, $username, $account,  $emailErr, $phone, $phoneErr, $OTP, $inOTP, $OTPErr, $pwResetMode, 
-               $pwResetModeErr, $confirmNewPassword, $reset_options, $androidValidated;
+        global $email, $account, $OTP, $pwResetMode, 
+               $pwResetModeErr, $androidValidated;
         
         $androidValidated=false;
         
@@ -269,44 +278,31 @@
                 
                 debugToConsole("Test");
                 $_SESSION["userStatus"] = "androidOTP.html";
-
                 $OTP=generateOTP();
-                
                 $account=getUserIDfromEmail($email);
-                
                 storeOTP($account, $OTP);
-                
-                if ($androidValidated=true){
+                if ($androidValidated==true){
                     header('Location: newPassword.php');
                 }
                 
                 break;
             
             default:
-                
                 $pwResetModeErr = "Invalid Password Reset Mode Selected.";
         }
     }
-    
-    if(isset($_POST['subNewPwBtn'])){ 
-                subNewPwBtn($account); 
-                $_SESSION["userStatus"] = "updatePassword";
-    }
-    
+      
     function resetSubBtn($email) {
         
-        global $emailErr, $account;
+        global  $account;
         
-        if (getUserIDfromEmail($email)==NOT_FOUND){
-            $emailErr= "Email not found";
-            echo '<script language="javascript">';
-            echo 'alert("Invalid otp")';
-            echo '</script>';
+        if (findEmail($email)==false){
+            echo "<script type='text/javascript'>alert('Email not registered');</script>";
         } else {
             $_SESSION["userStatus"] = "getUserID";
             $account=getUserIDfromEmail($email);
             $_SESSION["account"]=$account;
-            $username=getUsernameFromID($account);
+            $username=getUsername($account);
             $OTP=generateOTP();
             $_SESSION["userStatus"] = "storeOTP";
             storeOTP($account, $OTP);
@@ -315,12 +311,6 @@
         }
         $_SESSION["userStatus"] = "sendEmail";
         
-    }
-    
-    
-    function subNewPwBtn($account) {
-        global $newPassword;
-        updatePassword($account,$newPassword);
     }
     
 
@@ -417,7 +407,6 @@
                 the last login attempt was invalid and that a toast message 
                 needs to be displayed-->
                 <?php
-                    $loginFailed = false;
                     if(isset($_SESSION['loginFailed'])){?>
                         <script>
                             $.toast({
@@ -441,6 +430,55 @@
                         unset($_SESSION['loginFailed']);
                     }
                 ?>
+                
+                <!--Checks if the registrationSuccessful variable is set, indicating that 
+                the successfully registered a new client-->
+                <?php
+                    if(isset($_SESSION['registrationSuccessful'])){?>
+                        <script>
+                            $.toast({
+                                heading: "Registration successful!",
+                                text: <?php$_SESSION['registrationSuccessful']?>,
+                                bgColor: "#77DD77",
+                                textColor: "F3F3F3",
+                                showHideTransition: "slide",
+                                allowToastClose: false,
+                                position: "bottom-center",
+                                icon: "success",
+                                loaderBg: "#374137",
+                                hideAfter: 3000
+                            });
+                        </script> <?php
+                        /*Clears the registrationSuccessful variable so that it does not 
+                         * trigger a success message without another successful 
+                         * registration attempt*/
+                        unset($_SESSION['registrationSuccessful']);
+                    }?>                                        
+                
+                <!--Checks if the preLoginWarning variable is set, indicating 
+                that a non critical database error occurred during an otherwise 
+                successful registration-->
+                <?php
+                    if(isset($_SESSION['preLoginWarning'])){?>
+                        <script>
+                            $.toast({
+                                heading: "Registration error occurred",
+                                text: <?php$_SESSION['preLoginWarning']?>,
+                                bgColor: "#FFB347",
+                                textColor: "F3F3F3",
+                                showHideTransition: "slide",
+                                allowToastClose: false,
+                                position: "bottom-center",
+                                icon: "warning",
+                                loaderBg: "#414137",
+                                hideAfter: 3000
+                            });
+                        </script> <?php
+                        /*Clears the preLoginWarning variable so that it does not 
+                         * trigger a warning message without another 
+                         * registration attempt*/
+                        unset($_SESSION['preLoginWarning']);
+                    }?>                                        
                 
                         <form method="POST" onsubmit="return loginToast()" action="#">
                     <div class="loginInp">
@@ -513,7 +551,7 @@
                     <button class="returnToLoginBtn" onclick="changeToLogin()">RETURN TO LOGIN</button>
                 </div>
 
-                <form  method="POST">
+                <form  method="POST" action="#">
                         
                     <div class="resetInpContent" name="test">
                         <img src="images/refresh.png" alt="" class="resetImg"/>
@@ -529,7 +567,7 @@
                     </div>
 
                     <div class="resetSubmit" id="reset_submit">
-                        <button type="submit" name="resetSubBtn" class="resetSubBtn">SEND RESET REQUEST</button>
+                        <button type="submit" name="resetSubBtn" onclick="verifyForgotPw()" class="resetSubBtn">SEND RESET REQUEST</button>
                     </div>
                 </form>
             </div>

@@ -17,10 +17,11 @@ $mail->SMTPAuth = true;
 $mail->Username = "drchai101@gmail.com"; //your email address
 $mail->Password = "thisischai"; //password for email acount
 $mail->setFrom("linkvantage@compulink.co.za", "Compulink Technologies");
+
+//This fuction sends an OTP to the specified email to be used in the password recovery page
 function forgotPassword($toEmail, $fname, $recCode)
 {      
-    global $mail;
-    $accountID = getUserIDfromEmail($toEmail);   
+    global $mail;    
     $mailer = $mail;
     $mailer->addAddress($toEmail, "Client");
     $mailer->Subject = 'Forgot Password';

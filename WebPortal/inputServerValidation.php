@@ -191,18 +191,22 @@ function validatePhone($phoneNumber) {
     }
 }
 
-
+//This function accepts an array of sites with each site being an object
+//The function then calls its partner function to vaildate each site object individually
 function validateSites(array $sites) {
     
     $errors = array();
     $counter = 0;
     foreach($sites as $value)
     {
-        validateSite($value);
+        $errors[$sites] = validateSite($value);
+        
     }
+    return $errors;
                
 }
 
+//This function validates each site object individually
 function validateSite($site) {
     
     $errors = array();
@@ -217,23 +221,23 @@ function validateSite($site) {
     
     if (!isStreetNumValid($streetNum))
     {
-        $errors[++$counter] = "Invalid input: Street Number";
+        $errors[$counter++] = "Invalid input: Street Number";
     }
     if (!validateCompanyName($streetName))
     {
-        $errors[++$counter] = "Invalid input: Company Name";
+        $errors[$counter++] = "Invalid input: Company Name";
     }
     if (!validateCompanyName($suburbCity))
     {
-        $errors[++$counter] = "Invalid input: Suburb City";
+        $errors[$counter++] = "Invalid input: Suburb City";
     }
     if (!isPostalValid($postalCode))
     {
-        $errors[++$counter] = "Invalid input: Postal Code";
+        $errors[$counter++] = "Invalid input: Postal Code";
     }
-     if (!validateCompanyName($mainSite))
+    if (!validateCompanyName($mainSite))
     {
-        $errors[++$counter] = "Invalid input: Main Site";
+        $errors[$counter++] = "Invalid input: Main Site";
     }
     
     if ($counter == 0)
@@ -260,6 +264,7 @@ function validateContacts(array $contacts) {
     foreach ($contacts as $value)
     {     
         
+        $errors[$contacts] = validateContact($value);
     }
     /*
      * Add one error messages to the array for each of the following failures:
@@ -284,6 +289,27 @@ function validateContacts(array $contacts) {
     return $errors;
 }
 
-function validateContact($contact) {
+function validateContact($contact) 
+{
+    $errors = array();
+    $counter=0;
     
+    $username = $contact->getUsername();
+    $email = $contact->getEmail();
+    $phoneNumber = $contact->getPhoneNumber();
+    
+    //Checking for already existing info in the database
+    if(findUsername($username))
+    {
+        $errors[$counter++] = "Error: Username already exists";
+    }
+    if(findEmail($email))
+    {
+        $errors[$counter++] = "Error: Email already exists";
+    }
+    if(findPhoneNumber($phoneNumber))
+    {
+        $errors[$counter++] = "Error: Phone number already exists";
+    }
+        
 }
