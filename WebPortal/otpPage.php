@@ -5,9 +5,10 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
 <?php
-   session_start();
+    session_start();
+    global $tries;
+    $tries=0;
     require_once 'config.php';
-    
     //Potential for comments
     if(array_key_exists('subOTPBtn', $_POST)) { 
                 $inOTP = $_POST["inOTP"];
@@ -15,16 +16,21 @@ and open the template in the editor.
     }
     
     function validateOTP($inOTP){
+        global $tries;
         $account = $_SESSION['account'];
         $storedOTP=findOTP($account);
-        if (isCorrectHash($inOTP,$storedOTP)==true){
+        if ((isCorrectHash($inOTP,$storedOTP)==true) && ($tries<=3)){
             header('Location: newPassword.php');
         } else {
-            echo "<script type='text/javascript'>alert('Invalid OTP');</script>";
+            $_SESSION['OTPFailed'] = 'true';
+            ++$tries;
+            if ($tries==4){
+                $_SESSION['triesFailed'] = 'true';
+            }
         }
     }
-    
-?>
+    ?>
+
 
 <html>
     <head>
@@ -76,46 +82,49 @@ and open the template in the editor.
                     hideAfter: 3000
                 });
             }
-            
-            function matchingPWToast()
-            {
-                $.toast({
-                    heading: "Information",
-                    text: "Both passwords need to match",
-                    bgColor: "#03AAFB",
-                    textColor: "F3F3F3",
-                    showHideTransition: "slide",
-                    allowToastClose: false,
-                    position: "bottom-center",
-                    icon: "info",
-                    loaderBg: "#373741",
-                    hideAfter: 3000
-                });
-            }
-            
-            function pwInfoToast()
-            {
-                $.toast({
-                    heading: "Information",
-                    text: "The password should consist of 8 characters with:\n\
-                           At least one uppercase\n\n\
-                           One lowercase\n\n\
-                           One special character\n\n\
-                           One number",
-                    bgColor: "#03AAFB",
-                    textColor: "F3F3F3",
-                    showHideTransition: "slide",
-                    allowToastClose: false,
-                    position:{
-                        bottom: 0,
-                        left: 90
-                    },
-                    icon: "info",
-                    loaderBg: "#373741",
-                    hideAfter: 9000
-                });
-            }
         </script>
+        
+        <?php
+            if(isset($_SESSION['OTPFailed'])){?>
+                <script>
+                    $.toast({
+                        heading: "OTP Invalid",
+                        text: "Recovery code invalid",
+                        bgColor: "#FF6961",
+                        textColor: "F3F3F3",
+                        showHideTransition: "slide",
+                        allowToastClose: false,
+                        position: "bottom-center",
+                        icon: "error",
+                        loaderBg: "#373741",
+                        hideAfter: 3000
+                    });
+                </script>
+
+                <?php
+                unset($_SESSION['OTPFailed']);
+        }?>
+                
+        <?php
+            if(isset($_SESSION['triesFailed'])){?>
+                <script>
+                    $.toast({
+                        heading: "Tries exceeded",
+                        text: "Recovery tries exceeded. Resend email",
+                        bgColor: "#FF6961",
+                        textColor: "F3F3F3",
+                        showHideTransition: "slide",
+                        allowToastClose: false,
+                        position: "bottom-center",
+                        icon: "error",
+                        loaderBg: "#373741",
+                        hideAfter: 3000
+                    });
+                </script>
+
+                <?php
+                unset($_SESSION['triesFailed']);
+        }?>
         
         <div class="OTPPage" id="OTPPage">
             <div class="header">
@@ -127,7 +136,7 @@ and open the template in the editor.
                     <img src="images/logo_block_cropped.png" alt="" id="compuLogo"/>
                 </div>
 
-                <form method="POST">
+                <form method="POST" >
                     <div class="resetPwInput">
                         <img src="images/lock.png" alt="" class="resetImg" id="lock1"/>
                         <input type="text" name="inOTP" placeholder="OTP" class="input" id="OTPInp">
@@ -137,6 +146,8 @@ and open the template in the editor.
                     </div>
                 </form>
             </div>
+            
+
             
             <div class="footer">
                 LinkVantage

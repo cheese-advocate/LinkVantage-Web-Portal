@@ -297,7 +297,7 @@
         global  $account;
         
         if (findEmail($email)==false){
-            echo "<script type='text/javascript'>alert('Email not registered');</script>";
+            $_SESSION["emailFailed"] = "true";
         } else {
             $_SESSION["userStatus"] = "getUserID";
             $account=getUserIDfromEmail($email);
@@ -537,6 +537,32 @@
                 });
             }
         </script>
+        
+        <?php
+                    if(isset($_SESSION['emailFailed'])){?>
+                        <script>
+                            $.toast({
+                                heading: "Email Invalid",
+                                text: "No account with that email registered",
+                                bgColor: "#FF6961",
+                                textColor: "F3F3F3",
+                                showHideTransition: "slide",
+                                allowToastClose: false,
+                                position: "bottom-center",
+                                icon: "error",
+                                loaderBg: "#373741",
+                                hideAfter: 3000
+                            });
+                        </script>
+                        
+                        <?php
+                        /*Clears the login failed variable so that it does not 
+                         * trigger a failed message without another failed 
+                         * attempt*/
+                        unset($_SESSION['emailFailed']);
+                    }
+        ?>
+
         <div class="forgotPasswordPage" id="forgotPasswordPage">
             <div class="header">
                 CompuLink Technologies
