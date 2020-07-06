@@ -3,7 +3,6 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-<<<<<<< HEAD
             <file>file:/G:/Documents/Repos/ITSP/web_portals/WebPortal/Script/jquery-3.5.0.js</file>
             <file>file:/G:/Documents/Repos/ITSP/web_portals/WebPortal/registerCompany.php</file>
             <file>file:/G:/Documents/Repos/ITSP/web_portals/WebPortal/hasher.php</file>
@@ -18,6 +17,7 @@
             <file>file:/G:/Documents/Repos/ITSP/web_portals/WebPortal/Contact.php</file>
             <file>file:/G:/Documents/Repos/ITSP/web_portals/WebPortal/CSS/style.css</file>
             <file>file:/G:/Documents/Repos/ITSP/web_portals/WebPortal/Script/jquery.toast.min.js</file>
+            <file>file:/G:/Documents/Repos/ITSP/web_portals/WebPortal/getLists.php</file>
             <file>file:/G:/Documents/Repos/ITSP/web_portals/WebPortal/newPassword.php</file>
             <file>file:/G:/Documents/Repos/ITSP/web_portals/WebPortal/Script/dashboard.js</file>
             <file>file:/G:/Documents/Repos/ITSP/web_portals/WebPortal/mobilePortal.php</file>
@@ -31,12 +31,6 @@
             <file>file:/G:/Documents/Repos/ITSP/web_portals/WebPortal/CSS/registerPage.css</file>
             <file>file:/G:/Documents/Repos/ITSP/web_portals/WebPortal/registerPrivateClient.php</file>
             <file>file:/G:/Documents/Repos/ITSP/web_portals/WebPortal/Script/script.js</file>
-=======
-            <file>file:/C:/Users/BG/Documents/web_portal/WebPortal/Contact.php</file>
-            <file>file:/C:/Users/BG/Documents/web_portal/WebPortal/inputServerValidation.php</file>
-            <file>file:/C:/Users/BG/Documents/web_portal/WebPortal/config.php</file>
-            <file>file:/C:/Users/BG/Documents/web_portal/WebPortal/registerCompany.php</file>
->>>>>>> de278a61bc641bf526d84e9b91c08cb258609eb8
         </group>
     </open-files>
 </project-private>
