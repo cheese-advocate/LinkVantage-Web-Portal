@@ -503,12 +503,12 @@ function findOTP($accountID)
  * A method to return the username associated with a given account ID
  * 
  * @global type $link the database connection
- * @param type $accountID the account ID of the user
- * @return type The result of the statement execution (the username the 
- * account ID is associated with or an empty result set) or a message indicating the 
+ * @param type $username the username of the user
+ * @return type The result of the statement execution (The accountID which the 
+ * username is associated with or an empty result set) or a message indicating the 
  * failure of execution (PREP_STMT_FAILED)
  */
-function getIDFromUsername($accountID)
+function getIDFromUsername($username)
 {
     /*Access global variable link*/
     global $link;
@@ -517,7 +517,7 @@ function getIDFromUsername($accountID)
      *function*/
     if($stmt = mysqli_prepare($link, SQL_GET_ACCOUNTID_USERNAME)){
         /*insert accountID variable to select statement*/
-        mysqli_stmt_bind_param($stmt, "s", $accountID);
+        mysqli_stmt_bind_param($stmt, "s", $username);
         /*execute the query*/
         mysqli_stmt_execute($stmt);
         /*bind the result of the query to the $result variable*/
