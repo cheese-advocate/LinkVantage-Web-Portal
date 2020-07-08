@@ -190,7 +190,7 @@
         
         /*Set false if password is empty*/
         if (empty($password)) {
-            $passwordErr = PASSWORD_NOT_ENTERED;
+            $loginErr = PASSWORD_NOT_ENTERED;
             $loginIsValid = false;
         }
         
