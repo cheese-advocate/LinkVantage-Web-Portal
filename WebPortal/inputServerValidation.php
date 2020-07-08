@@ -113,24 +113,6 @@ function isStreetNumValid($streetNum) {
     
 }
 
-function isPostalCodeValid($username) {
-    
-    if (empty($username)) {
-        
-        return ERR_EMPTY_USERNAME;
-        
-    } elseif (isCompanyNameValid($username)) {
-        
-        return ERR_INVALID_USERNAME;
-        
-    } else {
-        
-        return ERR_NO_ERRORS;
-        
-    }
-    
-}
-
 function validatePasswords($password, $confirmPassword) {
     
     return validatePassword($password).validateConfirmedPassword($password, $confirmPassword);
