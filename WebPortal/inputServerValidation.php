@@ -113,7 +113,10 @@ function isStreetNumValid($streetNum) {
     
 }
 
+<<<<<<< HEAD
    
+=======
+>>>>>>> 45c261a26b9ce6988b788126a32078b3edc2a5f2
 function validatePasswords($password, $confirmPassword) {
     
     return validatePassword($password).validateConfirmedPassword($password, $confirmPassword);

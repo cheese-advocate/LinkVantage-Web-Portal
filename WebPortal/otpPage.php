@@ -6,8 +6,6 @@ and open the template in the editor.
 -->
 <?php
     session_start();
-    global $tries;
-    $tries=0;
     require_once 'config.php';
     //Potential for comments
     if(array_key_exists('subOTPBtn', $_POST)) { 
@@ -19,13 +17,18 @@ and open the template in the editor.
         global $tries;
         $account = $_SESSION['account'];
         $storedOTP=findOTP($account);
-        if ((isCorrectHash($inOTP,$storedOTP)==true) && ($tries<=3)){
+        if ((isCorrectHash($inOTP,$storedOTP)==true) && ($_SESSION['triesFailed']<=3)){
+            unset($_SESSION['triesFailed']);
+            unset($_SESSION['triesLimit']);
             header('Location: newPassword.php');
         } else {
             $_SESSION['OTPFailed'] = 'true';
-            ++$tries;
-            if ($tries==4){
-                $_SESSION['triesFailed'] = 'true';
+            $_SESSION['triesFailed']++;
+            if ($_SESSION['triesFailed']==4){
+                $_SESSION['triesLimit'] = 'true';
+                unset($_SESSION['triesFailed']);
+                header('Location: index.php');
+                
             }
         }
     }
@@ -105,26 +108,7 @@ and open the template in the editor.
                 unset($_SESSION['OTPFailed']);
         }?>
                 
-        <?php
-            if(isset($_SESSION['triesFailed'])){?>
-                <script>
-                    $.toast({
-                        heading: "Tries exceeded",
-                        text: "Recovery tries exceeded. Resend email",
-                        bgColor: "#FF6961",
-                        textColor: "F3F3F3",
-                        showHideTransition: "slide",
-                        allowToastClose: false,
-                        position: "bottom-center",
-                        icon: "error",
-                        loaderBg: "#373741",
-                        hideAfter: 3000
-                    });
-                </script>
 
-                <?php
-                unset($_SESSION['triesFailed']);
-        }?>
         
         <div class="OTPPage" id="OTPPage">
             <div class="header">
