@@ -113,24 +113,7 @@ function isStreetNumValid($streetNum) {
     
 }
 
-function isPostalCodeValid($username) {
-    
-    if (empty($username)) {
-        
-        return ERR_EMPTY_USERNAME;
-        
-    } elseif (isCompanyNameValid($username)) {
-        
-        return ERR_INVALID_USERNAME;
-        
-    } else {
-        
-        return ERR_NO_ERRORS;
-        
-    }
-    
-}
-
+   
 function validatePasswords($password, $confirmPassword) {
     
     return validatePassword($password).validateConfirmedPassword($password, $confirmPassword);
@@ -293,10 +276,35 @@ function validateContact($contact)
 {
     $errors = array();
     $counter=0;
+    $i=0;
+    $j=0;
+    $k=0;
+    $usernames = array();
+    $emails = array();
+    $phoneNumbers = array();
     
     $username = $contact->getUsername();
     $email = $contact->getEmail();
     $phoneNumber = $contact->getPhoneNumber();
+    
+    $usernames[$i++] = $username . " ";
+    $emails[$j++] = $email . " ";
+    $phoneNumbers[$k++] = $phoneNumber . " ";
+    
+    if(count($usernames) !== count(array_unique($usernames)))
+    {
+        $errors[$counter++] = "Error: Duplicate username(s) found";
+    }
+    
+    if(count($emails) !== count(array_unique($emails)))
+    {
+        $errors[$counter++] = "Error: Duplicate email(s) found";
+    }
+    
+    if(count($phoneNumbers) !== count(array_unique($phoneNumbers)))
+    {
+        $errors[$counter++] = "Error: Duplicate phone number(s) found";
+    }
     
     //Checking for already existing info in the database
     if(findUsername($username))
@@ -310,6 +318,15 @@ function validateContact($contact)
     if(findPhoneNumber($phoneNumber))
     {
         $errors[$counter++] = "Error: Phone number already exists";
+    }
+    
+    if ($counter == 0)
+    {
+        return "No errors";
+    }
+    else
+    {
+        return $errors; 
     }
         
 }
