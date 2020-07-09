@@ -268,6 +268,8 @@
                 
                 $_SESSION["userStatus"] = "resetPassword";
                 
+                $_SESSION['triesFailed']=0;
+                
                 if(array_key_exists('resetSubBtn', $_POST)) { 
                 resetSubBtn($email); 
                 }
@@ -562,6 +564,27 @@
                         unset($_SESSION['emailFailed']);
                     }
         ?>
+                        
+        <?php
+            if(isset($_SESSION['triesLimit'])){?>
+                <script>
+                    $.toast({
+                        heading: "Tries exceeded",
+                        text: "Recovery tries exceeded. Resend email",
+                        bgColor: "#FF6961",
+                        textColor: "F3F3F3",
+                        showHideTransition: "slide",
+                        allowToastClose: false,
+                        position: "bottom-center",
+                        icon: "error",
+                        loaderBg: "#373741",
+                        hideAfter: 3000
+                    });
+                </script>
+
+                <?php
+                unset($_SESSION['triesLimit']);
+        }?>
 
         <div class="forgotPasswordPage" id="forgotPasswordPage">
             <div class="header">

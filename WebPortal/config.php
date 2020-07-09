@@ -785,7 +785,7 @@ function registerCompany($companyName, $contacts, $sites){
  * client could not be registered, the first slot will contain  the 
  * CLIENT_REGISTRATION_FAILED error message
  */
-function registerPrivateClient($contacts, $site){
+function registerPrivateClient($contacts, $sites){
     /*Finding the main contact associated with the client*/
     $mainContact = $contacts[0]->getMainContact();
     $k=0;
