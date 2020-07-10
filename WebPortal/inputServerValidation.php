@@ -112,24 +112,7 @@ function isStreetNumValid($streetNum) {
     }
     
 }
-
-function isPostalCodeValid($username) {
-    
-    if (empty($username)) {
-        
-        return ERR_EMPTY_USERNAME;
-        
-    } elseif (isCompanyNameValid($username)) {
-        
-        return ERR_INVALID_USERNAME;
-        
-    } else {
-        
-        return ERR_NO_ERRORS;
-        
-    }
-    
-}
+  
 
 function validatePasswords($password, $confirmPassword) {
     
@@ -195,8 +178,7 @@ function validatePhone($phoneNumber) {
 //The function then calls its partner function to vaildate each site object individually
 function validateSites(array $sites) {
     
-    $errors = array();
-    $counter = 0;
+    $errors = array();  
     foreach($sites as $value)
     {
         $errors[$sites] = validateSite($value);
@@ -261,31 +243,75 @@ function validateSite($site) {
 function validateContacts(array $contacts) {
     
     $errors = array(); 
+    $counter=0;
     foreach ($contacts as $value)
     {     
         
         $errors[$contacts] = validateContact($value);
     }
-    /*
-     * Add one error messages to the array for each of the following failures:
-     * 
-     * -already existing username
-     * -already existing email
-     * -already existing phone
-     * -duplicate username
-     * -duplicate email
-     * -duplicate phone
-     * -invalid input/ empty fields(Make this more specific if you want, but it 
-     * might cause too many toast messages to display if there are too many 
-     * invalid fields)
-     * 
-     * The error message for each will be taken from the array and displayed in 
-     * a toast message. Add any more errors that you want or change the list in 
-     * whatever way you want, these just make the most sense to me and should be 
-     * a good starting point at least
-     */
     
+    $usernames = array();
+    $emails = array();
+    $phoneNumbers = array();
     
+    for ($i=0; $i<count($contacts); $i++)
+    {
+        $usernames[$i] = $contacts[$i]->getUsername();
+    }
+    for ($i=0; $i<count($contacts); $i++)
+    {
+        $emails[$i] = $contacts[$i]->getEmail();
+    }
+    for ($i=0; $i<count($contacts); $i++)
+    {
+        $phoneNumbers[$i] = $contacts[$i]->getPhoneNumer();
+    }
+    
+      
+    if(count($usernames) !== count(array_unique($usernames)))
+    {
+        for ($i=0; $i<count($contacts); $i++)
+        {
+            for ($j=$i+1; $j<count($contacts); $j++)
+            {
+                if ($usernames[$i] == $usernames[$j])
+                {
+                    $errors[$counter++] = "Error: Duplicate username ".$usernames[$i];
+                }
+            }
+        }
+    }
+    
+    if(count($emails) !== count(array_unique($emails)))
+    {
+        for ($i=0; $i<count($contacts); $i++)
+        {
+            for ($j=$i+1; $j<count($contacts); $j++)
+            {
+                if ($emails[$i] == $emails[$j])
+                {
+                    $errors[$counter++] = "Error: Duplicate email ".$emails[$i];
+                }
+            }
+        }
+    }
+    
+    if(count($phoneNumbers) !== count(array_unique($phoneNumbers)))
+    {
+        
+        for ($i=0; $i<count($contacts); $i++)
+        {
+            for ($j=$i+1; $j<count($contacts); $j++)
+            {
+                if ($phoneNumbers[$i] == $phoneNumbers[$j])
+                {
+                    $errors[$counter++] = "Error: Duplicate phone number ".$phoneNumbers[$i];
+                }
+            }
+        }
+        
+    }
+      
     return $errors;
 }
 
@@ -293,7 +319,6 @@ function validateContact($contact)
 {
     $errors = array();
     $counter=0;
-    
     $username = $contact->getUsername();
     $email = $contact->getEmail();
     $phoneNumber = $contact->getPhoneNumber();
@@ -310,6 +335,15 @@ function validateContact($contact)
     if(findPhoneNumber($phoneNumber))
     {
         $errors[$counter++] = "Error: Phone number already exists";
+    }
+    
+    if ($counter == 0)
+    {
+        return "No errors";
+    }
+    else
+    {
+        return $errors; 
     }
         
 }

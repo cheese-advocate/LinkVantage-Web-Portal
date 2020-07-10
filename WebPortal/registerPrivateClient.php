@@ -49,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     /*Register the client if they passed registration, and then direct them back 
      * to the login page*/
     if($registrationValid){
-        $databaseResult = registerCompany($companyName, $contacts, $site);
+        $databaseResult = registerPrivateClient($contacts, $site);
         
         /*Client failed to register*/
         if($databaseResult[0]===CLIENT_REGISTRATION_FAILED){
