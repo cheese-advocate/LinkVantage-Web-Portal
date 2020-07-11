@@ -485,9 +485,16 @@
                         <form method="POST" onsubmit="return loginToast()" action="#">
                     <div class="loginInp">
                         <img src="images/account.png" alt="" class="accountImg"/>
-                        <input type="text" name="username" placeholder="USERNAME" class="input" id="username" required/>
+                        <div class="tooltip">
+                            <input type="text" name="username" placeholder="USERNAME" class="input" class="tooltip" id="username" required/>
+                            <span class="tooltip-text">Enter your username</span>
+                        </div>
+                        <br>
                         <img src="images/lock.png" alt="" class="lockImg"/>
-                        <input type="text" name="password" placeholder="PASSWORD" class="input" id="passw" onfocus="changeType()" required/>
+                        <div class="tooltip">
+                            <input type="text" name="password" placeholder="PASSWORD" class="input" class="tooltip" id="passw" onfocus="changeType()" required/>
+                            <span class="tooltip-text">Enter your password</span>
+                        </div>
                         <font class="forgotPw" id="forgotPassBigScreen" ><a href="#" name="forgotPw" onclick="forgotPasswordPage()">Forgot password?</a></font>
                     </div>
 
