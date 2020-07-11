@@ -371,7 +371,7 @@ Tooltips styling
     font-size: 0px;
     height: 0px;
     opacity: 0;
-    transition: opacity 0.3s, height 0.3s, font-size 0.3s;
+    transition: opacity 0.3s linear 0.3s, height 0.3s linear 0.3s, font-size 0.3s linear 0.3s;
 }
 
 /*bottom arrow*/
