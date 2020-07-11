@@ -353,8 +353,8 @@ Tooltips styling
 .tooltip .tooltip-text{    
     /*Styling the tooltip*/
     visibility: hidden;
-    width: 240px;
-    background-color: #808080;
+    width: 200px;
+    background-color: #282837;
     color: #F3F3F3;
     box-shadow: 0px 0px 10px #03AAFB;
     text-align: center;
@@ -383,7 +383,7 @@ Tooltips styling
     margin-right: -15px;
     border-width: 5px;
     border-style: solid;
-    border-color: #808080 transparent transparent transparent;    
+    border-color: #282837 transparent transparent transparent;    
 }
 
 /*After hovering over the field*/
