@@ -24,18 +24,13 @@ define("ERR_EMPTY_OTP","Please enter your OTP.");
 define("ERR_EMPTY_PASSWORD","Please enter your password.");
 define("ERR_EMPTY_PHONE_NUMBER","Please enter your phone number.");
 define("ERR_EMPTY_USERNAME","Please enter your username.");
-
 define("ERR_INCORRECT_OTP","Wrong OTP. Please try again.");
-
 define("ERR_INVALID_COMPANY_NAME","Invalid company name.");
 define("ERR_INVALID_PASSWORD","Invalid Password.");
 define("ERR_INVALID_PHONE_NUMBER","Please enter 10 digits as your phone number.");
 define("ERR_INVALID_USERNAME","Invalid username.");
-
 define("ERR_NO_ERRORS","");
-
 define("ERR_PASSWORD_MISMATCH","Your passwords do not match.");
-
 define("REGEX_COMPANY_NAME", "/^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/");
 define("REGEX_EMAIL", "/^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$/");
 define("REGEX_PASSWORD", "/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/");
@@ -174,8 +169,8 @@ function validatePhone($phoneNumber) {
     }
 }
 
-//This function accepts an array of sites with each site being an object
-//The function then calls its partner function to vaildate each site object individually
+//This function accepts an array of site objects
+//The function then calls its partner function to vaildate each object individually
 function validateSites(array $sites) {
     
     $errors = array();  
@@ -198,7 +193,6 @@ function validateSite($site) {
     $streetName = $site->getStreetName();
     $suburbCity = $site->getSubUrbCity();
     $postalCode = $site->getPostalCode();
-    //$addInfo = $site->getAddInfo();
     $mainSite = $site->getMainSite();
     
     if (!isStreetNumValid($streetNum))
@@ -250,10 +244,13 @@ function validateContacts(array $contacts) {
         $errors[$contacts] = validateContact($value);
     }
     
+    //declaring arrays for each field to be validated
     $usernames = array();
     $emails = array();
     $phoneNumbers = array();
     
+    
+    //populating arrays
     for ($i=0; $i<count($contacts); $i++)
     {
         $usernames[$i] = $contacts[$i]->getUsername();
@@ -267,7 +264,7 @@ function validateContacts(array $contacts) {
         $phoneNumbers[$i] = $contacts[$i]->getPhoneNumer();
     }
     
-      
+    //checking if duplicate usernames exist in the array
     if(count($usernames) !== count(array_unique($usernames)))
     {
         for ($i=0; $i<count($contacts); $i++)
@@ -282,6 +279,7 @@ function validateContacts(array $contacts) {
         }
     }
     
+    //checking if duplicate emails exist in the array
     if(count($emails) !== count(array_unique($emails)))
     {
         for ($i=0; $i<count($contacts); $i++)
@@ -296,6 +294,7 @@ function validateContacts(array $contacts) {
         }
     }
     
+    //checking if duplicate phone numbers exist in the array
     if(count($phoneNumbers) !== count(array_unique($phoneNumbers)))
     {
         
@@ -323,7 +322,7 @@ function validateContact($contact)
     $email = $contact->getEmail();
     $phoneNumber = $contact->getPhoneNumber();
     
-    //Checking for already existing info in the database
+    //Checking for already existing information in the database
     if(findUsername($username))
     {
         $errors[$counter++] = "Error: Username already exists";
