@@ -36,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $companyValidation = validateCompanyName($companyName);
     
     /*Validaiton passes if string is empty*/
-    if(!empty($companyValidation)){
+    if($companyValidation!== ERR_NO_ERRORS){
         $registrationValid = false;
     }
 
