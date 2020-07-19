@@ -276,7 +276,7 @@ function validateContacts(array $contacts) {
     }
     for ($i=0; $i<count($contacts); $i++)
     {
-        $phoneNumbers[$i] = $contacts[$i]->getPhoneNumer();
+        $phoneNumbers[$i] = $contacts[$i]->getPhoneNumber();
     }
     
     //checking if duplicate usernames exist in the array
