@@ -5,6 +5,8 @@
  */
 //Requirements - Start
 require_once 'config.php';
+require_once 'Site.php';
+require_once 'Contact.php';
 require_once 'inputServerValidation.php';
 //Requirements - End
 //Variables for recieved post - Start
@@ -173,12 +175,14 @@ switch ($handleType) {
 //Variable Assign for Company Registration - End
 
     //creating arrays with recieved strings - START
-        $contacts = array($username, $password, $firstName ,
-            $lastName , $email , $phone , "true");
+        /*$contacts = array($username, $password, $firstName ,
+            $lastName , $email , $phone , "true");*/
+        $contacts = array(new Contact($username, $password, $firstName, $lastName, $email, $phoneNumber, $mainContact));
 
         print_r($contacts);
         
-        $sites = array($number, $name, $city , $postal , $addInfo , "true");
+        /*$sites = array($number, $name, $city , $postal , $addInfo , "true");*/
+        $sites = array(new Site($streetNum, $streetName, $suburbCity, $postalCode, $addInfo, $mainSite));
             //creating arrays with recieved strings - END
             
         //SERVER SIDE POST DATA VALIDATION - START
