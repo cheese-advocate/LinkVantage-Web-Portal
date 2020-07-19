@@ -36,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $companyValidation = validateCompanyName($companyName);
     
     /*Validaiton passes if string is empty*/
-    if(!empty($companyValidation)){
+    if($companyValidation!== ERR_NO_ERRORS){
         $registrationValid = false;
     }
 
@@ -114,11 +114,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
  * @param type $errors The array of error messages
  */
 function handleErrors($errors){
-    $toastMessages = array();
-    
-    for($i=0; $i < count($errors); $i++) {
-        $toastMessages[$i] = $errors[$i];
-    }
+    $toastMessages = array_unique($errors);
     
     $_SESSION['toastMessages'] = $toastMessages;
 }

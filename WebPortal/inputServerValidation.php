@@ -29,7 +29,7 @@ define("ERR_INVALID_COMPANY_NAME","Invalid company name.");
 define("ERR_INVALID_PASSWORD","Invalid Password.");
 define("ERR_INVALID_PHONE_NUMBER","Please enter 10 digits as your phone number.");
 define("ERR_INVALID_USERNAME","Invalid username.");
-define("ERR_NO_ERRORS","");
+define("ERR_NO_ERRORS","No error found");
 define("ERR_PASSWORD_MISMATCH","Your passwords do not match.");
 define("REGEX_COMPANY_NAME", "/^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/");
 define("REGEX_EMAIL", "/^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$/");
@@ -176,8 +176,8 @@ function validateSites(array $sites) {
     $errors = array();  
     foreach($sites as $value)
     {
-        $errors[$sites] = validateSite($value);
-        
+        $siteValidation = validateSite($value);
+        $errors = array_merge($errors, $siteValidation);       
     }
     return $errors;
                
@@ -216,14 +216,7 @@ function validateSite($site) {
         $errors[$counter++] = "Invalid input: Main Site";
     }
     
-    if ($counter == 0)
-    {
-        return "No errors";
-    }
-    else
-    {
-        return $errors; 
-    }
+    return $errors;
       
 }
 
@@ -237,12 +230,13 @@ function validateSite($site) {
 function validateContacts(array $contacts) {
     
     $errors = array(); 
-    $counter=0;
     foreach ($contacts as $value)
     {     
-        
-        $errors[$contacts] = validateContact($value);
+        $contactValidation = validateContact($value);
+        $errors = array_merge($errors, $contactValidation);
     }
+    
+    $counter=count($errors);
     
     //declaring arrays for each field to be validated
     $usernames = array();
@@ -325,24 +319,17 @@ function validateContact($contact)
     //Checking for already existing information in the database
     if(findUsername($username))
     {
-        $errors[$counter++] = "Error: Username already exists";
+        $errors[$counter++] = "Error: Username ".$username." already taken.";
     }
     if(findEmail($email))
     {
-        $errors[$counter++] = "Error: Email already exists";
+        $errors[$counter++] = "Error: Email ".$email." already taken.";
     }
     if(findPhoneNumber($phoneNumber))
     {
-        $errors[$counter++] = "Error: Phone number already exists";
+        $errors[$counter++] = "Error: Phone number ".$phoneNumber." already taken.";
     }
     
-    if ($counter == 0)
-    {
-        return "No errors";
-    }
-    else
-    {
-        return $errors; 
-    }
+    return $errors;
         
 }
