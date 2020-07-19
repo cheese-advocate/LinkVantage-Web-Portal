@@ -5,6 +5,8 @@
  */
 //Requirements - Start
 require_once 'config.php';
+require_once 'Site.php';
+require_once 'Contact.php';
 require_once 'inputServerValidation.php';
 //Requirements - End
 //Variables for recieved post - Start
@@ -28,7 +30,8 @@ $loginIsValid = "null";
 $serverReturn = "null";
 $temp = "null";
 
-$postIn = "HANDLE_NULL-username=noValue-password=noValue-firstName=noValue-lastName=noValue-email=nickuun@gmail.com-phone=0813814274-number=11-name=Nicholas Kuun-city=0813814274-postal=7550-addInfo=addInfo";
+$companyName = "null";
+
 $postIn = htmlspecialchars($_POST["post"]);
 //Variables for recieved post - End
 //Breaking and assigning recieved input - Start
@@ -52,7 +55,7 @@ switch ($handleType) {
         //Check Post Credentials against Database - Start
 
         $userID = getIDFromUsername($username);
-        
+
         if ($userID == '') { //If the return is empty, this means that the login value could not be found
             $serverReturn = "HANDLE_LOGIN_FAILED";
         } else {
@@ -112,16 +115,115 @@ switch ($handleType) {
         $temp = explode("=", $addInfo);
         $addInfo = $temp[1];
 //Variable Assign for Client Registration - End
+        //Register Account Return - Start
+        echo "email is" . $email . "city is " . $city;
+        //change above line, duuhh
 
         break;
+//REGISTER CLIENT - END
+//REGISTER COMPANY - START
+    case "HANDLE_REGISTER_COMPANY":
 
+        //Variable Assign for Company Registration - Start
+        $companyName = $pieces[1]; //Username
+        $temp = explode("=", $companyName);
+        $companyName = $temp[1];
+
+        $username = $pieces[2]; //Username
+        $temp = explode("=", $username);
+        $username = $temp[1];
+
+        $password = $pieces[3]; //Password
+        $temp = explode("=", $password);
+        $password = $temp[1];
+
+        $firstName = $pieces[4]; //FirstName
+        $temp = explode("=", $firstName);
+        $firstName = $temp[1];
+
+        $lastName = $pieces[5]; //LastName
+        $temp = explode("=", $lastName);
+        $lastName = $temp[1];
+
+        $email = $pieces[6]; //eMail Address
+        $temp = explode("=", $email);
+        $email = $temp[1];
+
+        $phone = $pieces[7]; //PhoneNumber
+        $temp = explode("=", $phone);
+        $phone = $temp[1];
+
+        $number = $pieces[8]; //StreetNumber
+        $temp = explode("=", $number);
+        $number = $temp[1];
+
+        $name = $pieces[9]; //StreetName
+        $temp = explode("=", $name);
+        $name = $temp[1];
+
+        $city = $pieces[10]; //City
+        $temp = explode("=", $city);
+        $city = $temp[1];
+
+        $postal = $pieces[11]; //postal
+        $temp = explode("=", $postal);
+        $postal = $temp[1];
+        
+        $addInfo = $pieces[12]; //postal
+        $temp = explode("=", $addInfo);
+        $addInfo = $temp[1];
+//Variable Assign for Company Registration - End
+
+    //creating arrays with recieved strings - START
+        /*$contacts = array($username, $password, $firstName ,
+            $lastName , $email , $phone , "true");*/
+        $contacts = array(new Contact($username, $password, $firstName, $lastName, $email, $phoneNumber, $mainContact));
+
+        print_r($contacts);
+        
+        /*$sites = array($number, $name, $city , $postal , $addInfo , "true");*/
+        $sites = array(new Site($streetNum, $streetName, $suburbCity, $postalCode, $addInfo, $mainSite));
+            //creating arrays with recieved strings - END
+            
+        //SERVER SIDE POST DATA VALIDATION - START
+     //  $temp = validateContacts($contacts);
+      
+      
+          //   $temp = validateCompanyName($companyName);
+        //SERVER SIDE POST DATA VALIDATION - END
+        
+      //Company Registration Methods - Start
+            //if valid
+            
+      //Company Registration Methods - End
+        
+        //REGISTER COMPANY RETURN - BELOW
+        
+       // print_r($contacts);
+       //above line prints array
+       //   echo $companyName;
+        
+        break;
+    //REGISTER COMPANY - END
+    //
+    //FORGOT PASSWORD - START
     case "HANDLE_FORGOT_PW":
-        handleForgotPW();
+        
+        //Variable Assign for Client Registration - Start
+        $email = $pieces[1]; //Username
+        $temp = explode("=", $email);
+        $email = $temp[1];
+        //Variable Assign for Client Registration - End
+        
+        resetSubBtn($email);
+        echo "We tried";
+        
+        
         break;
-
+    //FORGOT PASSWORD - END
+    
     default: //Handle No Input - This should never be the case
+        echo "ERROR RESPONSE, NO POST HANDLE FOUND";
 }
-
-
-
+// VAR "HANDLE" SWITCH - END
 ?>

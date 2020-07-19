@@ -24,18 +24,13 @@ define("ERR_EMPTY_OTP","Please enter your OTP.");
 define("ERR_EMPTY_PASSWORD","Please enter your password.");
 define("ERR_EMPTY_PHONE_NUMBER","Please enter your phone number.");
 define("ERR_EMPTY_USERNAME","Please enter your username.");
-
 define("ERR_INCORRECT_OTP","Wrong OTP. Please try again.");
-
 define("ERR_INVALID_COMPANY_NAME","Invalid company name.");
 define("ERR_INVALID_PASSWORD","Invalid Password.");
 define("ERR_INVALID_PHONE_NUMBER","Please enter 10 digits as your phone number.");
 define("ERR_INVALID_USERNAME","Invalid username.");
-
-define("ERR_NO_ERRORS","");
-
+define("ERR_NO_ERRORS","No error found");
 define("ERR_PASSWORD_MISMATCH","Your passwords do not match.");
-
 define("REGEX_COMPANY_NAME", "/^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/");
 define("REGEX_EMAIL", "/^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$/");
 define("REGEX_PASSWORD", "/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/");
@@ -53,9 +48,9 @@ define("REGEX_POSTAL_CODE", "/^[0-9]{4}$/");
  */
 function validateCompanyName($companyName) {
     
-    $companyName = trim($companyName);
+    $company = trim($companyName);
     
-    if (empty($companyName)) {
+    if (empty($company)) {
         
         return ERR_EMPTY_COMPANY_NAME;
         
@@ -72,9 +67,9 @@ function validateCompanyName($companyName) {
 }
 
 function isCompanyNameValid($companyName) {
+     
     
-      
-    if (preg_match(REGEX_COMPANY_NAME, $companyName))
+    if (preg_match(REGEX_COMPANY_NAME, $companyName) && strlen($companyName)<=40)
     {
        return true; 
     }
@@ -87,7 +82,13 @@ function isCompanyNameValid($companyName) {
 
 function isPostalValid($postalCode) {
     
-      
+     
+    $code = trim($postalCode);
+    if(empty($code))
+    {
+        return false;
+    }
+    
     if (preg_match(REGEX_POSTAL_CODE, $postalCode))
     {
        return true; 
@@ -101,7 +102,12 @@ function isPostalValid($postalCode) {
 
 function isStreetNumValid($streetNum) {
     
-      
+     $street = trim($streetNum);
+     if(empty($street))
+     {
+         return false;
+     }
+    
     if (preg_match(REGEX_STREET_NUM, $streetNum))
     {
        return true; 
@@ -123,13 +129,13 @@ function validatePasswords($password, $confirmPassword) {
 function validatePassword($password) {
     
     
-    if(preg_match(REGEX_PASSWORD, $password))
+    if(preg_match(REGEX_PASSWORD, $password) && strlen($password) <= 60)
     {
         return true;
     }
     else
     {
-        return false;
+        return ERR_INAVLID_PASSWORD;
     }
     
 }
@@ -150,39 +156,49 @@ function validateConfirmedPassword($password, $confirmPassword) {
 function validateEmail($emailAddress)
 {
     
+    $email = trim($emailAddress);
+    if(empty($email))
+    {
+        return "Please enter your email";
+    }
     
-    if(preg_match(REGEX_EMAIL, $emailAddress))
+    if(preg_match(REGEX_EMAIL, $emailAddress) && strlen($emailAddress)<=255)
     {
         return true;
     }
     else
-        {
-        return false;
+    {
+        return "Invalid email";
     }
 }
 
 function validatePhone($phoneNumber) {
      
-    
+    $number = trim($phoneNumber);
+    if(empty($number))
+    {
+        return "Please enter your phone number";
+    }
+   
     if (preg_match(REGEX_PHONE, $phoneNumber)) 
     {
         return true;
     }
     else
     {
-        return false;
+        return ERR_INVALID_PHONE_NUMBER;
     }
 }
 
-//This function accepts an array of sites with each site being an object
-//The function then calls its partner function to vaildate each site object individually
+//This function accepts an array of site objects
+//The function then calls its partner function to vaildate each object individually
 function validateSites(array $sites) {
     
     $errors = array();  
     foreach($sites as $value)
     {
-        $errors[$sites] = validateSite($value);
-        
+        $siteValidation = validateSite($value);
+        $errors = array_merge($errors, $siteValidation);       
     }
     return $errors;
                
@@ -198,7 +214,6 @@ function validateSite($site) {
     $streetName = $site->getStreetName();
     $suburbCity = $site->getSubUrbCity();
     $postalCode = $site->getPostalCode();
-    //$addInfo = $site->getAddInfo();
     $mainSite = $site->getMainSite();
     
     if (!isStreetNumValid($streetNum))
@@ -222,14 +237,7 @@ function validateSite($site) {
         $errors[$counter++] = "Invalid input: Main Site";
     }
     
-    if ($counter == 0)
-    {
-        return "No errors";
-    }
-    else
-    {
-        return $errors; 
-    }
+    return $errors;
       
 }
 
@@ -243,17 +251,21 @@ function validateSite($site) {
 function validateContacts(array $contacts) {
     
     $errors = array(); 
-    $counter=0;
     foreach ($contacts as $value)
     {     
-        
-        $errors[$contacts] = validateContact($value);
+        $contactValidation = validateContact($value);
+        $errors = array_merge($errors, $contactValidation);
     }
     
+    $counter=count($errors);
+    
+    //declaring arrays for each field to be validated
     $usernames = array();
     $emails = array();
     $phoneNumbers = array();
     
+    
+    //populating arrays
     for ($i=0; $i<count($contacts); $i++)
     {
         $usernames[$i] = $contacts[$i]->getUsername();
@@ -267,7 +279,7 @@ function validateContacts(array $contacts) {
         $phoneNumbers[$i] = $contacts[$i]->getPhoneNumer();
     }
     
-      
+    //checking if duplicate usernames exist in the array
     if(count($usernames) !== count(array_unique($usernames)))
     {
         for ($i=0; $i<count($contacts); $i++)
@@ -282,6 +294,7 @@ function validateContacts(array $contacts) {
         }
     }
     
+    //checking if duplicate emails exist in the array
     if(count($emails) !== count(array_unique($emails)))
     {
         for ($i=0; $i<count($contacts); $i++)
@@ -296,6 +309,7 @@ function validateContacts(array $contacts) {
         }
     }
     
+    //checking if duplicate phone numbers exist in the array
     if(count($phoneNumbers) !== count(array_unique($phoneNumbers)))
     {
         
@@ -323,27 +337,20 @@ function validateContact($contact)
     $email = $contact->getEmail();
     $phoneNumber = $contact->getPhoneNumber();
     
-    //Checking for already existing info in the database
+    //Checking for already existing information in the database
     if(findUsername($username))
     {
-        $errors[$counter++] = "Error: Username already exists";
+        $errors[$counter++] = "Error: Username ".$username." already taken.";
     }
     if(findEmail($email))
     {
-        $errors[$counter++] = "Error: Email already exists";
+        $errors[$counter++] = "Error: Email ".$email." already taken.";
     }
     if(findPhoneNumber($phoneNumber))
     {
-        $errors[$counter++] = "Error: Phone number already exists";
+        $errors[$counter++] = "Error: Phone number ".$phoneNumber." already taken.";
     }
     
-    if ($counter == 0)
-    {
-        return "No errors";
-    }
-    else
-    {
-        return $errors; 
-    }
+    return $errors;
         
 }
