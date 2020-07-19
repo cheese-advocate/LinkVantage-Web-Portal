@@ -48,9 +48,9 @@ define("REGEX_POSTAL_CODE", "/^[0-9]{4}$/");
  */
 function validateCompanyName($companyName) {
     
-    $companyName = trim($companyName);
+    $company = trim($companyName);
     
-    if (empty($companyName)) {
+    if (empty($company)) {
         
         return ERR_EMPTY_COMPANY_NAME;
         
@@ -67,9 +67,9 @@ function validateCompanyName($companyName) {
 }
 
 function isCompanyNameValid($companyName) {
+     
     
-      
-    if (preg_match(REGEX_COMPANY_NAME, $companyName))
+    if (preg_match(REGEX_COMPANY_NAME, $companyName) && strlen($companyName)<=40)
     {
        return true; 
     }
@@ -82,7 +82,13 @@ function isCompanyNameValid($companyName) {
 
 function isPostalValid($postalCode) {
     
-      
+     
+    $code = trim($postalCode);
+    if(empty($code))
+    {
+        return false;
+    }
+    
     if (preg_match(REGEX_POSTAL_CODE, $postalCode))
     {
        return true; 
@@ -96,7 +102,12 @@ function isPostalValid($postalCode) {
 
 function isStreetNumValid($streetNum) {
     
-      
+     $street = trim($streetNum);
+     if(empty($street))
+     {
+         return false;
+     }
+    
     if (preg_match(REGEX_STREET_NUM, $streetNum))
     {
        return true; 
@@ -118,13 +129,13 @@ function validatePasswords($password, $confirmPassword) {
 function validatePassword($password) {
     
     
-    if(preg_match(REGEX_PASSWORD, $password))
+    if(preg_match(REGEX_PASSWORD, $password) && strlen($password) <= 60)
     {
         return true;
     }
     else
     {
-        return false;
+        return ERR_INAVLID_PASSWORD;
     }
     
 }
@@ -145,27 +156,37 @@ function validateConfirmedPassword($password, $confirmPassword) {
 function validateEmail($emailAddress)
 {
     
+    $email = trim($emailAddress);
+    if(empty($email))
+    {
+        return "Please enter your email";
+    }
     
-    if(preg_match(REGEX_EMAIL, $emailAddress))
+    if(preg_match(REGEX_EMAIL, $emailAddress) && strlen($emailAddress)<=255)
     {
         return true;
     }
     else
-        {
-        return false;
+    {
+        return "Invalid email";
     }
 }
 
 function validatePhone($phoneNumber) {
      
-    
+    $number = trim($phoneNumber);
+    if(empty($number))
+    {
+        return "Please enter your phone number";
+    }
+   
     if (preg_match(REGEX_PHONE, $phoneNumber)) 
     {
         return true;
     }
     else
     {
-        return false;
+        return ERR_INVALID_PHONE_NUMBER;
     }
 }
 
