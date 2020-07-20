@@ -337,10 +337,8 @@ function validateContact($contact)
     $email = $contact->getEmail();
     $phoneNumber = $contact->getPhoneNumber();
     
-    $usernameFound = findUsername($username);
-    
     //Checking for already existing information in the database
-    if($usernameFound !== NOT_FOUND && $usernameFound !== PREP_STMT_FAILED)
+    if(findUsername($username))
     {
         $errors[$counter++] = "Error: Username ".$username." already taken.";
     }
