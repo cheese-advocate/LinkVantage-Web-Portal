@@ -21,7 +21,7 @@ require_once 'Site.php';
  * @param array $mainContacts The array of booleans indicating main contacts
  * @return array Contact An array of Contact objects
  */
-function getContacts($usernames, $passwords, $firstNames, $lastNames, $emails, $phoneNumers, $mainContacts){
+function getContacts(array $usernames, array $passwords, array $firstNames, array $lastNames, array $emails, array $phoneNumers, array $mainContacts){
         
     $contacts = array();
     $mainContactsCorrected = array();
@@ -62,7 +62,7 @@ function getContacts($usernames, $passwords, $firstNames, $lastNames, $emails, $
  * @param type $addInfos The array of additional information
  * @param type $mainSites The array of booleans indicating main sites
  */
-function getSites($streetNums, $streetNames, $suburbCitys, $postalCodes, $addInfos, $mainSites){
+function getSites(array $streetNums, array $streetNames, array $suburbCitys, array $postalCodes, array $addInfos, array $mainSites){
     $sites = array();
     
     for($i=0, $j=0; $i < count($mainSites); $i++) {

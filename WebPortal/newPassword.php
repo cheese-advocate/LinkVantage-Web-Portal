@@ -8,12 +8,28 @@ and open the template in the editor.
    session_start();
     require_once 'config.php';
     
-    //Potential for comments
+    //Checks if both passwords match
     if(array_key_exists('subNewPwBtn', $_POST)) { 
                 $pw1 = $_POST["newPassword"];
                 $pw2 = $_POST["confirmPassword"];
+                
+                
+
+                
                 if ($pw1==$pw2){
-                addPw($pw1);
+                    
+                    $pattern = '/^(?=.*[!@#$%^&*-])(?=.*[0-9])(?=.*[A-Z]).{8,}$/';
+                    
+                    if(preg_match($pattern, $pw1)){
+                        unset($_SESSION['pwRegexFailed']);
+                        unset($_SESSION['pwMissmatch']);
+                        addPw($pw1);
+                    } else {
+                        $_SESSION['pwRegexFailed']='true';
+                    }
+                    
+                } else {
+                    $_SESSION['pwMissmatch']='true';
                 }
     }
     
@@ -22,8 +38,8 @@ and open the template in the editor.
         updatePassword($account, $pw1);
         header("Location: index.php");
     }
-    
 ?>
+
 <html>
     <head>
         <meta charset="UTF-8">
@@ -117,6 +133,43 @@ and open the template in the editor.
             }
         </script>
         
+        <?php
+                    if(isset($_SESSION['pwMissmatch'])){?>
+                        <script>
+                            $.toast({
+                                heading: "Password missmatch",
+                                text: "Both passwords in input fields should match",
+                                bgColor: "#FF6961",
+                                textColor: "F3F3F3",
+                                showHideTransition: "slide",
+                                allowToastClose: false,
+                                position: "bottom-center",
+                                icon: "error",
+                                loaderBg: "#373741",
+                                hideAfter: 9000
+                            });
+                        </script> <?php
+                        unset($_SESSION['pwMissmatch']);
+        }?>
+        <?php               
+                    if(isset($_SESSION['pwRegexFailed'])){?>
+                        <script>
+                            $.toast({
+                                heading: "Invalid password",
+                                text: "Must be a minimum of 8 characters, at least one number, uppercase character, lowercase character and special character",
+                                bgColor: "#FF6961",
+                                textColor: "F3F3F3",
+                                showHideTransition: "slide",
+                                allowToastClose: false,
+                                position: "bottom-center",
+                                icon: "error",
+                                loaderBg: "#373741",
+                                hideAfter: 9000
+                            });
+                        </script> <?php
+                        unset($_SESSION['pwRegexFailed']);
+        }?>
+        
         <div class="newPasswordPage" id="newPwPg">
             <div class="header">
                 CompuLink Technologies
@@ -137,7 +190,7 @@ and open the template in the editor.
                     </div>
 
                     <div class="resetSubmit" id="reset_submit">
-                        <button type="submit" onclick="verifyNewPassword()" class="subNewPwBtn" name="subNewPwBtn" value="subNewPwBtn">SUBMIT PASSWORD</button>
+                        <button type="submit" class="subNewPwBtn" name="subNewPwBtn">SUBMIT PASSWORD</button>
                     </div>
                 </form>
             </div>
