@@ -18,6 +18,14 @@ $mail->Username = "drchai101@gmail.com"; //your email address
 $mail->Password = "thisischai"; //password for email acount
 $mail->setFrom("linkvantage@compulink.co.za", "Compulink Technologies");
 
+$mail->SMTPOptions = array(
+                        'ssl' => array(
+                        'verify_peer' => false,
+                        'verify_peer_name' => false,
+                        'allow_self_signed' => true
+                        )
+                    );
+
 //This fuction sends an OTP to the specified email to be used in the password recovery page
 function forgotPassword($toEmail, $fname, $recCode)
 {      
