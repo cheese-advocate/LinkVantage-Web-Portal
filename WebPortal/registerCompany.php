@@ -167,7 +167,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         
     } else { /*handle the error messages if they failed validation*/
-        
+        echo 'error fournd';
         if(!is_array($companyValidation)){
             $companyValidation = array($companyValidation);
         }
@@ -179,7 +179,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if(!is_array($sitesValidation)){
             $sitesValidation = array($sitesValidation);
         }
-        $errors = array_merge($companyValidation, $contactsValidation, $sitesValidation);
+        
+        $errors = array_merge($companyValidation, $contactsValidation, $sitesValidation);        
+        
         handleErrors($errors);
     }
 }
@@ -357,12 +359,14 @@ and open the template in the editor.
         failed registration-->
         <?php
             if(isset($_SESSION['toastMessages'])){
-                $toastMessages = $_SESSION['toastMessages'];
-                for($i=0; $i < count($toastMessages); $i++){?>
-                    <script>
+                echo '<script>';
+                echo 'var errors = '.json_encode($_SESSION['toastMessages']);
+                echo '</script>';?>
+                <script>    
+                    for(i=0; i<errors.length; i++){
                         $.toast({
                             heading: "Registration failed",
-                            text: <?php$toastMessages[$i]?>,
+                            text: errors[i],
                             bgColor: "#FF6961",
                             textColor: "F3F3F3",
                             showHideTransition: "slide",
@@ -372,9 +376,8 @@ and open the template in the editor.
                             loaderBg: "#373741",
                             hideAfter: 3000
                         });
-                    </script><?php
-                }
-                    
+                    }                    
+                </script><?php                                    
             }
         ?>
         
