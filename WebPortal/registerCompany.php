@@ -12,17 +12,82 @@ session_start();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     /*Get the company name*/
-    $companyName = $_POST["companyNameInp"];
+    $companyName = $_POST["companyNameInp"];    
+    
+    $usernames = $_POST["username"];
+    $passwords = $_POST["password"];
+    $firstNames = $_POST["firstName"];
+    $lastNames = $_POST["lastName"];
+    $emails = $_POST["email"];
+    $phoneNumbers = $_POST["phoneNumber"];
+    $confirmMainContacts = $_POST["confirmMainContact"];
+    
+    if(!is_array($usernames)){
+        $usernames = array($usernames);
+    }
+    
+    if(!is_array($passwords)){
+        $passwords = array($passwords);
+    }
+    
+    if(!is_array($firstNames)){
+        $firstNames = array($firstNames);
+    }
+    
+    if(!is_array($lastNames)){
+        $lastNames = array($lastNames);
+    }
+    
+    if(!is_array($emails)){
+        $emails = array($emails);
+    }
+    
+    if(!is_array($phoneNumbers)){
+        $phoneNumbers = array($phoneNumbers);
+    }
+    
+    if(!is_array($confirmMainContacts)){
+        $confirmMainContacts = array($confirmMainContacts);
+    }
     
     /*Get the arrays of contact details and combine into array of contacts*/
-    $contacts = getContacts($_POST["username"], $_POST["password"], 
-            $_POST["firstName"], $_POST["lastName"], $_POST["email"],  
-            $_POST["phoneNumber"], $_POST["confirmMainContact"]);
+    $contacts = getContacts($usernames, $passwords, $firstNames, $lastNames, 
+            $emails, $phoneNumbers, $confirmMainContacts);
 
+    $streetNums = $_POST["streetNum"];
+    $streetNames = $_POST["streetName"];
+    $suburbCities = $_POST["suburbCity"];
+    $postalCodes = $_POST["postalCode"];
+    $infos = $_POST["info"];
+    $confirmMainSites = $_POST["confirmMainSite"];    
+    
+    if(!is_array($streetNums)){
+        $streetNums = array($streetNums);
+    }
+    
+    if(!is_array($streetNames)){
+        $streetNames = array($streetNames);
+    }
+    
+    if(!is_array($suburbCities)){
+        $suburbCities = array($suburbCities);
+    }
+    
+    if(!is_array($postalCodes)){
+        $postalCodes = array($postalCodes);
+    }
+    
+    if(!is_array($infos)){
+        $infos = array($infos);
+    }
+    
+    if(!is_array($confirmMainSites)){
+        $confirmMainSites = array($confirmMainSites);
+    }
+    
     /*Get the arrays of site details and combine into array of sites*/
-    $sites = getSites($_POST["streetNum"], $_POST["streetName"], 
-            $_POST["suburbCity"], $_POST["postalCode"], $_POST["info"], 
-            $_POST["confirmMainSite"]);
+    $sites = getSites($streetNums, $streetNames, $suburbCities, $postalCodes, 
+            $infos,$confirmMainSites);
 
     /* Validation */
         
@@ -102,6 +167,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         
     } else { /*handle the error messages if they failed validation*/
+        
+        if(!is_array($companyValidation)){
+            $companyValidation = array($companyValidation);
+        }
+        
+        if(!is_array($contactsValidation)){
+            $contactsValidation = array($contactsValidation);
+        }
+        
+        if(!is_array($sitesValidation)){
+            $sitesValidation = array($sitesValidation);
+        }
         $errors = array_merge($companyValidation, $contactsValidation, $sitesValidation);
         handleErrors($errors);
     }
