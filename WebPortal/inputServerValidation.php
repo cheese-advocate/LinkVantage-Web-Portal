@@ -31,7 +31,7 @@ define("ERR_INVALID_PHONE_NUMBER","Please enter 10 digits as your phone number."
 define("ERR_INVALID_USERNAME","Invalid username.");
 define("ERR_NO_ERRORS","No error found");
 define("ERR_PASSWORD_MISMATCH","Your passwords do not match.");
-define("REGEX_COMPANY_NAME", "/^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/");
+define("REGEX_COMPANY_NAME", "/^((?![\^!@#$*~ <>?]).)((?![\^!@#$*~<>?]).){0,73}((?![\^!@#$*~ <>?]).)$/");
 define("REGEX_EMAIL", "/^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$/");
 define("REGEX_PASSWORD", "/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/");
 define("REGEX_PHONE", "/0((60[3-9]|64[0-5]|66[0-5])\d{6}|(7[1-4689]|6[1-3]|8[1-4])\d{7})/");

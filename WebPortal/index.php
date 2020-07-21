@@ -138,7 +138,7 @@
                         <script>
                             $.toast({
                                 heading: "Registration successful!",
-                                text: <?php$_SESSION['registrationSuccessful']?>,
+                                text: <?php $_SESSION['registrationSuccessful']?>,
                                 bgColor: "#77DD77",
                                 textColor: "F3F3F3",
                                 showHideTransition: "slide",
@@ -163,7 +163,7 @@
                         <script>
                             $.toast({
                                 heading: "Registration error occurred",
-                                text: <?php$_SESSION['preLoginWarning']?>,
+                                text: <?php $_SESSION['preLoginWarning']?>,
                                 bgColor: "#FFB347",
                                 textColor: "F3F3F3",
                                 showHideTransition: "slide",
