@@ -191,8 +191,8 @@ function getUsername($userID)
  * 
  * @global type $link the database connection
  * @param type $username the username entered by the user
- * @return type the accountID associated with the username, NOT_FOUND if none 
- * was found, or PREP_STMT_FAILED if the statement failed to execute.
+ * @return type true if the username already exists, false if it was not, or 
+ * PREP_STMT_FAILED if the statement failed to execute.
  */
 function findUsername($username)
 {
@@ -212,13 +212,7 @@ function findUsername($username)
         mysqli_stmt_fetch($stmt);                                    
         /*close the statement*/
         mysqli_stmt_close($stmt);        
-        
-        /*If sql returns empty result set, indicating not found*/
-        if($result == '')
-        {
-            $result = NOT_FOUND;
-        }
-        
+               
         return $result;
         /*If statement failed*/
     } else {
