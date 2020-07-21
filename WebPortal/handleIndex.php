@@ -244,7 +244,10 @@ function handleForgotPW() {
             $_SESSION['triesFailed']=0;
 
             if(array_key_exists('resetSubBtn', $_POST)) { 
-            resetSubBtn($email); 
+                resetSubBtn($email); 
+                if(!isset($_SESSION["emailFailed"])){
+                    header('Location: otpPage.php');
+                }
             }
 
             break;
@@ -281,8 +284,7 @@ function resetSubBtn($email) {
         $OTP=generateOTP();
         $_SESSION["userStatus"] = "storeOTP";
         storeOTP($account, $OTP);
-        forgotPassword($email,$username,$OTP);
-        header('Location:otpPage.php');
+        forgotPassword($email,$username,$OTP);        
     }
     $_SESSION["userStatus"] = "sendEmail";
 
