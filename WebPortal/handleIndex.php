@@ -268,7 +268,6 @@ function handleForgotPW() {
                 } else {
                     $account=getUserIDfromEmail($email);
                     $_SESSION["account"]=$account;
-                    $username=getUsername($account);
                     $OTP=generateOTP();
                     storeOTP($account, $OTP);
                    
@@ -299,13 +298,15 @@ function sendEmail($email) {
     $account=getUserIDfromEmail($email);
     $_SESSION["account"]=$account;
     $username=getUsername($account);
+    $_SESSION[$email]=$OTP;
     $OTP=generateOTP();
     storeOTP($account, $OTP);
     forgotPassword($email,$username,$OTP);  
 }
 
-function getOTP(){
-    Global $OTP;
+function getOTP($email){
+    $OTP=$_SESSION[$email];
+    unset($_SESSION[$email]);
     return $OTP;
 }
 
