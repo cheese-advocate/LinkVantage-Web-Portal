@@ -314,7 +314,7 @@
                             <option name="ANDROID OTP">ANDROID OTP</option>
                         </select>
                         <img src="images/envelope.png" alt="" class="emailImg" id="passwordRecoveryImg"/>
-                        <input type="text" name="emailInp" value="" placeholder="EMAIL" class="passwordRecoveryInp" id="emailInp" required/>
+                        <input type="text" name="emailInp" value="" placeholder="EMAIL" class="passwordRecoveryInp" id="emailInp"/>
                         <!-- These two elements are added using jQuery -->
                         <!--<img src="images/keyword.png" alt="" class="pinImg"/>
                         <input type="text" name="pin" value="" placeholder="PIN" class="passwordRecoveryInp" id="pinInp" required="true">-->

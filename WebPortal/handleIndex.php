@@ -131,6 +131,10 @@ function checkReceivedPostVariables() {
         }*/
         $pwResetMode=$_POST['reset_options'];
         $email = trim($_POST["emailInp"]);
+        
+        if (isset($_POST['pin'])){
+            $username = trim($_POST['pin']);
+        }
 
         return HANDLE_FORGOT_PW;
 
@@ -231,7 +235,7 @@ function handleLogin() {
 
 function handleForgotPW() {
 
-    global $email, $account, $OTP, $pwResetMode, 
+    global $email, $username, $account, $OTP, $pwResetMode, 
            $pwResetModeErr, $androidValidated;
 
     $androidValidated=false;
@@ -263,27 +267,35 @@ function handleForgotPW() {
             
             if(array_key_exists('resetSubBtn', $_POST)) {
                 
-                if (findEmail($email)==false){
-                    $_SESSION["emailFailed"] = "true";
-                } else {
+                if ((findEmail($email)==true) or (findUsername($username)==true)){
+                    header('Location: otpPage.php');
+                    if (findUsername($username)==false){
                     $account=getUserIDfromEmail($email);
+                    }
+                    if (findEmail($email)==false){
+                    $account=getIDFromUsername($username);
+                    }
                     $_SESSION["account"]=$account;
                     $OTP=generateOTP();
                     storeOTP($account, $OTP);
+                } else {
+                    $_SESSION["inputFailed"] = "true";
+                }
+                    
+                    
+                    
                    
-                    $encrytor = new encryptor();
+                    /*$encrytor = new encryptor();
                     $encrpted1 = $encrytor->encrypt($OTP);
                     $_SESSION["encrOTP"]=$encrpted1;
-                    /*echo 'ENCRYPTED 1: '.$encrpted1.PHP_EOL;
+                    echo 'ENCRYPTED 1: '.$encrpted1.PHP_EOL;
                     $decrpted1 = $encrytor->decrypt($encrpted1);
                     echo 'DECRYPTED 1: '.$decrpted1.PHP_EOL;*/
-                    
                 }
                 
-                if(!isset($_SESSION["emailFailed"])){
+                if(!isset($_SESSION["inputFailed"])){
                     header('Location: otpPage.php');
                 }
-            }
             
             break;
 

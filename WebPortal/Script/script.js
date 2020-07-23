@@ -132,12 +132,15 @@ function changeToCompany()
 function modifyResetPassword()
 {
     if(document.getElementById("reset_options").value === "ANDROID OTP")
-    {
+    {   
+        $("#emailInp").after('<img src="images/account.png" alt="" class="pinImg"/>'+
+                        '<input type="text" name="pin" value="" placeholder="USERNAME" class="passwordRecoveryInp" id="pinInp">');
+                
         document.getElementById("passwordRecoveryImg").src = "images/envelope.png";
         document.getElementById("emailInp").placeholder = "EMAIL";
+
         
-        $("#emailInp").after('<img src="images/keyword.png" alt="" class="pinImg"/>'+
-                        '<input type="text" name="pin" value="" placeholder="PIN" class="passwordRecoveryInp" id="pinInp" required="true">');
+        
     }
     else if(document.getElementById("reset_options").value === "TEXT OTP")
     {
@@ -151,7 +154,6 @@ function modifyResetPassword()
     {
         document.getElementById("passwordRecoveryImg").src = "images/envelope.png";
         document.getElementById("emailInp").placeholder = "EMAIL";
-        
         $("#pinInp").remove();
         $(".pinImg").remove();
     }
