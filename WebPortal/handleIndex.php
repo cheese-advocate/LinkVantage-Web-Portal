@@ -16,6 +16,7 @@ require_once 'inputServerValidation.php';
 require_once 'emailManager.php';
 require_once 'generator.php';
 require_once 'hasher.php';
+require_once 'encryptor.php';
 
 /* Constant Variable Declaration */
 define("PW_RESET_EMAIL","RESET PASSWORD");
@@ -239,12 +240,16 @@ function handleForgotPW() {
 
         case "RESET PASSWORD":
 
-            $_SESSION["userStatus"] = "resetPassword";
-
             $_SESSION['triesFailed']=0;
 
             if(array_key_exists('resetSubBtn', $_POST)) { 
-                resetSubBtn($email); 
+                
+                if (findEmail($email)==false){
+                    $_SESSION["emailFailed"] = "true";
+                } else {
+                    sendEmail($email);
+                }
+                
                 if(!isset($_SESSION["emailFailed"])){
                     header('Location: otpPage.php');
                 }
@@ -253,16 +258,34 @@ function handleForgotPW() {
             break;
 
         case "ANDROID OTP":
-
-            debugToConsole("Test");
-            $_SESSION["userStatus"] = "androidOTP.html";
-            $OTP=generateOTP();
-            $account=getUserIDfromEmail($email);
-            storeOTP($account, $OTP);
-            if ($androidValidated==true){
-                header('Location: newPassword.php');
+            
+            $_SESSION['triesFailed']=0;
+            
+            if(array_key_exists('resetSubBtn', $_POST)) {
+                
+                if (findEmail($email)==false){
+                    $_SESSION["emailFailed"] = "true";
+                } else {
+                    $account=getUserIDfromEmail($email);
+                    $_SESSION["account"]=$account;
+                    $username=getUsername($account);
+                    $OTP=generateOTP();
+                    storeOTP($account, $OTP);
+                   
+                    $encrytor = new encryptor();
+                    $encrpted1 = $encrytor->encrypt($OTP);
+                    $_SESSION["encrOTP"]=$encrpted1;
+                    /*echo 'ENCRYPTED 1: '.$encrpted1.PHP_EOL;
+                    $decrpted1 = $encrytor->decrypt($encrpted1);
+                    echo 'DECRYPTED 1: '.$decrpted1.PHP_EOL;*/
+                    
+                }
+                
+                if(!isset($_SESSION["emailFailed"])){
+                    header('Location: otpPage.php');
+                }
             }
-
+            
             break;
 
         default:
@@ -270,24 +293,20 @@ function handleForgotPW() {
     }
 }
 
-function resetSubBtn($email) {
+function sendEmail($email) {
+    Global $username,$OTP;
 
-    global  $account;
+    $account=getUserIDfromEmail($email);
+    $_SESSION["account"]=$account;
+    $username=getUsername($account);
+    $OTP=generateOTP();
+    storeOTP($account, $OTP);
+    forgotPassword($email,$username,$OTP);  
+}
 
-    if (findEmail($email)==false){
-        $_SESSION["emailFailed"] = "true";
-    } else {
-        $_SESSION["userStatus"] = "getUserID";
-        $account=getUserIDfromEmail($email);
-        $_SESSION["account"]=$account;
-        $username=getUsername($account);
-        $OTP=generateOTP();
-        $_SESSION["userStatus"] = "storeOTP";
-        storeOTP($account, $OTP);
-        forgotPassword($email,$username,$OTP);        
-    }
-    $_SESSION["userStatus"] = "sendEmail";
-
+function getOTP(){
+    Global $OTP;
+    return $OTP;
 }
 
 
