@@ -277,6 +277,7 @@ function handleForgotPW() {
                     }
                     $_SESSION["account"]=$account;
                     $OTP=generateOTP();
+                    $_SESSION[$email]=$OTP;
                     storeOTP($account, $OTP);
                 } else {
                     $_SESSION["inputFailed"] = "true";
@@ -317,9 +318,13 @@ function sendEmail($email) {
 }
 
 function getOTP($email){
+    if (isset($_SESSION[$email])){
     $OTP=$_SESSION[$email];
     unset($_SESSION[$email]);
     return $OTP;
+    } else {
+    return "Not declared"; 
+    }
 }
 
 
