@@ -1,5 +1,4 @@
 <?php
-
 /*
  * File to handle php functionality of index, allowing it to be more accessible 
  * to mobilePortal.php
@@ -311,8 +310,8 @@ function sendEmail($email) {
     $account=getUserIDfromEmail($email);
     $_SESSION["account"]=$account;
     $username=getUsername($account);
-    $_SESSION[$email]=$OTP;
     $OTP=generateOTP();
+    $_SESSION[$email]=$OTP;
     storeOTP($account, $OTP);
     forgotPassword($email,$username,$OTP);  
 }

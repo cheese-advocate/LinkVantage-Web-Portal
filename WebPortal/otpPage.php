@@ -7,12 +7,17 @@ and open the template in the editor.
 <?php
     session_start();
     require_once 'config.php';
-    //Potential for comments
+    
     if(array_key_exists('subOTPBtn', $_POST)) { 
                 $inOTP = $_POST["inOTP"];
                 validateOTP($inOTP);
     }
     
+    /*
+    Validates otp. Firstly it gets the accountID and hashed otp, then it checks if the input otp is correct and the tries are <=3
+    If the validation passes, the user can enter their new password on the next page. Else the triesFailed is increased.
+    When triesFailed reaches 4 then the user has to re-enter their email to generate a new otp
+    */
     function validateOTP($inOTP){
         global $tries;
         $account = $_SESSION['account'];
@@ -28,7 +33,6 @@ and open the template in the editor.
                 $_SESSION['triesLimit'] = 'true';
                 unset($_SESSION['triesFailed']);
                 header('Location: index.php');
-                
             }
         }
     }
@@ -108,7 +112,6 @@ and open the template in the editor.
                 unset($_SESSION['OTPFailed']);
         }?>
                 
-
         
         <div class="OTPPage" id="OTPPage">
             <div class="header">
