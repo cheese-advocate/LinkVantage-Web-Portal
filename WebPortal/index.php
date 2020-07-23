@@ -270,6 +270,33 @@
                     }
         ?>
                         
+                        
+        <?php
+                    if(isset($_SESSION["inputFailed"])){?>
+                        <script>
+                            $.toast({
+                                heading: "Email/Username Invalid",
+                                text: "No account with that email or username registered",
+                                bgColor: "#FF6961",
+                                textColor: "F3F3F3",
+                                showHideTransition: "slide",
+                                allowToastClose: false,
+                                position: "bottom-center",
+                                icon: "error",
+                                loaderBg: "#373741",
+                                hideAfter: 3000
+                            });
+                        </script>
+                        
+                        <?php
+                        /*Clears the login failed variable so that it does not 
+                         * trigger a failed message without another failed 
+                         * attempt*/
+                        unset($_SESSION['inputFailed']);
+                    }
+        ?>
+                        
+                        
         <?php
             if(isset($_SESSION['triesLimit'])){?>
                 <script>
@@ -321,7 +348,7 @@
                     </div>
 
                     <div class="resetSubmit" id="reset_submit">
-                        <button type="submit" name="resetSubBtn" onclick="verifyForgotPw()" class="resetSubBtn">SEND RESET REQUEST</button>
+                        <button type="submit" name="resetSubBtn" class="resetSubBtn">SEND RESET REQUEST</button>
                     </div>
                 </form>
             </div>

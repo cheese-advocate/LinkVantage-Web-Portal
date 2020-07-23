@@ -269,11 +269,11 @@ function handleForgotPW() {
                 
                 if ((findEmail($email)==true) or (findUsername($username)==true)){
                     header('Location: otpPage.php');
-                    if (findUsername($username)==false){
-                    $account=getUserIDfromEmail($email);
+                    if (findUsername($username)==true){
+                        $account=getIDFromUsername($username);
                     }
                     if (findEmail($email)==false){
-                    $account=getIDFromUsername($username);
+                        $account=getUserIDfromEmail($email);
                     }
                     $_SESSION["account"]=$account;
                     $OTP=generateOTP();
