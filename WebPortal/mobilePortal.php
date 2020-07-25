@@ -215,7 +215,7 @@ switch ($handleType) {
         $email = $temp[1];
         //Variable Assign for Client Registration - End
         
-        resetSubBtn($email);
+        sendEmail($email);
         echo "We tried";
         
         

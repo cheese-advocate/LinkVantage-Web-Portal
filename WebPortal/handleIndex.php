@@ -305,7 +305,7 @@ function handleForgotPW() {
 }
 
 function sendEmail($email) {
-    Global $username,$OTP;
+    Global $username,$OTP, $account;
 
     $account=getUserIDfromEmail($email);
     $_SESSION["account"]=$account;
@@ -322,9 +322,32 @@ function getOTP($email){
     unset($_SESSION[$email]);
     return $OTP;
     } else {
+    $OTP=generateOTP();
+    $account=getUserIDfromEmail($email);
+    storeOTP($account, $OTP);
+    return $OTP;
+    }
+}
+
+
+function getOTP1($email){
+    if (isset($_SESSION[$email])){
+    $OTP=$_SESSION[$email];
+    unset($_SESSION[$email]);
+    return $OTP;
+    } else {
     return "Not declared"; 
     }
 }
+
+
+function getOTP2(){
+    Global $OTP;
+    return $OTP; 
+}
+
+
+
 
 
 /**
