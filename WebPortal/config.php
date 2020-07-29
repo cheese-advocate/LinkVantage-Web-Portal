@@ -633,13 +633,13 @@ function updatePassword($account, $password) {
  * A method to verify if the otp entered by a user is valid for the associated 
  * account
  * @global type $link the database connection
- * @param type $account the accountID of the account that the OTP should be 
+ * @param type $accountID the accountID of the account that the OTP should be 
  * associated with
  * @param type $userOTP the otp entered by the user
  * @return boolean true if they match, false if it does not, and 
  * PREP_STMT_FAILED if the statement failed to execute.
  */
-function isOTPCorrect($account, $userOTP) {
+function isOTPCorrect($accountID, $userOTP) {
     
     /*Access the global variable link*/ 
     global $link;
