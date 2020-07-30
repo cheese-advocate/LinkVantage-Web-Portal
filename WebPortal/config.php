@@ -779,7 +779,7 @@ function registerCompany($companyName, $contacts, $sites){
  * client could not be registered, the first slot will contain  the 
  * CLIENT_REGISTRATION_FAILED error message
  */
-function registerPrivateClient($contacts, $sites){
+function registerPrivateClient($contacts, $site){
     /*Finding the main contact associated with the client*/
     $mainContact = $contacts[0]->getMainContact();
     $k=0;
@@ -789,12 +789,12 @@ function registerPrivateClient($contacts, $sites){
     }
     
     /*Extracting and preparing the contact variables*/
-    $username = $contacts[$i]->getUsername();
-    $password = $contacts[$i]->getPassword();
-    $firstName = $contacts[$i]->getFirstName();
-    $lastName = $contacts[$i]->getLastName();
-    $email = $contacts[$i]->getEmail();
-    $phoneNumber = $contacts[$i]->getPhoneNumber();
+    $username = $contacts[$k]->getUsername();
+    $password = $contacts[$k]->getPassword();
+    $firstName = $contacts[$k]->getFirstName();
+    $lastName = $contacts[$k]->getLastName();
+    $email = $contacts[$k]->getEmail();
+    $phoneNumber = $contacts[$k]->getPhoneNumber();
     
     /*hashing the password before storage*/
     $hashedPassword = hashPassword($password);
@@ -816,7 +816,7 @@ function registerPrivateClient($contacts, $sites){
         
         try{
             /*insert variables to function*/
-            mysqli_stmt_bind_param($stmt, "sssssss", $username, $hashedPassword, 
+            mysqli_stmt_bind_param($stmt, "ssssss", $username, $hashedPassword, 
                     $firstName, $lastName, $email, $phoneNumber);
             /*execute the insert*/
             mysqli_stmt_execute($stmt);
@@ -844,7 +844,7 @@ function registerPrivateClient($contacts, $sites){
         $nonMainContacts = array();
 
         /*copies over all the contacts that are not main, skipping the ones that are*/
-        for($i, $j = 0; $i < count($contacts); $i++, $j++){
+        for($i = 0, $j = 0; $i < count($contacts); $i++, $j++){
             if($i!=$k){
                 $nonMainContacts[$j] = $contacts[$i]; 
             } else{
@@ -856,6 +856,8 @@ function registerPrivateClient($contacts, $sites){
         if(!addContacts($nonMainContacts, $clientID)){
             $databaseErr = CONTACT_ADD_FAILURE;
         }
+        
+        $sites = array($site);
         
         if(!isset($databaseErr)){//if no error with contacts
             if(!addSites($sites, $clientID)){//just an error adding site
@@ -998,15 +1000,16 @@ function addSites($sites, $clientID){
     /*Variable to track any database errors that occur*/
     $databaseErr;
     
+    $siteIDs = array();
     $result = true;
     
     for($i=0; $i < count($sites); $i++){
-        $streetNum = $sites[$i]->getStreetNum;
-        $streetName = $sites[$i]->getStreetName;
-        $suburbCity = $sites[$i]->getSuburbCity;
-        $postalCode = $sites[$i]->getPostalCode;
-        $addInfo = $sites[$i]->getAddInfo;
-        $mainSite = $sites[$i]->getMainSite;
+        $streetNum = $sites[$i]->getStreetNum();
+        $streetName = $sites[$i]->getStreetName();
+        $suburbCity = $sites[$i]->getSuburbCity();
+        $postalCode = $sites[$i]->getPostalCode();
+        $addInfo = $sites[$i]->getAddInfo();
+        $mainSite = $sites[$i]->getMainSite();
         
         /*Check that statement worked, prepare statement inserting using addSite
         * function*/
@@ -1020,7 +1023,7 @@ function addSites($sites, $clientID){
                 /*execute the insert*/
                 mysqli_stmt_execute($stmt);
                 /*bind the result of the query to the $result variable*/
-                mysqli_stmt_bind_result($stmt, $result[$i]);
+                mysqli_stmt_bind_result($stmt, $siteIDs[$i]);
                 /*fetch the result of the query*/
                 mysqli_stmt_fetch($stmt);                                    
                 /*close the statement*/
