@@ -26,8 +26,17 @@ and open the template in the editor.
         <div id="job-info">
             <div id="first-rows">
                 <div class="job-header">
-                    <select></select>
-                    
+                    <select id="priority">
+                        
+                    </select>
+                    <select id="status">
+                        
+                    </select>
+                    <a id="due-date">Due: 22 July</a>
+                    <a id="ref">#Ref</a>
+                    <a id="client">Due: 22 July</a>
+                    <a id="address">Due: 22 July</a>
+                    <a id="due-date">Due: 22 July</a>
                     <?php
                     echo $selectedJob.toJobHeaderHTML();
                     ?>
