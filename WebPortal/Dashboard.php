@@ -121,7 +121,8 @@
             <div class="dashContent">
                 <?php
                     if(isset($_SESSION['contactID'])){
-                        include 'clientDash.php';
+                        echo 'client';
+                        include './clientDash.php';
                     } else {
                         if(isset($_SESSION['technicianID'])){
                             include '';
