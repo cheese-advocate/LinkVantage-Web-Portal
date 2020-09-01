@@ -159,3 +159,8 @@ function modifyResetPassword()
     }
 }
 
+function modifyActiveJob()
+{
+    
+}
+
