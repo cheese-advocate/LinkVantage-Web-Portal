@@ -5,8 +5,9 @@
  */
 //Requirements - Start
 require_once 'config.php';
-require_once 'Site.php';
-require_once 'Contact.php';
+//require_once 'Site.php';
+//require_once 'Contact.php';
+require_once 'handleIndex.php';
 require_once 'inputServerValidation.php';
 //Requirements - End
 //Variables for recieved post - Start
@@ -26,9 +27,10 @@ $addInfo = "null";
 
 $userID = "null";
 $loginAttempt = "null";
-$loginIsValid = "null";
+$isValid = "null";
 $serverReturn = "null";
 $temp = "null";
+$userOTP = "null";
 
 $companyName = "null";
 
@@ -52,8 +54,8 @@ switch ($handleType) {
         $temp = explode("=", $password);
         $password = $temp[1];
         //Variable Assign for Login to Server - End
+        
         //Check Post Credentials against Database - Start
-
         $userID = getIDFromUsername($username);
 
         if ($userID == '') { //If the return is empty, this means that the login value could not be found
@@ -168,62 +170,93 @@ switch ($handleType) {
         $postal = $pieces[11]; //postal
         $temp = explode("=", $postal);
         $postal = $temp[1];
-        
+
         $addInfo = $pieces[12]; //postal
         $temp = explode("=", $addInfo);
         $addInfo = $temp[1];
 //Variable Assign for Company Registration - End
+        //creating arrays with recieved strings - START
+        /* $contacts = array($username, $password, $firstName ,
+          $lastName , $email , $phone , "true"); */
 
-    //creating arrays with recieved strings - START
-        /*$contacts = array($username, $password, $firstName ,
-            $lastName , $email , $phone , "true");*/
-        $contacts = array(new Contact($username, $password, $firstName, $lastName, $email, $phoneNumber, $mainContact));
 
-        print_r($contacts);
-        
-        /*$sites = array($number, $name, $city , $postal , $addInfo , "true");*/
-        $sites = array(new Site($streetNum, $streetName, $suburbCity, $postalCode, $addInfo, $mainSite));
-            //creating arrays with recieved strings - END
-            
-        //SERVER SIDE POST DATA VALIDATION - START
-     //  $temp = validateContacts($contacts);
-      
-      
-          //   $temp = validateCompanyName($companyName);
-        //SERVER SIDE POST DATA VALIDATION - END
-        
-      //Company Registration Methods - Start
-            //if valid
-            
-      //Company Registration Methods - End
-        
-        //REGISTER COMPANY RETURN - BELOW
-        
-       // print_r($contacts);
-       //above line prints array
-       //   echo $companyName;
-        
+
+//creating arrays with recieved strings - END
+//SERVER SIDE POST DATA VALIDATION - START
+
+        $contacts = array(new Contact($username, $password, $firstName, $lastName, $email, $phone, "true"));
+        $sites = array(new Site($number, $name, $city, $postal, $addInfo, "true"));
+        $temp = validateCompanyName($companyName);
+        $temp = validateContacts($contacts);
+        $temp = validateSites($sites);
+
+        print_r($sites);
+        print_r($temp);
+
+//SERVER SIDE POST DATA VALIDATION - END
+//Company Registration Methods - Start
+//Company Registration Methods - End
+//REGISTER COMPANY RETURN - BELOW
+        // print_r($contacts);
+        //above line prints array
+        //   echo $companyName;
+
         break;
     //REGISTER COMPANY - END
     //
     //FORGOT PASSWORD - START
-    case "HANDLE_FORGOT_PW":
-        
-        //Variable Assign for Client Registration - Start
+    case "HANDLE_EMAIL_OTP":
+
+        //Variable Assign for Email OTP - Start
         $email = $pieces[1]; //Username
         $temp = explode("=", $email);
         $email = $temp[1];
-        //Variable Assign for Client Registration - End
-        
-        sendEmail($email);
-        echo "We tried";
-        
-        
+        //Variable Assign for Email OTP - End
+
+       sendEmail($email);
+
         break;
     //FORGOT PASSWORD - END
-    
+    //CROSS_PLATFORM PASSWORD - START
+    case "HANDLE_RETRIEVE_OTP":
+
+        //Variable Assign for OTP retrieval - Start
+        $email = $pieces[1]; //Username
+        $temp = explode("=", $email);
+        $email = $temp[1];
+        //Variable Assign for OTP retrieval - End
+        
+        echo "THE OTP for". $email . " is: " . getOTP($email);
+
+        break;
+    //CROSS_PLATFORM PASSWORD - END
+    //ACUTAL PASSWORD RESET- - START    
+    case "HANDLE_RESET_PASSWORD":
+
+        //Variable Assign for Password reset - Start
+        $email = $pieces[1]; //Username
+        $temp = explode("=", $email);
+        $email = $temp[1];
+        $userOTP = $pieces[2]; //Username
+        $temp = explode("=", $userOTP);
+        $userOTP = $temp[1];
+        $password = $pieces[3]; //Username
+        $temp = explode("=", $password);
+        $password = $temp[1];
+        //Variable Assign for Password reset - End
+       $account = getUserIDfromEmail($email);
+//Reset Password - Start
+        if ($userOTP == getOTP($email)) {
+            $serverReturn = updatePassword($account, $password);
+        } else {
+            $serverReturn = "OTP Invalid";
+        }
+//Reset Password - End
+        
+        echo $serverReturn;
+        break;
+    //CROSS_PLATFORM PASSWORD - START
     default: //Handle No Input - This should never be the case
         echo "ERROR RESPONSE, NO POST HANDLE FOUND";
 }
-// VAR "HANDLE" SWITCH - END
 ?>

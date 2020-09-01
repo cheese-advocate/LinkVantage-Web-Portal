@@ -51,40 +51,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $contacts = getContacts($usernames, $passwords, $firstNames, $lastNames, 
             $emails, $phoneNumbers, $confirmMainContacts);
 
-    $streetNums = $_POST["streetNum"];
-    $streetNames = $_POST["streetName"];
-    $suburbCities = $_POST["suburbCity"];
-    $postalCodes = $_POST["postalCode"];
-    $infos = $_POST["info"];
-    $confirmMainSites = $_POST["confirmMainSite"];    
-    
-    if(!is_array($streetNums)){
-        $streetNums = array($streetNums);
-    }
-    
-    if(!is_array($streetNames)){
-        $streetNames = array($streetNames);
-    }
-    
-    if(!is_array($suburbCities)){
-        $suburbCities = array($suburbCities);
-    }
-    
-    if(!is_array($postalCodes)){
-        $postalCodes = array($postalCodes);
-    }
-    
-    if(!is_array($infos)){
-        $infos = array($infos);
-    }
-    
-    if(!is_array($confirmMainSites)){
-        $confirmMainSites = array($confirmMainSites);
-    }
+    $streetNum = $_POST["streetNum"];
+    $streetName = $_POST["streetName"];
+    $suburbCitie = $_POST["suburbCity"];
+    $postalCode = $_POST["postalCode"];
+    $info = $_POST["info"];
     
     /*Get the arrays of site details and combine into array of sites*/
-    $sites = getSites($streetNums, $streetNames, $suburbCities, $postalCodes, 
-            $infos,$confirmMainSites);
+    $site = new Site($streetNum, $streetName, $suburbCitie, $postalCode, 
+            $info, true);
 
     /* Validation */
         
@@ -122,7 +97,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             handleErrors(CLIENT_REGISTRATION_FAILED);
         } else {
             /*some contacts/sites failed to register*/
-            if(!isEmpty($databaseResult[1])){
+            if(!empty($databaseResult[1])){
                 
                 /*Error to display once directed to the login page*/
                 
@@ -154,8 +129,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         
     } else { /*handle the error messages if they failed validation*/
-        if(!is_array($companyValidation)){
-            $companyValidation = array($companyValidation);
+        if(!is_array($siteValidation)){
+            $siteValidation = array($siteValidation);
         }
         
         if(!is_array($contactsValidation)){
