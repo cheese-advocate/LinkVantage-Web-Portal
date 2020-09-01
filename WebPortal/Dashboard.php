@@ -121,7 +121,7 @@
             
             <div id="side" class="sideNav">
                 <div onclick="navigate('home')"><img src="images/home_gray.png" alt="" id="home"/><span>Home</span></div>
-                <div><img src="images/suitcase.png" alt=""/><span>Jobs</span></div>
+                <div onclick="navigate('jobs')"><img src="images/suitcase.png" alt=""/><span>Jobs</span></div>
                 <div><img src="images/write.png" alt=""/><span>Invoices</span></div>
                 <div><img src="images/account.png" alt=""/><span>Clients</span></div>
                 <div onclick="info()"><img src="images/information.png" alt=""/><span>Info</span></div>
