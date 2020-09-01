@@ -52,7 +52,8 @@ function navigate(location)
         case "jobs":
            break;
         
-        case "invoices":
+        case "sales":
+            window.location.href = "salesManagement.php";
             break;
             
         case "clients":

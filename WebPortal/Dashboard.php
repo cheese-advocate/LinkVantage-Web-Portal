@@ -25,19 +25,28 @@
     </head>
     <body>
         <script>
-            $.toast({
-                heading: "WELCOME",
-                text: "Welcome, user",
-                bgColor: "#373741",
-                textColor: "F3F3F3",
-                showHideTransition: "slide",
-                allowToastClose: false,
-                position: "bottom-center",
-                icon: "success",
-                loaderBg: "#03AAFB",
-                hideAfter: 3000
-            });
-            
+            var username = "<?php echo $displayUsername?>";
+            <?php
+                if(!$_SESSION['welcome'])
+                {
+                    ?>
+                    $.toast({
+                        heading: "WELCOME",
+                        text: "Welcome, " + username,
+                        bgColor: "#373741",
+                        textColor: "F3F3F3",
+                        showHideTransition: "slide",
+                        allowToastClose: false,
+                        position: "bottom-center",
+                        icon: "success",
+                        loaderBg: "#03AAFB",
+                        hideAfter: 3000
+                    });
+                    <?php
+                    unset($_SESSION['welcome']);
+                }
+            ?>
+                
             function info()
             {
                 $.toast({
@@ -122,7 +131,7 @@
             <div id="side" class="sideNav">
                 <div onclick="navigate('home')"><img src="images/home_gray.png" alt="" id="home"/><span>Home</span></div>
                 <div><img src="images/suitcase.png" alt=""/><span>Jobs</span></div>
-                <div><img src="images/write.png" alt=""/><span>Invoices</span></div>
+                <div onclick="navigate('sales')"><img src="images/write.png" alt=""/><span>Sales</span></div>
                 <div><img src="images/account.png" alt=""/><span>Clients</span></div>
                 <div onclick="info()"><img src="images/information.png" alt=""/><span>Info</span></div>
                 <div><img src="images/gear.png" alt=""/><span>Settings</span></div>
