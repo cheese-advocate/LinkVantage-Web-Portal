@@ -14,7 +14,7 @@ and open the template in the editor.
             </div>
 
             <div class="userInfo">
-                <span class="userName"><?php echo $displayUsername?></span><!--TO BE REPLACED WITH USERNAME FROM PHP SIDE-->
+                <span class="userName" onclick="accountNav()"><?php echo $displayUsername?></span><!--TO BE REPLACED WITH USERNAME FROM PHP SIDE-->
                 <img src="images/account.png" alt="" class="account" onclick="accountNav()"/>
             </div>
         </div>
@@ -22,7 +22,7 @@ and open the template in the editor.
         <div id="side" class="sideNav">
             <div onclick="navigate('home')"><img src="images/home_gray.png" alt="" id="home"/><span>Home</span></div>
             <div onclick="navigate('jobs')"><img src="images/suitcase.png" alt=""/><span>Jobs</span></div>
-            <div><img src="images/write.png" alt=""/><span>Invoices</span></div>
+            <div onclick="navigate('sales')"><img src="images/write.png" alt=""/><span>Sales</span></div>
             <div><img src="images/account.png" alt=""/><span>Clients</span></div>
             <div onclick="info()"><img src="images/information.png" alt=""/><span>Info</span></div>
             <div><img src="images/gear.png" alt=""/><span>Settings</span></div>
