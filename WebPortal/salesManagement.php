@@ -105,8 +105,35 @@
                         <span>Feedback</span>
                         <span>Rating</span>
                     </div>
+                    <div id="clientFeedback">
+                        <span>Client</span>
+                        <span>Feedback</span>
+                        <span>Rating</span>
+                    </div>
+                    <div id="clientFeedback">
+                        <span>Client</span>
+                        <span>Feedback</span>
+                        <span>Rating</span>
+                    </div>
+                    <div id="clientFeedback">
+                        <span>Client</span>
+                        <span>Feedback</span>
+                        <span>Rating</span>
+                    </div>
+                    <div id="clientFeedback">
+                        <span>Client</span>
+                        <span>Feedback</span>
+                        <span>Rating</span>
+                    </div>
+                    <div id="clientFeedback">
+                        <span>Client</span>
+                        <span>Feedback</span>
+                        <span>Rating</span>
+                    </div>
                 </div>
             </div>
         </div>
+
+        <!--REST OF PAGE CONTENT TO FOLLOW HERE-->
     </body>
 </html>
