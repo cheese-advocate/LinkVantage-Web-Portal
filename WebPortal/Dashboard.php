@@ -115,42 +115,21 @@
             }?>
         
         <div id="main" class="mainPage">
-            <div class="topNav">
-                <div id="menu" onclick="changeHam()">
-                    <div class="bar" id="bar1"></div>
-                    <div class="bar" id="bar2"></div>
-                    <div class="bar" id="bar3"></div>
-                </div>
-                
-                <div class="userInfo">
-                    <span class="userName"><?php echo $displayUsername?></span><!--TO BE REPLACED WITH USERNAME FROM PHP SIDE-->
-                    <img src="images/account.png" alt="" class="account" onclick="accountNav()"/>
-                </div>
-            </div>
             
-            <div id="side" class="sideNav">
-                <div onclick="navigate('home')"><img src="images/home_gray.png" alt="" id="home"/><span>Home</span></div>
-                <div onclick="navigate('jobs')"><img src="images/suitcase.png" alt=""/><span>Jobs</span></div>
-                <div><img src="images/write.png" alt=""/><span>Invoices</span></div>
-                <div><img src="images/account.png" alt=""/><span>Clients</span></div>
-                <div onclick="info()"><img src="images/information.png" alt=""/><span>Info</span></div>
-                <div><img src="images/gear.png" alt=""/><span>Settings</span></div>
-            </div>
-            
-            <div id="account" class="accountNav">
-                <div>Manage Account</div>
-                <div>Preferences</div>
-                <div onclick="logOut()">Log out</div>
-            </div>
+            <?php include "./nav.html" ?>
             
             <div class="dashContent">
-                <div id="content1"></div>
-                <div id="content2"></div>
-                <div id="content3"></div>
-                <div id="content4"></div>
-                <div id="content5"></div>
-                <div id="content6"></div>
+                <?php
+                    if(isset($_SESSION['contactID'])){
+                        include 'clientDash.php';
+                    } else {
+                        if(isset($_SESSION['technicianID'])){
+                            include '';
+                        }
+                    }
+                ?>
             </div>
+            
         </div>
     </body>
 </html>
