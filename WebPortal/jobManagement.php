@@ -18,7 +18,17 @@ and open the template in the editor.
         
         ?>
         <div id="job-management-header">
-            
+            <table>
+                <th>Reference no.</th>
+                <th>Description</th>
+                <th>Category</th>
+                <th>Client</th>
+                <th>Priority</th>
+                <th>Due date</th>
+                <th>Status</th>
+                <th>Last updated</th>
+                <th>Created</th>
+            </table>
         </div>
         <div id="job-list">
             

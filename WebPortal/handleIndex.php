@@ -214,6 +214,10 @@ function handleLogin() {
         /*Set the session variables to track the Contact or Technician 
          * entities associated with the user*/
         setTechnicianContactID($accountID);
+        /*Set a session variable to keep track of the welcome message to 
+         * ensure it is only shown on login
+         */
+        $_SESSION['welcome'] = false;
         /*If a contact is logged in, set the session variable to track the 
          * client associated with the contact*/
         if(isset($_SESSION['contactID'])){
