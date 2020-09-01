@@ -25,19 +25,28 @@
     </head>
     <body>
         <script>
-            $.toast({
-                heading: "WELCOME",
-                text: "Welcome, user",
-                bgColor: "#373741",
-                textColor: "F3F3F3",
-                showHideTransition: "slide",
-                allowToastClose: false,
-                position: "bottom-center",
-                icon: "success",
-                loaderBg: "#03AAFB",
-                hideAfter: 3000
-            });
-            
+            var username = "<?php echo $displayUsername?>";
+            <?php
+                if(!$_SESSION['welcome'])
+                {
+                    ?>
+                    $.toast({
+                        heading: "WELCOME",
+                        text: "Welcome, " + username,
+                        bgColor: "#373741",
+                        textColor: "F3F3F3",
+                        showHideTransition: "slide",
+                        allowToastClose: false,
+                        position: "bottom-center",
+                        icon: "success",
+                        loaderBg: "#03AAFB",
+                        hideAfter: 3000
+                    });
+                    <?php
+                    unset($_SESSION['welcome']);
+                }
+            ?>
+                
             function info()
             {
                 $.toast({

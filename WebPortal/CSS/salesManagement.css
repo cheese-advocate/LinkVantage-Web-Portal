@@ -1,0 +1,200 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 01 Sep 2020, 2:38:48 PM
+    Author     : Barnard
+*/
+#existingClientsTitle
+{
+    font-family: sans-serif, monospace;
+    margin-left: 20px;
+    margin-top: 20px;
+}
+
+/*Wrapper used to better control the position and width of the actual div with content*/
+.wrapper
+{
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+#existingClientsContainer
+{
+    /*rgba used instead of hex because hex caues 
+    content in div to also be transparent*/
+    background: rgba(55, 55, 65, 0.8);
+    width: 100%;
+    height: auto;
+    margin-top: 5px;
+    display: inline-block;
+}
+
+.titleBar
+{
+    background: #03AAFB;
+    display: grid;
+    grid-template-columns: auto auto auto auto auto;
+    justify-content: space-between;
+    align-items: center;
+    height: auto;
+    min-height: 30px;
+}
+
+.titleBar :first-child
+{
+    margin-left: 10px;
+}
+
+.titleBar :last-child
+{
+    margin-right: 10px;
+}
+
+.client
+{
+    border-bottom: 1px solid #808080;
+    height: auto;
+    min-height: 30px;
+    display: grid;
+    grid-template-columns: auto auto auto auto auto;
+    justify-content: space-between;
+    align-items: center;
+    color: #808080;
+}
+
+.client :first-child
+{
+    margin-left: 10px;
+}
+
+.client :last-child
+{
+    margin-right: 10px;
+}
+
+#existingClientsContainer :last-child
+{
+    border-bottom: none;
+}
+
+.wrap
+{
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-content: flex-start;
+}
+
+#potential_clients
+{
+    margin-top: 5px;
+    margin-right: 20px;
+    background: rgba(55, 55, 65, 0.8);
+    height: auto;
+}
+
+#potentialClientsTitleBar
+{
+    display: grid;
+    grid-template-columns: auto auto auto;
+    height: auto;
+    min-height: 30px;
+    justify-content: space-between;
+    align-items: center;
+    background: #03AAFB;
+}
+
+#potentialClientsTitleBar :first-child
+{
+    margin-left: 10px;
+}
+
+#potentialClientsTitleBar :last-child
+{
+    margin-right: 10px;
+}
+
+#potentialClient
+{
+    min-height: 30px;
+    border-bottom: 1px solid #808080;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    justify-content: space-between;
+    align-items: center;
+    color: #808080;
+}
+
+#potentialClient :first-child
+{
+    margin-left: 10px;
+}
+
+#potentialClient :last-child
+{
+    margin-right: 10px;
+}
+
+#potential_clients :last-child
+{
+    border-bottom: none;
+}
+
+#feedback
+{
+    margin-top: 5px;
+    background: rgba(55, 55, 65, 0.8);
+    height: auto;
+}
+
+#feedbackTitleBar
+{
+    display: grid;
+    grid-template-columns: auto auto auto;
+    height: auto;
+    min-height: 30px;
+    justify-content: space-between;
+    align-items: center;
+    background: #03AAFB;
+}
+
+#feedbackTitleBar :first-child
+{
+    margin-left: 10px;
+}
+
+#feedbackTitleBar :last-child
+{
+    margin-right: 10px;
+}
+
+#clientFeedback
+{
+    min-height: 30px;
+    border-bottom: 1px solid #808080;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    justify-content: space-between;
+    align-items: center;
+    color: #808080;
+}
+
+#clientFeedback :first-child
+{
+    margin-left: 10px;
+}
+
+#clientFeedback :last-child
+{
+    margin-right: 10px;
+}
+
+#feedback :last-child
+{
+    border-bottom: none;
+}

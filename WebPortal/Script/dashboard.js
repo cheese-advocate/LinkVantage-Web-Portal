@@ -53,7 +53,8 @@ function navigate(location)
            window.location.href = "jobManagement.php";
            break;
         
-        case "invoices":
+        case "sales":
+            window.location.href = "salesManagement.php";
             break;
             
         case "clients":
