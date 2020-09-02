@@ -36,7 +36,7 @@ define("SQL_CHECK_COMPANY_NAME","");
 define("SQL_REGISTER_COMPANY","SELECT companyRegister(?, ?, ?, ?, ?, ?, ?)");
 define("SQL_REGISTER_PRIVATE_CLIENT","SELECT clientRegister(?, ?, ?, ?, ?, ?)");
 define("SQL_IS_MAIN_CONTACT","SELECT isMainContact(?)");
-define("SQL_GET_CONTACT_ID","SELECT getContactID(?)");
+define("SQL_GET_CONTACT_ID","SELECT getContactID_Account(?)");
 define("SQL_GET_TECHNICIAN_ID","SELECT getTecIDFromAccountID(?)");
 define("SQL_GET_CLIENT_ID_FROM_CONTACT","SELECT getClientIDFromContactID(?)");
 
@@ -1112,6 +1112,8 @@ function setTechnicianContactID($accountID){
     $tecIDCheck;
     $contactIDCheck = getContactIDFromAccount($accountID);
 
+    
+    
     if($contactIDCheck === NOT_FOUND){
         $tecIDCheck = getTechnicianIDFromAccount($accountID);            
     } else if($contactIDCheck === GENERIC_DB_ERROR){
@@ -1235,7 +1237,7 @@ function getContactIDFromAccount($accountID){
         /*If statement failed*/
     } else {
         $databaseErr = PREP_STMT_FAILED;
-    }
+    }       
 
     /*If an error occurred during the sql execution*/
     if(isset($databaseErr)){

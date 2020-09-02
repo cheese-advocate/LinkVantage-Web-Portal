@@ -1,11 +1,18 @@
-.mainPage
-{
+body{
     height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.mainPage
+{        
     transition: 0.5s ease-in-out;
 }
 
 #main
 {
+    height: 100%;
+    padding: 10px 50px 10px 50px;
     transition: 0.5s ease-in-out;
 }
 
@@ -218,6 +225,8 @@ USER ACCOUNT END
 DASHBOARD CONTENT STYLING
 *************************
 */
+
+/*
 .dashContent
 {
     margin-bottom: 25px;
@@ -237,4 +246,10 @@ DASHBOARD CONTENT STYLING
     width: 600px;
     background: #373741;
     opacity: 0.8;
+}
+*/
+
+.dashContent{
+    width: 100%;
+    height: 100%;
 }

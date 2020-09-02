@@ -24,6 +24,9 @@
         <script src="Script/dashboard.js" type="text/javascript"></script>
     </head>
     <body>
+        
+        <?php include "./nav.html" ?>
+        
         <script>
             var username = "<?php echo $displayUsername?>";
             <?php
@@ -114,14 +117,11 @@
                 unset($_SESSION['postLoginWarning']);                            
             }?>
         
-        <div id="main" class="mainPage">
-            
-            <?php include "./nav.html" ?>
+        <div id="main" class="mainPage">                        
             
             <div class="dashContent">
-                <?php
+                <?php                    
                     if(isset($_SESSION['contactID'])){
-                        echo 'client';
                         include './clientDash.php';
                     } else {
                         if(isset($_SESSION['technicianID'])){
