@@ -23,16 +23,16 @@
             
             <div class="client-row-content">
                 
-                <div class="panel-normal" id="clientdash-job-details">
-
+                <div class="client-panel panel-normal" id="clientdash-job-details">
+                    <h3 class="panel-heading">Details:</h3>
                 </div>
 
-                <div class="panel-normal" id="clientdash-job-updates">
-
+                <div class="client-panel panel-normal" id="clientdash-job-updates">
+                    <h3 class="panel-heading">Updates:</h3>
                 </div>
 
-                <div class="panel-normal" id="clientdash-job-chat">
-
+                <div class="client-panel panel-normal" id="clientdash-job-chat">
+                    <h3 class="panel-heading">Chat:</h3>
                 </div>
                 
             </div>
@@ -47,12 +47,12 @@
 
             <div class="client-row-content">
             
-                <div class="panel-double" id="clientdash-history-jobs">
-
+                <div class="client-panel panel-double" id="clientdash-history-jobs">
+                    <h3 class="panel-heading">Previous jobs:</h3>
                 </div>
 
-                <div class="panel-normal" id="clientdash-history-queries">
-
+                <div class="client-panel panel-normal" id="clientdash-history-queries">
+                    <h3 class="panel-heading">Queries:</h3>
                 </div>
 
             </div>
