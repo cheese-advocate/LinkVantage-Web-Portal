@@ -32,7 +32,7 @@
             </div>
               
             <div class="userInfo">
-                <span class="userName"><?php echo $displayUsername?></span><!--TO BE REPLACED WITH USERNAME FROM PHP SIDE-->
+                <span class="userName" onclick="accountNav()"><?php echo $displayUsername?></span><!--TO BE REPLACED WITH USERNAME FROM PHP SIDE-->
                 <img src="images/account.png" alt="" class="account" onclick="accountNav()"/>
             </div>
         </div>
@@ -105,8 +105,35 @@
                         <span>Feedback</span>
                         <span>Rating</span>
                     </div>
+                    <div id="clientFeedback">
+                        <span>Client</span>
+                        <span>Feedback</span>
+                        <span>Rating</span>
+                    </div>
+                    <div id="clientFeedback">
+                        <span>Client</span>
+                        <span>Feedback</span>
+                        <span>Rating</span>
+                    </div>
+                    <div id="clientFeedback">
+                        <span>Client</span>
+                        <span>Feedback</span>
+                        <span>Rating</span>
+                    </div>
+                    <div id="clientFeedback">
+                        <span>Client</span>
+                        <span>Feedback</span>
+                        <span>Rating</span>
+                    </div>
+                    <div id="clientFeedback">
+                        <span>Client</span>
+                        <span>Feedback</span>
+                        <span>Rating</span>
+                    </div>
                 </div>
             </div>
         </div>
+
+        <!--REST OF PAGE CONTENT TO FOLLOW HERE-->
     </body>
 </html>

@@ -27,9 +27,11 @@ and open the template in the editor.
     content in div to also be transparent*/
     background: rgba(55, 55, 65, 0.8);
     width: 100%;
-    height: auto;
+    max-height: 300px;
     margin-top: 5px;
     display: inline-block;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 .titleBar
@@ -95,7 +97,9 @@ and open the template in the editor.
     margin-top: 5px;
     margin-right: 20px;
     background: rgba(55, 55, 65, 0.8);
-    height: auto;
+    max-height: 200px;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 #potentialClientsTitleBar
@@ -149,7 +153,9 @@ and open the template in the editor.
 {
     margin-top: 5px;
     background: rgba(55, 55, 65, 0.8);
-    height: auto;
+    max-height: 200px;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 #feedbackTitleBar
