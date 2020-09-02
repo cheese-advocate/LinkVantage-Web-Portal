@@ -204,3 +204,77 @@ and open the template in the editor.
 {
     border-bottom: none;
 }
+
+#salesStatTitle
+{
+    margin-left: 20px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+#otherInfoWrap
+{
+    margin-left: 20px;
+    margin-right: 20px;
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-column-gap:20px;
+    align-items: center;
+}
+
+#salesStatContainer
+{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    grid-column-gap: 15px;
+    grid-row-gap: 10px;
+}
+
+.data
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.data div
+{
+    background: #03AAFB;
+    height: 100px;
+    width: 100px;
+    margin: 15px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 25px;
+    font-weight: bold
+}
+
+#reportDiv
+{
+    text-align: center;
+}
+
+#reportGenButton
+{
+    border: none;
+    border-bottom-left-radius: 75px;
+    border-bottom-right-radius: 75px;
+    border-top-left-radius: 75px;
+    border-top-right-radius: 75px;
+    background: #03AAFB;
+    font-family: sans-serif, monospace;
+    color: #F3F3F3;
+    height: 35px;
+    width: 250px;
+    transition: 0.2s;
+    cursor: pointer;
+}
+
+#reportGenButton:hover
+{
+    background: #373741;
+    border: 1px solid #03AAFB;
+}

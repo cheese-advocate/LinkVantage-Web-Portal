@@ -8,14 +8,14 @@ function changeHam()
     {
         document.getElementById("side").style.height = "100%";
         document.getElementById("side").style.width = "175px";
-        document.getElementById("main").style.marginLeft = "175px";
+        document.getElementById("nav-body").style.marginLeft = "175px";
         toggled = true;
     }
     else
     {
         document.getElementById("side").style.height = "0px";
         document.getElementById("side").style.width = "0px";
-        document.getElementById("main").style.marginLeft = "0px";
+        document.getElementById("nav-body").style.marginLeft = "0px";
         toggled = false;
     }
 }

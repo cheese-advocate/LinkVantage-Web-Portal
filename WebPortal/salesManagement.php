@@ -23,35 +23,12 @@
         <script src="Script/jquery.toast.min.js" type="text/javascript"></script>
         <script src="Script/dashboard.js" type="text/javascript"></script>
     </head>
-    <body id="main">
-        <div class="topNav">
-            <div id="menu" onclick="changeHam()">
-                <div class="bar" id="bar1"></div>
-                <div class="bar" id="bar2"></div>
-                <div class="bar" id="bar3"></div>
-            </div>
-              
-            <div class="userInfo">
-                <span class="userName" onclick="accountNav()"><?php echo $displayUsername?></span><!--TO BE REPLACED WITH USERNAME FROM PHP SIDE-->
-                <img src="images/account.png" alt="" class="account" onclick="accountNav()"/>
-            </div>
-        </div>
-            
-        <div id="side" class="sideNav">
-            <div onclick="navigate('home')"><img src="images/home_gray.png" alt="" id="home"/><span>Home</span></div>
-            <div><img src="images/suitcase.png" alt=""/><span>Jobs</span></div>
-            <div onclick="navigate('sales')"><img src="images/write.png" alt=""/><span>Sales</span></div>
-            <div><img src="images/account.png" alt=""/><span>Clients</span></div>
-            <div onclick="info()"><img src="images/information.png" alt=""/><span>Info</span></div>
-            <div><img src="images/gear.png" alt=""/><span>Settings</span></div>
-        </div>
-            
-        <div id="account" class="accountNav">
-            <div>Manage Account</div>
-            <div>Preferences</div>
-            <div onclick="logOut()">Log out</div>
-        </div>
-        
+    <body>
+        <?php
+        //Adds the nav menus to the screen
+        include './nav.html';
+        ?>
+                
         <div id="existingClientsTitle">Existing Clients</div>
         <div class="wrapper">
             <div id="existingClientsContainer">
@@ -82,7 +59,7 @@
                         <span>Status</span>
                         <span>Select</span>
                     </div>
-                    
+                    <!--PHP TO ADD CONTENT HERE-->
                     <div id="potentialClient">
                         <span>Name</span>
                         <span>Status</span>
@@ -99,7 +76,7 @@
                         <span>Feedback</span>
                         <span>Rating</span>
                     </div>
-                    
+                    <!--PHP TO ADD CONTENT HERE-->
                     <div id="clientFeedback">
                         <span>Client</span>
                         <span>Feedback</span>
@@ -134,6 +111,39 @@
             </div>
         </div>
 
-        <!--REST OF PAGE CONTENT TO FOLLOW HERE-->
+        <div id="salesStatTitle">Sales Statistics</div>
+        <div id="otherInfoWrap">
+            <div id="salesStatContainer">
+                <!--PHP TO ADD CONTENT HERE-->
+                <div class="data">
+                    <span>Sales Data 1</span>
+                    <div>30%</div>
+                </div>
+                <div class="data">
+                    <span>Sales Data 2</span>
+                    <div>R400</div>
+                </div>
+                <div class="data">
+                    <span>Sales Data 3</span>
+                    <div>35</div>
+                </div>
+                <div class="data">
+                    <span>Sales Data 4</span>
+                    <div>3.5/5</div>
+                </div>
+                <div class="data">
+                    <span>Sales Data 5</span>
+                    <div>45</div>
+                </div>
+                <div class="data">
+                    <span>Sales Data 6</span>
+                    <div>R800</div>
+                </div>
+            </div>
+            
+            <div id="reportDiv">
+                <input type="submit" value="GENERATE REPORT" id="reportGenButton"/>
+            </div>
+        </div>
     </body>
 </html>
