@@ -97,3 +97,27 @@
     font-weight: normal;
     color: #808080;
 }
+
+#clientdash-job-details .panel-content{
+    margin-left: 10px;
+}
+
+.details-div{
+    display: flex;
+    flex-direction: column;
+    gap: 0px;
+}
+
+.details-heading{
+    font-family: sans-serif, monospace;
+    font-size: 12;
+    font-weight: normal;
+    color: #808080;
+}
+
+.details-info{
+    font-family: sans-serif, monospace;
+    font-size: 12;
+    font-weight: normal;
+    color: #F3F3F3;
+}
