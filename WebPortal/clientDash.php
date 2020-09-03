@@ -31,32 +31,32 @@
                         
                         <div class="details-div" id="ref-no">
                             <h4 class="details-heading">Reference number:</h4>
-                            <span class="details-info">Test</span>
+                            <span class="details-info">#239067</span>
                         </div>
                         
                         <div class="details-div" id="description">
                             <h4 class="details-heading">Description:</h4>
-                            <span class="details-info"></span>
+                            <span class="details-info">Supply new pc's and redo networking</span>
                         </div>
                         
                         <div class="details-div" id="location">
                             <h4 class="details-heading">Location:</h4>
-                            <span class="details-info"></span>
+                            <span class="details-info">Kaapzicht Building, 9 Rogers Street, Tyger Valley,  7530</span>
                         </div>
                         
                         <div class="details-div" id="status">
                             <h4 class="details-heading">Status:</h4>
-                            <span class="details-info"></span>
+                            <span class="details-info">In progress</span>
                         </div>
                         
                         <div class="details-div" id="due-date">
                             <h4 class="details-heading">Due date:</h4>
-                            <span class="details-info"></span>
+                            <span class="details-info">22 July 2020</span>
                         </div>
                         
                         <div class="details-div" id="technician">
                             <h4 class="details-heading">Technician:</h4>
-                            <span class="details-info"></span>
+                            <span class="details-info">Jan Nienaber</span>
                         </div>
                                                 
                     </div>
@@ -67,6 +67,41 @@
                     <h3 class="panel-heading">Updates:</h3>
                     
                     <div class="panel-content">
+                        <h4>Update</h4>
+                        <h4 class="updates-heading-feedback">Feedback</h4>
+                        
+                        <div class="update-milestone">
+                            <div class="milestone-completion-time">
+                                July 18 - 10:35
+                            </div>
+                            
+                            <div class="milestone-completion-details">
+                                Completed milestone 
+                                <span class="milestone-name">'Stock ordered'</span>                                
+                            </div>
+                        </div>
+                        
+                        <div class="update-feedback">
+                            <div class="update-feedback-triangle"> </div>
+                            This is an example of  client facing feedback
+                        </div>
+                        
+                        
+                        <div class="update-milestone">
+                            <div class="milestone-completion-time">
+                                July 18 - 10:35
+                            </div>
+                            
+                            <div class="milestone-completion-details">
+                                Completed milestone 
+                                <span class="milestone-name">'Stock ordered'</span>                                
+                            </div>
+                        </div>
+                        
+                        <div class="update-feedback">
+                            <div class="update-feedback-triangle"> </div>
+                            This is an example of  client facing feedback
+                        </div>
                         
                     </div>
                 </div>

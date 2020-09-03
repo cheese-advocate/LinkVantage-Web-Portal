@@ -17,6 +17,10 @@
     
 }
 
+/****************
+Blue header bar
+****************/
+
 .client-row-header > *{
     margin-left: 5px;
     margin-right: 5px;
@@ -59,6 +63,10 @@
     background: #373741;
 }
 
+/****************
+Row under header
+****************/
+
 .client-row{    
     display: inline-flex;
     flex-direction: column;
@@ -74,6 +82,10 @@
     grid-column-gap: 100px;
     align-items: center;
 }
+
+/******
+Panels
+******/
 
 .client-panel{
     height: 100%;
@@ -91,21 +103,32 @@
 }
 
 .client-panel h3{
-    margin: 10px;
+    margin: 15px 0px 15px 10px;
     font-family: sans-serif, monospace;
     font-size: 14;
     font-weight: normal;
     color: #808080;
 }
 
+/**************
+Details panel
+**************/
+
 #clientdash-job-details .panel-content{
     margin-left: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+#ref-no{
+    
 }
 
 .details-div{
     display: flex;
     flex-direction: column;
-    gap: 0px;
+    justify-content: flex-start;
 }
 
 .details-heading{
@@ -113,6 +136,8 @@
     font-size: 12;
     font-weight: normal;
     color: #808080;
+    margin-bottom: 5px;
+    margin-top: 0px;
 }
 
 .details-info{
@@ -120,4 +145,70 @@
     font-size: 12;
     font-weight: normal;
     color: #F3F3F3;
+}
+
+/*************
+Updates panel
+*************/
+
+#clientdash-job-updates .panel-content{
+    margin-left: 10px;
+    display: grid;
+    grid-template-columns: 150px auto;
+    grid-auto-rows: auto;
+}
+
+
+#clientdash-job-updates .panel-content h4{
+    margin: 0px 0px 15px 0px;
+    font-weight: normal;
+    font-family: sans-serif, monospace;
+    font-size: 12pt;
+    color: #808080;
+}
+
+.updates-heading-feedback{
+    margin-left: 15px !important;
+}
+
+.update-milestone{    
+    border-right: 2px solid #97A6B7;
+    padding: 10px 5px 10px 0;
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+    font-weight: normal;
+    font-family: sans-serif, monospace;
+    font-size: 10pt;
+}
+
+.milestone-completion-time{
+    color: #808080;
+}
+
+.milestone-completion-details{
+    color: #F3F3F3;
+}
+
+.milestone-name{
+    color: #03AAFB;
+}
+
+.update-feedback{
+    text-align: left;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-weight: normal;
+    font-family: sans-serif, monospace;
+    font-size: 10pt;
+    color: #F3F3F3;
+}
+
+.update-feedback-triangle{
+    border: 8px solid;
+    border-top-color: transparent;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    border-left-color: #97A6B7;
 }
