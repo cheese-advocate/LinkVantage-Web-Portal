@@ -230,6 +230,47 @@
                     
                     <div class="panel-content">
                         
+                        <div class="chat-messages">
+                            
+                            <div class="chat-message message-to">
+                                
+                                <div class="message-content">
+                                    <span class="message">
+                                        Hi Jan. Any update on the new pc's?
+                                    </span>
+                                </div>
+                                
+                                <span class="message-time">
+                                    July 11 - 14:20
+                                </span>
+                                
+                            </div>
+                            
+                            <div class="chat-message message-from">
+                                
+                                <div class="message-content">
+                                    <span class="message-content-sender">
+                                        Jan Nienaber
+                                    </span>
+                                    <span class="message">
+                                        Hi Tristan. Ran into some unexpected 
+                                        issues, but got them sorted out. Should 
+                                        be finished setting them up soon.
+                                    </span>
+                                </div>
+                                
+                                <span class="message-time">
+                                    July 21 - 14:27
+                                </span>
+                                
+                            </div>
+                            
+                        </div>
+                        
+                        <div class="chat-send-message">
+                            
+                        </div>
+                        
                     </div>
                 </div>
                 
