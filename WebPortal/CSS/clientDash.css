@@ -5,6 +5,7 @@
     grid-template-rows: 1fr 1fr;
     grid-template-columns: 1fr;
     grid-row-gap: 10px;
+    min-height: 0;
 }
 
 .client-row-header{
@@ -71,6 +72,7 @@ Row under header
     display: inline-flex;
     flex-direction: column;
     gap: 10px;
+    min-height: 0;
 }
 
 .client-row-content{
@@ -81,6 +83,7 @@ Row under header
     grid-template-columns: 1fr 1fr 1fr;
     grid-column-gap: 100px;
     align-items: center;
+    min-height: 0;
 }
 
 /******
@@ -92,6 +95,9 @@ Panels
     width: 100%;
     background: #373741;
     opacity: 0.8;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
 }
 
 .panel-normal{
@@ -108,6 +114,12 @@ Panels
     font-size: 14;
     font-weight: normal;
     color: #808080;
+}
+
+.panel-content{
+    min-height: 0;
+    height: 100%;
+    overflow: auto;
 }
 
 /**************
@@ -156,6 +168,7 @@ Updates panel
     display: grid;
     grid-template-columns: 150px auto;
     grid-auto-rows: auto;
+    min-height: 0;
 }
 
 

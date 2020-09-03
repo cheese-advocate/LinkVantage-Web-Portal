@@ -103,6 +103,125 @@
                             This is an example of  client facing feedback
                         </div>
                         
+                        
+                        <div class="update-milestone">
+                            <div class="milestone-completion-time">
+                                July 18 - 10:35
+                            </div>
+                            
+                            <div class="milestone-completion-details">
+                                Completed milestone 
+                                <span class="milestone-name">'Stock ordered'</span>                                
+                            </div>
+                        </div>
+                        
+                        <div class="update-feedback">
+                            <div class="update-feedback-triangle"> </div>
+                            This is an example of  client facing feedback
+                        </div>
+                        
+                        
+                        <div class="update-milestone">
+                            <div class="milestone-completion-time">
+                                July 18 - 10:35
+                            </div>
+                            
+                            <div class="milestone-completion-details">
+                                Completed milestone 
+                                <span class="milestone-name">'Stock ordered'</span>                                
+                            </div>
+                        </div>
+                        
+                        <div class="update-feedback">
+                            <div class="update-feedback-triangle"> </div>
+                            This is an example of  client facing feedback
+                        </div>
+                        
+                        
+                        <div class="update-milestone">
+                            <div class="milestone-completion-time">
+                                July 18 - 10:35
+                            </div>
+                            
+                            <div class="milestone-completion-details">
+                                Completed milestone 
+                                <span class="milestone-name">'Stock ordered'</span>                                
+                            </div>
+                        </div>
+                        
+                        <div class="update-feedback">
+                            <div class="update-feedback-triangle"> </div>
+                            This is an example of  client facing feedback
+                        </div>
+                        
+                        
+                        <div class="update-milestone">
+                            <div class="milestone-completion-time">
+                                July 18 - 10:35
+                            </div>
+                            
+                            <div class="milestone-completion-details">
+                                Completed milestone 
+                                <span class="milestone-name">'Stock ordered'</span>                                
+                            </div>
+                        </div>
+                        
+                        <div class="update-feedback">
+                            <div class="update-feedback-triangle"> </div>
+                            This is an example of  client facing feedback
+                        </div>
+                        
+                        
+                        <div class="update-milestone">
+                            <div class="milestone-completion-time">
+                                July 18 - 10:35
+                            </div>
+                            
+                            <div class="milestone-completion-details">
+                                Completed milestone 
+                                <span class="milestone-name">'Stock ordered'</span>                                
+                            </div>
+                        </div>
+                        
+                        <div class="update-feedback">
+                            <div class="update-feedback-triangle"> </div>
+                            This is an example of  client facing feedback
+                        </div>
+                        
+                        
+                        <div class="update-milestone">
+                            <div class="milestone-completion-time">
+                                July 18 - 10:35
+                            </div>
+                            
+                            <div class="milestone-completion-details">
+                                Completed milestone 
+                                <span class="milestone-name">'Stock ordered'</span>                                
+                            </div>
+                        </div>
+                        
+                        <div class="update-feedback">
+                            <div class="update-feedback-triangle"> </div>
+                            This is an example of  client facing feedback
+                        </div>
+                        
+                        
+                        <div class="update-milestone">
+                            <div class="milestone-completion-time">
+                                July 18 - 10:35
+                            </div>
+                            
+                            <div class="milestone-completion-details">
+                                Completed milestone 
+                                <span class="milestone-name">'Stock ordered'</span>                                
+                            </div>
+                        </div>
+                        
+                        <div class="update-feedback">
+                            <div class="update-feedback-triangle"> </div>
+                            This is an example of  client facing feedback
+                        </div>
+                        
                     </div>
                 </div>
 
