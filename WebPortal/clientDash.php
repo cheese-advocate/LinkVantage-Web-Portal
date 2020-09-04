@@ -265,11 +265,57 @@
                                 
                             </div>
                             
-                        </div>
-                        
-                        <div class="chat-send-message">
+                            <div class="chat-message message-to">
+                                
+                                <div class="message-content">
+                                    <span class="message">
+                                        Sounds good. Thanks for the update!
+                                    </span>
+                                </div>
+                                
+                                <span class="message-time">
+                                    July 21 - 14:30
+                                </span>
+                                
+                            </div>
+                                                        
+                            <div class="chat-message message-to">
+                                
+                                <div class="message-content">
+                                    <span class="message">
+                                        Sounds good. Thanks for the update!
+                                    </span>
+                                </div>
+                                
+                                <span class="message-time">
+                                    July 21 - 14:30
+                                </span>
+                                
+                            </div>
+                                                        
+                            <div class="chat-message message-to">
+                                
+                                <div class="message-content">
+                                    <span class="message">
+                                        Sounds good. Thanks for the update!
+                                    </span>
+                                </div>
+                                
+                                <span class="message-time">
+                                    July 21 - 14:30
+                                </span>
+                                
+                            </div>
                             
                         </div>
+                        
+                        <form id="message-form">
+                            <div class="chat-send-message">
+                                <img src="images/envelope.png" alt="" class="message-icon"/>
+                                <input type="text" class="message-input" id="message-text" name="message-text" placeholder="Message Jan..."/>
+                                <input type="button" class="message-send" name="message-send" value="SEND"/>
+                            </div>
+                        </form>
                         
                     </div>
                 </div>
