@@ -309,13 +309,11 @@
                             
                         </div>
                         
-                        <form id="message-form">
-                            <div class="chat-send-message">
-                                <img src="images/envelope.png" alt="" class="message-icon"/>
-                                <input type="text" class="message-input" id="message-text" name="message-text" placeholder="Message Jan..."/>
-                                <input type="button" class="message-send" name="message-send" value="SEND"/>
-                            </div>
-                        </form>
+                        <div class="chat-send-message">
+                            <img src="images/envelope.png" alt="" id="message-icon">
+                            <input type="text" id="message-text" name="message-text" placeholder="Message Jan...">
+                            <input type="button" id="message-send" name="message-send" value="SEND">
+                        </div>                        
                         
                     </div>
                 </div>
@@ -340,6 +338,48 @@
                     <h3 class="panel-heading">Previous jobs:</h3>
                     
                     <div class="panel-content">
+                        
+                        <table class="history-job-table">
+                            <tr class="history-job-header">
+                                <td class="history-job-cell">Description</td>
+                                <td>Location</td>
+                                <td>Technician</td>
+                                <td>Due date</td>
+                                <td>Date completed</td>
+                                <td>Appraisal</td>
+                                <td>Feedback</td>
+                            </tr>
+                            
+                            <tr class="history-job-row">
+                                <td>Description example 1</td>
+                                <td>Kaapzicht Building, 9 Rogers Street, Tyger Valley,  7530</td>
+                                <td>Jan Nienaber</td>
+                                <td>01/06/2020</td>
+                                <td>1/06/2020</td>
+                                <td>Appraisal</td>
+                                <td>Feedback example</td>
+                            </tr>
+                        </table>
+                        
+                        <!--<div class="history-job-header">
+                            <span class="history-job-cell">Description</span>
+                            <span class="history-job-cell">Location</span>
+                            <span class="history-job-cell">Technician</span>
+                            <span class="history-job-cell">Due date</span>
+                            <span class="history-job-cell">Date completed</span>
+                            <span class="history-job-cell">Appraisal</span>
+                            <span class="history-job-cell">Feedback</span>
+                        </div>
+                        
+                        <div class="history-job-row">
+                            <span class="history-job-cell">Description example 1</span>
+                            <span class="history-job-cell">Kaapzicht Building, 9 Rogers Street, Tyger Valley,  7530</span>
+                            <span class="history-job-cell">Jan Nienaber</span>
+                            <span class="history-job-cell">01/06/2020</span>
+                            <span class="history-job-cell">1/06/2020</span>
+                            <span class="history-job-cell">Appraisal</span>
+                            <span class="history-job-cell">Feedback example</span>
+                        </div>-->
                         
                     </div>
                 </div>

@@ -69,7 +69,7 @@ Row under header
 ****************/
 
 .client-row{    
-    display: inline-flex;
+    display: flex;
     flex-direction: column;
     gap: 10px;
     min-height: 0;
@@ -259,6 +259,8 @@ Chat panel
     border-radius: 5px;     
 }
 
+
+
 .message-to{
     align-items: flex-end;
 }
@@ -298,13 +300,14 @@ Chat panel
     width: 100%;
 }
 
-#message-form img{
+#message-icon{
     height: 36px;
     width: 36px;
     margin-right: 5px;
+    z-index: 100;
 }
 
-#message-form .message-input{
+#message-text{
     font-family: sans-serif, monospace;
     font-size: 14pt;
     background-color: transparent;
@@ -314,11 +317,11 @@ Chat panel
     color: #F3F3F3;
 }
 
-.chat-send-message img :hover{
-    background-color: #03AAFB;
+#message-text:hover{
+    border-bottom-color: #03AAFB;
 }
 
-#message-form .message-send{
+#message-send{
     background-color: #03AAFB;
     border: 0px;
     color: #F3F3F3;
@@ -326,4 +329,26 @@ Chat panel
     font-size: 14pt;
     width: 75px;
     height: 35px;
+}
+
+/*****************
+Job history panel
+*****************/
+
+.history-job-table{
+    border-collapse: collapse;
+}
+
+.history-job-table, .history-job-header, .history-job-row, .history-job-cell{
+   border: none; 
+}
+
+.history-job-header{
+    background-color: #03AAFB;
+}
+
+
+.history-job-cell{
+    margin: 0px 20px 0px 20px;
+    padding: 0px 0px 0px 0px;
 }
