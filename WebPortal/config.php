@@ -1311,8 +1311,96 @@ function getTechnicianIDFromAccount($accountID){
         return $result;            
     }
 }
-    
 
+function getJobList($accountID)
+{
+    /*Access the global variable link*/ 
+    global $link;
+    
+    $result = mysqli_query($link,"CALL jobList(".$accountID.")") or die("Query fail: " . mysqli_error());
+
+    //loop through the output and echo
+     while ($row = mysqli_fetch_array($result)){   
+       Echo "<tr><td>" . $row["id"] . "</td><td>" . $row["jobDescription"] . "</td><td>" . $row["category"] . "</td><td>" . $row["cName"] . "</td><td>" . $row["priority"] . "</td><td>" . $row["dueDate"] . "</td><td>" . $row["jobStatus"] . "</td><td>" . $row["updated"] . "</td><td>" . $row["startDate"] . "</td></tr>";
+     }
+    //free resources
+    mysqli_free_result($result);
+}
+
+function getJobTask($jobID)
+{
+    /*Access the global variable link*/ 
+    global $link;
+    
+    $result = mysqli_query($link,"CALL jobTask(".$jobID.")") or die("Query fail: " . mysqli_error());
+
+    //loop through the output and echo
+     while ($row = mysqli_fetch_array($result)){   
+       Echo "<tr><td>" . $row["taskDescription"] . "</td><td>" . $row["jobEnd"] . "</td></tr>";
+     }
+    //free resources
+    mysqli_free_result($result);
+}
+    
+function getJobMilestone($jobID)
+{
+    /*Access the global variable link*/ 
+    global $link;
+    
+    $result = mysqli_query($link,"CALL jobTask(".$jobID.")") or die("Query fail: " . mysqli_error());
+
+    //loop through the output and echo
+     while ($row = mysqli_fetch_array($result)){   
+       Echo "<tr><td>" . $row["mcName"] . "</td><td>" . $row["mcDate"] . "</td></tr>";
+     }
+    //free resources
+    mysqli_free_result($result);
+}
+
+function getSoftwareReg($jobID)
+{
+    /*Access the global variable link*/ 
+    global $link;
+    
+    $result = mysqli_query($link,"CALL softwareRegistry(".$jobID.")") or die("Query fail: " . mysqli_error());
+
+    //loop through the output and echo
+     while ($row = mysqli_fetch_array($result)){   
+       Echo "<tr><td>" . $row["eqDescription"] . "</td><td>" . $row["supplier"] . "</td><td>" . $row["eqValue"] . "</td><td>" . $row["subscriptionEnd"] . "</td><td>" . $row["procurementDate"] . "</td><td>" . $row["deliveryDate"] . "</td></tr>";
+     }
+    //free resources
+    mysqli_free_result($result);
+}
+
+function getHardwareReg($jobID)
+{
+    /*Access the global variable link*/ 
+    global $link;
+    
+    $result = mysqli_query($link,"CALL hardwareRegistry(".$jobID.")") or die("Query fail: " . mysqli_error());
+
+    //loop through the output and echo
+     while ($row = mysqli_fetch_array($result)){   
+       Echo "<tr><td>" . $row["eqDescription"] . "</td><td>" . $row["supplier"] . "</td><td>" . $row["eqValue"] . "</td><td>" . $row["warrantyInitation"] . "</td><td>" . $row["warrantyExpiration"] . "</td><td>" . $row["procurementDate"] . "</td><td>" . $row["deliveryDate"] . "</td></tr>";
+     }
+    //free resources
+    mysqli_free_result($result);
+}
+
+function getJobUpdate($jobID)
+{
+    /*Access the global variable link*/ 
+    global $link;
+    
+    $result = mysqli_query($link,"CALL jobUpdate(".$jobID.")") or die("Query fail: " . mysqli_error());
+
+    //loop through the output and echo
+     while ($row = mysqli_fetch_array($result)){   
+       Echo "<tr><td>" . $row["mcDate"] . "</td><td>" . $row["mcName"] . "</td><td>" . $row["clientFeed"] . "</td><td>" . $row["tecFeed"] . "</td></tr>";
+     }
+    //free resources
+    mysqli_free_result($result);
+}
 
 function getJobDescription($jobID)
 {

@@ -37,8 +37,8 @@ and open the template in the editor.
         
         <div id="job-list">
             <?php
-                $account=$_SESSION['account'];
-                getJobList($account)
+                $accountID=$_SESSION['accountID'];
+                getJobList($accountID)
             ?>
         </div>
         <div id="job-info">
@@ -47,7 +47,8 @@ and open the template in the editor.
                     <div class="client-row-header">
                         <div class="panel-content">
                             <?php
-                            getJobDetails($_SESSION['jobID']) 
+                            $jobID=$_SESSION['jobID'];
+                            getJobDetails($jobID) 
                             ?>
                         </div>
                     </div>
@@ -146,7 +147,7 @@ and open the template in the editor.
                             <div class="details-div" id="task">
                                 <?php 
                                 $jobID=$_SESSION['jobID'];
-                                getJobTask($jobID) 
+                                getJobUpdate($jobID) 
                                 ?>
                             </div>
                         </div>
