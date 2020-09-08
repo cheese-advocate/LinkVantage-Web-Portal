@@ -39,6 +39,14 @@ define("SQL_IS_MAIN_CONTACT","SELECT isMainContact(?)");
 define("SQL_GET_CONTACT_ID","SELECT getContactID_Account(?)");
 define("SQL_GET_TECHNICIAN_ID","SELECT getTecIDFromAccountID(?)");
 define("SQL_GET_CLIENT_ID_FROM_CONTACT","SELECT getClientIDFromContactID(?)");
+define("SQL_GET_JOB_LIST","CALL jobList(?)");
+define("SQL_GET_JOB_DESCRTION","SELECT jobDescription(?)");
+define("SQL_GET_JOB_TASK", "CALL jobTask(?)");
+define("SQL_GET_JOB_MILESTONECOMPLETE", "CALL jobMilestone(?)");
+define("SQL_GET_JOB_SOFTWARE", "CALL softwareRegistry(?)");
+define("SQL_GET_JOB_HARDWARE", "CALL hardwareRegistry(?)");
+define("SQL_GET_JOB_DETAILS","CALL jobDetailsView(?)");
+
 
 /* Database credentials */
 define('DB_SERVER', 'localhost');
@@ -1304,3 +1312,36 @@ function getTechnicianIDFromAccount($accountID){
     }
 }
     
+
+
+function getJobDescription($jobID)
+{
+    /*Access the global variable link*/ 
+    global $link;
+    
+    /*Check that statement worked, prepare statement selecting from getJobDescription
+     * function*/
+    if($stmt = mysqli_prepare($link, SQL_GET_JOB_DESCRTION)){
+        /*insert email variable to select statement*/
+        mysqli_stmt_bind_param($stmt, "s", $jobID);
+        /*execute the query*/
+        mysqli_stmt_execute($stmt);
+        /*bind the result of the query to the $result variable*/
+        mysqli_stmt_bind_result($stmt, $result);
+        /*fetch the result of the query*/
+        mysqli_stmt_fetch($stmt);                                    
+        /*close the statement*/
+        mysqli_stmt_close($stmt);        
+        
+        /*If sql returns empty result set, indicating not found*/
+        if($result == '')
+        {
+            $result = NOT_FOUND;
+        }
+        
+        return $result;
+        /*If statement failed*/
+    } else {
+        return PREP_STMT_FAILED;
+    }
+}
