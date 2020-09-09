@@ -1458,3 +1458,57 @@ function getAllClientIDs()
     
     return $ids;
 }
+
+function getClientCount()
+{
+    global $link;
+    
+    $result = $link->query("SELECT * FROM Clients;");
+    $count = 0;
+    
+    if($result->num_rows > 0)
+    {
+        while($row = $result->fetch_assoc())
+        {
+            $count++;
+        }
+    }
+    
+    return $count;
+}
+
+function getJobCount()
+{
+    global $link;
+    
+    $result = $link->query("SELECT * FROM Job;");
+    $count = 0;
+    
+    if($result->num_rows > 0)
+    {
+        while($row = $result->fetch_assoc())
+        {
+            $count++;
+        }
+    }
+    
+    return $count;
+}
+
+function getCompanyCount()
+{
+    global $link;
+    
+    $result = $link->query("SELECT * FROM Company;");
+    $count = 0;
+    
+    if($result->num_rows > 0)
+    {
+        while($row = $result->fetch_assoc())
+        {
+            $count++;
+        }
+    }
+    
+    return $count;
+}

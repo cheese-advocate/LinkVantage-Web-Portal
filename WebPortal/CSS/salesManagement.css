@@ -163,7 +163,7 @@ and open the template in the editor.
 #feedbackTitleBar
 {
     display: grid;
-    grid-template-columns: auto auto auto;
+    grid-template-columns: 1fr 1fr 1fr;
     height: auto;
     min-height: 30px;
     justify-content: space-between;
@@ -179,6 +179,7 @@ and open the template in the editor.
 #feedbackTitleBar :last-child
 {
     margin-right: 10px;
+    text-align: right;
 }
 
 #clientFeedback
@@ -186,7 +187,7 @@ and open the template in the editor.
     min-height: 30px;
     border-bottom: 1px solid #808080;
     display: grid;
-    grid-template-columns: auto auto auto;
+    grid-template-columns: 1fr 1fr 1fr;
     justify-content: space-between;
     align-items: center;
     color: #808080;
@@ -200,6 +201,7 @@ and open the template in the editor.
 #clientFeedback :last-child
 {
     margin-right: 10px;
+    text-align: right;
 }
 
 #feedback :last-child
@@ -236,8 +238,13 @@ and open the template in the editor.
 {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
+}
+
+.data span
+{
+    text-align: center;
 }
 
 .data div
@@ -246,6 +253,7 @@ and open the template in the editor.
     height: 100px;
     width: 100px;
     margin: 15px;
+    margin-bottom: 0;
     text-align: center;
     display: flex;
     justify-content: center;

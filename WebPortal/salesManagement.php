@@ -112,7 +112,8 @@
                         <span>Status</span>
                         <span>Select</span>
                     </div>
-                    <!--PHP TO ADD CONTENT HERE-->
+                    <!--PHP TO ADD CONTENT HERE
+                    THIS INFORMATION IS NOT AVAILABLE IN THE DATABASE YET-->
                     <div id="potentialClient">
                         <span>Name</span>
                         <span>Status</span>
@@ -126,40 +127,40 @@
                 <div id="feedback">
                     <div id="feedbackTitleBar">
                         <span>Client</span>
+                        <span>Job Description</span>
                         <span>Feedback</span>
-                        <span>Rating</span>
                     </div>
-                    <!--PHP TO ADD CONTENT HERE-->
-                    <div id="clientFeedback">
+                    
+                    <?php
+                        global $link;
+                        
+                        $result = $link->query("SELECT CONCAT(contactName,' ',contactSurname) AS clientName, jobDescription, content FROM Job, Feedback, Contact
+                                                WHERE Job.jobID = Feedback.jobID AND Feedback.contactID = Contact.contactID;");
+                        
+                        if($result->num_rows > 0)
+                        {
+                            while($row = $result->fetch_assoc())
+                            {
+                                if($row["jobDescription"] == null)
+                                {
+                                    $row["jobDescription"] = "No Description";
+                                }
+                                
+                                echo "<div id='clientFeedback'>"
+                                        . "<span>". $row["clientName"] ."</span>"
+                                        . "<span>". $row["jobDescription"] ."</span>"
+                                        . "<span>". $row["content"] ."</span>"
+                                    . "</div>";
+                            }
+                        }
+                    ?>
+                    
+                    <!--FEEDBACK TEMPLATE-->
+                    <!--<div id="clientFeedback">
                         <span>Client</span>
                         <span>Feedback</span>
                         <span>Rating</span>
-                    </div>
-                    <div id="clientFeedback">
-                        <span>Client</span>
-                        <span>Feedback</span>
-                        <span>Rating</span>
-                    </div>
-                    <div id="clientFeedback">
-                        <span>Client</span>
-                        <span>Feedback</span>
-                        <span>Rating</span>
-                    </div>
-                    <div id="clientFeedback">
-                        <span>Client</span>
-                        <span>Feedback</span>
-                        <span>Rating</span>
-                    </div>
-                    <div id="clientFeedback">
-                        <span>Client</span>
-                        <span>Feedback</span>
-                        <span>Rating</span>
-                    </div>
-                    <div id="clientFeedback">
-                        <span>Client</span>
-                        <span>Feedback</span>
-                        <span>Rating</span>
-                    </div>
+                    </div>-->
                 </div>
             </div>
         </div>
@@ -167,31 +168,34 @@
         <div id="salesStatTitle">Sales Statistics</div>
         <div id="otherInfoWrap">
             <div id="salesStatContainer">
-                <!--PHP TO ADD CONTENT HERE-->
-                <div class="data">
+                <?php
+                    $client_count = getClientCount();
+                    
+                    echo "<div class='data'>"
+                            . "<span>Total Clients</span>"
+                            . "<div>". $client_count ."</div>"
+                        . "</div>";
+                    
+                    $job_count = getJobCount();
+                    
+                    echo "<div class='data'>"
+                            . "<span>Total Jobs</span>"
+                            . "<div>". $job_count ."</div>"
+                        . "</div>";
+                    
+                    $company_count = getCompanyCount();
+                    
+                    echo "<div class='data'>"
+                            . "<span>Registered Companies</span>"
+                            . "<div>". $company_count ."</div>"
+                        . "</div>";
+                ?>
+                
+                <!--TEMPLATE FOR STATISTICS-->
+                <!--<div class="data">
                     <span>Sales Data 1</span>
                     <div>30%</div>
-                </div>
-                <div class="data">
-                    <span>Sales Data 2</span>
-                    <div>R400</div>
-                </div>
-                <div class="data">
-                    <span>Sales Data 3</span>
-                    <div>35</div>
-                </div>
-                <div class="data">
-                    <span>Sales Data 4</span>
-                    <div>3.5/5</div>
-                </div>
-                <div class="data">
-                    <span>Sales Data 5</span>
-                    <div>45</div>
-                </div>
-                <div class="data">
-                    <span>Sales Data 6</span>
-                    <div>R800</div>
-                </div>
+                </div>-->
             </div>
             
             <div id="reportDiv">
