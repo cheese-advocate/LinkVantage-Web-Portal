@@ -38,7 +38,7 @@ and open the template in the editor.
 {
     background: #03AAFB;
     display: grid;
-    grid-template-columns: auto auto auto auto auto;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     justify-content: space-between;
     align-items: center;
     height: auto;
@@ -53,6 +53,7 @@ and open the template in the editor.
 .titleBar :last-child
 {
     margin-right: 10px;
+    text-align: right;
 }
 
 .client
@@ -61,7 +62,7 @@ and open the template in the editor.
     height: auto;
     min-height: 30px;
     display: grid;
-    grid-template-columns: auto auto auto auto auto;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     justify-content: space-between;
     align-items: center;
     color: #808080;
@@ -75,6 +76,7 @@ and open the template in the editor.
 .client :last-child
 {
     margin-right: 10px;
+    text-align: right;
 }
 
 #existingClientsContainer :last-child

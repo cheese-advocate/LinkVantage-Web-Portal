@@ -1433,3 +1433,28 @@ function getJobDescription($jobID)
         return PREP_STMT_FAILED;
     }
 }
+
+/**
+ * Receives no parameters and gets all Client IDs from the database
+ *  and returns them in a 1D array
+ * 
+ * @global type $link
+ * @return type Array of Client IDs
+ */
+function getAllClientIDs()
+{
+    global $link;
+    
+    $result = $link->query("SELECT clientID FROM Clients LEFT JOIN Company USING (clientID);");
+    $ids = array();
+    
+    if($result->num_rows > 0)
+    {
+        while($row = $result->fetch_assoc())
+        {
+            $ids[] = $row;
+        }
+    }
+    
+    return $ids;
+}

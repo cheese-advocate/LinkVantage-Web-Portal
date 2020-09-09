@@ -72,7 +72,7 @@ and open the template in the editor.
                 
             </div>
         </div>    
-            <div class="client-row-content" id="remaining-grid"">
+            <div class="client-row-content" id="remaining-grid">
                 
                 
                 <div class="job-section" id="tasks">

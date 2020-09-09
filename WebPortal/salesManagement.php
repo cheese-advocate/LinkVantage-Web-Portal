@@ -39,14 +39,67 @@
                     <span>Location</span>
                     <span>Select</span>
                 </div>
-                <!--PHP TO DYNAMICALLY ADD CONTENT HERE-->
-                <div class="client">
+                
+                <?php
+                    global $link;
+                    $clientIDs = getAllClientIDs();
+                    
+                    //Displays all clients with companies
+                    foreach($clientIDs as $id)
+                    {
+                        $result = $link->query("SELECT CONCAT(contactName, ' ', contactSurname) AS FullName, 
+                                                CONCAT(streetNum, ' ', streetName, ' ', suburbCity) AS location, companyName
+                                                FROM Contact, Site, Clients, Company
+                                                WHERE Clients.clientID = '". implode($id) ."' AND Contact.clientID = '". implode($id) ."'
+                                                AND Site.clientID = '". implode($id) ."' AND Company.clientID = '". implode($id) ."';");
+                        
+                        if($result->num_rows > 0)
+                        {
+                            while($row = $result->fetch_assoc())
+                            {
+                                echo "<div class='client'>"
+                                        . "<span>". $row["FullName"] ."</span>"
+                                        . "<span>". $row["companyName"] ."</span>"
+                                        . "<span>Upcoming warranty</span>"
+                                        . "<span>". $row["location"] ."</span>"
+                                        . "<span><input type='checkbox' name='' value='ON' /></span>"
+                                    . "</div>";
+                            }
+                        }  
+                    }
+                    
+                    //Displays all clients without companies
+                    foreach($clientIDs as $id)
+                    {
+                        $result = $link->query("SELECT CONCAT(contactName, ' ', contactSurname) AS FullName, 
+                                                CONCAT(streetNum, ' ', streetName, ' ', suburbCity) AS location
+                                                FROM Contact, Site, Clients
+                                                WHERE Clients.clientID = '". implode($id) ."' AND Contact.clientID = '". implode($id) ."'
+                                                AND Site.clientID = '". implode($id) ."';");
+                        
+                        if($result->num_rows > 0)
+                        {
+                            while($row = $result->fetch_assoc())
+                            {
+                                echo "<div class='client'>"
+                                        . "<span>". $row["FullName"] ."</span>"
+                                        . "<span>N/A</span>"
+                                        . "<span>Upcoming warranty</span>"
+                                        . "<span>". $row["location"] ."</span>"
+                                        . "<span><input type='checkbox' name='' value='ON' /></span>"
+                                    . "</div>";
+                            }
+                        }
+                    }
+                ?>
+                <!--TEMPLATE HTML FOR CLIENT-->
+                <!--<div class="client">
                     <span>Test Name</span>
                     <span>Test Company</span>
                     <span>Test Upcoming Warranty</span>
                     <span>Test Location</span>
                     <span>Test Select</span>
-                </div>
+                </div>-->
             </div>
         </div>
         
