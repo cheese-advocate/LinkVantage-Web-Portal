@@ -8,3 +8,9 @@ and open the template in the editor.
     Author     : Tristan Ackermann
 */
 
+#jobList{
+    width:90%;
+    margin-left: auto;
+    margin-right: auto;
+    table-layout: fixed;
+}

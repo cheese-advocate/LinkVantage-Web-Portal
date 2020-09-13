@@ -19,8 +19,8 @@ and open the template in the editor.
         ?>
         <div id="job-management-header">
             <div class="client-row-header">
-                <div class="panel-content">
-                    <table>
+                <div class="panel-content" style="width:95%">
+                    <table style="width:100%; table-layout: fixed;">
                         <th>Reference no.</th>
                         <th>Description</th>
                         <th>Category</th>
@@ -39,8 +39,8 @@ and open the template in the editor.
             <?php
                 session_start();
                 $accountID=$_SESSION['accountID'];
-                echo $accountID;
-                getJobList($accountID)
+                getJobList($accountID);
+                Global $jobID;
             ?>
         </div>
         <div id="job-info">
@@ -49,8 +49,9 @@ and open the template in the editor.
                     <div class="client-row-header">
                         <div class="panel-content">
                             <?php
-                            $jobID=$_SESSION['jobID'];
-                            getJobDetails($jobID) 
+                            if (isset($jobID)){
+                            getJobDetails($jobID);
+                            }
                             ?>
                         </div>
                     </div>
@@ -63,9 +64,11 @@ and open the template in the editor.
                                 <h4 class="details-heading">Description:</h4>
                                 <span class="details-info">
                                     <?php 
-                                        $jobID=$_SESSION['jobID'];
-                                        getJobDescription($jobID) 
+                                        if (isset($jobID)){
+                                        Echo getJobDescription($jobID); 
+                                        }
                                     ?>
+                                    <br>
                                 </span>
                             </div>                      
                         </div>
@@ -83,8 +86,9 @@ and open the template in the editor.
                         <div class="panel-content">
                             <div class="details-div" id="task">
                                 <?php 
-                                    $jobID=$_SESSION['jobID'];
-                                    getJobTask($jobID) 
+                                    if (isset($jobID)){
+                                    getJobTask($jobID); 
+                                    }
                                 ?>
                             </div>
                         </div>
@@ -97,8 +101,9 @@ and open the template in the editor.
                         <div class="panel-content">
                             <div class="details-div" id="task">
                                 <?php 
-                                    $jobID=$_SESSION['jobID'];
-                                    getJobMilestone($jobID) 
+                                    if (isset($jobID)){
+                                    getJobMilestone($jobID); 
+                                    }
                                 ?>
                             </div>
                         </div>
@@ -120,8 +125,9 @@ and open the template in the editor.
                         <div class="panel-content">
                             <div class="details-div" id="task">
                                 <?php 
-                                $jobID=$_SESSION['jobID'];
-                                getSoftwareReg($jobID) 
+                                    if (isset($jobID)){
+                                    getSoftwareReg($jobID); 
+                                    }
                                 ?>
                             </div>
                         </div>
@@ -133,8 +139,9 @@ and open the template in the editor.
                         <div class="panel-content">
                             <div class="details-div" id="task">
                                 <?php 
-                                $jobID=$_SESSION['jobID'];
-                                getHardwareReg($jobID) 
+                                    if (isset($jobID)){
+                                    getHardwareReg($jobID); 
+                                    }
                                 ?>
                             </div>
                         </div>
@@ -148,8 +155,9 @@ and open the template in the editor.
                         <div class="panel-content">
                             <div class="details-div" id="task">
                                 <?php 
-                                $jobID=$_SESSION['jobID'];
-                                getJobUpdate($jobID) 
+                                    if (isset($jobID)){
+                                    getJobUpdate($jobID); 
+                                    }
                                 ?>
                             </div>
                         </div>
