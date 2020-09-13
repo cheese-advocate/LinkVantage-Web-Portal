@@ -37,7 +37,9 @@ and open the template in the editor.
         
         <div id="job-list">
             <?php
+                session_start();
                 $accountID=$_SESSION['accountID'];
+                echo $accountID;
                 getJobList($accountID)
             ?>
         </div>

@@ -225,6 +225,7 @@ function handleLogin() {
         }
         /*Direct to the dashboard after login*/
         header("Location:Dashboard.php");
+        echo $accountID;
     }/*If login failed, the failure is stored in a session variable used to 
      * indicate that a login failure toast message must be displayed upon 
      * the page being reloaded*/
