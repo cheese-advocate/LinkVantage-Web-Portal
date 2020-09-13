@@ -39,14 +39,67 @@
                     <span>Location</span>
                     <span>Select</span>
                 </div>
-                <!--PHP TO DYNAMICALLY ADD CONTENT HERE-->
-                <div class="client">
+                
+                <?php
+                    global $link;
+                    $clientIDs = getAllClientIDs();
+                    
+                    //Displays all clients with companies
+                    foreach($clientIDs as $id)
+                    {
+                        $result = $link->query("SELECT CONCAT(contactName, ' ', contactSurname) AS FullName, 
+                                                CONCAT(streetNum, ' ', streetName, ' ', suburbCity) AS location, companyName
+                                                FROM Contact, Site, Clients, Company
+                                                WHERE Clients.clientID = '". implode($id) ."' AND Contact.clientID = '". implode($id) ."'
+                                                AND Site.clientID = '". implode($id) ."' AND Company.clientID = '". implode($id) ."';");
+                        
+                        if($result->num_rows > 0)
+                        {
+                            while($row = $result->fetch_assoc())
+                            {
+                                echo "<div class='client'>"
+                                        . "<span>". $row["FullName"] ."</span>"
+                                        . "<span>". $row["companyName"] ."</span>"
+                                        . "<span>Upcoming warranty</span>"
+                                        . "<span>". $row["location"] ."</span>"
+                                        . "<span><input type='checkbox' name='' value='ON' /></span>"
+                                    . "</div>";
+                            }
+                        }  
+                    }
+                    
+                    //Displays all clients without companies
+                    foreach($clientIDs as $id)
+                    {
+                        $result = $link->query("SELECT CONCAT(contactName, ' ', contactSurname) AS FullName, 
+                                                CONCAT(streetNum, ' ', streetName, ' ', suburbCity) AS location
+                                                FROM Contact, Site, Clients
+                                                WHERE Clients.clientID = '". implode($id) ."' AND Contact.clientID = '". implode($id) ."'
+                                                AND Site.clientID = '". implode($id) ."';");
+                        
+                        if($result->num_rows > 0)
+                        {
+                            while($row = $result->fetch_assoc())
+                            {
+                                echo "<div class='client'>"
+                                        . "<span>". $row["FullName"] ."</span>"
+                                        . "<span>N/A</span>"
+                                        . "<span>Upcoming warranty</span>"
+                                        . "<span>". $row["location"] ."</span>"
+                                        . "<span><input type='checkbox' name='' value='ON' /></span>"
+                                    . "</div>";
+                            }
+                        }
+                    }
+                ?>
+                <!--TEMPLATE HTML FOR CLIENT-->
+                <!--<div class="client">
                     <span>Test Name</span>
                     <span>Test Company</span>
                     <span>Test Upcoming Warranty</span>
                     <span>Test Location</span>
                     <span>Test Select</span>
-                </div>
+                </div>-->
             </div>
         </div>
         
@@ -59,7 +112,8 @@
                         <span>Status</span>
                         <span>Select</span>
                     </div>
-                    <!--PHP TO ADD CONTENT HERE-->
+                    <!--PHP TO ADD CONTENT HERE
+                    THIS INFORMATION IS NOT AVAILABLE IN THE DATABASE YET-->
                     <div id="potentialClient">
                         <span>Name</span>
                         <span>Status</span>
@@ -73,40 +127,40 @@
                 <div id="feedback">
                     <div id="feedbackTitleBar">
                         <span>Client</span>
+                        <span>Job Description</span>
                         <span>Feedback</span>
-                        <span>Rating</span>
                     </div>
-                    <!--PHP TO ADD CONTENT HERE-->
-                    <div id="clientFeedback">
+                    
+                    <?php
+                        global $link;
+                        
+                        $result = $link->query("SELECT CONCAT(contactName,' ',contactSurname) AS clientName, jobDescription, content FROM Job, Feedback, Contact
+                                                WHERE Job.jobID = Feedback.jobID AND Feedback.contactID = Contact.contactID;");
+                        
+                        if($result->num_rows > 0)
+                        {
+                            while($row = $result->fetch_assoc())
+                            {
+                                if($row["jobDescription"] == null)
+                                {
+                                    $row["jobDescription"] = "No Description";
+                                }
+                                
+                                echo "<div id='clientFeedback'>"
+                                        . "<span>". $row["clientName"] ."</span>"
+                                        . "<span>". $row["jobDescription"] ."</span>"
+                                        . "<span>". $row["content"] ."</span>"
+                                    . "</div>";
+                            }
+                        }
+                    ?>
+                    
+                    <!--FEEDBACK TEMPLATE-->
+                    <!--<div id="clientFeedback">
                         <span>Client</span>
                         <span>Feedback</span>
                         <span>Rating</span>
-                    </div>
-                    <div id="clientFeedback">
-                        <span>Client</span>
-                        <span>Feedback</span>
-                        <span>Rating</span>
-                    </div>
-                    <div id="clientFeedback">
-                        <span>Client</span>
-                        <span>Feedback</span>
-                        <span>Rating</span>
-                    </div>
-                    <div id="clientFeedback">
-                        <span>Client</span>
-                        <span>Feedback</span>
-                        <span>Rating</span>
-                    </div>
-                    <div id="clientFeedback">
-                        <span>Client</span>
-                        <span>Feedback</span>
-                        <span>Rating</span>
-                    </div>
-                    <div id="clientFeedback">
-                        <span>Client</span>
-                        <span>Feedback</span>
-                        <span>Rating</span>
-                    </div>
+                    </div>-->
                 </div>
             </div>
         </div>
@@ -114,31 +168,34 @@
         <div id="salesStatTitle">Sales Statistics</div>
         <div id="otherInfoWrap">
             <div id="salesStatContainer">
-                <!--PHP TO ADD CONTENT HERE-->
-                <div class="data">
+                <?php
+                    $client_count = getClientCount();
+                    
+                    echo "<div class='data'>"
+                            . "<span>Total Clients</span>"
+                            . "<div>". $client_count ."</div>"
+                        . "</div>";
+                    
+                    $job_count = getJobCount();
+                    
+                    echo "<div class='data'>"
+                            . "<span>Total Jobs</span>"
+                            . "<div>". $job_count ."</div>"
+                        . "</div>";
+                    
+                    $company_count = getCompanyCount();
+                    
+                    echo "<div class='data'>"
+                            . "<span>Registered Companies</span>"
+                            . "<div>". $company_count ."</div>"
+                        . "</div>";
+                ?>
+                
+                <!--TEMPLATE FOR STATISTICS-->
+                <!--<div class="data">
                     <span>Sales Data 1</span>
                     <div>30%</div>
-                </div>
-                <div class="data">
-                    <span>Sales Data 2</span>
-                    <div>R400</div>
-                </div>
-                <div class="data">
-                    <span>Sales Data 3</span>
-                    <div>35</div>
-                </div>
-                <div class="data">
-                    <span>Sales Data 4</span>
-                    <div>3.5/5</div>
-                </div>
-                <div class="data">
-                    <span>Sales Data 5</span>
-                    <div>45</div>
-                </div>
-                <div class="data">
-                    <span>Sales Data 6</span>
-                    <div>R800</div>
-                </div>
+                </div>-->
             </div>
             
             <div id="reportDiv">
