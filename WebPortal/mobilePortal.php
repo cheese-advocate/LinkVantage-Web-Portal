@@ -9,6 +9,7 @@ require_once 'config.php';
 //require_once 'Contact.php';
 require_once 'handleIndex.php';
 require_once 'inputServerValidation.php';
+global $link;
 //Requirements - End
 //Variables for recieved post - Start
 $handleType = "null";
@@ -254,6 +255,61 @@ switch ($handleType) {
 //Reset Password - End
         
         echo $serverReturn;
+        break;
+        
+    case "GET_CLIENTS":
+        $clientIDs = getAllClientIDs();
+        $data = array();            
+        //Gets all clients with companies
+        foreach($clientIDs as $id)
+        {
+            $result = $link->query("SELECT CONCAT(contactName, ' ', contactSurname) AS FullName, 
+                                    CONCAT(streetNum, ' ', streetName, ' ', suburbCity) AS location, companyName
+                                    FROM Contact, Site, Clients, Company
+                                    WHERE Clients.clientID = '". implode($id) ."' AND Contact.clientID = '". implode($id) ."'
+                                    AND Site.clientID = '". implode($id) ."' AND Company.clientID = '". implode($id) ."';");
+                        
+            if($result->num_rows > 0)
+            {
+                while($row = $result->fetch_assoc())
+                {
+                    $data[] = $row;
+                }
+            }  
+        }
+                    
+        //Gets all clients without companies
+        foreach($clientIDs as $id)
+        {
+            $result = $link->query("SELECT CONCAT(contactName, ' ', contactSurname) AS FullName, 
+                                    CONCAT(streetNum, ' ', streetName, ' ', suburbCity) AS location
+                                    FROM Contact, Site, Clients
+                                    WHERE Clients.clientID = '". implode($id) ."' AND Contact.clientID = '". implode($id) ."'
+                                    AND Site.clientID = '". implode($id) ."';");
+                       
+            if($result->num_rows > 0)
+            {
+                while($row = $result->fetch_assoc())
+                {
+                    $data[] = $row;
+                }
+            }
+        }                                    
+        //Make use of JSON to better format and handle the data on android side
+        echo json_encode($data);
+        break;
+    
+    case "GET_STATS":
+        $clientCount = getClientCount();
+        $jobCount = getJobCount();
+        $companyCount = getCompanyCount();
+        
+        $data = array("clients" =>$clientCount, "jobs" =>$jobCount, "companies" =>$companyCount);
+        echo json_encode($data);
+        break;
+    
+    case "GET_FEEDBACK":
+        //TODO CODE HERE
         break;
     //CROSS_PLATFORM PASSWORD - START
     default: //Handle No Input - This should never be the case
