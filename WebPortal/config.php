@@ -1319,7 +1319,7 @@ function getJobList($accountID)
     
     $result = mysqli_query($link,"CALL jobList('".$accountID."');") or die("Query fail: " . mysqli_error($link));
 
-    Echo "<table ID=".'"'."jobList".'"'.">";
+    Echo '<table class="jobList">';
     //loop through the output and echo
     while ($row = mysqli_fetch_array($result)){   
         Echo "<tr><td>" . $row["ID"] . "</td><td>" . $row["jobDescription"] . "</td><td>" . $row["category"] . "</td><td>" . $row["cName"] . "</td><td>" . $row["priority"] . "</td><td>" . $row["dueDate"] . "</td><td>" . $row["jobStatus"] . "</td><td>" . $row["updated"] . "</td><td>" . $row["startDate"] . "</td></tr>";
@@ -1337,11 +1337,61 @@ function getJobDetails($jobID)
     global $link;
     
     $result = mysqli_query($link,"CALL jobDetailsView('". $jobID ."');") or die("Query fail: " . mysqli_error($link));
-
-    Echo "<table>";
+    
+    Echo '<table id="jobDetails">';
     //loop through the output and echo
-    while ($row = mysqli_fetch_array($result)){   
-        Echo "<tr><td>" . $row["jobID"] . "</td><td>" . $row["@cNameOut"] . "</td><td>" . $row["@cLocationOut"] . "</td><td>" . $row["@categoryOut"] . "</td><td>" . $row["@dueDateOut"] . "</td><td>" . $row["@completeOut"] . "</td></tr>";
+    while ($row = mysqli_fetch_array($result)){
+        //priority
+        if ($row["@priorityOut"]=="Urgent"){
+            $priority1= '<option value="Urgent" selected="selected">Urgent</option>';
+        } else {
+            $priority1= '<option value="Urgent">Urgent</option>';
+        }
+
+        if ($row["@priorityOut"]=="High"){
+            $priority2= '<option value="High" selected="selected">High</option>';
+        } else {
+            $priority2='<option value="High">High</option>';
+        }
+
+        if ($row["@priorityOut"]=="Medium"){
+            $priority3= '<option value="Medium" selected="selected">Medium</option>';
+        } else {
+            $priority3='<option value="Medium">Medium</option>';
+        }
+
+        if ($row["@priorityOut"]=="Low"){
+            $priority4= '<option value="Low" selected="selected">Low</option>';
+        } else {
+            $priority4='<option value="Low">Low</option>';
+        }
+        
+        //Status
+        if ($row["@statusOut"]=="In progress"){
+            $status1= '<option value="In progress" selected="selected">In progress</option>';
+        } else {
+            $status1= '<option value="In progress">In progress</option>';
+        }
+
+        if ($row["@statusOut"]=="Preparing"){
+            $status2= '<option value="Preparing" selected="selected">Preparing</option>';
+        } else {
+            $status2='<option value="Preparing">Preparing</option>';
+        }
+
+        if ($row["@statusOut"]=="Waiting on client"){
+            $status3= '<option value="Waiting on client" selected="selected">Waiting on client</option>';
+        } else {
+            $status3='<option value="Waiting on client">Waiting on client</option>';
+        }
+
+        if ($row["@statusOut"]=="Not started"){
+            $status4= '<option value="Not started" selected="selected">Not started</option>';
+        } else {
+            $status4='<option value="Not started">Not started</option>';
+        }
+        
+        Echo "<tr><td>" . $row["jobID"] . "</td><td>" . '<select name="priority">'. $priority1 . $priority2 . $priority3 . $priority4 . '</select>' . "</td><td>" . '<select name="status">'. $status1 . $status2 . $status3 . $status4 . '</select>' . "</td><td>" . $row["@cNameOut"] . "</td><td>" . $row["@cLocationOut"] . "</td><td>" . $row["@categoryOut"] . "</td><td>" . $row["@dueDateOut"] . "</td></tr>";
     }
     Echo"</table>";
     //free resources
@@ -1359,7 +1409,11 @@ function getJobTask($jobID)
     Echo "<table>";
     //loop through the output and echo
     while ($row = mysqli_fetch_array($result)){   
-        Echo "<tr><td>" . $row["taskDescription"] . "</td><td>" . $row["taskEnd"] . "</td></tr>";
+        If ($row["taskEnd"]==""){
+            Echo "<tr><td>" . '<input type="checkbox" name="' . $row["taskID"] . '">' . "</td><td>" . $row["taskDescription"] . "</td><td>" . '<a href="" target=""> <img src="images/cross.png" class="itemRemoveImg" /> </a>' . "</td></tr>";
+        } else {
+            Echo "<tr><td>" . '<input type="checkbox" name="' . $row["taskID"] . '" checked="true">' . "</td><td>" . $row["taskDescription"] . "</td><td>" . '<a href="" target=""> <img src="images/cross.png" class="itemRemoveImg" /> </a>' . "</td></tr>";
+        }
     }
     Echo"</table>";
     //free resources
@@ -1377,7 +1431,11 @@ function getJobMilestone($jobID)
     Echo "<table>";
     //loop through the output and echo
     while ($row = mysqli_fetch_array($result)){   
-        Echo "<tr><td>" . $row["mcName"] . "</td><td>" . $row["mcDate"] . "</td></tr>";
+        If ($row["mcDate"]==""){
+            Echo "<tr><td>" . $row["mcName"] . "</td><td>" . '<input type="checkbox" name="' . $row["mcID"] . '">' . "</td></tr>";
+        } else {
+            Echo "<tr><td>" . $row["mcName"] . "</td><td>" . '<input type="checkbox" name="' . $row["mcID"] . '" checked="true">' . "</td></tr>";
+        }
     }
     Echo"</table>";
     //free resources
@@ -1395,7 +1453,7 @@ function getSoftwareReg($jobID)
     Echo "<table>";
     //loop through the output and echo
     while ($row = mysqli_fetch_array($result)){   
-        Echo "<tr><td>" . $row["eqDescription"] . "</td><td>" . $row["supplier"] . "</td><td>" . $row["eqValue"] . "</td><td>" . $row["subscriptionEnd"] . "</td><td>" . $row["procurementDate"] . "</td><td>" . $row["deliveryDate"] . "</td></tr>";
+        Echo "<tr><td>" . $row["eqDescription"] . "</td><td>" . $row["supplier"] . "</td><td>" . $row["eqValue"] . "</td><td>" . $row["subscriptionEnd"] . "</td><td>" . $row["procurementDate"] . "</td><td>" . $row["deliveryDate"] . "</td><td>" . '<a href="" target=""> <img src="images/cross.png" class="itemRemoveImg" /> </a>' . "</td></tr>";
     }
     Echo"</table>";
     //free resources
@@ -1413,7 +1471,7 @@ function getHardwareReg($jobID)
     Echo "<table>";
     //loop through the output and echo
     while ($row = mysqli_fetch_array($result)){   
-        Echo "<tr><td>" . $row["eqDescription"] . "</td><td>" . $row["supplier"] . "</td><td>" . $row["eqValue"] . "</td><td>" . $row["warrantyInitation"] . "</td><td>" . $row["warrantyExpiration"] . "</td><td>" . $row["procurementDate"] . "</td><td>" . $row["deliveryDate"] . "</td></tr>";
+        Echo "<tr><td>" . $row["eqDescription"] . "</td><td>" . $row["supplier"] . "</td><td>" . $row["eqValue"] . "</td><td>" . $row["warrantyInitation"] . "</td><td>" . $row["warrantyExpiration"] . "</td><td>" . $row["procurementDate"] . "</td><td>" . $row["deliveryDate"] . "</td><td>" . '<a href="" target="" name="'. $row["equipmentID"] .'"> <img src="images/cross.png" class="itemRemoveImg" /> </a>' . "</td></tr>";
     }
     Echo"</table>";
     //free resources
