@@ -324,7 +324,20 @@ switch ($handleType) {
         echo json_encode($data);
         break;
         
+    case "GET_POTENTIAL_CLIENTS":
+        $result = $link->query("SELECT CONCAT(firstName, ' ', lastName) AS FullName, interest FROM potentialClients;");
+        $data = array();
         
+        if($result->num_rows > 0)
+        {
+            while($row = $result->fetch_assoc())
+            {
+                $data[] = $row;
+            }
+        }
+        
+        echo json_encode($data);
+        break;
     //CROSS_PLATFORM PASSWORD - START
     default: //Handle No Input - This should never be the case
         echo "ERROR RESPONSE, NO POST HANDLE FOUND";
