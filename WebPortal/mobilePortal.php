@@ -309,8 +309,22 @@ switch ($handleType) {
         break;
     
     case "GET_FEEDBACK":
-        //TODO CODE HERE
+        $result = $link->query("SELECT CONCAT(contactName,' ',contactSurname) AS clientName, jobDescription, content FROM Job, Feedback, Contact
+                                WHERE Job.jobID = Feedback.jobID AND Feedback.contactID = Contact.contactID;");
+        $data = array();
+        
+        if($result->num_rows > 0)
+        {
+            while($row = $result->fetch_assoc())
+            {
+                $data[] = $row;
+            }
+        }
+        
+        echo json_encode($data);
         break;
+        
+        
     //CROSS_PLATFORM PASSWORD - START
     default: //Handle No Input - This should never be the case
         echo "ERROR RESPONSE, NO POST HANDLE FOUND";
