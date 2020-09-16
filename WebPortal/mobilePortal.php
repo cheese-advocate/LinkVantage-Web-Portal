@@ -338,6 +338,29 @@ switch ($handleType) {
         
         echo json_encode($data);
         break;
+        
+    case "REGISTER_POTENTIAL_CLIENT":
+        $data = file_get_contents("php://input");
+        $pieces = explode("-", $data);
+        $json = json_decode($pieces[1]);
+        
+        $fName = $json->{"firstName"};
+        $lName = $json->{"lastName"};
+        $interest = $json->{"jobInterest"};
+        $location = $json->{"location"};
+        $cell = $json->{"cell"};
+        $email = $json->{"email"};
+
+        if($link->query("INSERT INTO potentialClients (firstName, lastName, interest, location, cellNum, email) VALUES
+                        ('". $fName ."', '". $lName ."', '". $interest ."', '". $location ."', '". $cell ."', '". $email ."');"))
+        {
+            echo "TRUE";
+        }
+        else
+        {
+            echo "FALSE";
+        }
+        break;
     //CROSS_PLATFORM PASSWORD - START
     default: //Handle No Input - This should never be the case
         echo "ERROR RESPONSE, NO POST HANDLE FOUND";
