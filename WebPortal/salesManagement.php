@@ -114,11 +114,31 @@
                     </div>
                     <!--PHP TO ADD CONTENT HERE
                     THIS INFORMATION IS NOT AVAILABLE IN THE DATABASE YET-->
+                    <?php
+                        global $link;
+                        $result = $link->query("SELECT CONCAT(firstName, ' ', lastName) AS FullName, interest FROM potentialClients;");
+                        
+                        if($result->num_rows > 0)
+                        {
+                            while($row = $result->fetch_assoc())
+                            {
+                                echo "<div id=potentialClient>"
+                                        . "<span>". $row["FullName"] ."</span>"
+                                        . "<span>". $row["interest"] ."</span>"
+                                        . "<span>Select</span>"
+                                    . "</div>";
+                            }
+                        }
+                    ?>
+                    
+                    
+                    <!--
+                    TEMPLATE FOR POTENTIAL CLIENT
                     <div id="potentialClient">
                         <span>Name</span>
                         <span>Status</span>
                         <span>Select</span>
-                    </div>
+                    </div>-->
                 </div>
             </div>
             
