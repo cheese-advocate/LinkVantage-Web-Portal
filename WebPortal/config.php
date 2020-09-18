@@ -46,7 +46,14 @@ define("SQL_GET_JOB_MILESTONECOMPLETE", "CALL jobMilestone(?)");
 define("SQL_GET_JOB_SOFTWARE", "CALL softwareRegistry(?)");
 define("SQL_GET_JOB_HARDWARE", "CALL hardwareRegistry(?)");
 define("SQL_GET_JOB_DETAILS","CALL jobDetailsView(?)");
-
+define("SQL_ADD_HARDWARE","CALL addHardwareReg(?, ?, ?, ?, ?, ?, ?, ?)");
+define("SQL_DROP_HARDWARE","CALL dropHardware(?)");
+define("SQL_ADD_SOFTWARE","CALL addSoftwareReg(?, ?, ?, ?, ?, ?, ?)");
+define("SQL_DROP_SOFTWARE","CALL dropSoftware(?)");
+define("SQL_SET_MILESTONE_END","CALL jobDetailsView(?)");
+define("SQL_SET_TASK_END","CALL setMilestoneEnd(?, ?)");
+define("SQL_ADD_TASK","CALL addTask(?, ?, ?, ?)");
+define("SQL_DROP_TASK","CALL dropTask(?)");
 
 /* Database credentials */
 define('DB_SERVER', 'localhost');
@@ -1527,6 +1534,200 @@ function getJobDescription($jobID)
     } else {
         return PREP_STMT_FAILED;
     }
+}
+
+function setMilestoneEnd($mcID, $mcDate) {
+ 
+    /*Access the global variable link*/ 
+    global $link;
+    
+    /*Check that statement worked, prepare statement inserting using storeOTP 
+     * function*/
+    if($stmt = mysqli_prepare($link, SQL_SET_MILESTONE_END)){
+        
+        /*insert account and otp variables to function*/
+        mysqli_stmt_bind_param($stmt, "ss", $mcID, $mcDate);
+        /*execute the insert*/
+        mysqli_stmt_execute($stmt);
+        
+        /*close the statement*/
+        mysqli_stmt_close($stmt);        
+        
+        /*If statement failed*/
+    } else {
+        return PREP_STMT_FAILED;
+    }
+    
+}
+
+function addTask($taskDescription, $taskStart, $taskEnd, $jobID) {
+ 
+    /*Access the global variable link*/ 
+    global $link;
+    
+    /*Check that statement worked, prepare statement inserting using storeOTP 
+     * function*/
+    if($stmt = mysqli_prepare($link, SQL_ADD_TASK)){
+        
+        /*insert account and otp variables to function*/
+        mysqli_stmt_bind_param($stmt, "ssss", $taskDescription, $taskStart, $taskEnd, $jobID);
+        /*execute the insert*/
+        mysqli_stmt_execute($stmt);
+        
+        /*close the statement*/
+        mysqli_stmt_close($stmt);        
+        
+        /*If statement failed*/
+    } else {
+        return PREP_STMT_FAILED;
+    }
+    
+}
+
+
+
+function setTaskEnd($taskID, $taskEnd) {
+ 
+    /*Access the global variable link*/ 
+    global $link;
+    
+    /*Check that statement worked, prepare statement inserting using storeOTP 
+     * function*/
+    if($stmt = mysqli_prepare($link, SQL_SET_TASK_END)){
+        
+        /*insert account and otp variables to function*/
+        mysqli_stmt_bind_param($stmt, "ss", $taskID, $taskEnd);
+        /*execute the insert*/
+        mysqli_stmt_execute($stmt);
+        
+        /*close the statement*/
+        mysqli_stmt_close($stmt);        
+        
+        /*If statement failed*/
+    } else {
+        return PREP_STMT_FAILED;
+    }
+    
+}
+
+function dropTask($taskID) {
+ 
+    /*Access the global variable link*/ 
+    global $link;
+    
+    /*Check that statement worked, prepare statement inserting using storeOTP 
+     * function*/
+    if($stmt = mysqli_prepare($link, SQL_DROP_TASK)){
+        
+        /*insert account and otp variables to function*/
+        mysqli_stmt_bind_param($stmt, "s", $taskID);
+        /*execute the insert*/
+        mysqli_stmt_execute($stmt);
+        
+        /*close the statement*/
+        mysqli_stmt_close($stmt);        
+        
+        /*If statement failed*/
+    } else {
+        return PREP_STMT_FAILED;
+    }
+    
+}
+
+function addHardware($eqDescription, $eqValue, $deliveryDate, $procurementDate, $supplier, $warrantyInitation, $warrantyExpiration, $jobID) {
+ 
+    /*Access the global variable link*/ 
+    global $link;
+    
+    /*Check that statement worked, prepare statement inserting using storeOTP 
+     * function*/
+    if($stmt = mysqli_prepare($link, SQL_ADD_HARDWARE)){
+        
+        /*insert account and otp variables to function*/
+        mysqli_stmt_bind_param($stmt, "ssssssss", $eqDescription, $eqValue, $deliveryDate, $procurementDate, $supplier, $warrantyInitation, $warrantyExpiration, $jobID);
+        /*execute the insert*/
+        mysqli_stmt_execute($stmt);
+        
+        /*close the statement*/
+        mysqli_stmt_close($stmt);        
+        
+        /*If statement failed*/
+    } else {
+        return PREP_STMT_FAILED;
+    }
+    
+}
+
+function dropHardware($equipmentID) {
+ 
+    /*Access the global variable link*/ 
+    global $link;
+    
+    /*Check that statement worked, prepare statement inserting using storeOTP 
+     * function*/
+    if($stmt = mysqli_prepare($link, SQL_DROP_HARDWARE)){
+        
+        /*insert account and otp variables to function*/
+        mysqli_stmt_bind_param($stmt, "s", $equipmentID);
+        /*execute the insert*/
+        mysqli_stmt_execute($stmt);
+        
+        /*close the statement*/
+        mysqli_stmt_close($stmt);        
+        
+        /*If statement failed*/
+    } else {
+        return PREP_STMT_FAILED;
+    }
+    
+}
+
+function addSoftware($eqDescription, $eqValue, $deliveryDate, $procurementDate, $supplier, $subscriptionEnd, $jobID) {
+ 
+    /*Access the global variable link*/ 
+    global $link;
+    
+    /*Check that statement worked, prepare statement inserting using storeOTP 
+     * function*/
+    if($stmt = mysqli_prepare($link, SQL_ADD_SOFTWARE)){
+        
+        /*insert account and otp variables to function*/
+        mysqli_stmt_bind_param($stmt, "sssssss", $eqDescription, $eqValue, $deliveryDate, $procurementDate, $supplier, $subscriptionEnd, $jobID);
+        /*execute the insert*/
+        mysqli_stmt_execute($stmt);
+        
+        /*close the statement*/
+        mysqli_stmt_close($stmt);        
+        
+        /*If statement failed*/
+    } else {
+        return PREP_STMT_FAILED;
+    }
+    
+}
+
+function dropSoftware($equipmentID) {
+ 
+    /*Access the global variable link*/ 
+    global $link;
+    
+    /*Check that statement worked, prepare statement inserting using storeOTP 
+     * function*/
+    if($stmt = mysqli_prepare($link, SQL_DROP_SOFTWARE)){
+        
+        /*insert account and otp variables to function*/
+        mysqli_stmt_bind_param($stmt, "s", $equipmentID);
+        /*execute the insert*/
+        mysqli_stmt_execute($stmt);
+        
+        /*close the statement*/
+        mysqli_stmt_close($stmt);        
+        
+        /*If statement failed*/
+    } else {
+        return PREP_STMT_FAILED;
+    }
+    
 }
 
 /**
