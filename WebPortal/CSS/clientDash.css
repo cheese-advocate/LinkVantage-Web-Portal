@@ -93,8 +93,7 @@ Panels
 .client-panel{
     height: 100%;
     width: 100%;
-    background: #373741;
-    opacity: 0.8;
+    background: rgba(55, 55, 65, 0.8);
     min-height: 0;
     display: flex;
     flex-direction: column;
@@ -233,7 +232,7 @@ Chat panel
 *************/
 
 #clientdash-job-chat .panel-content{
-    margin: 0px 20px 5px 10px;
+    margin: 0px 5px 5px 10px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -258,8 +257,6 @@ Chat panel
     padding: 10px 15px 10px 15px;
     border-radius: 5px;     
 }
-
-
 
 .message-to{
     align-items: flex-end;
@@ -322,6 +319,7 @@ Chat panel
 }
 
 #message-send{
+    margin-right: 10px;
     background-color: #03AAFB;
     border: 0px;
     color: #F3F3F3;
@@ -337,6 +335,7 @@ Job history panel
 
 .history-job-table{
     border-collapse: collapse;
+    width: 100%;
 }
 
 .history-job-table, .history-job-header, .history-job-row, .history-job-cell{
@@ -344,11 +343,139 @@ Job history panel
 }
 
 .history-job-header{
-    background-color: #03AAFB;
+    height: 35px;    
 }
 
+.history-job-header th{
+    position: sticky;
+    top: 0;
+    background-color: #03AAFB;    
+    color: #333333;
+    font-weight: normal;
+}
 
 .history-job-cell{
-    margin: 0px 20px 0px 20px;
-    padding: 0px 0px 0px 0px;
+    padding: 5px 10px 5px 10px;
+    max-width: 300px;
+    text-align: left;
+    vertical-align: top;
+}
+
+.history-job-header .history-job-cell{
+    vertical-align: middle;
+}
+
+.fa-star{
+    font-size: 10pt;
+}
+
+.rating-checked{
+    color: #03AAFB;
+}
+
+.rating-unchecked{
+    color: #808080;
+}
+
+/**************
+Queries panel
+**************/
+
+#clientdash-history-queries .panel-content{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 5px;
+    margin: 0px 5px 5px 10px;
+    font-family: sans-serif, monospace;
+}
+
+.queries-query-list{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow: auto;
+}
+
+.query{
+    margin-right: 5px;
+    background-color: #556579;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px 10px 10px 10px;
+}
+
+.query-date-category{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 30px;
+}
+
+.query-date{
+    color: #F3F3F3;
+    font-size: 12pt;
+}
+
+.query-category{
+    color: #03AAFB;
+    font-size: 12pt;
+}
+
+.query-description{
+    color: #F3F3F3;
+    font-size: 10pt;
+    /*max-height: 50px;*/
+    overflow: hidden;
+}
+
+.toggle-show{
+    display: inline;
+    color: #03AAFB;
+    font-size: 10pt;
+    align-self: flex-end;
+    position: relative;
+    top: -10px;
+    display: none;
+    margin-bottom: -10px;
+}
+
+.query-status-response{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.query-status-div{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 5px;
+}
+
+.query-response-div{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 5px;
+}
+
+.query-prompt{
+    color: #F3F3F3;
+    font-size: 12pt;
+}
+
+.query-data{
+    color: #03AAFB;
+    font-size: 12pt;
+}
+
+.new-query-button{
+    background-color: #03AAFB;
+    border: 0px;
+    color: #F3F3F3;
+    font-family: sans-serif, monospace;
+    font-size: 14pt;
+    height: 35px;
 }
