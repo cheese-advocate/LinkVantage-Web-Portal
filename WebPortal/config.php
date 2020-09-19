@@ -46,7 +46,14 @@ define("SQL_GET_JOB_MILESTONECOMPLETE", "CALL jobMilestone(?)");
 define("SQL_GET_JOB_SOFTWARE", "CALL softwareRegistry(?)");
 define("SQL_GET_JOB_HARDWARE", "CALL hardwareRegistry(?)");
 define("SQL_GET_JOB_DETAILS","CALL jobDetailsView(?)");
-
+define("SQL_ADD_HARDWARE","CALL addHardwareReg(?, ?, ?, ?, ?, ?, ?, ?)");
+define("SQL_DROP_HARDWARE","CALL dropHardware(?)");
+define("SQL_ADD_SOFTWARE","CALL addSoftwareReg(?, ?, ?, ?, ?, ?, ?)");
+define("SQL_DROP_SOFTWARE","CALL dropSoftware(?)");
+define("SQL_SET_MILESTONE_END","CALL jobDetailsView(?)");
+define("SQL_SET_TASK_END","CALL setMilestoneEnd(?, ?)");
+define("SQL_ADD_TASK","CALL addTask(?, ?, ?, ?)");
+define("SQL_DROP_TASK","CALL dropTask(?)");
 
 /* Database credentials */
 define('DB_SERVER', 'localhost');
@@ -1315,16 +1322,88 @@ function getTechnicianIDFromAccount($accountID){
 function getJobList($accountID)
 {
     /*Access the global variable link*/ 
-    global $link;
+    global $link, $jobID;
     
-    $result = mysqli_query($link,"CALL jobList(".$accountID.")") or die("Query fail: " . mysqli_error());
+    $result = mysqli_query($link,"CALL jobList('".$accountID."');") or die("Query fail: " . mysqli_error($link));
 
+    Echo '<table class="jobList">';
     //loop through the output and echo
-     while ($row = mysqli_fetch_array($result)){   
-       Echo "<tr><td>" . $row["id"] . "</td><td>" . $row["jobDescription"] . "</td><td>" . $row["category"] . "</td><td>" . $row["cName"] . "</td><td>" . $row["priority"] . "</td><td>" . $row["dueDate"] . "</td><td>" . $row["jobStatus"] . "</td><td>" . $row["updated"] . "</td><td>" . $row["startDate"] . "</td></tr>";
-     }
+    while ($row = mysqli_fetch_array($result)){   
+        Echo "<tr><td>" . $row["ID"] . "</td><td>" . $row["jobDescription"] . "</td><td>" . $row["category"] . "</td><td>" . $row["cName"] . "</td><td>" . $row["priority"] . "</td><td>" . $row["dueDate"] . "</td><td>" . $row["jobStatus"] . "</td><td>" . $row["updated"] . "</td><td>" . $row["startDate"] . "</td></tr>";
+        $jobID=$row["ID"];
+    }
+    Echo"</table>";
     //free resources
     mysqli_free_result($result);
+    $link->next_result();
+}
+
+function getJobDetails($jobID)
+{
+    /*Access the global variable link*/ 
+    global $link;
+    
+    $result = mysqli_query($link,"CALL jobDetailsView('". $jobID ."');") or die("Query fail: " . mysqli_error($link));
+    
+    Echo '<table id="jobDetails">';
+    //loop through the output and echo
+    while ($row = mysqli_fetch_array($result)){
+        //priority
+        if ($row["@priorityOut"]=="Urgent"){
+            $priority1= '<option value="Urgent" selected="selected">Urgent</option>';
+        } else {
+            $priority1= '<option value="Urgent">Urgent</option>';
+        }
+
+        if ($row["@priorityOut"]=="High"){
+            $priority2= '<option value="High" selected="selected">High</option>';
+        } else {
+            $priority2='<option value="High">High</option>';
+        }
+
+        if ($row["@priorityOut"]=="Medium"){
+            $priority3= '<option value="Medium" selected="selected">Medium</option>';
+        } else {
+            $priority3='<option value="Medium">Medium</option>';
+        }
+
+        if ($row["@priorityOut"]=="Low"){
+            $priority4= '<option value="Low" selected="selected">Low</option>';
+        } else {
+            $priority4='<option value="Low">Low</option>';
+        }
+        
+        //Status
+        if ($row["@statusOut"]=="In progress"){
+            $status1= '<option value="In progress" selected="selected">In progress</option>';
+        } else {
+            $status1= '<option value="In progress">In progress</option>';
+        }
+
+        if ($row["@statusOut"]=="Preparing"){
+            $status2= '<option value="Preparing" selected="selected">Preparing</option>';
+        } else {
+            $status2='<option value="Preparing">Preparing</option>';
+        }
+
+        if ($row["@statusOut"]=="Waiting on client"){
+            $status3= '<option value="Waiting on client" selected="selected">Waiting on client</option>';
+        } else {
+            $status3='<option value="Waiting on client">Waiting on client</option>';
+        }
+
+        if ($row["@statusOut"]=="Not started"){
+            $status4= '<option value="Not started" selected="selected">Not started</option>';
+        } else {
+            $status4='<option value="Not started">Not started</option>';
+        }
+        
+        Echo "<tr><td>" . $row["jobID"] . "</td><td>" . '<select name="priority">'. $priority1 . $priority2 . $priority3 . $priority4 . '</select>' . "</td><td>" . '<select name="status">'. $status1 . $status2 . $status3 . $status4 . '</select>' . "</td><td>" . $row["@cNameOut"] . "</td><td>" . $row["@cLocationOut"] . "</td><td>" . $row["@categoryOut"] . "</td><td>" . $row["@dueDateOut"] . "</td></tr>";
+    }
+    Echo"</table>";
+    //free resources
+    mysqli_free_result($result);
+    $link->next_result();
 }
 
 function getJobTask($jobID)
@@ -1332,14 +1411,21 @@ function getJobTask($jobID)
     /*Access the global variable link*/ 
     global $link;
     
-    $result = mysqli_query($link,"CALL jobTask(".$jobID.")") or die("Query fail: " . mysqli_error());
+    $result = mysqli_query($link,"CALL jobTask('".$jobID."');") or die("Query fail: " . mysqli_error($link));
 
+    Echo "<table>";
     //loop through the output and echo
-     while ($row = mysqli_fetch_array($result)){   
-       Echo "<tr><td>" . $row["taskDescription"] . "</td><td>" . $row["jobEnd"] . "</td></tr>";
-     }
+    while ($row = mysqli_fetch_array($result)){   
+        If ($row["taskEnd"]==""){
+            Echo "<tr><td>" . '<input type="checkbox" name="' . $row["taskID"] . '">' . "</td><td>" . $row["taskDescription"] . "</td><td>" . '<a href="" target=""> <img src="images/cross.png" class="itemRemoveImg" /> </a>' . "</td></tr>";
+        } else {
+            Echo "<tr><td>" . '<input type="checkbox" name="' . $row["taskID"] . '" checked="true">' . "</td><td>" . $row["taskDescription"] . "</td><td>" . '<a href="" target=""> <img src="images/cross.png" class="itemRemoveImg" /> </a>' . "</td></tr>";
+        }
+    }
+    Echo"</table>";
     //free resources
     mysqli_free_result($result);
+    $link->next_result();
 }
     
 function getJobMilestone($jobID)
@@ -1347,14 +1433,21 @@ function getJobMilestone($jobID)
     /*Access the global variable link*/ 
     global $link;
     
-    $result = mysqli_query($link,"CALL jobTask(".$jobID.")") or die("Query fail: " . mysqli_error());
+    $result = mysqli_query($link,"CALL jobMilestone('".$jobID."');") or die("Query fail: " . mysqli_error($link));
 
+    Echo "<table>";
     //loop through the output and echo
-     while ($row = mysqli_fetch_array($result)){   
-       Echo "<tr><td>" . $row["mcName"] . "</td><td>" . $row["mcDate"] . "</td></tr>";
-     }
+    while ($row = mysqli_fetch_array($result)){   
+        If ($row["mcDate"]==""){
+            Echo "<tr><td>" . $row["mcName"] . "</td><td>" . '<input type="checkbox" name="' . $row["mcID"] . '">' . "</td></tr>";
+        } else {
+            Echo "<tr><td>" . $row["mcName"] . "</td><td>" . '<input type="checkbox" name="' . $row["mcID"] . '" checked="true">' . "</td></tr>";
+        }
+    }
+    Echo"</table>";
     //free resources
     mysqli_free_result($result);
+    $link->next_result();
 }
 
 function getSoftwareReg($jobID)
@@ -1362,14 +1455,17 @@ function getSoftwareReg($jobID)
     /*Access the global variable link*/ 
     global $link;
     
-    $result = mysqli_query($link,"CALL softwareRegistry(".$jobID.")") or die("Query fail: " . mysqli_error());
-
+    $result = mysqli_query($link,"CALL softwareRegistry('".$jobID."');") or die("Query fail: " . mysqli_error($link));
+    
+    Echo "<table>";
     //loop through the output and echo
-     while ($row = mysqli_fetch_array($result)){   
-       Echo "<tr><td>" . $row["eqDescription"] . "</td><td>" . $row["supplier"] . "</td><td>" . $row["eqValue"] . "</td><td>" . $row["subscriptionEnd"] . "</td><td>" . $row["procurementDate"] . "</td><td>" . $row["deliveryDate"] . "</td></tr>";
-     }
+    while ($row = mysqli_fetch_array($result)){   
+        Echo "<tr><td>" . $row["eqDescription"] . "</td><td>" . $row["supplier"] . "</td><td>" . $row["eqValue"] . "</td><td>" . $row["subscriptionEnd"] . "</td><td>" . $row["procurementDate"] . "</td><td>" . $row["deliveryDate"] . "</td><td>" . '<a href="" target=""> <img src="images/cross.png" class="itemRemoveImg" /> </a>' . "</td></tr>";
+    }
+    Echo"</table>";
     //free resources
     mysqli_free_result($result);
+    $link->next_result();
 }
 
 function getHardwareReg($jobID)
@@ -1377,14 +1473,17 @@ function getHardwareReg($jobID)
     /*Access the global variable link*/ 
     global $link;
     
-    $result = mysqli_query($link,"CALL hardwareRegistry(".$jobID.")") or die("Query fail: " . mysqli_error());
-
+    $result = mysqli_query($link,"CALL hardwareRegistry('".$jobID."');") or die("Query fail: " . mysqli_error($link));
+    
+    Echo "<table>";
     //loop through the output and echo
-     while ($row = mysqli_fetch_array($result)){   
-       Echo "<tr><td>" . $row["eqDescription"] . "</td><td>" . $row["supplier"] . "</td><td>" . $row["eqValue"] . "</td><td>" . $row["warrantyInitation"] . "</td><td>" . $row["warrantyExpiration"] . "</td><td>" . $row["procurementDate"] . "</td><td>" . $row["deliveryDate"] . "</td></tr>";
-     }
+    while ($row = mysqli_fetch_array($result)){   
+        Echo "<tr><td>" . $row["eqDescription"] . "</td><td>" . $row["supplier"] . "</td><td>" . $row["eqValue"] . "</td><td>" . $row["warrantyInitation"] . "</td><td>" . $row["warrantyExpiration"] . "</td><td>" . $row["procurementDate"] . "</td><td>" . $row["deliveryDate"] . "</td><td>" . '<a href="" target="" name="'. $row["equipmentID"] .'"> <img src="images/cross.png" class="itemRemoveImg" /> </a>' . "</td></tr>";
+    }
+    Echo"</table>";
     //free resources
     mysqli_free_result($result);
+    $link->next_result();
 }
 
 function getJobUpdate($jobID)
@@ -1392,14 +1491,17 @@ function getJobUpdate($jobID)
     /*Access the global variable link*/ 
     global $link;
     
-    $result = mysqli_query($link,"CALL jobUpdate(".$jobID.")") or die("Query fail: " . mysqli_error());
-
+    $result = mysqli_query($link,"CALL jobUpdate('".$jobID."');") or die("Query fail: " . mysqli_error($link));
+    
+    Echo "<table>";
     //loop through the output and echo
-     while ($row = mysqli_fetch_array($result)){   
-       Echo "<tr><td>" . $row["mcDate"] . "</td><td>" . $row["mcName"] . "</td><td>" . $row["clientFeed"] . "</td><td>" . $row["tecFeed"] . "</td></tr>";
-     }
+    while ($row = mysqli_fetch_array($result)){   
+        Echo "<tr><td>" . $row["mcDate"] . "</td><td>" . $row["mcName"] . "</td><td>" . $row["clientFeed"] . "</td><td>" . $row["tecFeed"] . "</td></tr>";
+    }
+    Echo"</table>";
     //free resources
     mysqli_free_result($result);
+    $link->next_result();
 }
 
 function getJobDescription($jobID)
@@ -1432,6 +1534,200 @@ function getJobDescription($jobID)
     } else {
         return PREP_STMT_FAILED;
     }
+}
+
+function setMilestoneEnd($mcID, $mcDate) {
+ 
+    /*Access the global variable link*/ 
+    global $link;
+    
+    /*Check that statement worked, prepare statement inserting using storeOTP 
+     * function*/
+    if($stmt = mysqli_prepare($link, SQL_SET_MILESTONE_END)){
+        
+        /*insert account and otp variables to function*/
+        mysqli_stmt_bind_param($stmt, "ss", $mcID, $mcDate);
+        /*execute the insert*/
+        mysqli_stmt_execute($stmt);
+        
+        /*close the statement*/
+        mysqli_stmt_close($stmt);        
+        
+        /*If statement failed*/
+    } else {
+        return PREP_STMT_FAILED;
+    }
+    
+}
+
+function addTask($taskDescription, $taskStart, $taskEnd, $jobID) {
+ 
+    /*Access the global variable link*/ 
+    global $link;
+    
+    /*Check that statement worked, prepare statement inserting using storeOTP 
+     * function*/
+    if($stmt = mysqli_prepare($link, SQL_ADD_TASK)){
+        
+        /*insert account and otp variables to function*/
+        mysqli_stmt_bind_param($stmt, "ssss", $taskDescription, $taskStart, $taskEnd, $jobID);
+        /*execute the insert*/
+        mysqli_stmt_execute($stmt);
+        
+        /*close the statement*/
+        mysqli_stmt_close($stmt);        
+        
+        /*If statement failed*/
+    } else {
+        return PREP_STMT_FAILED;
+    }
+    
+}
+
+
+
+function setTaskEnd($taskID, $taskEnd) {
+ 
+    /*Access the global variable link*/ 
+    global $link;
+    
+    /*Check that statement worked, prepare statement inserting using storeOTP 
+     * function*/
+    if($stmt = mysqli_prepare($link, SQL_SET_TASK_END)){
+        
+        /*insert account and otp variables to function*/
+        mysqli_stmt_bind_param($stmt, "ss", $taskID, $taskEnd);
+        /*execute the insert*/
+        mysqli_stmt_execute($stmt);
+        
+        /*close the statement*/
+        mysqli_stmt_close($stmt);        
+        
+        /*If statement failed*/
+    } else {
+        return PREP_STMT_FAILED;
+    }
+    
+}
+
+function dropTask($taskID) {
+ 
+    /*Access the global variable link*/ 
+    global $link;
+    
+    /*Check that statement worked, prepare statement inserting using storeOTP 
+     * function*/
+    if($stmt = mysqli_prepare($link, SQL_DROP_TASK)){
+        
+        /*insert account and otp variables to function*/
+        mysqli_stmt_bind_param($stmt, "s", $taskID);
+        /*execute the insert*/
+        mysqli_stmt_execute($stmt);
+        
+        /*close the statement*/
+        mysqli_stmt_close($stmt);        
+        
+        /*If statement failed*/
+    } else {
+        return PREP_STMT_FAILED;
+    }
+    
+}
+
+function addHardware($eqDescription, $eqValue, $deliveryDate, $procurementDate, $supplier, $warrantyInitation, $warrantyExpiration, $jobID) {
+ 
+    /*Access the global variable link*/ 
+    global $link;
+    
+    /*Check that statement worked, prepare statement inserting using storeOTP 
+     * function*/
+    if($stmt = mysqli_prepare($link, SQL_ADD_HARDWARE)){
+        
+        /*insert account and otp variables to function*/
+        mysqli_stmt_bind_param($stmt, "ssssssss", $eqDescription, $eqValue, $deliveryDate, $procurementDate, $supplier, $warrantyInitation, $warrantyExpiration, $jobID);
+        /*execute the insert*/
+        mysqli_stmt_execute($stmt);
+        
+        /*close the statement*/
+        mysqli_stmt_close($stmt);        
+        
+        /*If statement failed*/
+    } else {
+        return PREP_STMT_FAILED;
+    }
+    
+}
+
+function dropHardware($equipmentID) {
+ 
+    /*Access the global variable link*/ 
+    global $link;
+    
+    /*Check that statement worked, prepare statement inserting using storeOTP 
+     * function*/
+    if($stmt = mysqli_prepare($link, SQL_DROP_HARDWARE)){
+        
+        /*insert account and otp variables to function*/
+        mysqli_stmt_bind_param($stmt, "s", $equipmentID);
+        /*execute the insert*/
+        mysqli_stmt_execute($stmt);
+        
+        /*close the statement*/
+        mysqli_stmt_close($stmt);        
+        
+        /*If statement failed*/
+    } else {
+        return PREP_STMT_FAILED;
+    }
+    
+}
+
+function addSoftware($eqDescription, $eqValue, $deliveryDate, $procurementDate, $supplier, $subscriptionEnd, $jobID) {
+ 
+    /*Access the global variable link*/ 
+    global $link;
+    
+    /*Check that statement worked, prepare statement inserting using storeOTP 
+     * function*/
+    if($stmt = mysqli_prepare($link, SQL_ADD_SOFTWARE)){
+        
+        /*insert account and otp variables to function*/
+        mysqli_stmt_bind_param($stmt, "sssssss", $eqDescription, $eqValue, $deliveryDate, $procurementDate, $supplier, $subscriptionEnd, $jobID);
+        /*execute the insert*/
+        mysqli_stmt_execute($stmt);
+        
+        /*close the statement*/
+        mysqli_stmt_close($stmt);        
+        
+        /*If statement failed*/
+    } else {
+        return PREP_STMT_FAILED;
+    }
+    
+}
+
+function dropSoftware($equipmentID) {
+ 
+    /*Access the global variable link*/ 
+    global $link;
+    
+    /*Check that statement worked, prepare statement inserting using storeOTP 
+     * function*/
+    if($stmt = mysqli_prepare($link, SQL_DROP_SOFTWARE)){
+        
+        /*insert account and otp variables to function*/
+        mysqli_stmt_bind_param($stmt, "s", $equipmentID);
+        /*execute the insert*/
+        mysqli_stmt_execute($stmt);
+        
+        /*close the statement*/
+        mysqli_stmt_close($stmt);        
+        
+        /*If statement failed*/
+    } else {
+        return PREP_STMT_FAILED;
+    }
+    
 }
 
 /**

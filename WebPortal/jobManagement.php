@@ -17,38 +17,38 @@ and open the template in the editor.
         <?php
         require 'config.php';
         ?>
-        <div id="job-management-header">
-            <div class="client-row-header">
-                <div class="panel-content">
-                    <table>
-                        <th>Reference no.</th>
-                        <th>Description</th>
-                        <th>Category</th>
-                        <th>Client</th>
-                        <th>Priority</th>
-                        <th>Due date</th>
-                        <th>Status</th>
-                        <th>Last updated</th>
-                        <th>Created</th>
-                    </table>
-                </div>
-            </div>
+        
+        <div class="client-row-header">
+                <table class="jobList">
+                    <th>Reference no.</th>
+                    <th>Description</th>
+                    <th>Category</th>
+                    <th>Client</th>
+                    <th>Priority</th>
+                    <th>Due date</th>
+                    <th>Status</th>
+                    <th>Last updated</th>
+                    <th>Created</th>
+                </table>
         </div>
         
         <div id="job-list">
             <?php
+                session_start();
                 $accountID=$_SESSION['accountID'];
-                getJobList($accountID)
+                getJobList($accountID);
+                Global $jobID;
             ?>
         </div>
         <div id="job-info">
             <div id="first-rows">
                 <div class="job-header">
                     <div class="client-row-header">
-                        <div class="panel-content">
+                        <div class="panel-content" style="width:95%">
                             <?php
-                            $jobID=$_SESSION['jobID'];
-                            getJobDetails($jobID) 
+                            if (isset($jobID)){
+                            getJobDetails($jobID);
+                            }
                             ?>
                         </div>
                     </div>
@@ -61,9 +61,11 @@ and open the template in the editor.
                                 <h4 class="details-heading">Description:</h4>
                                 <span class="details-info">
                                     <?php 
-                                        $jobID=$_SESSION['jobID'];
-                                        getJobDescription($jobID) 
+                                        if (isset($jobID)){
+                                        Echo getJobDescription($jobID); 
+                                        }
                                     ?>
+                                    <br>
                                 </span>
                             </div>                      
                         </div>
@@ -78,14 +80,18 @@ and open the template in the editor.
                 <div class="job-section" id="tasks">
                     <div class="client-panel panel-normal" id="clientdash-job-details">
                         <h3 class="panel-heading">Task:</h3>
-                        <div class="panel-content">
                             <div class="details-div" id="task">
                                 <?php 
-                                    $jobID=$_SESSION['jobID'];
-                                    getJobTask($jobID) 
+                                    if (isset($jobID)){
+                                    getJobTask($jobID); 
+                                    }
                                 ?>
+                                <div id="addTask">
+                                    <img src="images/write.png" id="addTaskImg">
+                                    <input type="text" name="taskInput" placeholder="Add a task" id="addTaskInput" class="addTaskInput">
+                                    <button name="addTask" id="itemAddBtn" class="addTaskInput">ADD</button>
+                                </div>
                             </div>
-                        </div>
                     </div>
                 </div>
                 
@@ -95,8 +101,9 @@ and open the template in the editor.
                         <div class="panel-content">
                             <div class="details-div" id="task">
                                 <?php 
-                                    $jobID=$_SESSION['jobID'];
-                                    getJobMilestone($jobID) 
+                                    if (isset($jobID)){
+                                    getJobMilestone($jobID); 
+                                    }
                                 ?>
                             </div>
                         </div>
@@ -117,10 +124,22 @@ and open the template in the editor.
                         <h3 class="panel-heading">Software registry:</h3>
                         <div class="panel-content">
                             <div class="details-div" id="task">
+                                <div class="panel-content" style="width:95%">
+                                    <table style="width:100%; table-layout: fixed;">
+                                        <th>Description</th>
+                                        <th>Supplier</th>
+                                        <th>Value</th>
+                                        <th>Subscription end</th>
+                                        <th>Procurement date</th>
+                                        <th>Delivery date</th>
+                                    </table>
+                                </div>
                                 <?php 
-                                $jobID=$_SESSION['jobID'];
-                                getSoftwareReg($jobID) 
+                                    if (isset($jobID)){
+                                    getSoftwareReg($jobID); 
+                                    }
                                 ?>
+                                <button name="addSoftwareReg" class="itemAddBtn">ADD SOFTWARE</button>
                             </div>
                         </div>
                     </div>
@@ -130,10 +149,23 @@ and open the template in the editor.
                         <h3 class="panel-heading">Hardware registry:</h3>
                         <div class="panel-content">
                             <div class="details-div" id="task">
+                                <div class="panel-content" style="width:95%">
+                                    <table style="width:100%; table-layout: fixed;">
+                                        <th>Description</th>
+                                        <th>Supplier</th>
+                                        <th>Value</th>
+                                        <th>Warranty initiation</th>
+                                        <th>Warranty expiration</th>
+                                        <th>Procurement date</th>
+                                        <th>Delivery date</th>
+                                    </table>
+                                </div>
                                 <?php 
-                                $jobID=$_SESSION['jobID'];
-                                getHardwareReg($jobID) 
+                                    if (isset($jobID)){
+                                    getHardwareReg($jobID); 
+                                    }
                                 ?>
+                                <button name="addHardwareReg" class="itemAddBtn">ADD HARDWARE</button>
                             </div>
                         </div>
                     </div>
@@ -146,8 +178,9 @@ and open the template in the editor.
                         <div class="panel-content">
                             <div class="details-div" id="task">
                                 <?php 
-                                $jobID=$_SESSION['jobID'];
-                                getJobUpdate($jobID) 
+                                    if (isset($jobID)){
+                                    getJobUpdate($jobID); 
+                                    }
                                 ?>
                             </div>
                         </div>
