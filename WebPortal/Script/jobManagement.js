@@ -112,3 +112,41 @@ function addSoftwareReg () {
     };
     modal.style.display = "none";
 }
+
+function dropTask(){
+    var ID=this.id;
+    $.ajax({
+        url: 'jobManagementAjax.php',
+        type: 'post',
+        data: { callDrop: "Task", taskID:ID},
+        success: function(response) { console.log(response); }
+    });
+}
+
+function setTaskCheck(){
+    var ID=this.id;
+    var x = document.getElementById(ID).checked;
+    var date;
+    if (x==true){
+        date= date.toISOString().split('T')[0] + ' ' + date.toTimeString().split(' ')[0];
+    } else {
+        date=null
+    }
+    $.ajax({
+        url: 'jobManagementAjax.php',
+        type: 'post',
+        data: { callCheck: "Task", taskID:ID, taskDate:date},
+        success: function(response) { console.log(response); }
+    });
+}
+
+function addTask(){
+    var descr=document.getElementById("addTaskInput");
+    var startDate= date.toISOString().split('T')[0] + ' ' + date.toTimeString().split(' ')[0];
+    $.ajax({
+        url: 'jobManagementAjax.php',
+        type: 'post',
+        data: { callAdd: "Task", taskDescr:descr, taskStart:startDate},
+        success: function(response) { console.log(response); }
+    });
+}

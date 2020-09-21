@@ -1418,9 +1418,9 @@ function getJobTask($jobID)
     //loop through the output and echo
     while ($row = mysqli_fetch_array($result)){   
         If ($row["taskEnd"]==""){
-            Echo "<tr><td>" . '<input type="checkbox" name="' . $row["taskID"] . '">' . "</td><td>" . $row["taskDescription"] . "</td><td>" . '<a href="" target=""> <img src="images/cross.png" class="itemRemoveImg" /> </a>' . "</td></tr>";
+            Echo "<tr><td>" . '<input type="checkbox" onchange="setTaskCheck()" id="' . $row["taskID"] . '" >' . "</td><td>" . $row["taskDescription"] . "</td><td>" . '<a id="' . $row["taskID"] . '" onclick="dropTask()" href=""> <img src="images/cross.png" class="itemRemoveImg" /> </a>' . "</td></tr>";
         } else {
-            Echo "<tr><td>" . '<input type="checkbox" name="' . $row["taskID"] . '" checked="true">' . "</td><td>" . $row["taskDescription"] . "</td><td>" . '<a href="" target=""> <img src="images/cross.png" class="itemRemoveImg" /> </a>' . "</td></tr>";
+            Echo "<tr><td>" . '<input type="checkbox" onchange="setTaskCheck()" id="' . $row["taskID"] . '"  checked="true">' . "</td><td>" . $row["taskDescription"] . "</td><td>" . '<a id="' . $row["taskID"] . '" onclick="dropTask()" href=""> <img src="images/cross.png" class="itemRemoveImg" /> </a>' . "</td></tr>";
         }
     }
     Echo"</table>";
@@ -1461,7 +1461,7 @@ function getSoftwareReg($jobID)
     Echo "<table>";
     //loop through the output and echo
     while ($row = mysqli_fetch_array($result)){   
-        Echo "<tr><td>" . $row["eqDescription"] . "</td><td>" . $row["supplier"] . "</td><td>" . $row["eqValue"] . "</td><td>" . $row["subscriptionEnd"] . "</td><td>" . $row["procurementDate"] . "</td><td>" . $row["deliveryDate"] . "</td><td>" . '<a href="" target=""> <img src="images/cross.png" class="itemRemoveImg" /> </a>' . "</td></tr>";
+        Echo "<tr><td>" . $row["eqDescription"] . "</td><td>" . $row["supplier"] . "</td><td>" . $row["eqValue"] . "</td><td>" . $row["subscriptionEnd"] . "</td><td>" . $row["procurementDate"] . "</td><td>" . $row["deliveryDate"] . "</td><td>" . '<a href=""> <img src="images/cross.png" class="itemRemoveImg" /> </a>' . "</td></tr>";
     }
     Echo"</table>";
     //free resources
@@ -1479,7 +1479,7 @@ function getHardwareReg($jobID)
     Echo "<table>";
     //loop through the output and echo
     while ($row = mysqli_fetch_array($result)){   
-        Echo "<tr><td>" . $row["eqDescription"] . "</td><td>" . $row["supplier"] . "</td><td>" . $row["eqValue"] . "</td><td>" . $row["warrantyInitation"] . "</td><td>" . $row["warrantyExpiration"] . "</td><td>" . $row["procurementDate"] . "</td><td>" . $row["deliveryDate"] . "</td><td>" . '<a href="" target="" name="'. $row["equipmentID"] .'"> <img src="images/cross.png" class="itemRemoveImg" /> </a>' . "</td></tr>";
+        Echo "<tr><td>" . $row["eqDescription"] . "</td><td>" . $row["supplier"] . "</td><td>" . $row["eqValue"] . "</td><td>" . $row["warrantyInitation"] . "</td><td>" . $row["warrantyExpiration"] . "</td><td>" . $row["procurementDate"] . "</td><td>" . $row["deliveryDate"] . "</td><td>" . '<a href="" name="'. $row["equipmentID"] .'"> <img src="images/cross.png" class="itemRemoveImg" /> </a>' . "</td></tr>";
     }
     Echo"</table>";
     //free resources
