@@ -9,7 +9,9 @@ and open the template in the editor.
     <head>
         <meta charset="UTF-8">
         <title></title>
-        <script src="Script/script.js" type="text/javascript"></script>
+        <script src="Script/jquery-3.5.0.js" type="text/javascript" async defer></script>
+        <script src="Script/script.js" type="text/javascript" async defer></script>
+        <script src="Script/jobManagement.js" type="text/javascript" async defer></script>
         <link href="CSS/style.css" rel="stylesheet" type="text/css"/>
         <link href="CSS/jobManagement.css" rel="stylesheet" type="text/css"/>
     </head>
@@ -35,9 +37,10 @@ and open the template in the editor.
         <div id="job-list">
             <?php
                 session_start();
+                
                 $accountID=$_SESSION['accountID'];
                 getJobList($accountID);
-                Global $jobID;
+                $jobID=$_POST["jobID"];
             ?>
         </div>
         <div id="job-info">
@@ -139,11 +142,49 @@ and open the template in the editor.
                                     getSoftwareReg($jobID); 
                                     }
                                 ?>
-                                <button name="addSoftwareReg" class="itemAddBtn">ADD SOFTWARE</button>
+                                <button id="addSoftwareReg" onclick="openSoftwareModal()" class="itemAddBtn">ADD SOFTWARE</button>
+                                
+                                
+
+                                
                             </div>
                         </div>
                     </div>
                 </div>
+                
+            <div id="softwareRegModal" class="modal">
+                <div class="modal-content">
+                    <span class="close" id="softwareClose">&times;</span>
+                    <Form method="Post">
+                    <label for="softwareDescr"><b>*Description</b></label>
+                    <br>
+                    <input type="text" placeholder="Enter description" name="softwareDescr" id="softwareDescr" required>
+                    <br>
+                    <label for="softwareSupplier"><b>*Supplier</b></label>
+                    <br>
+                    <input type="text" placeholder="Enter supplier name" name="softwareSupplier" id="softwareSupplier" required>
+                    <br>
+                    <label for="softwareValue"><b>*Value (Rand)</b></label>
+                    <br>
+                    <input type="number" step=".01" placeholder="Enter price" name="softwareValue" id="softwareValue" required>
+                    <br>
+                    <label for="softwareSubEnd"><b>Subscription end</b></label>
+                    <br>
+                    <input type="date" name="softwareSubEnd" id="softwareSubEnd">
+                    <br>
+                    <label for="softwareProcurement"><b>*Procurement date</b></label>
+                    <br>
+                    <input type="date" name="softwareProcurement" id="softwareProcurement">
+                    <br>
+                    <label for="softwareDelivery"><b>Delivery date</b></label>
+                    <br>
+                    <input type="date" name="softwareDelivery" id="softwareDelivery">
+                    <br>
+                    <input type="button" name="softwareAddBtn" onclick="addSoftwareReg()" value="Confirm" id="softwareAddBtn">
+                    </Form>     
+                </div>
+            </div>
+                
                 <div class="job-section" id="hardware-registry">
                     <div class="client-panel panel-normal" id="clientdash-job-details">
                         <h3 class="panel-heading">Hardware registry:</h3>
@@ -165,9 +206,46 @@ and open the template in the editor.
                                     getHardwareReg($jobID); 
                                     }
                                 ?>
-                                <button name="addHardwareReg" class="itemAddBtn">ADD HARDWARE</button>
+                                <button id="addHardwareReg" onclick="openHardwareModal()" class="itemAddBtn">ADD HARDWARE</button>
                             </div>
                         </div>
+                    </div>
+                </div>
+                
+                <div id="hardwareRegModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close" id="hardwareClose">&times;</span>
+                        <Form method="Post">
+                        <label for="hardwareDescr"><b>*Description</b></label>
+                        <br>
+                        <input type="text" placeholder="Enter description" name="hardwareDescr" id="hardwareDescr" required>
+                        <br>
+                        <label for="hardwareSupplier"><b>*Supplier</b></label>
+                        <br>
+                        <input type="text" placeholder="Enter supplier name" name="hardwareSupplier" id="hardwareSupplier" required>
+                        <br>
+                        <label for="hardwareValue"><b>*Value (Rand)</b></label>
+                        <br>
+                        <input type="number" step=".01" placeholder="Enter price" name="hardwareValue" id="hardwareValue" required>
+                        <br>
+                        <label for="hardwareWarrantyInitiation"><b>Warranty initiation</b></label>
+                        <br>
+                        <input type="date" name="hardwareWarrantyInitiation" id="hardwareWarrantyInitiation">
+                        <br>
+                        <label for="hardwareWarrantyExpiration"><b>Warranty expiration</b></label>
+                        <br>
+                        <input type="date" name="hardwareWarrantyExpiration" id="hardwareWarrantyExpiration">
+                        <br>
+                        <label for="hardwareProcurement"><b>*Procurement date</b></label>
+                        <br>
+                        <input type="date" name="hardwareProcurement" id="hardwareProcurement" required>
+                        <br>
+                        <label for="hardwareDelivery"><b>Delivery date</b></label>
+                        <br>
+                        <input type="date" name="hardwareDelivery" id="hardwareDelivery">
+                        <br>
+                        <input type="button" onclick="addHardwareReg()" value="Confirm" id="hardwareAddBtn">
+                        </Form>
                     </div>
                 </div>
                 

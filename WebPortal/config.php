@@ -1322,7 +1322,7 @@ function getTechnicianIDFromAccount($accountID){
 function getJobList($accountID)
 {
     /*Access the global variable link*/ 
-    global $link, $jobID;
+    global $link;
     
     $result = mysqli_query($link,"CALL jobList('".$accountID."');") or die("Query fail: " . mysqli_error($link));
 
@@ -1330,7 +1330,8 @@ function getJobList($accountID)
     //loop through the output and echo
     while ($row = mysqli_fetch_array($result)){   
         Echo "<tr><td>" . $row["ID"] . "</td><td>" . $row["jobDescription"] . "</td><td>" . $row["category"] . "</td><td>" . $row["cName"] . "</td><td>" . $row["priority"] . "</td><td>" . $row["dueDate"] . "</td><td>" . $row["jobStatus"] . "</td><td>" . $row["updated"] . "</td><td>" . $row["startDate"] . "</td></tr>";
-        $jobID=$row["ID"];
+        $_POST["jobID"]=$row["ID"];
+        
     }
     Echo"</table>";
     //free resources
@@ -1649,11 +1650,13 @@ function addHardware($eqDescription, $eqValue, $deliveryDate, $procurementDate, 
         mysqli_stmt_execute($stmt);
         
         /*close the statement*/
-        mysqli_stmt_close($stmt);        
+        mysqli_stmt_close($stmt);   
+        
+        echo json_encode(array("statusCode"=>200));
         
         /*If statement failed*/
     } else {
-        return PREP_STMT_FAILED;
+        echo json_encode(array("statusCode"=>201));
     }
     
 }
@@ -1697,11 +1700,13 @@ function addSoftware($eqDescription, $eqValue, $deliveryDate, $procurementDate, 
         mysqli_stmt_execute($stmt);
         
         /*close the statement*/
-        mysqli_stmt_close($stmt);        
+        mysqli_stmt_close($stmt);      
+        
+        echo json_encode(array("statusCode"=>200));
         
         /*If statement failed*/
     } else {
-        return PREP_STMT_FAILED;
+        echo json_encode(array("statusCode"=>201));
     }
     
 }
