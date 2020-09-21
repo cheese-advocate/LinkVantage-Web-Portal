@@ -9,15 +9,15 @@ and open the template in the editor.
     <head>
         <meta charset="UTF-8">
         <title></title>
-        <script src="Script/jquery-3.5.0.js" type="text/javascript" async defer></script>
-        <script src="Script/script.js" type="text/javascript" async defer></script>
-        <script src="Script/jobManagement.js" type="text/javascript" async defer></script>
+        <script src="Script/jquery-3.5.0.js" type="text/javascript"></script>
+        <script src="Script/script.js" type="text/javascript"></script>
+        <script src="Script/jobManagement.js" type="text/javascript"></script>
         <link href="CSS/style.css" rel="stylesheet" type="text/css"/>
         <link href="CSS/jobManagement.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
         <?php
-        require 'config.php';
+        require_once 'config.php';
         ?>
         
         <div class="client-row-header">
@@ -92,7 +92,7 @@ and open the template in the editor.
                                 <div id="addTask">
                                     <img src="images/write.png" id="addTaskImg">
                                     <input type="text" name="taskInput" placeholder="Add a task" id="addTaskInput" class="addTaskInput">
-                                    <button name="addTask" id="itemAddBtn" class="addTaskInput">ADD</button>
+                                    <button name="addTask" id="itemAddBtn" class="addTaskInput" onclick="addTask()">ADD</button>
                                 </div>
                             </div>
                     </div>

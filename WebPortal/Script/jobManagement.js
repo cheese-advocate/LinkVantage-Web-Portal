@@ -113,18 +113,10 @@ function addSoftwareReg () {
     modal.style.display = "none";
 }
 
-function dropTask(){
-    var ID=this.id;
-    $.ajax({
-        url: 'jobManagementAjax.php',
-        type: 'post',
-        data: { callDrop: "Task", taskID:ID},
-        success: function(response) { console.log(response); }
-    });
-}
 
-function setTaskCheck(){
-    var ID=this.id;
+
+function setTaskCheck(ele){
+    var ID=ele.id;
     var x = document.getElementById(ID).checked;
     var date;
     if (x==true){
@@ -136,7 +128,7 @@ function setTaskCheck(){
         url: 'jobManagementAjax.php',
         type: 'post',
         data: { callCheck: "Task", taskID:ID, taskDate:date},
-        success: function(response) { console.log(response); }
+        error: function(){alert("Error");}
     });
 }
 
@@ -146,7 +138,54 @@ function addTask(){
     $.ajax({
         url: 'jobManagementAjax.php',
         type: 'post',
-        data: { callAdd: "Task", taskDescr:descr, taskStart:startDate},
-        success: function(response) { console.log(response); }
+        data: {callAdd: "Task", taskDescr:descr, taskStart:startDate},
+        error: function(){alert("Error");}
+    });
+}
+
+function setMilestoneCheck(ele){
+    var ID=ele.id;
+    var x = document.getElementById(ID).checked;
+    var date;
+    if (x==true){
+        date= date.toISOString().split('T')[0] + ' ' + date.toTimeString().split(' ')[0];
+    } else {
+        date=null
+    }
+    $.ajax({
+        url: 'jobManagementAjax.php',
+        type: 'post',
+        data: { callCheck: "Milestone", mcID:ID, mcDate:date},
+        error: function(){alert("Error");}
+    });
+}
+
+function dropTask(ele){
+    var ID=ele.id;
+    $.ajax({
+        url: 'jobManagementAjax.php',
+        type: 'post',
+        data: { callDrop: "Task", taskID:ID},
+        error: function(){alert("Error");}
+    });
+}
+
+function dropSoftwareReg(ele){
+    var ID=ele.id;
+    $.ajax({
+        url: 'jobManagementAjax.php',
+        type: 'post',
+        data: { callDrop: "Software", equipmentID:ID},
+        error: function(){alert("Error");}
+    });
+}
+
+function dropHardwareReg(ele){
+    var ID=ele.id;
+    $.ajax({
+        url: 'jobManagementAjax.php',
+        type: 'post',
+        data: { callDrop: "Hardware", equipmentID:ID},
+        error: function(){alert("Error");}
     });
 }

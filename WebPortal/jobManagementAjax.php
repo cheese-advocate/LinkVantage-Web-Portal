@@ -6,11 +6,12 @@
  * and open the template in the editor.
  */
 
-require 'config.php';
+require_once 'config.php';
+Echo "CALLED MAFAAEDdhgEARFH";
 $reg=$_POST["jobRegistry"];
-$callDrop=$POST["callDrop"];
-$callCheck=$POST["callCheck"];
-$callAdd=$POST["callAdd"];
+$callDrop=$_POST["callDrop"];
+$callCheck=$_POST["callCheck"];
+$callAdd=$_POST["callAdd"];
 $jobID=$_POST["jobID"];
 
 if ($reg=="hardware"){
@@ -46,7 +47,24 @@ if ($callCheck=="Task"){
 }
 
 if ($callAdd=="Task"){
+    echo "Callederaherh";
     $taskDescription=$_POST["taskDescr"];
     $taskStart=$_POST["taskStart"];
     addTask($taskDescription, $taskStart, null, $jobID);
+}
+
+if ($callCheck=="Milestone"){
+    $mcID=$_POST["mcID"];
+    $mcEnd=$_POST["mcDate"];
+    setMilestoneEnd($mcID, $mcDate);
+}
+
+if ($callDrop=="Hardware"){
+    $equipmentID=$_POST["equipmentID"];
+    dropHardware($equipmentID);
+}
+
+if ($callDrop=="Software"){
+    $equipmentID=$_POST["equipmentID"];
+    dropSoftware($equipmentID);
 }
