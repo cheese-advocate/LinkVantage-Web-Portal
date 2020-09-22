@@ -9,7 +9,7 @@ and open the template in the editor.
 */
 
 .jobList{
-    width:100%;
+    width:98%;
 }
 
 #job-list{
@@ -86,4 +86,33 @@ and open the template in the editor.
   color: black;
   text-decoration: none;
   cursor: pointer;
+}
+
+th{
+    text-align: left;
+}
+
+#jobList{
+    border-collapse: separate;
+    border-spacing: 0 6px;
+}
+
+#jobList tr {
+    background-color:#888;
+    height: 26px;
+}
+
+#jobList td {
+    border: none;
+}
+
+#jobList tr:hover {
+    background-color:dimgrey;
+}
+#jobList th {
+    background-color:#03AAFB;
+}
+
+#jobList td:hover {
+    cursor: pointer;
 }

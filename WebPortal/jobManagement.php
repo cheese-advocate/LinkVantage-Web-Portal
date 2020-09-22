@@ -18,30 +18,33 @@ and open the template in the editor.
     <body>
         <?php
         require_once 'config.php';
+        session_start();
         ?>
         
-        <div class="client-row-header">
-                <table class="jobList">
-                    <th>Reference no.</th>
-                    <th>Description</th>
-                    <th>Category</th>
-                    <th>Client</th>
-                    <th>Priority</th>
-                    <th>Due date</th>
-                    <th>Status</th>
-                    <th>Last updated</th>
-                    <th>Created</th>
-                </table>
-        </div>
-        
         <div id="job-list">
-            <?php
-                session_start();
-                
-                $accountID=$_SESSION['accountID'];
-                getJobList($accountID);
-                $jobID=$_POST["jobID"];
-            ?>
+            <table class="jobList" id="jobList">
+                    <tr>
+                        <th>Reference no.</th>
+                        <th>Description</th>
+                        <th>Category</th>
+                        <th>Client</th>
+                        <th>Priority</th>
+                        <th>Due date</th>
+                        <th>Status</th>
+                        <th>Last updated</th>
+                        <th>Created</th>
+                    </tr>
+                    <?php
+                        $accountID=$_SESSION['accountID'];
+                        getJobList($accountID);
+                        if (isset($_POST["selectedJobID"])){
+                            $jobID=$_POST["selectedJobID"]; 
+                        } else {
+                        $jobID=$_POST["jobID"];
+                        }
+                    ?>
+                </table>
+            
         </div>
         <div id="job-info">
             <div id="first-rows">
@@ -128,20 +131,23 @@ and open the template in the editor.
                         <div class="panel-content">
                             <div class="details-div" id="task">
                                 <div class="panel-content" style="width:95%">
-                                    <table style="width:100%; table-layout: fixed;">
-                                        <th>Description</th>
-                                        <th>Supplier</th>
-                                        <th>Value</th>
-                                        <th>Subscription end</th>
-                                        <th>Procurement date</th>
-                                        <th>Delivery date</th>
+                                    <table style="width:100%;">
+                                        <tr>
+                                            <th>Description</th>
+                                            <th>Supplier</th>
+                                            <th>Value</th>
+                                            <th>Subscription end</th>
+                                            <th>Procurement date</th>
+                                            <th>Delivery date</th>
+                                        </tr>
+                                        <?php 
+                                            if (isset($jobID)){
+                                            getSoftwareReg($jobID); 
+                                            }
+                                        ?>
                                     </table>
                                 </div>
-                                <?php 
-                                    if (isset($jobID)){
-                                    getSoftwareReg($jobID); 
-                                    }
-                                ?>
+                                
                                 <button id="addSoftwareReg" onclick="openSoftwareModal()" class="itemAddBtn">ADD SOFTWARE</button>
                                 
                                 
@@ -191,21 +197,24 @@ and open the template in the editor.
                         <div class="panel-content">
                             <div class="details-div" id="task">
                                 <div class="panel-content" style="width:95%">
-                                    <table style="width:100%; table-layout: fixed;">
-                                        <th>Description</th>
-                                        <th>Supplier</th>
-                                        <th>Value</th>
-                                        <th>Warranty initiation</th>
-                                        <th>Warranty expiration</th>
-                                        <th>Procurement date</th>
-                                        <th>Delivery date</th>
-                                    </table>
-                                </div>
+                                    <table style="width:100%;">
+                                        <tr>
+                                            <th>Description</th>
+                                            <th>Supplier</th>
+                                            <th>Value</th>
+                                            <th>Warranty initiation</th>
+                                            <th>Warranty expiration</th>
+                                            <th>Procurement date</th>
+                                            <th>Delivery date</th>
+                                        </tr>
                                 <?php 
                                     if (isset($jobID)){
                                     getHardwareReg($jobID); 
                                     }
-                                ?>
+                                ?> 
+                                    </table>
+                                </div>
+
                                 <button id="addHardwareReg" onclick="openHardwareModal()" class="itemAddBtn">ADD HARDWARE</button>
                             </div>
                         </div>

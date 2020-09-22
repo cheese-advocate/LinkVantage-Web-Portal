@@ -1326,14 +1326,12 @@ function getJobList($accountID)
     
     $result = mysqli_query($link,"CALL jobList('".$accountID."');") or die("Query fail: " . mysqli_error($link));
 
-    Echo '<table class="jobList">';
     //loop through the output and echo
     while ($row = mysqli_fetch_array($result)){   
         Echo "<tr><td>" . $row["ID"] . "</td><td>" . $row["jobDescription"] . "</td><td>" . $row["category"] . "</td><td>" . $row["cName"] . "</td><td>" . $row["priority"] . "</td><td>" . $row["dueDate"] . "</td><td>" . $row["jobStatus"] . "</td><td>" . $row["updated"] . "</td><td>" . $row["startDate"] . "</td></tr>";
         $_POST["jobID"]=$row["ID"];
         
     }
-    Echo"</table>";
     //free resources
     mysqli_free_result($result);
     $link->next_result();
@@ -1458,12 +1456,10 @@ function getSoftwareReg($jobID)
     
     $result = mysqli_query($link,"CALL softwareRegistry('".$jobID."');") or die("Query fail: " . mysqli_error($link));
     
-    Echo "<table>";
     //loop through the output and echo
     while ($row = mysqli_fetch_array($result)){   
         Echo "<tr><td>" . $row["eqDescription"] . "</td><td>" . $row["supplier"] . "</td><td>" . $row["eqValue"] . "</td><td>" . $row["subscriptionEnd"] . "</td><td>" . $row["procurementDate"] . "</td><td>" . $row["deliveryDate"] . "</td><td>" . '<a id="'. $row["equipmentID"] .'" href=""  onclick="dropSoftwareReg(this)"> <img src="images/cross.png" class="itemRemoveImg" /> </a>' . "</td></tr>";
     }
-    Echo"</table>";
     //free resources
     mysqli_free_result($result);
     $link->next_result();
@@ -1476,12 +1472,10 @@ function getHardwareReg($jobID)
     
     $result = mysqli_query($link,"CALL hardwareRegistry('".$jobID."');") or die("Query fail: " . mysqli_error($link));
     
-    Echo "<table>";
     //loop through the output and echo
     while ($row = mysqli_fetch_array($result)){   
         Echo "<tr><td>" . $row["eqDescription"] . "</td><td>" . $row["supplier"] . "</td><td>" . $row["eqValue"] . "</td><td>" . $row["warrantyInitation"] . "</td><td>" . $row["warrantyExpiration"] . "</td><td>" . $row["procurementDate"] . "</td><td>" . $row["deliveryDate"] . "</td><td>" . '<a id="'. $row["equipmentID"] .'" href="" onclick="dropHardwareReg(this)"> <img src="images/cross.png" class="itemRemoveImg" /> </a>' . "</td></tr>";
     }
-    Echo"</table>";
     //free resources
     mysqli_free_result($result);
     $link->next_result();

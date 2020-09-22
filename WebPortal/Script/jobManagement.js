@@ -189,3 +189,17 @@ function dropHardwareReg(ele){
         error: function(){alert("Error");}
     });
 }
+
+$(document).ready(function() {
+
+    $('#jobList tr').click(function() {
+        var id = $(this);
+        $.ajax({
+        url: 'jobManagementAjax.php',
+        type: 'post',
+        data: { selectedJobID: id},
+        error: function(){alert("Error");}
+    });
+    });
+
+});
