@@ -68,3 +68,8 @@ function navigate(location)
     }
     
 }
+
+function generatePDF()
+{
+    window.location.href = "PDFGenerator.php";
+}

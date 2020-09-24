@@ -219,7 +219,7 @@
             </div>
             
             <div id="reportDiv">
-                <input type="submit" value="GENERATE REPORT" id="reportGenButton"/>
+                <input type="submit" value="GENERATE REPORT" id="reportGenButton" onclick="generatePDF();"/>
             </div>
         </div>
     </body>
