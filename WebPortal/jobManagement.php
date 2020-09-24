@@ -10,15 +10,19 @@ and open the template in the editor.
         <meta charset="UTF-8">
         <title></title>
         <script src="Script/jquery-3.5.0.js" type="text/javascript"></script>
+        <script src="Script/dashboard.js" type="text/javascript"></script>
         <script src="Script/script.js" type="text/javascript"></script>
         <script src="Script/jobManagement.js" type="text/javascript"></script>
         <link href="CSS/style.css" rel="stylesheet" type="text/css"/>
         <link href="CSS/jobManagement.css" rel="stylesheet" type="text/css"/>
+        <link href="CSS/dashboard.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
         <?php
         require_once 'config.php';
         session_start();
+        $displayUsername = getUsername($_SESSION['accountID']);
+        include './nav.html';
         ?>
         
         <div id="job-list">
@@ -79,10 +83,8 @@ and open the template in the editor.
                 </div>
                 
             </div>
-        </div>    
-            <div class="client-row-content" id="remaining-grid">
-                
-                
+        </div>
+        <div class="grid-container">
                 <div class="job-section" id="tasks">
                     <div class="client-panel panel-normal" id="clientdash-job-details">
                         <h3 class="panel-heading">Task:</h3>

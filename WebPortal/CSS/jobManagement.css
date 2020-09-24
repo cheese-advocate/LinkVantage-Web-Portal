@@ -22,6 +22,7 @@ and open the template in the editor.
 
 #jobDetails{
     width:95%;
+    margin-top: 6px;
     margin-left: auto;
     margin-right: auto;
     table-layout: fixed;
@@ -98,7 +99,7 @@ th{
 }
 
 #jobList tr {
-    background-color:#888;
+    background: rgba(55, 55, 65, 0.8);
     height: 26px;
 }
 
@@ -107,7 +108,7 @@ th{
 }
 
 #jobList tr:hover {
-    background-color:dimgrey;
+    background: rgba(75, 75, 85, 0.8);
 }
 #jobList th {
     background-color:#03AAFB;
@@ -115,4 +116,28 @@ th{
 
 #jobList td:hover {
     cursor: pointer;
+}
+
+.grid-container{
+    margin-top: 20px;
+    margin-left: 15px;
+    margin-right: 15px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    display: grid;
+    grid-gap: 15px 14px;
+}
+
+#tasks{
+    grid-column:1;
+    grid-row:1;
+}
+
+#milestones{
+    grid-column:2;
+    grid-row:1;
+}
+
+#chat{
+    grid-column:3;
+    grid-row:1;
 }
