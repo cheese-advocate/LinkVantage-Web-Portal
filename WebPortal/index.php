@@ -1,6 +1,13 @@
 <?php
     
     session_start();
+    if(isset($_SESSION['contactID'])){
+        unset($_SESSION['contactID']);
+    } else {
+        if(isset($_SESSION['technicianID'])){
+            unset($_SESSION['technicianID']);
+        }
+    }
 
     /**
      * Todo:
