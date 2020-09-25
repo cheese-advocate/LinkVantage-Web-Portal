@@ -41,7 +41,6 @@ function openSoftwareModal(){
 }
 
 function addHardwareReg () {
-    alert("Called");
     var hardwareDescr = $('#hardwareDescr').val();
     var hardwareSupplier = $('#hardwareSupplier').val();
     var hardwareValue = $('#hardwareValue').val();
@@ -221,7 +220,6 @@ function dropHardwareReg(ele){
 
 $("#jobList tr").click(function() {
   var id = $(this).find("td:first-child").text();
-  alert("called");
 
   $.ajax({
     cache: false,

@@ -133,7 +133,7 @@ and open the template in the editor.
                         <div class="panel-content">
                             <div class="details-div" id="task">
                                 <div class="panel-content" style="width:95%">
-                                    <table style="width:100%;">
+                                    <table style="width:100%;" class="regTable">
                                         <tr>
                                             <th>Description</th>
                                             <th>Supplier</th>
@@ -141,6 +141,7 @@ and open the template in the editor.
                                             <th>Subscription end</th>
                                             <th>Procurement date</th>
                                             <th>Delivery date</th>
+                                            <th></th>
                                         </tr>
                                         <?php 
                                             if (isset($jobID)){
@@ -150,10 +151,7 @@ and open the template in the editor.
                                     </table>
                                 </div>
                                 
-                                <button id="addSoftwareReg" onclick="openSoftwareModal()" class="itemAddBtn">ADD SOFTWARE</button>
-                                
-                                
-
+                                <button id="addSoftwareReg" onclick="openSoftwareModal()" class="addRegBtn">ADD SOFTWARE</button>
                                 
                             </div>
                         </div>
@@ -198,8 +196,8 @@ and open the template in the editor.
                         <h3 class="panel-heading">Hardware registry:</h3>
                         <div class="panel-content">
                             <div class="details-div" id="task">
-                                <div class="panel-content" style="width:95%">
-                                    <table style="width:100%;">
+                                <div class="panel-content" style="width:95%" >
+                                    <table style="width:100%;" class="regTable">
                                         <tr>
                                             <th>Description</th>
                                             <th>Supplier</th>
@@ -208,6 +206,7 @@ and open the template in the editor.
                                             <th>Warranty expiration</th>
                                             <th>Procurement date</th>
                                             <th>Delivery date</th>
+                                            <th></th>
                                         </tr>
                                 <?php 
                                     if (isset($jobID)){
@@ -217,7 +216,7 @@ and open the template in the editor.
                                     </table>
                                 </div>
 
-                                <button id="addHardwareReg" onclick="openHardwareModal()" class="itemAddBtn">ADD HARDWARE</button>
+                                <button id="addHardwareReg" onclick="openHardwareModal()" class="addRegBtn">ADD HARDWARE</button>
                             </div>
                         </div>
                     </div>

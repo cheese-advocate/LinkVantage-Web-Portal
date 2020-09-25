@@ -197,3 +197,24 @@ th{
     height: 26px;
 
 }
+
+.addRegBtn {
+    margin-right: 10px;
+    background-color: #03AAFB;
+    border: 0px;
+    color: #F3F3F3;
+    font-family: sans-serif, monospace;
+    font-size: 14pt;
+    width: 182px;
+    height: 26px;
+}
+
+.regTable{
+    border-collapse: separate;
+    border-spacing: 0 6px;
+    font-size: 15px !important;
+}
+
+.regTable th {
+    background-color:#03AAFB;
+}
