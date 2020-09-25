@@ -55,6 +55,7 @@ function addHardwareReg () {
             type: "post",    //request type,
 
             data: {
+                cache: false,
                 jobRegistry: "hardware", 
                 eqDescription: hardwareDescr, 
                 supplier: hardwareSupplier, 
@@ -91,6 +92,7 @@ function addSoftwareReg () {
             type: "post",    //request type,
 
             data: {
+                cache: false,
                 jobRegistry: "software", 
                 eqDescription: softwareDescr, 
                 supplier: softwareSupplier, 
@@ -125,6 +127,7 @@ function setTaskCheck(ele){
         date=null
     }
     $.ajax({
+        cache: false,
         url: 'jobManagementAjax.php',
         type: 'post',
         data: { callCheck: "Task", taskID:ID, taskDate:date},
@@ -134,12 +137,14 @@ function setTaskCheck(ele){
 
 function addTask(){
     var descr=document.getElementById("addTaskInput");
-    var startDate= date.toISOString().split('T')[0] + ' ' + date.toTimeString().split(' ')[0];
+    var startDate= new Date().toISOString().slice(0, 19).replace('T', ' ');
     $.ajax({
+        cache: false,
         url: 'jobManagementAjax.php',
         type: 'post',
         data: {callAdd: "Task", taskDescr:descr, taskStart:startDate},
-        error: function(){alert("Error");}
+        success: function (response) {
+        alert(response);}
     });
 }
 
@@ -150,9 +155,10 @@ function setMilestoneCheck(ele){
     if (x==true){
         date= date.toISOString().split('T')[0] + ' ' + date.toTimeString().split(' ')[0];
     } else {
-        date=null
+        date=null;
     }
     $.ajax({
+        cache: false,
         url: 'jobManagementAjax.php',
         type: 'post',
         data: { callCheck: "Milestone", mcID:ID, mcDate:date},
@@ -163,6 +169,7 @@ function setMilestoneCheck(ele){
 function dropTask(ele){
     var ID=ele.id;
     $.ajax({
+        cache: false,
         url: 'jobManagementAjax.php',
         type: 'post',
         data: { callDrop: "Task", taskID:ID},
@@ -173,6 +180,7 @@ function dropTask(ele){
 function dropSoftwareReg(ele){
     var ID=ele.id;
     $.ajax({
+        cache: false,
         url: 'jobManagementAjax.php',
         type: 'post',
         data: { callDrop: "Software", equipmentID:ID},
@@ -183,6 +191,7 @@ function dropSoftwareReg(ele){
 function dropHardwareReg(ele){
     var ID=ele.id;
     $.ajax({
+        cache: false,
         url: 'jobManagementAjax.php',
         type: 'post',
         data: { callDrop: "Hardware", equipmentID:ID},
@@ -190,7 +199,7 @@ function dropHardwareReg(ele){
     });
 }
 
-$(document).ready(function() {
+/*$(document).ready(function() {
 
     $('#jobList tr').click(function() {
         var id = $(this);
@@ -198,8 +207,27 @@ $(document).ready(function() {
         url: 'jobManagementAjax.php',
         type: 'post',
         data: { selectedJobID: id},
-        error: function(){alert("Error");}
+        sucess:function(){alert("Worked")},
+        error: function(){alert("Error")}
     });
     });
+});*/
 
+/*$(document).ready(function(){
+    $("#jobList").delegate("tr.rows", "click", function(){
+        alert("Click!");
+    });
+});*/
+
+$("#jobList tr").click(function() {
+  var id = $(this).find("td:first-child").text();
+  alert("called");
+
+  $.ajax({
+    cache: false,
+    url: 'jobManagementAjax.php',
+    method: 'post',
+    data: {selectedJobID: id},
+    error: function(){alert("Error");}
+  });
 });

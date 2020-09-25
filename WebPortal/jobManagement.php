@@ -9,10 +9,10 @@ and open the template in the editor.
     <head>
         <meta charset="UTF-8">
         <title></title>
-        <script src="Script/jquery-3.5.0.js" type="text/javascript"></script>
+        
         <script src="Script/dashboard.js" type="text/javascript"></script>
         <script src="Script/script.js" type="text/javascript"></script>
-        <script src="Script/jobManagement.js" type="text/javascript"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <link href="CSS/style.css" rel="stylesheet" type="text/css"/>
         <link href="CSS/jobManagement.css" rel="stylesheet" type="text/css"/>
         <link href="CSS/dashboard.css" rel="stylesheet" type="text/css"/>
@@ -47,7 +47,7 @@ and open the template in the editor.
                         $jobID=$_POST["jobID"];
                         }
                     ?>
-                </table>
+            </table>
             
         </div>
         <div id="job-info">
@@ -96,8 +96,8 @@ and open the template in the editor.
                                 ?>
                                 <div id="addTask">
                                     <img src="images/write.png" id="addTaskImg">
-                                    <input type="text" name="taskInput" placeholder="Add a task" id="addTaskInput" class="addTaskInput">
-                                    <button name="addTask" id="itemAddBtn" class="addTaskInput" onclick="addTask()">ADD</button>
+                                    <input type="text" name="taskInput" placeholder="Add a task" id="addTaskInput" class="addInput">
+                                    <button name="addTask" id="itemAddBtn" class="addInputBtn" onclick="addTask()">ADD</button>
                                 </div>
                             </div>
                     </div>
@@ -167,28 +167,28 @@ and open the template in the editor.
                     <label for="softwareDescr"><b>*Description</b></label>
                     <br>
                     <input type="text" placeholder="Enter description" name="softwareDescr" id="softwareDescr" required>
-                    <br>
+                    <br><br>
                     <label for="softwareSupplier"><b>*Supplier</b></label>
                     <br>
                     <input type="text" placeholder="Enter supplier name" name="softwareSupplier" id="softwareSupplier" required>
-                    <br>
+                    <br><br>
                     <label for="softwareValue"><b>*Value (Rand)</b></label>
                     <br>
                     <input type="number" step=".01" placeholder="Enter price" name="softwareValue" id="softwareValue" required>
-                    <br>
+                    <br><br>
                     <label for="softwareSubEnd"><b>Subscription end</b></label>
                     <br>
                     <input type="date" name="softwareSubEnd" id="softwareSubEnd">
-                    <br>
+                    <br><br>
                     <label for="softwareProcurement"><b>*Procurement date</b></label>
                     <br>
                     <input type="date" name="softwareProcurement" id="softwareProcurement">
-                    <br>
+                    <br><br>
                     <label for="softwareDelivery"><b>Delivery date</b></label>
                     <br>
                     <input type="date" name="softwareDelivery" id="softwareDelivery">
-                    <br>
-                    <input type="button" name="softwareAddBtn" onclick="addSoftwareReg()" value="Confirm" id="softwareAddBtn">
+                    <br><br>
+                    <input type="submit" name="softwareAddBtn" onclick="addSoftwareReg()" value="Confirm" id="softwareAddBtn" class="btn">
                     </Form>     
                 </div>
             </div>
@@ -230,32 +230,32 @@ and open the template in the editor.
                         <label for="hardwareDescr"><b>*Description</b></label>
                         <br>
                         <input type="text" placeholder="Enter description" name="hardwareDescr" id="hardwareDescr" required>
-                        <br>
+                        <br><br>
                         <label for="hardwareSupplier"><b>*Supplier</b></label>
                         <br>
                         <input type="text" placeholder="Enter supplier name" name="hardwareSupplier" id="hardwareSupplier" required>
-                        <br>
+                        <br><br>
                         <label for="hardwareValue"><b>*Value (Rand)</b></label>
                         <br>
                         <input type="number" step=".01" placeholder="Enter price" name="hardwareValue" id="hardwareValue" required>
-                        <br>
+                        <br><br>
                         <label for="hardwareWarrantyInitiation"><b>Warranty initiation</b></label>
                         <br>
                         <input type="date" name="hardwareWarrantyInitiation" id="hardwareWarrantyInitiation">
-                        <br>
+                        <br><br>
                         <label for="hardwareWarrantyExpiration"><b>Warranty expiration</b></label>
                         <br>
                         <input type="date" name="hardwareWarrantyExpiration" id="hardwareWarrantyExpiration">
-                        <br>
+                        <br><br>
                         <label for="hardwareProcurement"><b>*Procurement date</b></label>
                         <br>
                         <input type="date" name="hardwareProcurement" id="hardwareProcurement" required>
-                        <br>
+                        <br><br>
                         <label for="hardwareDelivery"><b>Delivery date</b></label>
                         <br>
                         <input type="date" name="hardwareDelivery" id="hardwareDelivery">
-                        <br>
-                        <input type="button" onclick="addHardwareReg()" value="Confirm" id="hardwareAddBtn">
+                        <br><br>
+                        <input type="submit" onclick="addHardwareReg()" value="Confirm" id="hardwareAddBtn" class="btn">
                         </Form>
                     </div>
                 </div>
@@ -277,6 +277,8 @@ and open the template in the editor.
                     </div>
                 </div>
             </div>
-        </div>
+        
+        <script src="Script/jobManagement.js" type="text/javascript"></script>
+        
     </body>
 </html>

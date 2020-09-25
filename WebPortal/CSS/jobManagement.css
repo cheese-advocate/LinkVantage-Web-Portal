@@ -35,12 +35,20 @@ and open the template in the editor.
 }
 
 #addTask{
-    height: 28px;
+    display: flex;
+    flex-direction: row;
+    justify-content: stretch;
+    width: 100%;
+    margin-top: 5px;
+    margin-bottom: 2px;
 }
 
 #addTaskImg{
-    height: 18px;
-    margin-bottom: 0px;
+    height: 24px;
+    width: 24px;
+    margin-right: 5px;
+    margin-left: 4px;
+    z-index: 100;
 }
 
 .addTaskInput{
@@ -48,7 +56,7 @@ and open the template in the editor.
 }
 
 #addTaskInput{
-    width:75%;
+    width:80%;
 }
 
 /* The Modal (background) */
@@ -140,4 +148,52 @@ th{
 #chat{
     grid-column:3;
     grid-row:1;
+}
+.modal-content{
+    background: rgba(55, 55, 65, 0.99);
+    color: white;
+    width: 500px;
+}
+#hardwareClose, #softwareClose{
+    color: white;
+}
+
+.btn{
+  background-color: #03AAFB;
+  font-size: 16px;
+  padding: 8px 10px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.btn:hover {
+  background-color: gray;
+  color: white;
+}
+
+.addInput {
+    font-family: sans-serif, monospace;
+    font-size: 14pt;
+    background-color: transparent;
+    border: 3px solid;
+    border-color: transparent transparent #808080 transparent;
+    width: 100%;
+    color: #F3F3F3;
+    height: 20px;
+    border-top-width: 0px;
+    margin-right: 4px;
+}
+
+.addInputBtn{
+    margin-right: 10px;
+    background-color: #03AAFB;
+    border: 0px;
+    color: #F3F3F3;
+    font-family: sans-serif, monospace;
+    font-size: 14pt;
+    width: 75px;
+    height: 26px;
+
 }
