@@ -91,7 +91,7 @@ function addSoftwareReg () {
             type: "post",    //request type,
 
             data: {
-                jobRegistry: "hardware", 
+                jobRegistry: "software", 
                 eqDescription: softwareDescr, 
                 supplier: softwareSupplier, 
                 eqValue: softwareValue, 
