@@ -1329,7 +1329,7 @@ function getJobList($accountID)
     //loop through the output and echo
     while ($row = mysqli_fetch_array($result)){   
         Echo "<tr><td>" . $row["ID"] . "</td><td>" . $row["jobDescription"] . "</td><td>" . $row["category"] . "</td><td>" . $row["cName"] . "</td><td>" . $row["priority"] . "</td><td>" . $row["dueDate"] . "</td><td>" . $row["jobStatus"] . "</td><td>" . $row["updated"] . "</td><td>" . $row["startDate"] . "</td></tr>";
-        $_POST["jobID"]=$row["ID"];
+        $_POST["defaultJobID"]=$row["ID"];
         
     }
     //free resources

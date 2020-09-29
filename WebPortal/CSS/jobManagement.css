@@ -213,8 +213,19 @@ th{
     border-collapse: separate;
     border-spacing: 0 6px;
     font-size: 15px !important;
+    margin-bottom: 40px;
 }
 
 .regTable th {
     background-color:#03AAFB;
+    height: 36px;
+}
+
+#addSoftwareReg,#addHardwareReg{
+    position:absolute;
+    bottom:0px;
+}
+
+#clientdash-job-details{
+    position:relative; 
 }

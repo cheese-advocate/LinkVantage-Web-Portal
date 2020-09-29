@@ -141,9 +141,7 @@ function addTask(){
         cache: false,
         url: 'jobManagementAjax.php',
         type: 'post',
-        data: {callAdd: "Task", taskDescr:descr, taskStart:startDate},
-        success: function (response) {
-        alert(response);}
+        data: {callAdd: "Task", taskDescr:descr, taskStart:startDate}
     });
 }
 
@@ -220,12 +218,10 @@ function dropHardwareReg(ele){
 
 $("#jobList tr").click(function() {
   var id = $(this).find("td:first-child").text();
-
   $.ajax({
     cache: false,
     url: 'jobManagementAjax.php',
-    method: 'post',
-    data: {selectedJobID: id},
-    error: function(){alert("Error");}
+    type: 'post',
+    data: {selectedJobID: id}
   });
 });

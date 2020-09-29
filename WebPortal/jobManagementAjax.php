@@ -7,10 +7,16 @@
  */
 require 'config.php';
 
-if(isset($_POST["jobID"])){
-    $jobID=$_POST["jobID"];
-    unset($_POST['jobID']);
+if(isset($_POST["selectedJobID"])){
+    $jobID=$_POST["selectedJobID"];
+    $_SESSION["jobID"]=$jobID;
+    header("Location:jobManagement.php");
+} else {
+    if(isset($_SESSION["jobID"])){
+        $jobID=$_SESSION["jobID"];
+    }
 }
+
 
 if(isset($_POST["jobRegistry"])){
     $reg=$_POST["jobRegistry"];

@@ -41,10 +41,10 @@ and open the template in the editor.
                     <?php
                         $accountID=$_SESSION['accountID'];
                         getJobList($accountID);
-                        if (isset($_POST["selectedJobID"])){
-                            $jobID=$_POST["selectedJobID"]; 
+                        if (isset($_SESSION["jobID"])){
+                            $jobID=$_SESSION["jobID"];   
                         } else {
-                        $jobID=$_POST["jobID"];
+                            $jobID=$_POST["defaultJobID"];
                         }
                     ?>
             </table>
@@ -130,9 +130,8 @@ and open the template in the editor.
                 <div class="job-section" id="software-registry">
                     <div class="client-panel panel-normal" id="clientdash-job-details">
                         <h3 class="panel-heading">Software registry:</h3>
-                        <div class="panel-content">
+                        <div class="panel-content" style="margin-left: 0;">
                             <div class="details-div" id="task">
-                                <div class="panel-content" style="width:95%">
                                     <table style="width:100%;" class="regTable">
                                         <tr>
                                             <th>Description</th>
@@ -149,7 +148,6 @@ and open the template in the editor.
                                             }
                                         ?>
                                     </table>
-                                </div>
                                 
                                 <button id="addSoftwareReg" onclick="openSoftwareModal()" class="addRegBtn">ADD SOFTWARE</button>
                                 
@@ -194,9 +192,8 @@ and open the template in the editor.
                 <div class="job-section" id="hardware-registry">
                     <div class="client-panel panel-normal" id="clientdash-job-details">
                         <h3 class="panel-heading">Hardware registry:</h3>
-                        <div class="panel-content">
+                        <div class="panel-content" style="margin-left: 0;">
                             <div class="details-div" id="task">
-                                <div class="panel-content" style="width:95%" >
                                     <table style="width:100%;" class="regTable">
                                         <tr>
                                             <th>Description</th>
@@ -214,7 +211,6 @@ and open the template in the editor.
                                     }
                                 ?> 
                                     </table>
-                                </div>
 
                                 <button id="addHardwareReg" onclick="openHardwareModal()" class="addRegBtn">ADD HARDWARE</button>
                             </div>
