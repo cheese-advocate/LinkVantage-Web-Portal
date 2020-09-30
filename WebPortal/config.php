@@ -1646,11 +1646,6 @@ function addHardware($eqDescription, $eqValue, $deliveryDate, $procurementDate, 
         /*close the statement*/
         mysqli_stmt_close($stmt);   
         
-        echo json_encode(array("statusCode"=>200));
-        
-        /*If statement failed*/
-    } else {
-        echo json_encode(array("statusCode"=>201));
     }
     
 }
@@ -1696,11 +1691,6 @@ function addSoftware($eqDescription, $eqValue, $deliveryDate, $procurementDate, 
         /*close the statement*/
         mysqli_stmt_close($stmt);      
         
-        echo json_encode(array("statusCode"=>200));
-        
-        /*If statement failed*/
-    } else {
-        echo json_encode(array("statusCode"=>201));
     }
     
 }
