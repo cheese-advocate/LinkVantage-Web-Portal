@@ -48,6 +48,7 @@ define("SQL_GET_JOB_HARDWARE", "CALL hardwareRegistry(?)");
 define("SQL_GET_JOB_DETAILS","CALL jobDetailsView(?)");
 define("SQL_SET_JOB_PRIORITY","CALL updateJobPriority(?, ?)");
 define("SQL_SET_JOB_STATUS","CALL updateJobStatus(?, ?)");
+define("SQL_SET_JOB_UPDATED","CALL updateJobUpdate(?, ?)");
 define("SQL_ADD_HARDWARE","CALL addHardwareReg(?, ?, ?, ?, ?, ?, ?, ?)");
 define("SQL_DROP_HARDWARE","CALL dropHardware(?)");
 define("SQL_ADD_SOFTWARE","CALL addSoftwareReg(?, ?, ?, ?, ?, ?, ?)");
@@ -1350,52 +1351,54 @@ function getJobDetails($jobID)
     while ($row = mysqli_fetch_array($result)){
         //priority
         if ($row["@priorityOut"]=="Urgent"){
-            $priority1= '<option value="Urgent" selected="selected">Urgent</option>';
+            $priority1= '<option value="Urgent" class="red" selected="selected">Urgent</option>';
         } else {
-            $priority1= '<option value="Urgent">Urgent</option>';
+            $priority1= '<option value="Urgent" class="red">Urgent</option>';
         }
 
         if ($row["@priorityOut"]=="High"){
-            $priority2= '<option value="High" selected="selected">High</option>';
+            $priority2= '<option value="High" class="orange" selected="selected">High</option>';
         } else {
-            $priority2='<option value="High">High</option>';
+            $priority2='<option value="High" class="orange">High</option>';
         }
 
         if ($row["@priorityOut"]=="Medium"){
-            $priority3= '<option value="Medium" selected="selected">Medium</option>';
+            $priority3= '<option value="Medium" class="yelow" selected="selected">Medium</option>';
         } else {
-            $priority3='<option value="Medium">Medium</option>';
+            $priority3='<option value="Medium" class="yelow">Medium</option>';
         }
 
         if ($row["@priorityOut"]=="Low"){
-            $priority4= '<option value="Low" selected="selected">Low</option>';
+            $priority4= '<option value="Low" class="green" selected="selected">Low</option>';
         } else {
-            $priority4='<option value="Low">Low</option>';
+            $priority4='<option value="Low" class="green">Low</option>';
         }
         
         //Status
         if ($row["@statusOut"]=="In progress"){
-            $status1= '<option value="In progress" selected="selected">In progress</option>';
+            $status1= '<option value="In progress" class="green" selected="selected">In progress</option>';
         } else {
-            $status1= '<option value="In progress">In progress</option>';
-        }
-
-        if ($row["@statusOut"]=="Preparing"){
-            $status2= '<option value="Preparing" selected="selected">Preparing</option>';
-        } else {
-            $status2='<option value="Preparing">Preparing</option>';
+            $status1= '<option value="In progress" class="green">In progress</option>';
         }
 
         if ($row["@statusOut"]=="Waiting on client"){
-            $status3= '<option value="Waiting on client" selected="selected">Waiting on client</option>';
+            $status2= '<option value="Waiting on client" class="yelow" selected="selected">Waiting on client</option>';
         } else {
-            $status3='<option value="Waiting on client">Waiting on client</option>';
+            $status2='<option value="Waiting on client" class="yelow">Waiting on client</option>';
+        }
+        
+        if ($row["@statusOut"]=="Preparing"){
+            $status3= '<option value="Preparing" class="orange" selected="selected">Preparing</option>';
+        } else {
+            $status3='<option value="Preparing" class="orange">Preparing</option>';
         }
 
+        
+
         if ($row["@statusOut"]=="Not started"){
-            $status4= '<option value="Not started" selected="selected">Not started</option>';
+            $status4= '<option value="Not started" class="red" selected="selected">Not started</option>';
         } else {
-            $status4='<option value="Not started">Not started</option>';
+            $status4='<option value="Not started" class="red">Not started</option>';
         }
         
         Echo "<tr><td>" . $row["jobID"] . "</td><td>" . '<select id="jobPriority" name="priority">'. $priority1 . $priority2 . $priority3 . $priority4 . '</select>' . "</td><td>" . '<select id="jobStatus" name="status">'. $status1 . $status2 . $status3 . $status4 . '</select>' . "</td><td>" . $row["@cNameOut"] . "</td><td>" . $row["@cLocationOut"] . "</td><td>" . $row["@categoryOut"] . "</td><td>" . $row["@dueDateOut"] . "</td></tr>";
@@ -1744,7 +1747,6 @@ function setJobStatus($jobID, $jobStatus) {
     } else {
         return PREP_STMT_FAILED;
     }
-    
 }
 
 function setJobPriority($jobID, $jobPriority) {
@@ -1767,8 +1769,30 @@ function setJobPriority($jobID, $jobPriority) {
         /*If statement failed*/
     } else {
         return PREP_STMT_FAILED;
-    }
+    } 
+}
+
+function setJobUpdated($jobID, $jobUpdateDate) {
+ 
+    /*Access the global variable link*/ 
+    global $link;
     
+    /*Check that statement worked, prepare statement inserting using storeOTP 
+     * function*/
+    if($stmt = mysqli_prepare($link, SQL_SET_JOB_UPDATED)){
+        
+        /*insert account and otp variables to function*/
+        mysqli_stmt_bind_param($stmt, "ss", $jobID, $jobUpdateDate);
+        /*execute the insert*/
+        mysqli_stmt_execute($stmt);
+        
+        /*close the statement*/
+        mysqli_stmt_close($stmt);        
+        
+        /*If statement failed*/
+    } else {
+        return PREP_STMT_FAILED;
+    } 
 }
 
 /**

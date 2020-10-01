@@ -126,16 +126,11 @@ function setTaskCheck(ele){
         date= new Date().toISOString().slice(0, 19).replace('T', ' ');
     }
     
-    alert(date);
-    
     $.ajax({
         url: 'jobManagementAjax.php',
         cache: false,
         method: 'post',
-        data: {callCheck: "Task", taskID:ID, taskDate:date},
-        success:function(data) {
-            alert(data); 
-          }
+        data: {callCheck: "Task", taskID:ID, taskDate:date}
     });
 }
 
@@ -201,7 +196,7 @@ function dropHardwareReg(ele){
 
 
 $('#jobStatus').change(function () {
-    var status=$('.jobStatus').selectedIndex;
+    var status=this.options[this.selectedIndex].text;
     $.ajax({
         url:"jobManagementAjax.php",
         method: "post",
@@ -210,10 +205,11 @@ $('#jobStatus').change(function () {
             jobStatus: status
         }
     });
+    $( "#jobList" ).load(window.location.href + " #jobList>*" );
 });
 
 $('#jobPriority').change(function () {
-    var priority=$('.jobPriority').selectedIndex;
+    var priority=this.options[this.selectedIndex].text;
     $.ajax({
         url:"jobManagementAjax.php",
         method: "post",
@@ -222,19 +218,25 @@ $('#jobPriority').change(function () {
             jobPriority: priority
         }
     });
+    $( "#jobList" ).load(window.location.href + " #jobList>*" );
 });
 
+$(document).ready(function(){
 $("#jobList").on('click','tr',function() {
         var ID= $(this).find("td:first-child").text();
+        var date= new Date().toISOString().slice(0, 19).replace('T', ' ');
         
         $.ajax({
         url:"jobManagementAjax.php",
         method: "post",
         data: {
-            selectedJobID: ID
+            selectedJobID: ID,
+            jobUpdateDate: date
         }
         });
-    
-        document.cookie = "selectedJobID="+ID;
+        /*$( "#bodyReload" ).load(window.location.href + " #bodyReload" );
+        alert(ID);
+        document.cookie = "selectedJobID="+ID;*/
         location.href = "jobManagement.php";
+});
 });

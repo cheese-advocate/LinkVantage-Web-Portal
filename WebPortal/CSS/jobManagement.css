@@ -21,12 +21,12 @@ and open the template in the editor.
 
 
 #jobDetails{
-    width:95%;
+    width:96%;
     margin-top: 6px;
     margin-left: auto;
     margin-right: auto;
-    table-layout: fixed;
 }
+
 
 .itemRemoveImg{
     width: 13px;
@@ -228,4 +228,29 @@ th{
 
 #clientdash-job-details{
     position:relative; 
+}
+
+#description{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.description{
+    margin-top: 10px;
+}
+
+.green{
+    background-color: green;
+}
+
+.yelow{
+    background-color: yellow;
+}
+
+.orange{
+    background-color: orange;
+}
+
+.red{
+    background-color: red;
 }

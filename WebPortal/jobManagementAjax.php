@@ -6,13 +6,23 @@
  * and open the template in the editor.
  */
 require 'config.php';
-
-if (isset($_COOKIE["selectedJobID"])){
+session_start();
+/*if (isset($_COOKIE["selectedJobID"])){
     $jobID=$_COOKIE["selectedJobID"];
 } else {
     $jobID=$_SESSION["defaultJobID"];
-}
+}*/
 
+if (isset($_POST["selectedJobID"])){
+    $jobID=$_POST["selectedJobID"];
+    $_SESSION["selectedJobID"]=$jobID;
+    $jobUpdateDate=$_POST["jobUpdateDate"];
+    setJobUpdated($jobID,$jobUpdateDate);
+} else  if (isset($_SESSION["selectedJobID"])){
+    $jobID=$_SESSION["selectedJobID"];
+} else {
+    $jobID=$_SESSION["defaultJobID"];
+}
 
 if(isset($_POST["jobRegistry"])){
     $reg=$_POST["jobRegistry"];
@@ -73,12 +83,7 @@ if(isset($_POST["callCheck"])){
         $mcEnd=$_POST["mcDate"];
         setMilestoneEnd($mcID, $mcDate);
     }
-    
 }
-
-
-addTask("TEST","2020-10-01 08:48:33","");
-
 
 if(isset($_POST["callAdd"])){
     
@@ -89,7 +94,6 @@ if(isset($_POST["callAdd"])){
         $taskStart=$_POST["taskStart"];
         addTask($taskDescription, $taskStart, $jobID);
     }
-    
 }
 
 if(isset($_POST["jobStatus"])){

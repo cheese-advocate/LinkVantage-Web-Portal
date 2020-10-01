@@ -12,19 +12,20 @@ and open the template in the editor.
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="Script/dashboard.js" type="text/javascript"></script>
         <script src="Script/script.js" type="text/javascript"></script>
-        
-        
         <link href="CSS/style.css" rel="stylesheet" type="text/css"/>
         <link href="CSS/jobManagement.css" rel="stylesheet" type="text/css"/>
         <link href="CSS/dashboard.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
+        <div id="bodyReload">
+
         <?php
         require_once 'config.php';
         session_start();
         $displayUsername = getUsername($_SESSION['accountID']);
         include './nav.html';
         ?>
+        
         <div id="job-list">
             <table class="jobList" id="jobList">
                     <tr>
@@ -41,8 +42,8 @@ and open the template in the editor.
                     <?php
                         $accountID=$_SESSION['accountID'];
                         getJobList($accountID);
-                        if (isset($_COOKIE["selectedJobID"])){
-                            $jobID=$_COOKIE["selectedJobID"];
+                        if (isset($_SESSION["selectedJobID"])){
+                            $jobID=$_SESSION["selectedJobID"];
                         } else {
                             $jobID=$_SESSION["defaultJobID"];
                         }
@@ -272,8 +273,8 @@ and open the template in the editor.
                     </div>
                 </div>
             </div>
-        
+    </div>
     <script src="Script/jobManagement.js" type="text/javascript"></script>   
-        
+    
     </body>
 </html>
