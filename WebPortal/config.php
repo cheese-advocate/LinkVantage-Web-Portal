@@ -46,13 +46,15 @@ define("SQL_GET_JOB_MILESTONECOMPLETE", "CALL jobMilestone(?)");
 define("SQL_GET_JOB_SOFTWARE", "CALL softwareRegistry(?)");
 define("SQL_GET_JOB_HARDWARE", "CALL hardwareRegistry(?)");
 define("SQL_GET_JOB_DETAILS","CALL jobDetailsView(?)");
+define("SQL_SET_JOB_PRIORITY","CALL updateJobPriority(?, ?)");
+define("SQL_SET_JOB_STATUS","CALL updateJobStatus(?, ?)");
 define("SQL_ADD_HARDWARE","CALL addHardwareReg(?, ?, ?, ?, ?, ?, ?, ?)");
 define("SQL_DROP_HARDWARE","CALL dropHardware(?)");
 define("SQL_ADD_SOFTWARE","CALL addSoftwareReg(?, ?, ?, ?, ?, ?, ?)");
 define("SQL_DROP_SOFTWARE","CALL dropSoftware(?)");
-define("SQL_SET_MILESTONE_END","CALL jobDetailsView(?)");
-define("SQL_SET_TASK_END","CALL setMilestoneEnd(?, ?)");
-define("SQL_ADD_TASK","CALL addTask(?, ?, ?, ?)");
+define("SQL_SET_MILESTONE_END","CALL setMilestoneEnd(?, ?)");
+define("SQL_SET_TASK_END","CALL setTaskEnd(?, ?)");
+define("SQL_ADD_TASK","CALL addTask(?, ?, ?)");
 define("SQL_DROP_TASK","CALL dropTask(?)");
 
 /* Database credentials */
@@ -1329,8 +1331,7 @@ function getJobList($accountID)
     //loop through the output and echo
     while ($row = mysqli_fetch_array($result)){   
         Echo "<tr><td>" . $row["ID"] . "</td><td>" . $row["jobDescription"] . "</td><td>" . $row["category"] . "</td><td>" . $row["cName"] . "</td><td>" . $row["priority"] . "</td><td>" . $row["dueDate"] . "</td><td>" . $row["jobStatus"] . "</td><td>" . $row["updated"] . "</td><td>" . $row["startDate"] . "</td></tr>";
-        $_POST["defaultJobID"]=$row["ID"];
-        
+        $_SESSION["defaultJobID"]=$row["ID"];
     }
     //free resources
     mysqli_free_result($result);
@@ -1397,7 +1398,7 @@ function getJobDetails($jobID)
             $status4='<option value="Not started">Not started</option>';
         }
         
-        Echo "<tr><td>" . $row["jobID"] . "</td><td>" . '<select name="priority">'. $priority1 . $priority2 . $priority3 . $priority4 . '</select>' . "</td><td>" . '<select name="status">'. $status1 . $status2 . $status3 . $status4 . '</select>' . "</td><td>" . $row["@cNameOut"] . "</td><td>" . $row["@cLocationOut"] . "</td><td>" . $row["@categoryOut"] . "</td><td>" . $row["@dueDateOut"] . "</td></tr>";
+        Echo "<tr><td>" . $row["jobID"] . "</td><td>" . '<select id="jobPriority" name="priority">'. $priority1 . $priority2 . $priority3 . $priority4 . '</select>' . "</td><td>" . '<select id="jobStatus" name="status">'. $status1 . $status2 . $status3 . $status4 . '</select>' . "</td><td>" . $row["@cNameOut"] . "</td><td>" . $row["@cLocationOut"] . "</td><td>" . $row["@categoryOut"] . "</td><td>" . $row["@dueDateOut"] . "</td></tr>";
     }
     Echo"</table>";
     //free resources
@@ -1555,7 +1556,7 @@ function setMilestoneEnd($mcID, $mcDate) {
     
 }
 
-function addTask($taskDescription, $taskStart, $taskEnd, $jobID) {
+function addTask($taskDescription, $taskStart, $jobID) {
  
     /*Access the global variable link*/ 
     global $link;
@@ -1565,7 +1566,7 @@ function addTask($taskDescription, $taskStart, $taskEnd, $jobID) {
     if($stmt = mysqli_prepare($link, SQL_ADD_TASK)){
         
         /*insert account and otp variables to function*/
-        mysqli_stmt_bind_param($stmt, "ssss", $taskDescription, $taskStart, $taskEnd, $jobID);
+        mysqli_stmt_bind_param($stmt, "sss", $taskDescription, $taskStart, $jobID);
         /*execute the insert*/
         mysqli_stmt_execute($stmt);
         
@@ -1578,6 +1579,8 @@ function addTask($taskDescription, $taskStart, $taskEnd, $jobID) {
     }
     
 }
+
+
 
 
 
@@ -1604,6 +1607,7 @@ function setTaskEnd($taskID, $taskEnd) {
     }
     
 }
+
 
 function dropTask($taskID) {
  
@@ -1706,6 +1710,54 @@ function dropSoftware($equipmentID) {
         
         /*insert account and otp variables to function*/
         mysqli_stmt_bind_param($stmt, "s", $equipmentID);
+        /*execute the insert*/
+        mysqli_stmt_execute($stmt);
+        
+        /*close the statement*/
+        mysqli_stmt_close($stmt);        
+        
+        /*If statement failed*/
+    } else {
+        return PREP_STMT_FAILED;
+    }
+    
+}
+
+function setJobStatus($jobID, $jobStatus) {
+ 
+    /*Access the global variable link*/ 
+    global $link;
+    
+    /*Check that statement worked, prepare statement inserting using storeOTP 
+     * function*/
+    if($stmt = mysqli_prepare($link, SQL_SET_JOB_STATUS)){
+        
+        /*insert account and otp variables to function*/
+        mysqli_stmt_bind_param($stmt, "ss", $jobID, $jobStatus);
+        /*execute the insert*/
+        mysqli_stmt_execute($stmt);
+        
+        /*close the statement*/
+        mysqli_stmt_close($stmt);        
+        
+        /*If statement failed*/
+    } else {
+        return PREP_STMT_FAILED;
+    }
+    
+}
+
+function setJobPriority($jobID, $jobPriority) {
+ 
+    /*Access the global variable link*/ 
+    global $link;
+    
+    /*Check that statement worked, prepare statement inserting using storeOTP 
+     * function*/
+    if($stmt = mysqli_prepare($link, SQL_SET_JOB_PRIORITY)){
+        
+        /*insert account and otp variables to function*/
+        mysqli_stmt_bind_param($stmt, "ss", $jobID, $jobPriority);
         /*execute the insert*/
         mysqli_stmt_execute($stmt);
         

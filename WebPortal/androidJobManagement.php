@@ -151,3 +151,11 @@ function android_addSoftware($eqDescription, $eqValue, $deliveryDate, $procureme
 function android_dropSoftware($equipmentID) {
     dropSoftware($equipmentID);
 }
+
+function android_setJobStatus($jobID, $jobStatus) {
+    setJobStatus($jobID, $jobStatus);
+}
+
+function android_setJobPriority($jobID, $jobPriority) {
+    setJobPriority($jobID, $jobPriority);
+}

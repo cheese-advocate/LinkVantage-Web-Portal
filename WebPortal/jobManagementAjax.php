@@ -7,14 +7,10 @@
  */
 require 'config.php';
 
-if(isset($_POST["selectedJobID"])){
-    $jobID=$_POST["selectedJobID"];
-    $_SESSION["jobID"]=$jobID;
-    header("Location:jobManagement.php");
+if (isset($_COOKIE["selectedJobID"])){
+    $jobID=$_COOKIE["selectedJobID"];
 } else {
-    if(isset($_SESSION["jobID"])){
-        $jobID=$_SESSION["jobID"];
-    }
+    $jobID=$_SESSION["defaultJobID"];
 }
 
 
@@ -65,6 +61,7 @@ if(isset($_POST["callDrop"])){
 if(isset($_POST["callCheck"])){
     $callCheck=$_POST["callCheck"];
     unset($_POST['callCheck']);
+    
     if ($callCheck=="Task"){
         $taskID=$_POST["taskID"];
         $taskEnd=$_POST["taskDate"];
@@ -79,6 +76,10 @@ if(isset($_POST["callCheck"])){
     
 }
 
+
+addTask("TEST","2020-10-01 08:48:33","");
+
+
 if(isset($_POST["callAdd"])){
     
     $callAdd=$_POST["callAdd"];
@@ -86,7 +87,17 @@ if(isset($_POST["callAdd"])){
     if ($callAdd=="Task"){
         $taskDescription=$_POST["taskDescr"];
         $taskStart=$_POST["taskStart"];
-        addTask($taskDescription, $taskStart, null, $jobID);
+        addTask($taskDescription, $taskStart, $jobID);
     }
     
+}
+
+if(isset($_POST["jobStatus"])){
+    $jobStatus=$_POST["jobStatus"];
+    setJobStatus($jobID, $jobStatus);
+}
+
+if(isset($_POST["jobPriority"])){
+    $jobPriority=$_POST["jobPriority"];
+    setJobPriority($jobID, $jobPriority);
 }

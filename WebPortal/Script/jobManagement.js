@@ -40,7 +40,23 @@ function openSoftwareModal(){
     };
 }
 
-function addHardwareReg () {
+function addTask(){
+    var descr = $('#addTaskInput').val();
+    var startDate= new Date().toISOString().slice(0, 19).replace('T', ' ');
+    if(descr!==""){
+        $.ajax({
+            url: 'jobManagementAjax.php',
+            method: 'post',
+            cache: false,
+            data: {callAdd: "Task", taskDescr: descr, taskStart: startDate}
+        });
+    }
+    $( "#tasks" ).load(window.location.href + " #tasks" );
+}
+
+function addHardwareReg (ele) {
+    event.preventDefault();
+    var modal = document.getElementById("hardwareRegModal");
     var hardwareDescr = $('#hardwareDescr').val();
     var hardwareSupplier = $('#hardwareSupplier').val();
     var hardwareValue = $('#hardwareValue').val();
@@ -51,10 +67,9 @@ function addHardwareReg () {
     if(hardwareDescr!=="" && hardwareSupplier!=="" && hardwareValue!=="" && hardwareProcurement!==""){
         $.ajax({
             url:"jobManagementAjax.php",    //the page containing php script
-            type: "post",    //request type,
-
+            method: "post",    //request type,
+            cache: false,
             data: {
-                cache: false,
                 jobRegistry: "hardware", 
                 eqDescription: hardwareDescr, 
                 supplier: hardwareSupplier, 
@@ -63,22 +78,16 @@ function addHardwareReg () {
                 warrantyExpiration: hardwareWarrantyExpiration,
                 procurementDate: hardwareProcurement,
                 deliveryDate: hardwareDelivery
-            },
-            success: function(dataResult){
-                var dataResult = JSON.parse(dataResult);
-                if(dataResult.statusCode==200){
-                    alert("Data added successfully");						
-                }
-                else if(dataResult.statusCode==201){
-                   alert("Error occured");
-                }		
             }
         });
     };
     modal.style.display = "none";
+    $( "#hardware-registry" ).load(window.location.href + " #hardware-registry" );
 }
 
-function addSoftwareReg () {
+function addSoftwareReg (ele) {
+    event.preventDefault();
+    var modal = document.getElementById("softwareRegModal");
     var softwareDescr = $('#softwareDescr').val();
     var softwareSupplier = $('#softwareSupplier').val();
     var softwareValue = $('#softwareValue').val();
@@ -88,10 +97,9 @@ function addSoftwareReg () {
     if(softwareDescr!=="" && softwareSupplier!=="" && softwareValue!=="" && softwareProcurement!==""){
         $.ajax({
             url:"jobManagementAjax.php",    //the page containing php script
-            type: "post",    //request type,
-
+            method: "post",    //request type,
+            cache: false,
             data: {
-                cache: false,
                 jobRegistry: "software", 
                 eqDescription: softwareDescr, 
                 supplier: softwareSupplier, 
@@ -99,19 +107,11 @@ function addSoftwareReg () {
                 subscriptionEnd: softwareSubEnd,
                 procurementDate: softwareProcurement,
                 deliveryDate: softwareDelivery
-            },
-            success: function(dataResult){
-                var dataResult = JSON.parse(dataResult);
-                if(dataResult.statusCode==200){
-                    alert("Data added successfully");						
-                }
-                else if(dataResult.statusCode==201){
-                   alert("Error occured");
-                }		
             }
         });
     };
     modal.style.display = "none";
+    $( "#software-registry" ).load(window.location.href + " #software-registry" );
 }
 
 
@@ -120,108 +120,121 @@ function setTaskCheck(ele){
     var ID=ele.id;
     var x = document.getElementById(ID).checked;
     var date;
-    if (x==true){
-        date= date.toISOString().split('T')[0] + ' ' + date.toTimeString().split(' ')[0];
+    if (x==false){
+        date="NULL";
     } else {
-        date=null
+        date= new Date().toISOString().slice(0, 19).replace('T', ' ');
     }
+    
+    alert(date);
+    
     $.ajax({
-        cache: false,
         url: 'jobManagementAjax.php',
-        type: 'post',
-        data: { callCheck: "Task", taskID:ID, taskDate:date},
-        error: function(){alert("Error");}
+        cache: false,
+        method: 'post',
+        data: {callCheck: "Task", taskID:ID, taskDate:date},
+        success:function(data) {
+            alert(data); 
+          }
     });
 }
 
-function addTask(){
-    var descr=document.getElementById("addTaskInput");
-    var startDate= new Date().toISOString().slice(0, 19).replace('T', ' ');
-    $.ajax({
-        cache: false,
-        url: 'jobManagementAjax.php',
-        type: 'post',
-        data: {callAdd: "Task", taskDescr:descr, taskStart:startDate}
-    });
-}
+
 
 function setMilestoneCheck(ele){
     var ID=ele.id;
     var x = document.getElementById(ID).checked;
     var date;
-    if (x==true){
-        date= date.toISOString().split('T')[0] + ' ' + date.toTimeString().split(' ')[0];
+    if (x==false){
+        date="NULL";
     } else {
-        date=null;
+        date= new Date().toISOString().slice(0, 19).replace('T', ' ');
     }
     $.ajax({
         cache: false,
         url: 'jobManagementAjax.php',
-        type: 'post',
-        data: { callCheck: "Milestone", mcID:ID, mcDate:date},
+        method: 'post',
+        data: { callCheck: "Milestone", mcID: ID, mcDate: date},
         error: function(){alert("Error");}
     });
 }
 
 function dropTask(ele){
+    event.preventDefault();
     var ID=ele.id;
     $.ajax({
         cache: false,
         url: 'jobManagementAjax.php',
-        type: 'post',
+        method: 'post',
         data: { callDrop: "Task", taskID:ID},
         error: function(){alert("Error");}
     });
+    $( "#tasks" ).load(window.location.href + " #tasks" );
 }
 
 function dropSoftwareReg(ele){
+    event.preventDefault();
     var ID=ele.id;
     $.ajax({
         cache: false,
         url: 'jobManagementAjax.php',
-        type: 'post',
-        data: { callDrop: "Software", equipmentID:ID},
+        method: 'post',
+        data: { callDrop: "Software", equipmentID: ID},
         error: function(){alert("Error");}
     });
+    $( "#software-registry" ).load(window.location.href + " #software-registry" );
 }
 
 function dropHardwareReg(ele){
+    event.preventDefault();
     var ID=ele.id;
     $.ajax({
         cache: false,
         url: 'jobManagementAjax.php',
-        type: 'post',
-        data: { callDrop: "Hardware", equipmentID:ID},
+        method: 'post',
+        data: { callDrop: "Hardware", equipmentID: ID},
         error: function(){alert("Error");}
     });
+    $( "#hardware-registry" ).load(window.location.href + " #hardware-registry" );
 }
+        
 
-/*$(document).ready(function() {
 
-    $('#jobList tr').click(function() {
-        var id = $(this);
+$('#jobStatus').change(function () {
+    var status=$('.jobStatus').selectedIndex;
+    $.ajax({
+        url:"jobManagementAjax.php",
+        method: "post",
+        cache: false,
+        data: {
+            jobStatus: status
+        }
+    });
+});
+
+$('#jobPriority').change(function () {
+    var priority=$('.jobPriority').selectedIndex;
+    $.ajax({
+        url:"jobManagementAjax.php",
+        method: "post",
+        cache: false,
+        data: {
+            jobPriority: priority
+        }
+    });
+});
+
+$("#jobList").on('click','tr',function() {
+        var ID= $(this).find("td:first-child").text();
+        
         $.ajax({
-        url: 'jobManagementAjax.php',
-        type: 'post',
-        data: { selectedJobID: id},
-        sucess:function(){alert("Worked")},
-        error: function(){alert("Error")}
-    });
-    });
-});*/
-
-/*$(document).ready(function(){
-    $("#jobList").delegate("tr.rows", "click", function(){
-        alert("Click!");
-    });
-});*/
-
-$("#jobList tr").click(function() {
-  var id = $(this).find("td:first-child").text();
-  $.ajax({
-    cache: false,
-    url: 'jobManagementAjax.php',
-    type: 'post',
-    data: {selectedJobID: id}
-  });
+        url:"jobManagementAjax.php",
+        method: "post",
+        data: {
+            selectedJobID: ID
+        }
+        });
+    
+        document.cookie = "selectedJobID="+ID;
+        location.href = "jobManagement.php";
 });

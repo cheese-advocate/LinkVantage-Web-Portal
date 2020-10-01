@@ -9,10 +9,11 @@ and open the template in the editor.
     <head>
         <meta charset="UTF-8">
         <title></title>
-        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="Script/dashboard.js" type="text/javascript"></script>
         <script src="Script/script.js" type="text/javascript"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        
+        
         <link href="CSS/style.css" rel="stylesheet" type="text/css"/>
         <link href="CSS/jobManagement.css" rel="stylesheet" type="text/css"/>
         <link href="CSS/dashboard.css" rel="stylesheet" type="text/css"/>
@@ -24,7 +25,6 @@ and open the template in the editor.
         $displayUsername = getUsername($_SESSION['accountID']);
         include './nav.html';
         ?>
-        
         <div id="job-list">
             <table class="jobList" id="jobList">
                     <tr>
@@ -41,20 +41,20 @@ and open the template in the editor.
                     <?php
                         $accountID=$_SESSION['accountID'];
                         getJobList($accountID);
-                        if (isset($_SESSION["jobID"])){
-                            $jobID=$_SESSION["jobID"];   
+                        if (isset($_COOKIE["selectedJobID"])){
+                            $jobID=$_COOKIE["selectedJobID"];
                         } else {
-                            $jobID=$_POST["defaultJobID"];
+                            $jobID=$_SESSION["defaultJobID"];
                         }
                     ?>
             </table>
-            
         </div>
+
         <div id="job-info">
             <div id="first-rows">
                 <div class="job-header">
                     <div class="client-row-header">
-                        <div class="panel-content" style="width:95%">
+                        <div class="panel-content" style="width:100%">
                             <?php
                             if (isset($jobID)){
                             getJobDetails($jobID);
@@ -96,8 +96,8 @@ and open the template in the editor.
                                 ?>
                                 <div id="addTask">
                                     <img src="images/write.png" id="addTaskImg">
-                                    <input type="text" name="taskInput" placeholder="Add a task" id="addTaskInput" class="addInput">
-                                    <button name="addTask" id="itemAddBtn" class="addInputBtn" onclick="addTask()">ADD</button>
+                                    <input type="text" name="addTaskInput" placeholder="Add a task" id="addTaskInput" class="addInput">
+                                    <input type="submit" value="ADD" name="itemAdd" id="itemAddBtn" class="addInputBtn" onclick="addTask()">  
                                 </div>
                             </div>
                     </div>
@@ -184,7 +184,7 @@ and open the template in the editor.
                     <br>
                     <input type="date" name="softwareDelivery" id="softwareDelivery">
                     <br><br>
-                    <input type="submit" name="softwareAddBtn" onclick="addSoftwareReg()" value="Confirm" id="softwareAddBtn" class="btn">
+                    <input type="submit" name="softwareAddBtn" onclick="addSoftwareReg(this)" value="Confirm" id="softwareAddBtn" class="btn">
                     </Form>     
                 </div>
             </div>
@@ -250,7 +250,7 @@ and open the template in the editor.
                         <br>
                         <input type="date" name="hardwareDelivery" id="hardwareDelivery">
                         <br><br>
-                        <input type="submit" onclick="addHardwareReg()" value="Confirm" id="hardwareAddBtn" class="btn">
+                        <input type="submit" onclick="addHardwareReg(this)" value="Confirm" id="hardwareAddBtn" class="btn">
                         </Form>
                     </div>
                 </div>
@@ -273,7 +273,7 @@ and open the template in the editor.
                 </div>
             </div>
         
-        <script src="Script/jobManagement.js" type="text/javascript"></script>
+    <script src="Script/jobManagement.js" type="text/javascript"></script>   
         
     </body>
 </html>
