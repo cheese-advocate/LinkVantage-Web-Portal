@@ -444,6 +444,23 @@ switch ($handleType) {
             echo "false";
         }
         break;
+        
+    case "DELETE_TASK":
+        $data = file_get_contents("php://input");
+        $pieces = explode("-", $data);
+        $json = json_decode($pieces[1]);
+        
+        $id = $json->{"id"};
+        
+        if($link->query("CALL dropTask('". $id ."');"))
+        {
+            echo 'true';
+        }
+        else
+        {
+            echo 'false';
+        }
+        break;
     //CROSS_PLATFORM PASSWORD - START
     default: //Handle No Input - This should never be the case
         echo "ERROR RESPONSE, NO POST HANDLE FOUND";
