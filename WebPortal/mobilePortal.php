@@ -403,6 +403,28 @@ switch ($handleType) {
         
         echo json_encode($data);
         break;
+        
+    case "GET_ALL_TASKS":
+        $getID = file_get_contents("php://input");
+        $pieces = explode("-", $getID);
+        $json = json_decode($pieces[1]);
+        
+        $id = $json->{"id"};
+        
+        $result = $link->query("SELECT * FROM Task WHERE jobID = '". $id ."';");
+        
+        $data = array();
+        
+        if($result->num_rows > 0)
+        {
+            while($row = $result->fetch_assoc())
+            {
+                $data[] = $row;
+            }
+        }
+        
+        echo json_encode($data);
+        break;
     //CROSS_PLATFORM PASSWORD - START
     default: //Handle No Input - This should never be the case
         echo "ERROR RESPONSE, NO POST HANDLE FOUND";
