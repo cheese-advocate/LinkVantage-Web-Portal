@@ -484,6 +484,49 @@ switch ($handleType) {
             echo 'false';
         }
         break;
+        
+    case "GET_MILESTONES":
+        $data = file_get_contents("php://input");
+        $pieces = explode("-", $data);
+        $json = json_decode($pieces[1]);
+        
+        $jobID = $json->{"jobID"};
+        
+        $result = $link->query("SELECT * FROM milestoneComplete WHERE jobID = '". $jobID ."';");
+        $milestones = array();
+        
+        if($result->num_rows > 0)
+        {
+            while($row = $result->fetch_assoc())
+            {
+                $milestones[] = $row;
+            }
+        }
+        echo json_encode($milestones);
+        break;
+        
+    case "CHANGE_MILESTONE_STATE":
+        $data = file_get_contents("php://input");
+        $pieces = explode("=", $data);
+        $json = json_decode($pieces[2]);
+        
+        $milestoneID = $json->{"milestoneID"};
+        $milestoneDate = $json->{"milestoneDate"};
+        
+        if($milestoneDate == null)
+        {
+            $milestoneDate = "NULL";
+        }
+        
+        if($link->query("CALL setMilestoneEnd('". $milestoneID ."', '". $milestoneDate ."');"))
+        {
+            echo 'true';
+        }
+        else
+        {
+            echo 'false';
+        }
+        break;
     //CROSS_PLATFORM PASSWORD - START
     default: //Handle No Input - This should never be the case
         echo "ERROR RESPONSE, NO POST HANDLE FOUND";
