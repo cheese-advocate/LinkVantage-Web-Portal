@@ -461,6 +461,29 @@ switch ($handleType) {
             echo 'false';
         }
         break;
+        
+    case "CHANGE_TASK_STATE";
+        $data = file_get_contents("php://input");
+        $pieces = explode("=", $data);
+        $json = json_decode($pieces[2]);
+        
+        $id = $json->{"taskID"};
+        $end = $json->{"endDate"};
+        
+        if($end == null)
+        {
+            $end = "NULL";
+        }
+        
+        if($link->query("CALL setTaskEnd('". $id ."', '". $end ."');"))
+        {
+            echo $end;
+        }
+        else
+        {
+            echo 'false';
+        }
+        break;
     //CROSS_PLATFORM PASSWORD - START
     default: //Handle No Input - This should never be the case
         echo "ERROR RESPONSE, NO POST HANDLE FOUND";
