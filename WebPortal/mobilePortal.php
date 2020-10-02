@@ -425,6 +425,25 @@ switch ($handleType) {
         
         echo json_encode($data);
         break;
+        
+    case "ADD_NEW_TASK":
+        $data = file_get_contents("php://input");
+        $pieces = explode("=", $data);
+        $json = json_decode($pieces[2]);
+        
+        $task = $json->{"task"};
+        $date = $json->{"date"};
+        $jobID = $json->{"jobID"};
+        
+        if($link->query("CALL addTask('". $task ."', '". $date ."', '". $jobID ."');"))
+        {
+            echo "true";
+        }
+        else
+        {
+            echo "false";
+        }
+        break;
     //CROSS_PLATFORM PASSWORD - START
     default: //Handle No Input - This should never be the case
         echo "ERROR RESPONSE, NO POST HANDLE FOUND";
