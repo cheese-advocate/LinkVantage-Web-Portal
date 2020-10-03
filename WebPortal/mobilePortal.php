@@ -527,6 +527,86 @@ switch ($handleType) {
             echo 'false';
         }
         break;
+        
+    case "GET_ALL_CONTACTS":
+        $result = $link->query("SELECT CONCAT(contactName, ' ', contactSurname) AS val, clientID AS id FROM Contact;");
+        $data = array();
+        if($result->num_rows > 0)
+        {
+            while($row = $result->fetch_assoc())
+            {
+                $data[] = $row;
+            }
+        }
+        echo json_encode($data);
+        break;
+        
+    case "GET_ALL_TECHNICIANS":
+        $result = $link->query("SELECT CONCAT(tecName, ' ', tecSurname) AS val, tecID AS id FROM technician;");
+        $data = array();
+        if($result->num_rows > 0)
+        {
+            while($row = $result->fetch_assoc())
+            {
+                $data[] = $row;
+            }
+        }
+        echo json_encode($data);
+        break;
+        
+    case "GET_ALL_JOB_TYPES":
+        $result = $link->query("SELECT typeName AS val, typeID AS id FROM jobType;");
+        $data = array();
+        if($result->num_rows > 0)
+        {
+            while($row = $result->fetch_assoc())
+            {
+                $data[] = $row;
+            }
+        }
+        echo json_encode($data);
+        break;
+        
+    case "GET_ALL_SITES":
+        $result = $link->query("SELECT CONCAT(streetNum, ' ', streetName, ' ', suburbCity) AS val, siteID AS id FROM site;");
+        $data = array();
+        if($result->num_rows > 0)
+        {
+            while($row = $result->fetch_assoc())
+            {
+                $data[] = $row;
+            }
+        }
+        echo json_encode($data);
+        break;
+        
+    case "ADD_JOB":
+        $data = file_get_contents("php://input");
+        $pieces = explode("=", $data);
+        $json = json_decode($pieces[2]);
+        
+        $startDate = $json->{"startDate"};
+        $deadline = $json->{"deadline"};
+        $description = $json->{"description"};
+        $priority = $json->{"priority"};
+        $jobStatus = $json->{"jobStatus"};
+        $clientID = $json->{"clientID"};
+        $tecID = $json->{"tecID"};
+        $typeID = $json->{"typeID"};
+        $siteID = $json->{"siteID"};
+        
+        if($link->query("INSERT INTO Job (jobID, startDate, deadline, endDate, jobDescription, priority, jobStatus, updated, clientID, tecID, typeID, siteID) VALUES
+                        (createJobID(), '". $startDate ."', '". $deadline ."', null, '". $description ."', '". $priority ."', '". $jobStatus ."', null, '". $clientID
+                        ."', '". $tecID ."', '". $typeID ."', '". $siteID ."');"))
+        {
+            echo 'true';
+        }
+        else
+        {
+            echo 'false';
+        }
+        
+        break;
     //CROSS_PLATFORM PASSWORD - START
     default: //Handle No Input - This should never be the case
         echo "ERROR RESPONSE, NO POST HANDLE FOUND";
