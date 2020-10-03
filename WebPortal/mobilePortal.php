@@ -607,6 +607,41 @@ switch ($handleType) {
         }
         
         break;
+        
+    case "NEW_HANDLE_LOGIN":
+        $data = file_get_contents("php://input");
+        $pieces = explode("-", $data);
+        $json = json_decode($pieces[1]);
+        
+        $username = $json->{"username"};
+        $password = $json->{"password"};
+        
+        $userID = getIDFromUsername($username);
+        
+        if ($userID == '') { //If the return is empty, this means that the login value could not be found
+            $serverReturn = "HANDLE_LOGIN_FAILED";
+        } else {
+            $loginAttempt = isPasswordValid($userID, $password);
+            $serverReturn = $loginAttempt;
+            
+            $result = $link->query("SELECT userName FROM Users, Technician WHERE Users.accountID = Technician.accountID AND userName = '". $username ."';");
+            
+            if(!empty($result))
+            {
+                $accountType = "technician";
+            }
+            else if(empty($result))
+            {
+                $accountType = "client";
+            }
+            $obj->result = $serverReturn;
+            $obj->accountType = $accountType;
+            
+            $json = json_encode($obj);
+            
+            echo $json;
+        }
+        break;
     //CROSS_PLATFORM PASSWORD - START
     default: //Handle No Input - This should never be the case
         echo "ERROR RESPONSE, NO POST HANDLE FOUND";
