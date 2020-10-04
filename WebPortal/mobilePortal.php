@@ -617,6 +617,15 @@ switch ($handleType) {
         $password = $json->{"password"};
         
         $userID = getIDFromUsername($username);
+        $result = $link->query("SELECT getAccountType('". $userID ."') AS accountType;");
+        
+        if($result->num_rows > 0)
+        {
+            while($row = $result->fetch_assoc())
+            {
+                $accountType = $row["accountType"];
+            }
+        }
         
         if ($userID == '') { //If the return is empty, this means that the login value could not be found
             $serverReturn = "HANDLE_LOGIN_FAILED";
@@ -624,16 +633,6 @@ switch ($handleType) {
             $loginAttempt = isPasswordValid($userID, $password);
             $serverReturn = $loginAttempt;
             
-            $result = $link->query("SELECT userName FROM Users, Technician WHERE Users.accountID = Technician.accountID AND userName = '". $username ."';");
-            
-            if(!empty($result))
-            {
-                $accountType = "technician";
-            }
-            else if(empty($result))
-            {
-                $accountType = "client";
-            }
             $obj->result = $serverReturn;
             $obj->accountType = $accountType;
             
