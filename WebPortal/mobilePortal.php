@@ -641,6 +641,39 @@ switch ($handleType) {
             echo $json;
         }
         break;
+        
+    case "GET_TECHNICIAN_JOBS":
+        $input = file_get_contents("php://input");
+        $pieces = explode("-", $input);
+        $json = json_decode($pieces[1]);
+        
+        $username = $json->{"username"};
+        
+        $id = getIDFromUsername($username);
+        
+        $res = $link->query("SELECT tecID FROM technician WHERE accountID = '". $id ."';");
+        
+        if($res->num_rows > 0)
+        {
+            while($row = $res->fetch_assoc())
+            {
+                $tecID = $row["tecID"];
+            }
+        }
+        
+        $result = $link->query("SELECT jobID, jobDescription, CONCAT(contactName, ' ', contactSurname) AS fullName, priority FROM Job, Contact, Clients
+                                WHERE Job.clientID = Clients.clientID AND Clients.clientID = Contact.clientID AND tecID = '". $tecID ."';");
+        $data = array();
+        
+        if($result->num_rows > 0)
+        {
+            while($row = $result->fetch_assoc())
+            {
+                $data[] = $row;
+            }
+        }
+        echo json_encode($data);
+        break;
     //CROSS_PLATFORM PASSWORD - START
     default: //Handle No Input - This should never be the case
         echo "ERROR RESPONSE, NO POST HANDLE FOUND";
