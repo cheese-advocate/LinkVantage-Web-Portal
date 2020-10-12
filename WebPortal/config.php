@@ -1352,24 +1352,28 @@ function getJobDetails($jobID)
         //priority
         if ($row["@priorityOut"]=="Urgent"){
             $priority1= '<option value="Urgent" class="red" selected="selected">Urgent</option>';
+            $priorityColor=".red";
         } else {
             $priority1= '<option value="Urgent" class="red">Urgent</option>';
         }
 
         if ($row["@priorityOut"]=="High"){
             $priority2= '<option value="High" class="orange" selected="selected">High</option>';
+            $priorityColor=".orange";
         } else {
             $priority2='<option value="High" class="orange">High</option>';
         }
 
         if ($row["@priorityOut"]=="Medium"){
             $priority3= '<option value="Medium" class="yelow" selected="selected">Medium</option>';
+            $priorityColor=".yelow";
         } else {
             $priority3='<option value="Medium" class="yelow">Medium</option>';
         }
 
         if ($row["@priorityOut"]=="Low"){
             $priority4= '<option value="Low" class="green" selected="selected">Low</option>';
+            $priorityColor=".green";
         } else {
             $priority4='<option value="Low" class="green">Low</option>';
         }
@@ -1377,31 +1381,33 @@ function getJobDetails($jobID)
         //Status
         if ($row["@statusOut"]=="In progress"){
             $status1= '<option value="In progress" class="green" selected="selected">In progress</option>';
+            $statusColor=".green";
         } else {
             $status1= '<option value="In progress" class="green">In progress</option>';
         }
 
         if ($row["@statusOut"]=="Waiting on client"){
             $status2= '<option value="Waiting on client" class="yelow" selected="selected">Waiting on client</option>';
+            $statusColor=".yelow";
         } else {
             $status2='<option value="Waiting on client" class="yelow">Waiting on client</option>';
         }
         
         if ($row["@statusOut"]=="Preparing"){
             $status3= '<option value="Preparing" class="orange" selected="selected">Preparing</option>';
+            $statusColor=".orange";
         } else {
             $status3='<option value="Preparing" class="orange">Preparing</option>';
         }
 
-        
-
         if ($row["@statusOut"]=="Not started"){
             $status4= '<option value="Not started" class="red" selected="selected">Not started</option>';
+            $statusColor=".red";
         } else {
             $status4='<option value="Not started" class="red">Not started</option>';
         }
         
-        Echo "<tr><td>" . $row["jobID"] . "</td><td>" . '<select id="jobPriority" name="priority">'. $priority1 . $priority2 . $priority3 . $priority4 . '</select>' . "</td><td>" . '<select id="jobStatus" name="status">'. $status1 . $status2 . $status3 . $status4 . '</select>' . "</td><td>" . $row["@cNameOut"] . "</td><td>" . $row["@cLocationOut"] . "</td><td>" . $row["@categoryOut"] . "</td><td>" . $row["@dueDateOut"] . "</td></tr>";
+        Echo "<tr><td>" . $row["jobID"] . "</td><td>" . '<select id="jobPriority" name="priority" class="'.$priorityColor.'">'. $priority1 . $priority2 . $priority3 . $priority4 . '</select>' . "</td><td>" . '<select id="jobStatus" name="status" class="'.$statusColor.'">'. $status1 . $status2 . $status3 . $status4 . '</select>' . "</td><td>" . $row["@cNameOut"] . "</td><td>" . $row["@cLocationOut"] . "</td><td>" . $row["@categoryOut"] . "</td><td>" . $row["@dueDateOut"] . "</td></tr>";
     }
     Echo"</table>";
     //free resources
