@@ -377,6 +377,303 @@ switch ($handleType) {
         
         echo json_encode($data);
         break;
+        
+    case "GET_JOB_DETAILS":
+        $getID = file_get_contents("php://input");
+        $pieces = explode("-", $getID);
+        $json = json_decode($pieces[1]);
+        
+        $id = $json->{"id"};
+        
+        $result = $link->query("SELECT priority, deadline, jobStatus, typeName, CONCAT(contactName, ' ', contactSurname) AS clientName,
+                                CONCAT(streetNum, ' ', streetName, ' ', suburbCity) AS location, jobDescription
+                                FROM Job, jobType, Clients, Contact, Site
+                                WHERE jobType.typeID = Job.typeID AND Job.clientID = Clients.clientID AND Site.clientID = Clients.clientID
+                                AND Site.siteID = Contact.siteID AND Job.jobID = '". $id ."';");
+        
+        $data = array();
+        
+        if($result->num_rows > 0)
+        {
+            while($row = $result->fetch_assoc())
+            {
+                $data[] = $row;
+            }
+        }
+        
+        echo json_encode($data);
+        break;
+        
+    case "GET_ALL_TASKS":
+        $getID = file_get_contents("php://input");
+        $pieces = explode("-", $getID);
+        $json = json_decode($pieces[1]);
+        
+        $id = $json->{"id"};
+        
+        $result = $link->query("SELECT * FROM Task WHERE jobID = '". $id ."';");
+        
+        $data = array();
+        
+        if($result->num_rows > 0)
+        {
+            while($row = $result->fetch_assoc())
+            {
+                $data[] = $row;
+            }
+        }
+        
+        echo json_encode($data);
+        break;
+        
+    case "ADD_NEW_TASK":
+        $data = file_get_contents("php://input");
+        $pieces = explode("=", $data);
+        $json = json_decode($pieces[2]);
+        
+        $task = $json->{"task"};
+        $date = $json->{"date"};
+        $jobID = $json->{"jobID"};
+        
+        if($link->query("CALL addTask('". $task ."', '". $date ."', '". $jobID ."');"))
+        {
+            echo "true";
+        }
+        else
+        {
+            echo "false";
+        }
+        break;
+        
+    case "DELETE_TASK":
+        $data = file_get_contents("php://input");
+        $pieces = explode("-", $data);
+        $json = json_decode($pieces[1]);
+        
+        $id = $json->{"id"};
+        
+        if($link->query("CALL dropTask('". $id ."');"))
+        {
+            echo 'true';
+        }
+        else
+        {
+            echo 'false';
+        }
+        break;
+        
+    case "CHANGE_TASK_STATE";
+        $data = file_get_contents("php://input");
+        $pieces = explode("=", $data);
+        $json = json_decode($pieces[2]);
+        
+        $id = $json->{"taskID"};
+        $end = $json->{"endDate"};
+        
+        if($end == null)
+        {
+            $end = "NULL";
+        }
+        
+        if($link->query("CALL setTaskEnd('". $id ."', '". $end ."');"))
+        {
+            echo $end;
+        }
+        else
+        {
+            echo 'false';
+        }
+        break;
+        
+    case "GET_MILESTONES":
+        $data = file_get_contents("php://input");
+        $pieces = explode("-", $data);
+        $json = json_decode($pieces[1]);
+        
+        $jobID = $json->{"jobID"};
+        
+        $result = $link->query("SELECT * FROM milestoneComplete WHERE jobID = '". $jobID ."';");
+        $milestones = array();
+        
+        if($result->num_rows > 0)
+        {
+            while($row = $result->fetch_assoc())
+            {
+                $milestones[] = $row;
+            }
+        }
+        echo json_encode($milestones);
+        break;
+        
+    case "CHANGE_MILESTONE_STATE":
+        $data = file_get_contents("php://input");
+        $pieces = explode("=", $data);
+        $json = json_decode($pieces[2]);
+        
+        $milestoneID = $json->{"milestoneID"};
+        $milestoneDate = $json->{"milestoneDate"};
+        
+        if($milestoneDate == null)
+        {
+            $milestoneDate = "NULL";
+        }
+        
+        if($link->query("CALL setMilestoneEnd('". $milestoneID ."', '". $milestoneDate ."');"))
+        {
+            echo 'true';
+        }
+        else
+        {
+            echo 'false';
+        }
+        break;
+        
+    case "GET_ALL_CONTACTS":
+        $result = $link->query("SELECT CONCAT(contactName, ' ', contactSurname) AS val, clientID AS id FROM Contact;");
+        $data = array();
+        if($result->num_rows > 0)
+        {
+            while($row = $result->fetch_assoc())
+            {
+                $data[] = $row;
+            }
+        }
+        echo json_encode($data);
+        break;
+        
+    case "GET_ALL_TECHNICIANS":
+        $result = $link->query("SELECT CONCAT(tecName, ' ', tecSurname) AS val, tecID AS id FROM technician;");
+        $data = array();
+        if($result->num_rows > 0)
+        {
+            while($row = $result->fetch_assoc())
+            {
+                $data[] = $row;
+            }
+        }
+        echo json_encode($data);
+        break;
+        
+    case "GET_ALL_JOB_TYPES":
+        $result = $link->query("SELECT typeName AS val, typeID AS id FROM jobType;");
+        $data = array();
+        if($result->num_rows > 0)
+        {
+            while($row = $result->fetch_assoc())
+            {
+                $data[] = $row;
+            }
+        }
+        echo json_encode($data);
+        break;
+        
+    case "GET_ALL_SITES":
+        $result = $link->query("SELECT CONCAT(streetNum, ' ', streetName, ' ', suburbCity) AS val, siteID AS id FROM site;");
+        $data = array();
+        if($result->num_rows > 0)
+        {
+            while($row = $result->fetch_assoc())
+            {
+                $data[] = $row;
+            }
+        }
+        echo json_encode($data);
+        break;
+        
+    case "ADD_JOB":
+        $data = file_get_contents("php://input");
+        $pieces = explode("=", $data);
+        $json = json_decode($pieces[2]);
+        
+        $startDate = $json->{"startDate"};
+        $deadline = $json->{"deadline"};
+        $description = $json->{"description"};
+        $priority = $json->{"priority"};
+        $jobStatus = $json->{"jobStatus"};
+        $clientID = $json->{"clientID"};
+        $tecID = $json->{"tecID"};
+        $typeID = $json->{"typeID"};
+        $siteID = $json->{"siteID"};
+        
+        if($link->query("INSERT INTO Job (jobID, startDate, deadline, endDate, jobDescription, priority, jobStatus, updated, clientID, tecID, typeID, siteID) VALUES
+                        (createJobID(), '". $startDate ."', '". $deadline ."', null, '". $description ."', '". $priority ."', '". $jobStatus ."', null, '". $clientID
+                        ."', '". $tecID ."', '". $typeID ."', '". $siteID ."');"))
+        {
+            echo 'true';
+        }
+        else
+        {
+            echo 'false';
+        }
+        
+        break;
+        
+    case "NEW_HANDLE_LOGIN":
+        $data = file_get_contents("php://input");
+        $pieces = explode("-", $data);
+        $json = json_decode($pieces[1]);
+        
+        $username = $json->{"username"};
+        $password = $json->{"password"};
+        
+        $userID = getIDFromUsername($username);
+        $result = $link->query("SELECT getAccountType('". $userID ."') AS accountType;");
+        
+        if($result->num_rows > 0)
+        {
+            while($row = $result->fetch_assoc())
+            {
+                $accountType = $row["accountType"];
+            }
+        }
+        
+        if ($userID == '') { //If the return is empty, this means that the login value could not be found
+            $serverReturn = "HANDLE_LOGIN_FAILED";
+        } else {
+            $loginAttempt = isPasswordValid($userID, $password);
+            $serverReturn = $loginAttempt;
+            
+            $obj->result = $serverReturn;
+            $obj->accountType = $accountType;
+            
+            $json = json_encode($obj);
+            
+            echo $json;
+        }
+        break;
+        
+    case "GET_TECHNICIAN_JOBS":
+        $input = file_get_contents("php://input");
+        $pieces = explode("-", $input);
+        $json = json_decode($pieces[1]);
+        
+        $username = $json->{"username"};
+        
+        $id = getIDFromUsername($username);
+        
+        $res = $link->query("SELECT tecID FROM technician WHERE accountID = '". $id ."';");
+        
+        if($res->num_rows > 0)
+        {
+            while($row = $res->fetch_assoc())
+            {
+                $tecID = $row["tecID"];
+            }
+        }
+        
+        $result = $link->query("SELECT jobID, jobDescription, CONCAT(contactName, ' ', contactSurname) AS fullName, priority FROM Job, Contact, Clients
+                                WHERE Job.clientID = Clients.clientID AND Clients.clientID = Contact.clientID AND tecID = '". $tecID ."';");
+        $data = array();
+        
+        if($result->num_rows > 0)
+        {
+            while($row = $result->fetch_assoc())
+            {
+                $data[] = $row;
+            }
+        }
+        echo json_encode($data);
+        break;
     //CROSS_PLATFORM PASSWORD - START
     default: //Handle No Input - This should never be the case
         echo "ERROR RESPONSE, NO POST HANDLE FOUND";
