@@ -24,9 +24,7 @@
         <script src="Script/dashboard.js" type="text/javascript"></script>
     </head>
     <body>
-        
-        <?php include "./nav.php" ?>
-        
+                
         <script>
             var username = "<?php echo $displayUsername?>";
             <?php
@@ -125,6 +123,7 @@
                         include './clientDash.php';
                     } else {
                         if(isset($_SESSION['technicianID'])){
+                            session_abort();
                             include './jobManagement.php';
                         }
                     }
