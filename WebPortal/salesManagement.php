@@ -26,7 +26,7 @@
     <body>
         <?php
         //Adds the nav menus to the screen
-        include './nav.html';
+        include './nav.php';
         ?>
                 
         <div id="existingClientsTitle">Existing Clients</div>
