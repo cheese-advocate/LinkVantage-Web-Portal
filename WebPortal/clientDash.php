@@ -16,6 +16,8 @@
     
     <body>
         
+        <?php include "./nav.php" ?>        
+        
         <div class="client-content">
 
             <div class="client-row" id="active-job">

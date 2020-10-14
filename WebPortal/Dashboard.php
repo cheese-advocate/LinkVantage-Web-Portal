@@ -24,9 +24,7 @@
         <script src="Script/dashboard.js" type="text/javascript"></script>
     </head>
     <body>
-        
-        <?php include "./nav.php" ?>
-        
+                
         <script>
             var username = "<?php echo $displayUsername?>";
             <?php
