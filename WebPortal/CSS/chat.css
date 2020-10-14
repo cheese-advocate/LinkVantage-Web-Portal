@@ -1,0 +1,98 @@
+#clientdash-job-chat .panel-content{
+    margin: 0px 5px 5px 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 5px;
+}
+
+.chat-messages{
+    overflow: auto;
+}
+
+.chat-message{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin: 10px 20px 10px 20px;
+}
+
+.chat-message .message-content{
+    font-size: 12pt;
+    min-width: 0;
+    max-width: 80%;
+    padding: 10px 15px 10px 15px;
+    border-radius: 5px;     
+}
+
+.message-to{
+    align-items: flex-end;
+}
+
+.message-to .message-content{
+    background-color: #03AAFB;
+}
+
+.message-from{
+    align-items: flex-start;
+}
+
+.message-from .message-content{
+    background-color: #556579;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.chat-message .message-content .message{
+    color: #F3F3F3;
+}
+
+.chat-message .message-content .message-content-sender{
+    color: #03AAFB;
+}
+
+.chat-message .message-time{
+    font-size: 10pt;
+    color: #808080;
+}
+
+.chat-send-message{
+    display: flex;
+    flex-direction: row;
+    justify-content: stretch;
+    width: 100%;
+}
+
+#message-icon{
+    height: 36px;
+    width: 36px;
+    margin-right: 5px;
+    z-index: 100;
+}
+
+#message-text{
+    font-family: sans-serif, monospace;
+    font-size: 14pt;
+    background-color: transparent;
+    border: 3px solid;
+    border-color: transparent transparent #808080 transparent;
+    width: 100%;
+    color: #F3F3F3;
+}
+
+#message-text:hover{
+    border-bottom-color: #03AAFB;
+}
+
+#message-send{
+    margin-right: 10px;
+    background-color: #03AAFB;
+    border: 0px;
+    color: #F3F3F3;
+    font-family: sans-serif, monospace;
+    font-size: 14pt;
+    width: 75px;
+    height: 35px;
+}
+
