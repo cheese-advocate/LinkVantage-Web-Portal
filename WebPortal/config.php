@@ -1499,12 +1499,10 @@ function getJobUpdate($jobID)
     
     $result = mysqli_query($link,"CALL jobUpdate('".$jobID."');") or die("Query fail: " . mysqli_error($link));
     
-    Echo "<table>";
     //loop through the output and echo
     while ($row = mysqli_fetch_array($result)){   
         Echo "<tr><td>" . $row["mcDate"] . "</td><td>" . $row["msName"] . "</td><td>" . $row["clientFeed"] . "</td><td>" . $row["tecFeed"] . "</td></tr>";
     }
-    Echo"</table>";
     //free resources
     mysqli_free_result($result);
     $link->next_result();
