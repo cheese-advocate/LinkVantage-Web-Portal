@@ -1888,7 +1888,7 @@ function getJobsFromClientID($clientID)
     
     $result = mysqli_query($link,"SELECT * FROM Job WHERE clientID = '".$clientID."';") or die("Query fail: " . mysqli_error($link));
     
-    $jobs;
+    $jobs = array();
     $i = 0;
     
     //loop through the output and echo
@@ -1905,28 +1905,60 @@ function getJobsFromClientID($clientID)
     return $jobs;
 }
 
-function getTechnicianName($jobID)
+function getTechnicianName($tecID)
 {
     /*Access the global variable link*/ 
     global $link;
     
-    $result = mysqli_query($link,"SELECT * FROM Job WHERE clientID = '".$jobID."';") or die("Query fail: " . mysqli_error($link));
+    $result = mysqli_query($link,"SELECT CONCAT(tecName, ' ', tecSurname) FROM Techncian WHERE tecID = '".$tecID."';") or die("Query fail: " . mysqli_error($link));
     
-    $jobs;
-    $i = 0;
-    
-    //loop through the output and echo
-    while ($row = mysqli_fetch_array($result)){   
-        $job = new Job($row);
-        $jobs[$i] = $job;
-        $i++;
-    }
+    $technicianName = mysqli_fetch_field($result);
     
     //free resources
     mysqli_free_result($result);
     $link->next_result();
     
-    return $jobs;
+    return $technicianName;
+}
+
+function getAppraisal($jobID){
+     /*Access the global variable link*/ 
+    global $link;
+    
+    $result = mysqli_query($link,"CALL jobAppraisal('".$jobID."');") or die("Query fail: " . mysqli_error($link));
+    
+    $row = mysqli_fetch_array($result);
+            
+    $rating = $row['rating'];    
+    $feedback = $row['content'];    
+    
+    $appraisal = new Appraisal($rating, $feedback);
+    
+    //free resources
+    mysqli_free_result($result);
+    $link->next_result();
+    
+    return $appraisal;
+}
+
+function getCompletedMilestonesClient($jobID){
+    /*Access the global variable link*/ 
+    global $link;
+    
+    $result = mysqli_query($link,"CALL jobUpdate('".$jobID."');") or die("Query fail: " . mysqli_error($link));
+    
+    $updates = array();
+    $i = 0;
+    while ($row = mysqli_fetch_array($result)){   
+        $update = new Update($row["msName"], $row["mcDate"], $row["clientFeed"], '');
+        $updates[$i] = $update;
+        $i++;
+    }
+    //free resources
+    mysqli_free_result($result);
+    $link->next_result();
+    
+    return  $updates;
 }
 
 ?>

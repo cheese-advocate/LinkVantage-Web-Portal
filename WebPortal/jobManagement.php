@@ -23,7 +23,6 @@ and open the template in the editor.
         require_once 'config.php';
         session_start();
         $displayUsername = getUsername($_SESSION['accountID']);
-        include './nav.php';
         ?>
         
         <div id="job-list">
@@ -119,14 +118,7 @@ and open the template in the editor.
                     </div>
                 </div>
                 <div class="job-section" id="chat">
-                    <div class="client-panel panel-normal" id="clientdash-job-details">
-                        <h3 class="panel-heading">Chat:</h3>
-                        <div class="panel-content">
-                            <div class="details-div" id="task">
-                                
-                            </div>
-                        </div>
-                    </div>
+                    <?php include 'chat.php' ?>
                 </div>
                 <div class="job-section" id="software-registry">
                     <div class="client-panel panel-normal" id="clientdash-job-details">
