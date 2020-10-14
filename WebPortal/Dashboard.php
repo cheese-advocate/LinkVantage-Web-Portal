@@ -25,7 +25,7 @@
     </head>
     <body>
         
-        <?php include "./nav.html" ?>
+        <?php include "./nav.php" ?>
         
         <script>
             var username = "<?php echo $displayUsername?>";
@@ -125,7 +125,7 @@
                         include './clientDash.php';
                     } else {
                         if(isset($_SESSION['technicianID'])){
-                            include '';
+                            include './jobManagement.php';
                         }
                     }
                 ?>
