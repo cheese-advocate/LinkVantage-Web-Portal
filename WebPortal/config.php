@@ -1448,9 +1448,9 @@ function getJobMilestone($jobID)
     //loop through the output and echo
     while ($row = mysqli_fetch_array($result)){   
         If ($row["mcDate"]==""){
-            Echo "<tr><td>" . $row["mcName"] . "</td><td>" . '<input type="checkbox" id="' . $row["mcID"] . '" onchange="setMilestoneCheck(this)">' . "</td></tr>";
+            Echo "<tr><td>" . $row["msName"] . "</td><td>" . '<input type="checkbox" id="' . $row["mcID"] . '" onchange="setMilestoneCheck(this)">' . "</td></tr>";
         } else {
-            Echo "<tr><td>" . $row["mcName"] . "</td><td>" . '<input type="checkbox" id="' . $row["mcID"] . '" onchange="setMilestoneCheck(this)" checked="true">' . "</td></tr>";
+            Echo "<tr><td>" . $row["msName"] . "</td><td>" . '<input type="checkbox" id="' . $row["mcID"] . '" onchange="setMilestoneCheck(this)" checked="true">' . "</td></tr>";
         }
     }
     Echo"</table>";
@@ -1501,7 +1501,7 @@ function getJobUpdate($jobID)
     Echo "<table>";
     //loop through the output and echo
     while ($row = mysqli_fetch_array($result)){   
-        Echo "<tr><td>" . $row["mcDate"] . "</td><td>" . $row["mcName"] . "</td><td>" . $row["clientFeed"] . "</td><td>" . $row["tecFeed"] . "</td></tr>";
+        Echo "<tr><td>" . $row["mcDate"] . "</td><td>" . $row["msName"] . "</td><td>" . $row["clientFeed"] . "</td><td>" . $row["tecFeed"] . "</td></tr>";
     }
     Echo"</table>";
     //free resources
