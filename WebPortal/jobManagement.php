@@ -260,15 +260,19 @@ and open the template in the editor.
                     <div class="job-section-heading">
                         <div class="client-panel panel-normal" id="clientdash-job-details">
                         <h3 class="panel-heading">Updates:</h3>
-                        <div class="panel-content">
-                            <div class="details-div" id="task">
-                                <?php 
-                                    if (isset($jobID)){
-                                    getJobUpdate($jobID); 
-                                    }
-                                ?>
-                            </div>
-                        </div>
+                                <table style="width:100%;" class="regTable">
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Milestone</th>
+                                            <th>Client feedback</th>
+                                            <th>Technician feedback</th>
+                                        </tr>
+                                        <?php 
+                                            if (isset($jobID)){
+                                            getJobUpdate($jobID); 
+                                            }
+                                        ?>
+                                </table>
                     </div>
                     </div>
                 </div>
