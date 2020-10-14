@@ -25,7 +25,7 @@
                     include './clientHamburger.html';
                 } else {
                     if(isset($_SESSION['technicianID'])){
-                        include './technicianHamburger.php';
+                        include './technicianHamburger.html';
                     }
                 }         
             ?>
