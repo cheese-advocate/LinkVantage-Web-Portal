@@ -23,6 +23,7 @@ and open the template in the editor.
         require_once 'config.php';
         session_start();
         $displayUsername = getUsername($_SESSION['accountID']);
+        include './nav.php';
         ?>
         
         <div id="job-list">
