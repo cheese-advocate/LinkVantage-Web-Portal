@@ -77,6 +77,8 @@ and open the template in the editor.
 {
     margin-right: 10px;
     text-align: right;
+    color: #03AAFB;
+    cursor: pointer;
 }
 
 #existingClientsContainer :last-child

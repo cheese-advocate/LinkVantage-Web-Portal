@@ -60,12 +60,12 @@
                                         . "<span>". $row["FullName"] ."</span>"
                                         . "<span>". $row["companyName"] ."</span>"
                                         . "<span>Upcoming warranty</span>"
-                                        . "<span>". $row["location"] ."</span>"
+                                        . "<span><a href='https://maps.google.com/maps?q=". $row["location"] ."' target='_blank'>". $row["location"] ."</a></span>"
                                     . "</div>";
                             }
                         }  
                     }
-                    
+                   
                     //Displays all clients without companies
                     foreach($clientIDs as $id)
                     {
@@ -83,7 +83,7 @@
                                         . "<span>". $row["FullName"] ."</span>"
                                         . "<span>N/A</span>"
                                         . "<span>Upcoming warranty</span>"
-                                        . "<span>". $row["location"] ."</span>"
+                                        . "<span><a href='https://maps.google.com/maps?q=". $row["location"] ."' target='_blank'>". $row["location"] ."</a></span>"
                                     . "</div>";
                             }
                         }
