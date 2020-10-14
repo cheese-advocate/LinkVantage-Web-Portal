@@ -262,7 +262,7 @@ and open the template in the editor.
                         <h3 class="panel-heading">Updates:</h3>
                                 <table style="width:100%;" class="regTable">
                                         <tr>
-                                            <th>Date</th>
+                                            <th>Completed Date</th>
                                             <th>Milestone</th>
                                             <th>Client feedback</th>
                                             <th>Technician feedback</th>
