@@ -14,6 +14,7 @@
 require_once 'hasher.php';
 require_once 'Site.php';
 require_once 'Contact.php';
+require_once 'Job.php';
 
 /* SQL Statements */
 define("SQL_ATTEMPT_LOGIN","SELECT validatePassword(?, ?)");
@@ -1879,3 +1880,53 @@ function getCompanyCount()
     
     return $count;
 }
+
+function getJobsFromClientID($clientID)
+{
+    /*Access the global variable link*/ 
+    global $link;
+    
+    $result = mysqli_query($link,"SELECT * FROM Job WHERE clientID = '".$clientID."';") or die("Query fail: " . mysqli_error($link));
+    
+    $jobs;
+    $i = 0;
+    
+    //loop through the output and echo
+    while ($row = mysqli_fetch_array($result)){   
+        $job = new Job($row);
+        $jobs[$i] = $job;
+        $i++;
+    }
+    
+    //free resources
+    mysqli_free_result($result);
+    $link->next_result();
+    
+    return $jobs;
+}
+
+function getTechnicianName($jobID)
+{
+    /*Access the global variable link*/ 
+    global $link;
+    
+    $result = mysqli_query($link,"SELECT * FROM Job WHERE clientID = '".$jobID."';") or die("Query fail: " . mysqli_error($link));
+    
+    $jobs;
+    $i = 0;
+    
+    //loop through the output and echo
+    while ($row = mysqli_fetch_array($result)){   
+        $job = new Job($row);
+        $jobs[$i] = $job;
+        $i++;
+    }
+    
+    //free resources
+    mysqli_free_result($result);
+    $link->next_result();
+    
+    return $jobs;
+}
+
+?>
