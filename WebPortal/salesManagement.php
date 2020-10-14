@@ -37,7 +37,6 @@
                     <span>Company</span>
                     <span>Upcoming Warranty</span>
                     <span>Location</span>
-                    <span>Select</span>
                 </div>
                 
                 <?php
@@ -62,7 +61,6 @@
                                         . "<span>". $row["companyName"] ."</span>"
                                         . "<span>Upcoming warranty</span>"
                                         . "<span>". $row["location"] ."</span>"
-                                        . "<span><input type='checkbox' name='' value='ON' /></span>"
                                     . "</div>";
                             }
                         }  
@@ -86,7 +84,6 @@
                                         . "<span>N/A</span>"
                                         . "<span>Upcoming warranty</span>"
                                         . "<span>". $row["location"] ."</span>"
-                                        . "<span><input type='checkbox' name='' value='ON' /></span>"
                                     . "</div>";
                             }
                         }
@@ -110,7 +107,6 @@
                     <div id="potentialClientsTitleBar">
                         <span>Name</span>
                         <span>Status</span>
-                        <span>Select</span>
                     </div>
                     <!--PHP TO ADD CONTENT HERE
                     THIS INFORMATION IS NOT AVAILABLE IN THE DATABASE YET-->
@@ -125,7 +121,6 @@
                                 echo "<div id=potentialClient>"
                                         . "<span>". $row["FullName"] ."</span>"
                                         . "<span>". $row["interest"] ."</span>"
-                                        . "<span>Select</span>"
                                     . "</div>";
                             }
                         }

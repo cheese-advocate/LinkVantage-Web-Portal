@@ -38,7 +38,7 @@ and open the template in the editor.
 {
     background: #03AAFB;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
     justify-content: space-between;
     align-items: center;
     height: auto;
@@ -62,7 +62,7 @@ and open the template in the editor.
     height: auto;
     min-height: 30px;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
     justify-content: space-between;
     align-items: center;
     color: #808080;
@@ -107,7 +107,7 @@ and open the template in the editor.
 #potentialClientsTitleBar
 {
     display: grid;
-    grid-template-columns: auto auto auto;
+    grid-template-columns: auto auto;
     height: auto;
     min-height: 30px;
     justify-content: space-between;
@@ -130,7 +130,7 @@ and open the template in the editor.
     min-height: 30px;
     border-bottom: 1px solid #808080;
     display: grid;
-    grid-template-columns: auto auto auto;
+    grid-template-columns: auto auto;
     justify-content: space-between;
     align-items: center;
     color: #808080;
