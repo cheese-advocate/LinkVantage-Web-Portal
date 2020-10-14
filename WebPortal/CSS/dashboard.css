@@ -14,7 +14,7 @@ body{
 #main
 {
     height: 100%;
-    padding: 10px 50px 10px 50px;
+    /*padding: 10px 50px 10px 50px;*/
     transition: 0.5s ease-in-out;
 }
 

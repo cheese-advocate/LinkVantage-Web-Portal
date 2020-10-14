@@ -123,6 +123,7 @@
                         include './clientDash.php';
                     } else {
                         if(isset($_SESSION['technicianID'])){
+                            session_abort();
                             include './jobManagement.php';
                         }
                     }
